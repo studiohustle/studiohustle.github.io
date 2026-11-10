@@ -2303,6 +2303,7 @@ const ITEMS = (() => { const list = [
   { id: 'evhibiscus', rar: 'seasonal', slot: 'top', name: 'Hibiscus Shirt', gift: true, bonus: 0, perk: 'Event · Island Mini Pass', look: { body: '#2FB5A5', trim: '#FF6FAE', style: 'tee' } },
   { id: 'harvestbeanie', rar: 'seasonal', slot: 'hat', name: 'Harvest Beanie', gift: true, bonus: 0, perk: 'Seasonal · Thank-you gift', look: { color: '#D9772E', style: 'beanie' } },
   { id: 'founder', rar: 'founder', slot: 'top', name: 'Founder Tee', gift: true, bonus: 0, look: { style: 'tee', body: '#7C4FE0', trim: '#FFC94A', graphic: 'founder' } },
+  { id: 'foundingpin', rar: 'founder', slot: 'neck', name: 'Founding Tester Pin', gift: true, bonus: 0, perk: 'Thank-you · Alpha testers', look: { style: 'pin', color: '#FFC94A', pend: '#7C4FE0' } },
   { id: 'mixtape', rar: 'rare', slot: 'top', name: 'Mixtape Tee', album: 2, bonus: 0.04, look: { style: 'tee', body: '#F4F1EA', trim: '#C9C3DE', graphic: 'cassette' } },
   { id: 'latenight', rar: 'epic', slot: 'top', name: 'Late Night Hoodie', album: 4, bonus: 0.08, look: { style: 'hoodie', body: '#2A3570', trim: '#FFC94A', emblem: 'moon' } },
   { id: 'recordpend', rar: 'epic', slot: 'neck', name: 'Gold Record Pendant', album: 7, bonus: 0.09, look: { style: 'record', color: '#C9CED9', pend: '#FFC94A' } },
@@ -2349,7 +2350,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 162, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 163, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2862,7 +2863,7 @@ function migrateEcon() {
   S.econV = 2; S.upgV = UPG_V;   // converted straight onto the current lists
 }
 function fresh() {
-  return Object.assign(runState(0), { econV: 2, upgV: UPG_V, mgV: 1, hypeV: 1, vaultV: 2, vault: {}, gems: 25, albums: 0, maxLoc: 0, hypeUntil: 0, crateReady: 0, stats: { upgrades: 0, unlocks: 0, hires: 0, crates: 0, hypes: 0, maxLevel: 1, lifetime: 0, payouts: 0, playSec: 0, ads: 0 }, goalsDone: {}, owned: { basic: true }, equip: { top: 'basic', hat: null, neck: null, face: null }, perks: {}, skin: SKINS[3], phones: PHONES[0],
+  return Object.assign(runState(0), { resetV: 1, econV: 2, upgV: UPG_V, mgV: 1, hypeV: 1, vaultV: 2, vault: {}, gems: 25, albums: 0, maxLoc: 0, hypeUntil: 0, crateReady: 0, stats: { upgrades: 0, unlocks: 0, hires: 0, crates: 0, hypes: 0, maxLevel: 1, lifetime: 0, payouts: 0, playSec: 0, ads: 0 }, goalsDone: {}, owned: { basic: true }, equip: { top: 'basic', hat: null, neck: null, face: null }, perks: {}, skin: SKINS[3], phones: PHONES[0],
     buyMode: 1, vol: { master: 80, music: 20, sfx: 80 }, volV: 3, daily: { last: '', streak: 0 }, last: Date.now() });
 }
 
@@ -3070,7 +3071,7 @@ const KEY = TEST ? 'artist-tycoon-test' : PLAYTEST ? 'studio-hustle-playtest' : 
 function load() {
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) { const s = Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null }, JSON.parse(raw)); if (!LOCATIONS[s.loc]) s.loc = 0; return s; }   // a save without a version predates Model B
+    if (raw) { const s = Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null, resetV: null }, JSON.parse(raw)); if (!LOCATIONS[s.loc]) s.loc = 0; return s; }   // a save without a version predates Model B
   } catch (e) {}
   return null;
 }
@@ -3103,9 +3104,7 @@ const allProfit = () => gearMult() + fameBonus();   // 1 + wardrobe + Fame bonus
 // Build 162 income protection (half rate): careers from before Option D keep at least the income they had (old Fame x outfits).
 // The gap is an Early tester bonus inside All Profit. Each album, half of Fame's gain is taken from the bonus and the other half
 // raises income, so income never goes backward and still grows. Outfits always add on top. Career only; events keep plain Fame.
-const D_RATE = 0.5;
-const dBonus = () => { const L = S && S.dLegacy; return L ? Math.max(0, L.e - D_RATE * (fameBonus() - L.b)) : 0; };
-const careerProfit = () => allProfit() + dBonus();   // 1 + outfits + Fame bonus + early tester bonus
+const careerProfit = () => allProfit();   // 1 + outfits + Fame bonus (Build 163: the early tester bonus ended with the alpha reset)
 // every album raises the money goals a little so tours level off at about 30 minutes instead of shrinking to nothing
 // Option H (Build 158): album prices rise from 1.36 and level off at 2.00, so they never drop. a = albums dropped before the run
 const goalScale = (a = S.albums || 0) => Math.round((2 - 0.64 * Math.pow(0.6, Math.max(0, a))) * 1000) / 1000;
@@ -3883,7 +3882,7 @@ function dropAlbum() {
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
   const mayaNote = mayaLine ? `<div class="maya-note"><span class="mfig"><img src="art/maya-celebrating.webp?v=124" alt="" draggable="false"></span><div class="mcard"><span class="mname">Maya · Your manager</span><p>${mayaLine}</p><i class="mtail" aria-hidden="true"></i></div></div>` : '';
   albumUpload(S.albums, () => (setTimeout(moreBelow, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span>
-    <p>${dBonus() > 0 ? `Fame now adds +${pctTxt(fameBonus())} to your All Profit. Half of this album's Fame gain faded from your early tester bonus, so your income rose by the other half.` : `Fame now adds +${pctTxt(fameBonus())} to your All Profit, forever.`}${it ? ` You unlocked the <b style="color:var(--text)">${it.name}</b>, an album exclusive that adds +${Math.round(it.bonus * 100)}% income to your wardrobe.` : ''}${albumGems + plaqueGems ? ` +${albumGems + plaqueGems} gems${plaqueGems ? ` (including the ${LOCATIONS[lastLoc()].name} plaque)` : ''}.` : ''}${nextExclusive() ? ` Next exclusive outfit at album ${nextExclusive().album}.` : ''}</p></div>
+    <p>Fame now adds +${pctTxt(fameBonus())} to your All Profit, forever.${it ? ` You unlocked the <b style="color:var(--text)">${it.name}</b>, an album exclusive that adds +${Math.round(it.bonus * 100)}% income to your wardrobe.` : ''}${albumGems + plaqueGems ? ` +${albumGems + plaqueGems} gems${plaqueGems ? ` (including the ${LOCATIONS[lastLoc()].name} plaque)` : ''}.` : ''}${nextExclusive() ? ` Next exclusive outfit at album ${nextExclusive().album}.` : ''}</p></div>
     ${mayaNote}
     ${it ? `<button class="cta" data-equip="${it.id}" data-then="close">Wear it</button>` : ''}
     <button class="ghost" data-close>Start the next run</button>`)));
@@ -4242,6 +4241,7 @@ const topEmblem = t => t.emblem === 'moon' ? `<path d="M66 124 a9 9 0 1 0 7 15 a
 function neckExtra(n, big) {
   const K = '#1B1830', p = big ? 'M68 99 Q80 120 92 99' : 'M66 99 Q80 122 94 99', py = big ? 120 : 123;
   if (n.style === 'cuban') return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 9 : 11}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 6 : 8}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="#7FA6BE" stroke-width="${big ? 6 : 8}" stroke-dasharray="2 4"></path><circle cx="${big ? 72 : 71}" cy="${big ? 108 : 110}" r="1.6" fill="#fff"></circle>`;
+  if (n.style === 'pin') { const cx = big ? 92 : 93, cy = big ? 124 : 127; return `<circle cx="${cx}" cy="${cy}" r="7.5" fill="${n.color}" stroke="${K}" stroke-width="2"></circle><circle cx="${cx}" cy="${cy}" r="5" fill="${n.pend}"></circle><polygon points="${starPts(cx, cy, 3.8)}" fill="${n.color}"></polygon>`; }
   if (n.style === 'record') return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.5" stroke-linecap="round"></path><circle cx="80" cy="${py}" r="9.5" fill="${n.pend}" stroke="${K}" stroke-width="2"></circle><circle cx="80" cy="${py}" r="6" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="1.2"></circle><circle cx="80" cy="${py}" r="3" fill="${K}"></circle>`;
   if (n.style === 'rope') return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 7 : 9}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 4.5 : 6}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="#8D93A6" stroke-width="${big ? 4.5 : 6}" stroke-dasharray="1.5 3"></path>`;
   if (n.style === 'heart') { const hy = py - 1; return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.5" stroke-linecap="round"></path>
@@ -4759,6 +4759,11 @@ async function syncChart(force) {
   try {
     await ensureAuth();
     if (!c.code) c.code = newCode();
+    if (c.chartReset) {   // alpha reset: remove the old row, then add it back below with the same friend code
+      const d = await supa(`/rest/v1/charts?id=eq.${c.uid}`, { method: 'DELETE', auth: true });
+      if (!d.ok) throw new Error(`Save failed (${d.status}) ${why(d.data)}`);
+      c.chartReset = 0; c.created = false; c.synced = -1; save();
+    }
     for (let step = 0; step < 40; step++) {
       const albums = c.synced < 0 ? Math.min(S.albums || 0, 50) : Math.min(S.albums || 0, c.synced + 5);
       const row = { name: cleanName(S.name), country: S.country || null, albums, lifetime: Math.floor(S.stats.lifetime) };
@@ -4924,6 +4929,7 @@ async function dropGuest(old) {
 }
 function mergeCareer(keep, other) {
   if (!other || typeof other !== 'object') return keep;
+  if (keep.resetV && !other.resetV) return keep;   // a copy from before the alpha reset adds nothing to the new career
   keep.invLog = Object.assign({}, other.invLog || {}, keep.invLog || {});
   keep.skips = 0; keep.frenzies = 0;
   for (const [kk, d] of Object.values(keep.invLog)) { if (kk === 'skips') keep.skips += d; if (kk === 'frenzies') keep.frenzies += d; }
@@ -4948,7 +4954,7 @@ function mergeCareer(keep, other) {
 }
 async function cloudLoad() {
   const p = Cloud.pend; if (!p || !p.row) return;
-  const c = cloud(), n = Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null }, p.row.data), keepCode = (p.row.data.cloud || {}).code;
+  const c = cloud(), n = Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null, resetV: null }, p.row.data), keepCode = (p.row.data.cloud || {}).code;
   if (p.sameUser) n.cloud = Object.assign({}, c, { code: keepCode || c.code, friends: (p.row.data.cloud || {}).friends || c.friends, backedAt: Date.now(), lastUp: Date.parse(p.row.updated_at), created: false, synced: -1 });
   else { await dropGuest(p.old);
     n.cloud = { uid: p.d.user.id, at: p.d.access_token, rt: p.d.refresh_token, exp: Date.now() + (p.d.expires_in || 3600) * 1000, email: p.email, code: keepCode || null, friends: (p.row.data.cloud || {}).friends || [], created: false, synced: -1, backedAt: Date.now(), lastUp: Date.parse(p.row.updated_at) }; }
@@ -5341,14 +5347,17 @@ function openTab(tab) {
       <div class="evweek2">${week}</div>
       ${detail}
 `);
-  } else if (tab === 'd-note') {
-    S.dNote = 0; save();
-    openSheet(`<div class="sheet-head"><h2>Income update</h2>${closeBtn()}</div>
-      <div class="welcome"><span class="amt mgold">+${pctTxt(dBonus())}</span><p>Fame now adds to the same <b>All Profit</b> pool as your outfits.</p>
-      <p>Your income won't drop: an <b>Early tester bonus</b> keeps it at least where it is today. Each album, half of your Fame gain fades from the bonus and the other half raises your income. New outfits always add on top.</p></div>
-      <button class="cta" data-close>Got it</button>`);
+  } else if (tab === 'reset-note') {
+    S.resetNote = 0; save();
+    const g = ((S.resetGift && S.resetGift.gems) || 0).toLocaleString('en-US');
+    openSheet(`<div class="welcome"><h2>Thank you, Founding Tester</h2>
+      <div class="dresser" style="width:100%">${bigArtist(Object.assign({}, S.equip, { neck: 'foundingpin' }))}</div>
+      <span class="amt" style="color:var(--gem)">+${g} gems</span>
+      <p>Thanks for playing Studio Hustle and being patient while we keep improving it. This update resets your career, so here are ${g} gems to help you rebuild and try the Vault or shop. We really appreciate you!</p>
+      <p>You also keep the <b style="color:var(--text)">Founding Tester Pin</b>, only for players from the alpha.</p></div>
+      <button class="cta" data-close>Start my new career</button>`);
   } else if (tab === 'boosts') {
-    const h = hypeOn(), g = gearMult(), fb = fameBonus(), ap = allProfit(), db = dBonus(), cp = careerProfit();
+    const h = hypeOn(), g = gearMult(), fb = fameBonus(), cp = careerProfit();
     const row = (on, ic, name, x, how) => `<div class="row mrow ${on ? '' : 'off'}"><span class="ric">${ic}</span>
       <span class="rt"><b>${name}</b><span>${how}</span></span><span class="xv">x${fmtX(x)}</span></div>`;
     const bolt = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6FAE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"></path></svg>';
@@ -5356,13 +5365,12 @@ function openTab(tab) {
       <div class="welcome"><span class="amt mgold">x${fmtX(totalMult())}</span><p>Every station earns this much more than its base pay. Hype, the Golden Mic and All Profit multiply each other.</p>${perSec() > 0 ? `<p>Your crew earns <b class="mcash">+${fmt(perSec() * mult())} / sec</b> right now.</p>` : ''}</div>
       ${row(h, bolt, hypeTxt() + ' Hype', h ? hypeX() : 1, h ? hms(S.hypeUntil - Date.now()) + ' left' : 'Off · tap the Hype button to start it')}
             ${row(micBought(), svgIc('mic', '#FFC94A', 20), 'Golden Mic', micX(), micBought() ? 'Owned · forever' : 'Available in the Shop')}
-      ${row(cp > 1.0001, svgIc('star', '#FFC94A', 20), 'All Profit', cp, db > 0 ? 'Fame, outfits and your early tester bonus' : 'Fame and outfits added together')}
+      ${row(cp > 1.0001, svgIc('star', '#FFC94A', 20), 'All Profit', cp, 'Fame and outfits added together')}
       <p class="mathline">${[h ? hypeX() : 1, micX(), cp].map(fmtX).join(' × ')} = <b>x${fmtX(totalMult())}</b></p>
       <h3 style="margin-top:14px">All Profit</h3>
       <div class="row mrow ${fb > 0 ? '' : 'off'}"><span class="ric">${svgIc('note', '#FFC94A', 20)}</span><span class="rt"><b>Fame</b><span>${S.albums || 0} album${S.albums === 1 ? '' : 's'} dropped · Fame ×${fame().toFixed(2)} → +${pctTxt(fb)}</span><span>Fame's bonus counts 1.5× here · up to +${pctTxt(fameBonusAt(1e9))}</span></span><span class="xv">+${pctTxt(fb)}</span></div>
       <div class="row mrow ${g > 1 ? '' : 'off'}"><span class="ric">${svgIc('shirt', '#B18CFF', 20)}</span><span class="rt"><b>Wardrobe</b><span>${g > 1 ? `Your best item in each slot${S.owned.lucky ? ' · crates pay 2x' : ''}` : 'Collect items in Style for a bonus'}</span></span><span class="xv">+${Math.round((g - 1) * 100)}%</span></div>
-      ${db > 0 ? `<div class="row mrow"><span class="ric">${svgIc('star', '#3FA35B', 20)}</span><span class="rt"><b>Early tester bonus</b><span>Keeps your income from dropping after Build 162 · half of each Fame gain fades from it</span></span><span class="xv">+${pctTxt(db)}</span></div>` : ''}
-      <p class="cnote">All Profit = 1 + Fame bonus + outfit bonus${db > 0 ? ' + early tester bonus' : ''} = x${fmtX(cp)}.${S.albums > 0 ? ` In events, Fame ×${fame().toFixed(2)} applies on its own and outfits don't count.` : ''}</p>`);
+      <p class="cnote">All Profit = 1 + Fame bonus + outfit bonus = x${fmtX(cp)}.${S.albums > 0 ? ` In events, Fame ×${fame().toFixed(2)} applies on its own and outfits don't count.` : ''}</p>`);
   } else if (tab === 'move-confirm') {
     const firstTime = (S.mapPaid || 0) <= S.loc, gemsNext = MAP_GEMS[S.loc] || 0;
     openSheet(`<div class="sheet-head"><h2>Your next chapter</h2>${closeBtn()}</div>
@@ -5376,7 +5384,7 @@ function openTab(tab) {
       <button class="cta" data-move>Move Up</button><button class="ghost" data-close>Not yet</button>`);
   } else if (tab === 'album-confirm') {
     openSheet(`<div class="sheet-head"><h2>Drop album #${(S.albums || 0) + 1}?</h2>${closeBtn()}</div>
-      <div class="keeps"><div class="gain"><b>You gain</b><ul><li>Fame bonus +${pctTxt(fameBonus())} → +${pctTxt(fameBonusAt((S.albums || 0) + 1))} All Profit, forever${dBonus() > 0 ? ' (while your early tester bonus lasts, half of this gain fades from it)' : ''}</li>${S.oldAlbumGems === (S.albums || 0) ? `<li>+${GEMS_PER_ALBUM} gems</li>` : ''}<li>Station milestone gems again on every map</li>${nextExclusive() && nextExclusive().album === (S.albums || 0) + 1 ? '<li>An exclusive outfit</li>' : ''}</ul></div>
+      <div class="keeps"><div class="gain"><b>You gain</b><ul><li>Fame bonus +${pctTxt(fameBonus())} → +${pctTxt(fameBonusAt((S.albums || 0) + 1))} All Profit, forever</li>${S.oldAlbumGems === (S.albums || 0) ? `<li>+${GEMS_PER_ALBUM} gems</li>` : ''}<li>Station milestone gems again on every map</li>${nextExclusive() && nextExclusive().album === (S.albums || 0) + 1 ? '<li>An exclusive outfit</li>' : ''}</ul></div>
         <div><b>You keep</b><ul><li>Gems &amp; inventory</li><li>Outfits &amp; style</li><li>Plaques &amp; goals</li><li>Perks &amp; Hype</li><li>Pass progress</li></ul></div>
         <div class="lose"><b>Resets</b><ul><li>Back to the Apartment</li><li>Cash to $0</li><li>Levels &amp; crew</li><li>Upgrades</li></ul></div></div>
       <button class="cta pink" data-album>Drop album #${(S.albums || 0) + 1}</button><button class="ghost" data-close>Not yet</button>`);
@@ -5721,7 +5729,6 @@ function render() {
   $('upCost').textContent = !plan.n ? 'MAX' : (S.buyMode === 1 ? '' : '+' + plan.n + ' ') + fmt(plan.cost);
   $('upBtn').disabled = !plan.n || S.cash < plan.cost;
   $('upBtn').setAttribute('aria-label', `Upgrade ${st.name} by ${plan.n} level${plan.n > 1 ? 's' : ''} for ${fmt(plan.cost)}`);
-  maybeGift();
   if (!TEST && !S.fbPrompted && S.stats.playSec > 2700 && $('scrim').hidden && S.onboarded) { S.fbPrompted = true; save(); openTab('feedback'); }
   if (TEST) $('testChip').textContent = `TEST · ${S.test.speed}x${S.test.hype ? ' · Hype' : ''}`;
   if (S.stats.lastDay !== dayKey()) { S.stats.lastDay = dayKey(); S.stats.days = (S.stats.days || 0) + 1; if (S.stats.days <= 30) track('days-played/' + S.stats.days); }
@@ -5753,16 +5760,6 @@ function render() {
 }
 const mmss = ms => { const s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 
-
-const TESTER_GIFT = 500;   // playtest thank-you; remove when the game launches
-function maybeGift() {
-  if (TEST || S.testerGift || !S.onboarded || (S.tut != null && S.tut < TUT.length) || !$('scrim').hidden) return;
-  S.testerGift = true; S.gems += TESTER_GIFT; owe('gems'); save(); render(); track('tester-gift');
-  openSheet(`<div class="welcome"><h2>Thanks for playtesting!</h2>
-    <span class="amt" style="color:var(--gem)">+${TESTER_GIFT} gems</span>
-    <p>Use them to try the shop and the wardrobe. Got a code from the developer? Enter it in Settings.</p></div>
-    <button class="cta" data-close>Let's go</button>`);
-}
 
 // redeem codes, stored as hashes so they aren't readable in the page source
 const codeHash = t => { let h = 2166136261; for (const ch of t) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h.toString(36) + t.length; };
@@ -6269,9 +6266,41 @@ document.addEventListener('click', e => {
     save(); render(); evTick(); return openTab('events'); }
 }, true);
 
+// Build 163 alpha reset: every career from before this build starts again at album 0 on the normal curve.
+// Kept: account, email sign-in, friend code and friends, name and look, settings, cosmetic-only items and badges.
+const RESET_KEEP = ['name', 'skin', 'hc', 'hs', 'fd', 'phones', 'country', 'vol', 'volV', 'tipsOff', 'coach', 'coinHint', 'fanHint', 'fb', 'fbPrompted', 'fbSent', 'intent', 'buyMode', 'badges', 'evBadges', 'evSeen', 'upgSeen', 'upgOpened', 'vaultSeen'];
+// thank-you gems, by account id (the save's cloud uid). Every other alpha career that resets gets RESET_GEMS_DEFAULT.
+const RESET_GEMS = { '40010cbe-83f6-45a0-8a21-d1211abb9973': 2000, 'b6edaa2b-ba54-4d09-b8eb-cfc12e0a99aa': 2000 };   // DJ Yummm, IntricatePlays
+const RESET_GEMS_DEFAULT = 1000;
+function alphaReset() {
+  const o = S;
+  if (!o.onboarded && !(o.albums > 0) && !(o.loc > 0) && !((o.stats && o.stats.lifetime) > 0)) { o.resetV = 1; return; }   // never started: nothing to reset
+  const n = fresh(), cosmetic = id => { const it = ITEMS.find(i => i.id === id); return !!it && !it.bonus; };
+  for (const k of RESET_KEEP) if (o[k] !== undefined) n[k] = JSON.parse(JSON.stringify(o[k]));
+  n.owned = { basic: true };
+  for (const id of Object.keys(o.owned || {})) if (o.owned[id] && cosmetic(id)) n.owned[id] = true;
+  n.owned.foundingpin = true;
+  const eq = Object.assign({ top: 'basic', hat: null, neck: null, face: null }, o.equip);
+  n.equip = Object.fromEntries(Object.entries(eq).map(([slot, id]) => [slot, id && n.owned[id] ? id : null]));
+  if (!n.equip.top) n.equip.top = 'basic';
+  if (!n.equip.neck) n.equip.neck = 'foundingpin';
+  n.newItems = ['foundingpin'];
+  n.onboarded = true; n.tut = TUT.length; n.tutV = 5;   // they know the game: no tutorial or first-time tips again
+  n.coach = Object.assign(Object.fromEntries(TIPS.filter(t => !t.keep).map(t => [t.id, true])), o.coach || {});
+  n.testerGift = true; n.resetNote = 1;
+  { const uid = o.cloud && o.cloud.uid, g = (uid && RESET_GEMS[uid]) || RESET_GEMS_DEFAULT;   // granted once: resetV is set below, so this never runs again for this career
+    n.gems += g; n.resetGift = { gems: g, uid: uid || null }; }
+  n.resetFrom = { albums: o.albums || 0, lifetime: Math.floor((o.stats && o.stats.lifetime) || 0), at: Date.now() };
+  n.rev = (o.rev || 0) + 1;
+  // same account and friend code; The Charts row is removed and added back at 0 albums (the server never lowers a row's albums)
+  n.cloud = Object.assign({}, o.cloud || {}, { synced: -1, chartReset: 1 });
+  S = n;
+}
+
 function start(data) {
   syncShine(document);
-  S = (data && data.state) ? Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null }, data.state) : (load() || fresh());
+  S = (data && data.state) ? Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null, resetV: null }, data.state) : (load() || fresh());
+  if (S.resetV == null && !TEST) alphaReset();   // Build 163: one-time alpha reset, before any other migration
   if (!LOCATIONS[S.loc]) S.loc = 0;
   // long events: run every migration on the career's own fields, then step back onto the event map if it is still running
   const evWas = !!(S.inEv && S.ev && S.ev.car && S.ev.snap); if (evWas) evSwapOut(); else S.inEv = null;
@@ -6290,11 +6319,10 @@ function start(data) {
   if (TEST) { S.test = Object.assign({ speed: 10, hype: true }, S.test); if (!S.onboarded) { S.onboarded = true; S.name = 'Test Artist'; } $('testChip').hidden = false; }
   if (S.runPlay == null) S.runPlay = S.stats.playSec;
   ITEMS.forEach(i => { if (i.album && i.album <= (S.albums || 0)) S.owned[i.id] = true; });
-  if (S.dV == null) { const was = fameAt(S.albums || 0) * gearMult(), now = allProfit();   // Build 161 career income vs Option D
-    S.dLegacy = was > now * 1.0001 ? { e: was - now, b: fameBonus(), at: S.albums || 0 } : null; S.dNote = S.dLegacy ? 1 : 0; S.dV = 1; }
-  if (S.dNote && !TEST) { let tries = 0; const t = setInterval(() => { tries++; if (!S.dNote || tries > 40) return clearInterval(t);
+  delete S.dLegacy; delete S.dNote; delete S.dV;   // Build 162's early tester bonus ended with the reset
+  if (S.resetNote && !TEST) { let tries = 0; const t = setInterval(() => { tries++; if (!S.resetNote || tries > 40) return clearInterval(t);
     const sp = document.getElementById('splash'); if (sp && !sp.classList.contains('done')) return;   // wait for the loading screen to finish
-    if (S.onboarded && $('scrim').hidden && !document.querySelector('.tut:not([hidden])')) { clearInterval(t); openTab('d-note'); } }, 1500); }   // one-time note, after any welcome-back card
+    if ($('scrim').hidden && !document.querySelector('.tut:not([hidden])')) { clearInterval(t); openTab('reset-note'); } }, 1500); }   // one-time thank-you
   if (!Array.isArray(S.clears)) S.clears = LOCATIONS.map((_, i) => i < (S.maxLoc || 0) ? Math.max(1, (S.albums || 0) + (i < S.loc ? 1 : 0)) : 0);
   // map-clear rewards arrived in build 36: pay players for the maps they had already cleared
   if (S.mapPaid == null) { S.mapPaid = S.maxLoc || 0; const g = MAP_GEMS.slice(0, S.mapPaid).reduce((a, b) => a + b, 0);
