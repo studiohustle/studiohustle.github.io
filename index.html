@@ -1244,7 +1244,7 @@ body.evmode .coin-s { background: var(--evcoin, #FFC94A) !important; color: #141
 .evh-head { background: linear-gradient(180deg, #7A5BE0, #6343CC); color: #fff; padding: 14px 16px 10px; display: flex; align-items: center; gap: 12px; border-radius: 24px 24px 0 0; }
 .evh-head h2 { font: 400 21px var(--display); letter-spacing: .3px; line-height: 1.05; margin: 0; color: #fff; } .evh-head small { display: block; font: 700 12px var(--body, sans-serif); opacity: .9; margin-top: 3px; }
 .evh-head .close { margin-left: auto; background: rgba(255,255,255,.18); color: #fff; }
-.evh-head .evh-back { width: 34px; height: 34px; border-radius: 10px; background: #fff; color: #14122A; font: 700 20px var(--body, sans-serif); flex: none; display: grid; place-items: center; border: 0; }
+.evh-head .headbtns { margin-left: auto; } .evh-head .headbtns .close { margin-left: 0; }
 .evh-sub { display: flex; gap: 10px; padding: 0 16px 20px; background: #6343CC; align-items: center; }
 .evh-bdg { width: 40px; height: 40px; border-radius: 12px; background: #fff; color: #14122A; display: grid; place-items: center; box-shadow: 0 2px 0 rgba(0,0,0,.25); position: relative; border: 0; flex: none; }
 .evh-bdg small { position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); font: 700 9.5px var(--body, sans-serif); color: #fff; white-space: nowrap; }
@@ -2183,9 +2183,9 @@ const VAULT = [
   // Tip Jar: free unlock, 20 levels, 12% +2% a level, 50% at Lv 20 (7,150 gems). Ours: chance a second bonus coin pops out with each one
   { id: 'tip', name: 'Tip Jar', icon: 'jar', costs: vcosts(0, 20), what: 'Chance a second bonus coin pops out with each one',
     fx: L => L ? 10 + 2 * L : 0, show: v => v + '%' },
-  // Remote: 50 levels, ad boost x1.1 ... x6 (107,290 gems). Ours: Hype's income multiplier. Everyone starts at Lv 1 (x1.1), so the 30-gem unlock is free
-  { id: 'remote', name: 'Remote', icon: 'remote', costs: vcosts(30, 50), what: 'Hype multiplies your income by more',
-    fx: L => 1 + 0.1 * Math.max(1, L), show: v => 'x' + (Math.round(2 * v * 10) / 10) },   // shown as the full Hype boost (2x base x Remote)
+  // Remote: 50 levels. Ours: Hype's income multiplier. Starts at Lv 0 (Hype x2.0); the player taps a free unlock for Lv 1 (x2.2); later levels keep their prices, +x0.2 a level
+  { id: 'remote', name: 'Remote', icon: 'remote', costs: vcosts(0, 50), what: 'Hype multiplies your income by more',
+    fx: L => 1 + 0.1 * L, show: v => 'x' + (Math.round(2 * v * 10) / 10) },   // shown as the full Hype boost (2x base x Remote)
   // Pickaxe: unlock 60, 14 levels, 10% +3% a level, 50% at Lv 14 (2,580 gems)
   { id: 'gem', name: 'Gem Finder', icon: 'pick', costs: vcosts(60, 14), what: 'Chance the Backer offers 6 gems instead of cash',
     fx: L => !L ? 0 : L >= 14 ? 50 : 10 + 3 * (L - 1), show: v => v + '%' },
@@ -2213,7 +2213,7 @@ const VAULT = [
   // (Pickaxe above)
 ];
 const EV_NO_VAULT = ['night', 'ot', 'tip', 'piggy', 'case'];   // offline time, offline rate, Tip Jar, Piggy coins, Backer cash: base values on an event map
-const vLv = id => (S && S.inEv && EV_NO_VAULT.includes(id)) ? 0 : Math.max(id === 'remote' ? 1 : 0, ((S && S.vault) || {})[id] || 0);   // everyone owns Remote Lv 1
+const vLv = id => (S && S.inEv && EV_NO_VAULT.includes(id)) ? 0 : (((S && S.vault) || {})[id] || 0);   // Build 164: Remote starts at Lv 0 (Hype x2); its first level is a free tap in the Vault
 const vaultFx = id => VAULT.find(v => v.id === id).fx(vLv(id));
 const vaultCost = v => v.costs[vLv(v.id)];   // undefined once maxed
 const vaultAffordable = () => VAULT.some(v => vaultCost(v) != null && S.gems >= vaultCost(v));
@@ -2350,7 +2350,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 163, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 164, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6159,11 +6159,16 @@ const evEmblem = (key, sz = 52) => key === 'western'
 const evMoney = n => fmt(n);
 const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday 00:00 to<br>Sunday 00:00' : 'Test window<br>ends ' + new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
 // event badges: one per event, earned by claiming free tier 15. Earning it again never adds a second badge or any currency.
-const evBadgeArt = (key, earned, sz = 80) => { const col = earned ? (key === 'western' ? ['#E7B36A', '#B5523B'] : ['#7FD6D0', '#2E9AA8']) : ['#D9D5E6', '#A9A3C2'];
-  return `<svg width="${sz}" height="${Math.round(sz * 1.18)}" viewBox="0 0 86 102" aria-hidden="true"><path d="M26 58 L18 98 L32 90 L40 100 L46 62Z M60 58 L68 98 L54 90 L46 100 L40 62Z" fill="${col[1]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round" ${earned ? '' : 'opacity=".6"'}/>
-    <path d="M43 4 l8 6 10-1 3 10 9 5-3 10 4 9-8 7-1 10-10 2-6 8-9-4-9 4-6-8-10-2-1-10-8-7 4-9-3-10 9-5 3-10 10 1z" fill="${col[0]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round"/>
-    <g transform="translate(23 17) scale(.625)" ${earned ? '' : 'opacity=".35" style="filter:grayscale(1)"'}>${evEmblem(key, 64).replace(/<svg[^>]*>|<\/svg>/g, '')}</g>
-    ${earned ? '' : `<g transform="translate(31 27)"><circle cx="12" cy="12" r="13" fill="#14122A"/><g transform="translate(3 3) scale(.75)" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round">${EVI.lock}</g></g>`}</svg>`; };
+// symmetric rosette: everything is centred on x = 50 (viewBox 100 x 120); the medal centre is (50, 44)
+const EV_ROSETTE = (() => { const n = 24, pts = []; for (let k = 0; k < 2 * n; k++) { const a = -Math.PI / 2 + k * Math.PI / n, r = k % 2 ? 34 : 39; pts.push((50 + r * Math.cos(a)).toFixed(2) + ' ' + (44 + r * Math.sin(a)).toFixed(2)); } return 'M' + pts.join(' L') + 'Z'; })();
+const evBadgeArt = (key, earned, sz = 84) => { const col = earned ? (key === 'western' ? ['#E7B36A', '#B5523B', '#FFF1D6'] : ['#7FD6D0', '#2E9AA8', '#E6FBF8']) : ['#D9D5E6', '#A9A3C2', '#F1EFF7'];
+  const tail = 'M34 62 L24 112 L32 106 L40 114 L48 66Z M66 62 L76 112 L68 106 L60 114 L52 66Z', s = 0.66, t = 50 - 32 * s, u = 44 - 32 * s;
+  return `<svg width="${sz}" height="${Math.round(sz * 1.2)}" viewBox="0 0 100 120" aria-hidden="true">
+    <path d="${tail}" fill="${col[1]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round" ${earned ? '' : 'opacity=".65"'}/>
+    <path d="${EV_ROSETTE}" fill="${col[0]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="50" cy="44" r="28" fill="${col[2]}" stroke="#14122A" stroke-width="2"/>
+    <g transform="translate(${t} ${u}) scale(${s})" ${earned ? '' : 'opacity=".4" style="filter:grayscale(1)"'}>${evEmblem(key, 64).replace(/<svg[^>]*>|<\/svg>/g, '')}</g>
+    ${earned ? '' : `<circle cx="50" cy="44" r="9.5" fill="#14122A"/><g transform="translate(43.4 37.4) scale(.55)" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">${EVI.lock}</g>`}</svg>`; };
 const evBadgeHave = id => !!(S.evBadges && S.evBadges[EV_DEFS[id].badge]);
 const evBadgeCount = () => Object.keys(EV_DEFS).filter(evBadgeHave).length;
 let evBadgeFrom = 'events';
@@ -6175,7 +6180,7 @@ function evBadgesView() {
     const st = won ? 'Earned' : live ? `In progress · tier ${evTier()} of ${EV_TIERS}` : 'Not earned yet', cls = won ? 'e' : live ? 'n' : 'm';
     const how = won ? (wins > 1 ? `Finished ${wins} times` : 'Finished all 15 tiers') : `Finish all 15 tiers of the ${d.title}`;
     return `<div class="evh-bd">${evBadgeArt(id, won)}<b>${d.badge}</b><small>${how}</small><span class="st ${cls}">${st}</span></div>`; }).join('');
-  return `<div class="evh-head"><button class="evh-back" data-evbadgesback aria-label="Back">‹</button><div><h2>Event badges</h2><small>${evBadgeCount()} of ${ids.length} earned</small></div>${closeBtn()}</div>
+  return `<div class="evh-head"><div><h2>Event badges</h2><small>${evBadgeCount()} of ${ids.length} earned</small></div>${headBtns('data-evbadgesback')}</div>
     <div class="evh-list"><div class="evh-grid two">${cards}</div>
     <div class="evh-info">Each event has one badge. Claim free tier 15 before the event ends to earn it. A badge is yours to keep. Finishing the same event again doesn't give a second one.</div></div>`;
 }
