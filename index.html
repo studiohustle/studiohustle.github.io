@@ -1398,6 +1398,14 @@ html .tab-hype, html .tab-hype .orb, html .tab-hype .orb * { color: #FFFFFF !imp
 html .tab-hype .orb { text-shadow: 0 2px 0 #3A78AE, 0 0 1px #3A78AE; }
 html .tab-hype .orb svg { filter: drop-shadow(0 2px 0 #3A78AE) !important; }
 html .tab-hype .orb { border: 0 !important; }   /* no dark outline: same flat blue as the other action buttons */
+
+/* Build 169: reward cards and the ad card in the white style: dark amounts, neutral notes, a blue countdown */
+html .sheet.float .awayamt { color: #14122A !important; }
+html .sheet.light .adnote, html .sheet.float .adnote, html .sheet.light .cratesub, html .sheet.float .cratesub { color: #6E6990 !important; }
+html .sheet.float .welcome .lbl { color: #6E6990; letter-spacing: .08em; }
+html .sheet.float .welcome .amt { color: #6CBCF8 !important; text-shadow: 0 2px 0 #3A78AE; }
+html .sheet.float .welcome p { color: #6E6990; }
+html .sheet.float .ghost { background: #FFFFFF !important; color: #14122A !important; box-shadow: 0 3px 0 #D6D1E6, inset 0 0 0 2px #E6E2F1 !important; }
 </style>
 </head>
 <body>
@@ -2444,7 +2452,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 168, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 169, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3823,6 +3831,7 @@ function watchAd(onDone) {
   const done = () => { track('ad-watched'); const g = payAdGems(); onDone(); if (g) setTimeout(() => toast('Ad reward' + g), 50); };
   if (S.perks.adFree) { done(); return; }
   let left = AD_SECONDS;
+  nextSheetKey = 'ad';   // the same white centred card as Welcome back and Hype
   openSheet(`<div class="welcome"><span class="lbl">Ad plays here</span><span class="amt" id="adCount">${left}</span>
     <p>Test mode. In the real game a short video ad plays, then you get the reward.</p></div>
     <button class="ghost" data-close>Skip reward</button>`);
@@ -4007,7 +4016,7 @@ $('sheet').addEventListener('scroll', moreBelow, { passive: true });
 const MAIN_SHEETS = ['vault', 'career', 'crew', 'upgrades', 'goals', 'daily', 'pass', 'events', 'charts', 'settings', 'feedback', 'testaccess'];
 window.addEventListener('keydown', e => { if (e.key === 'Tab') document.documentElement.classList.add('kbd'); });
 window.addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'));
-const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer'];   // small centered cards: one ad button, closes after the ad
+const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad'];   // small centered cards: one ad button, closes after the ad
 const DARK_SHEETS = ['shop', 'style', 'studio', 'profile'];   // shop and style keep their dark backgrounds
 function openSheet(html) {
   clearBoost();
