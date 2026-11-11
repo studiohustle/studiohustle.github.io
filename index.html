@@ -2473,7 +2473,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 172, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 173, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4969,7 +4969,7 @@ async function backup(force, leaving, mine) {   // mine: this device's copy wins
     if (c.email && !mine) {
       const r0 = await supa(`/rest/v1/saves?id=eq.${c.uid}&select=updated_at`, { auth: true });
       const t0 = r0.ok && r0.data && r0.data[0] ? Date.parse(r0.data[0].updated_at) : 0;
-      if (t0 && c.lastUp && t0 !== c.lastUp) { Cloud.busy = false; return conflict(); }
+      if (t0 && t0 !== c.lastUp) { Cloud.busy = false; return conflict(); }   // includes a device that never uploaded or loaded this career
     }
     const now = new Date(); const row = { id: c.uid, data, albums: S.albums || 0, lifetime: Math.floor(S.stats.lifetime), build: BUILD, updated_at: now.toISOString() };
     for (let i = 0; i < 2; i++) {
@@ -4997,6 +4997,10 @@ async function cloudBoot() {
   if (PLAYTEST) return;   // playtest saves never go to the cloud
   const c = cloud();
   try {
+    if (c.email && c.uid && !c.lastUp && !TEST && neverStarted(S)) {   // signed in on a new device but the career was never loaded
+      await ensureAuth(); const row = await fetchSave(c.uid);
+      if (row && row.data) { Cloud.pend = { row, sameUser: true }; Cloud.ready = true; return cloudLoad(); }
+    }
     if (c.email && c.uid && c.lastUp && !TEST) {
       await ensureAuth();
       const r0 = await supa(`/rest/v1/saves?id=eq.${c.uid}&select=updated_at`, { auth: true });
@@ -5050,6 +5054,7 @@ async function cloudVerify(token) {
     // signed in to a different account: see whether it already has a career
     const row = await fetchSave(newUid, d.access_token);
     Cloud.pend = { row, d, email: f.email, old: { uid: c.uid, at: c.at } };
+    if (row && row.data && (neverStarted(S) || alphaRow(row))) return cloudLoad();   // nothing to lose here, or the account's alpha career (it restarts anyway): load it so the tester gifts arrive
     if (row && row.data) return openTab('cloud-found');
     await cloudKeep();
   } catch (e) { Cloud.busy = false; sfx('denied'); toast(playerError(e) + ' Please try again.'); }
@@ -5090,14 +5095,17 @@ async function cloudLoad() {
   if (p.sameUser) n.cloud = Object.assign({}, c, { code: keepCode || c.code, friends: (p.row.data.cloud || {}).friends || c.friends, backedAt: Date.now(), lastUp: Date.parse(p.row.updated_at), created: false, synced: -1 });
   else { await dropGuest(p.old);
     n.cloud = { uid: p.d.user.id, at: p.d.access_token, rt: p.d.refresh_token, exp: Date.now() + (p.d.expires_in || 3600) * 1000, email: p.email, code: keepCode || null, friends: (p.row.data.cloud || {}).friends || [], created: false, synced: -1, backedAt: Date.now(), lastUp: Date.parse(p.row.updated_at) }; }
-  if (p.sameUser) mergeCareer(n, JSON.parse(JSON.stringify(S)));   // the same career on two devices: keep every claim and item use from both
+  if (p.sameUser && !neverStarted(S)) mergeCareer(n, JSON.parse(JSON.stringify(S)));   // the same career on two devices: keep every claim and item use from both
   if (!LOCATIONS[n.loc]) n.loc = 0;
   n.last = Date.now();   // no offline earnings for the time spent on the other device
   track('cloud-loaded');
   leaving = true; try { localStorage.setItem(KEY, JSON.stringify(n)); } catch (e) {}
   location.reload();
 }
+const neverStarted = s => !s.onboarded && !(s.albums > 0) && !(s.loc > 0);   // a brand-new device: nothing on it to keep
+const alphaRow = row => !TEST && !!(row && row.data && row.data.resetV == null && row.data.onboarded);   // a tester's career from before the reset: loading it restarts it with their gifts
 async function cloudKeep() {
+  if (Cloud.pend && Cloud.pend.row && Cloud.pend.row.data && (neverStarted(S) || (!Cloud.pend.sameUser && alphaRow(Cloud.pend.row)))) return cloudLoad();   // never replace a career with an empty one, or an alpha career (and its gifts) with a new one
   const p = Cloud.pend; Cloud.pend = null; if (!p) return;
   const c = cloud();
   if (!p.sameUser) { await dropGuest(p.old); setSession(p.d); c.email = p.email; c.created = false; c.synced = -1; }
