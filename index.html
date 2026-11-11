@@ -2535,7 +2535,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 188, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 189, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2830,6 +2830,9 @@ const OFFERS = {
   gems15000: { name: 'Golden Vault', get sub() { return gemPackSub(14000, 99.99); }, money: '$99.99', gemsOut: 14000 },
   // time skip packs: real money buys one-hour skips to keep and use any time (1 skip = 30 gems in the shop)
   goldPass: { name: 'Backstage Pass VIP', sub: 'A second, bigger reward on every tier this season', money: '$5.99' },
+  // long-event Mini Pass (one per event): during the playtest it opens the "would you buy it?" screen like the other paid items
+  evPassWestern: { name: 'Western Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Western Event: gems, time skips, Fan Frenzies, the Western Bandana and the Fringe Jacket', money: '$2.99' },
+  evPassIsland: { name: 'Island Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Island Event: gems, time skips, Fan Frenzies, the Island Lei and the Hibiscus Shirt', money: '$2.99' },
   frenzy4: { name: '4 Fan Frenzies', sub: '4 Fan Frenzies to store and use any time', money: '$0.99', frenzyOut: 4 },
   frenzy20: { name: '20 Fan Frenzies', sub: '20 Fan Frenzies to store and use any time', money: '$3.99', frenzyOut: 20 },
   frenzy50: { name: '50 Fan Frenzies', sub: '50 Fan Frenzies to store and use any time', money: '$7.99', frenzyOut: 50 },
@@ -6484,7 +6487,7 @@ function evRewardsTab() {
   const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0) }), { gems: 0, skips: 0, frenzy: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy;   // the shop's one value formula
   const pass = S.ev.pass ? `<div class="evh-pass on">${evI('check', 20, '#2E9E5B')}<div>Mini Pass active<span>The right-hand lane is unlocked for this event.</span></div></div>`
     : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.skips} skips + ${pt.frenzy} Frenzies + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
-      ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : '<button disabled>Not on sale</button>'}</div>`;
+      ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${S.ev.id === 'island' ? 'Island' : 'Western'}">$${EV_PRICE}</button>`}</div>`;
   const cell = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], reached = n <= T, ready = reached && !!r && (lane === 'free' || S.ev.pass);
     if (!r) return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>—</span></div>`;
     const right = got ? '<span class="ok">✓</span>' : ready ? `<button data-evclaim="${lane}:${n}">Claim</button>` : lane === 'pass' && !S.ev.pass ? `<span class="lk">${evI('lock', 13, '#9A6A00', 2.6)}</span>` : '';
