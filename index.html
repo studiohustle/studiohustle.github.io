@@ -283,7 +283,7 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .pop { position: absolute; z-index: 12; left: 12px; width: 222px; max-width: calc(100% - 24px); box-sizing: border-box; background: var(--text); color: var(--deep);
   border-radius: 18px; padding: 10px 12px 12px; box-shadow: 0 10px 30px rgba(10,8,30,.45); display: flex; flex-direction: column; gap: 7px; animation: popin .16s ease-out; }
 @keyframes popin { from { transform: scale(.94); opacity: 0; } }
-.pop-arrow { position: absolute; width: 18px; height: 18px; background: var(--text); transform: rotate(45deg); left: 50%; margin-left: -9px; }
+.pop-arrow { position: absolute; width: 20px; height: 10px; background: var(--text); left: 50%; margin-left: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }   /* points down from the card's bottom edge; never overlaps the button */
 .pop-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .pop-title { display: flex; flex-direction: column; line-height: 1.1; }
 .pop-title b { font-family: var(--display); font-size: 16px; font-weight: 400; }
@@ -298,31 +298,36 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .pop-stats span { display: flex; align-items: center; gap: 6px; }
 .pop-stats b { font-family: var(--display); font-weight: 400; }
 /* Build 184: Eatventure-style card. Title centred, milestone stars, one big hold button, Bonus card for 2.5 s at a milestone */
-.pop { width: 240px; }
-.pop-head { justify-content: center; position: relative; }
-.pop-title { align-items: center; text-align: center; padding: 0 26px; }
-.pop-title b { font-size: 19px; }
-.pop-x { position: absolute; right: 0; top: 0; }
+.pop { width: 168px; padding: 9px 10px 10px; gap: 6px; }
+.pop-head { justify-content: center; position: relative; order: 1; } .pop-stars { order: 2; } .pop-mile { order: 3; } .pop-stats { order: 4; } .pop-row { order: 5; }
+.pop-title { align-items: center; text-align: center; padding: 0; }
+.pop-title b { font-size: 16px; } .pop-title span { font-size: 12px; }
+.pop-x { display: none; }   /* Eatventure-simple: tap anywhere else to close */
 .pop-stars { display: flex; justify-content: center; gap: 3px; margin: -2px 0 -1px; }
-.pop-stars svg { width: 19px; height: 19px; display: block; }
+.pop-stars svg { width: 17px; height: 17px; display: block; }
+.pop-mile { position: relative; } .pop-mile .mile { height: 16px; border-radius: 8px; } .pop-mile .mile i { border-radius: 8px; background: #5BC96A !important; }
+#sbMileLabel { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); gap: 1px; }
+#sbMileLabel img { width: 13px; height: 11px; } #sbMileLabel svg { width: 12px; height: 12px; display: block; }
+.pop-stats { font-size: 13px; } .pop-stats .coin-s { width: 16px; height: 16px; } .pop-stats span { gap: 4px; }
 .pop-stars .on path { fill: #5BC96A; stroke: #2E8A3E; stroke-width: 1.2; } .pop-stars .off path { fill: #E2DFEA; }
 .pop-stars .pulse { animation: starpop .45s cubic-bezier(.2,1.8,.4,1); }
 @keyframes starpop { from { transform: scale(.4); } to { transform: scale(1); } }
 .pop-stats .coin-s { flex: none; }
-.pop-row .up-btn { flex: 1; justify-content: center; height: 52px; border-radius: 15px; background: #6CBCF8; color: #FFFFFF; font-size: 20px; gap: 8px; box-shadow: 0 4px 0 #3A78AE; text-shadow: 0 2px 0 #3A78AE; min-width: 0; }
+.pop-row .up-btn { flex: 1; justify-content: center; height: 44px; border-radius: 13px; background: #6CBCF8; color: #FFFFFF; font-size: 17px; gap: 6px; padding: 0 8px; box-shadow: 0 4px 0 #3A78AE; text-shadow: 0 2px 0 #3A78AE; min-width: 0; }
 .pop-row .up-btn:active { box-shadow: 0 1px 0 #3A78AE; }
 .pop-row .up-btn:disabled { background: #D9D5E6; color: #FFFFFF; box-shadow: 0 4px 0 #B3AEC6; text-shadow: none; transform: none; }
-.pop-row .up-btn .up-coin { width: 22px; height: 22px; flex: none; }
+.pop-row .up-btn .up-coin { width: 19px; height: 19px; flex: none; }
 .pop-row .up-btn .up-coin { text-shadow: none !important; }   /* the coin is an image: no text shadow behind it */
 html #pop #upBtn:disabled { background: #D9D5E6 !important; color: #FFFFFF !important; box-shadow: 0 4px 0 #B3AEC6 !important; text-shadow: none !important; }
 html #pop #upBtn.max:disabled { background: #C9C6D3 !important; box-shadow: 0 4px 0 #A6A2B4 !important; }
 .pop-row .up-btn.max .up-coin { display: none; }
 #upCost { white-space: nowrap; overflow: hidden; text-overflow: clip; font-variant-numeric: tabular-nums; }
-.pop-bonus { position: absolute; left: 10px; right: 10px; bottom: calc(100% + 8px); background: var(--text); color: var(--deep); border-radius: 16px; padding: 7px 10px 9px; text-align: center; box-shadow: 0 8px 24px rgba(10,8,30,.4); animation: bonusin .3s cubic-bezier(.2,1.6,.4,1); }
+.pop-bonus { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); background: var(--text); color: var(--deep); border-radius: 14px; padding: 5px 10px 6px; text-align: center; box-shadow: 0 8px 24px rgba(10,8,30,.4); animation: bonusin .3s cubic-bezier(.2,1.6,.4,1); }
 .pop.below .pop-bonus { bottom: auto; top: calc(100% + 8px); }
 .pop-bonus small { display: flex; align-items: center; justify-content: center; gap: 4px; font: 800 13px var(--body); color: #3FAE52; }
 .pop-bonus small svg path { fill: currentColor; }
-.pop-bonus b { display: block; font: 400 19px/1.1 var(--display); }
+.pop-bonus b { display: block; font: 400 17px/1.05 var(--display); }
+.pop-bonus small { font-size: 12px !important; line-height: 1.2; }
 .pop-bonus span { display: block; font: 700 12px var(--body); color: #6A6390; } .pop-bonus span:empty { display: none; }
 @keyframes bonusin { from { transform: scale(.7); opacity: 0; } }
 .coin-s { width: 18px; height: 18px; border-radius: 50%; background: var(--cash); color: var(--deep); font: 400 11px/18px var(--display); text-align: center; font-style: normal; }
@@ -2295,7 +2300,7 @@ const DAILY = [
   { min: 2, gems: 0 }, { min: 3, gems: 0 }, { min: 0, gems: 10 }, { min: 5, gems: 0 },
   { min: 0, gems: 15 }, { min: 8, gems: 0 }, { min: 15, gems: 50 },
 ];
-const MILES = [25, 50, 75, 90], MILE_PAY = 3; let LV_CAP = 100;   // Model B: x3 pay at each milestone, level 100 is MAX
+const MILES = [25, 50, 75, 100], MILE_PAY = 3; let LV_CAP = 100;   // x3 pay at each milestone (the 4th moved from 90 to 100 on Nov 11, so the 4 stars line up with MAX)
 // Model B economy (build 133): per-map level price growth and the one-time Upgrades for each map. Same dataset as the balance simulator.
 const ECON = {"G":{"apartment":1.1429,"studio":1.1594,"loft":1.1428,"pro":1.1552,"mansion":1.1502,"stadium":1.1614},"UPG":{"apartment":[["Fresh headphones",644.1,"profit","beats",2],["Busking permit",1430.0,"profit","busk",2],["Pizza for the crew",3175.0,"crew",null,1.25],["Faster laptop",7049.0,"speed","beats",1.5],["Portable amp",15650.0,"speed","busk",1.5],["Flyers on the block",34750.0,"fanfreq",null,1.25],["Fresh headphones II",77140.0,"profit","beats",2],["Busking permit II",171300.0,"profit","busk",2],["Fresh headphones III",380300.0,"profit","beats",2],["Busking permit III",844200.0,"profit","busk",2],["Local radio play",1874000.0,"all",null,1.5],["Faster laptop II",4161000.0,"speed","beats",1.5],["Portable amp II",9239000.0,"speed","busk",1.5]],"studio":[["Studio monitors",26610.0,"profit","mixer",2],["Condenser mic",57700.0,"profit","vocalpro",2],["Mix templates",125100.0,"speed","mixer",1.5],["Comping workflow",271300.0,"speed","vocalpro",1.5],["Coffee machine",588200.0,"crew",null,1.25],["Studio monitors II",1275000.0,"profit","mixer",2],["Condenser mic II",2765000.0,"profit","vocalpro",2],["Open studio night",5996000.0,"fanfreq",null,1.25],["Studio monitors III",13000000.0,"profit","mixer",2],["Condenser mic III",28190000.0,"profit","vocalpro",2],["Playlist placement",61130000.0,"all",null,1.5],["Mix templates II",132600000.0,"speed","mixer",1.5],["Comping workflow II",287400000.0,"speed","vocalpro",1.5],["Studio monitors IV",623200000.0,"profit","mixer",2],["Condenser mic IV",1351000000.0,"profit","vocalpro",2]],"loft":[["Fresh crates",2104000.0,"profit","decks",2],["Screen printer",3989000.0,"profit","merch",2],["Webcam upgrade",7563000.0,"profit","stream",2],["Crew hoodies",14340000.0,"crew",null,1.25],["Sync buttons",27180000.0,"speed","decks",1.5],["Card reader",51530000.0,"speed","merch",1.5],["Fiber internet",97690000.0,"speed","stream",1.5],["Street team",185200000.0,"fanfreq",null,1.25],["Fresh crates II",351100000.0,"profit","decks",2],["Screen printer II",665600000.0,"profit","merch",2],["Webcam upgrade II",1262000000.0,"profit","stream",2],["Fresh crates III",2392000000.0,"profit","decks",2],["Screen printer III",4535000000.0,"profit","merch",2],["Webcam upgrade III",8597000000.0,"profit","stream",2],["Blog feature",16300000000.0,"all",null,1.5],["Sync buttons II",30900000000.0,"speed","decks",1.5],["Card reader II",58570000000.0,"speed","merch",1.5],["Fiber internet II",111000000000.0,"speed","stream",1.5]],"pro":[["Vintage console",100400000.0,"profit","console",2],["Session players",181200000.0,"profit","liveroom",2],["Entertainment lawyer",327100000.0,"profit","labeldeal",2],["Session recall",590600000.0,"speed","console",1.5],["Click track",1066000000.0,"speed","liveroom",1.5],["A&R fast-track",1925000000.0,"speed","labeldeal",1.5],["Studio catering",3476000000.0,"crew",null,1.25],["Vintage console II",6275000000.0,"profit","console",2],["Session players II",11330000000.0,"profit","liveroom",2],["Entertainment lawyer II",20450000000.0,"profit","labeldeal",2],["Radio interviews",36930000000.0,"fanfreq",null,1.25],["Vintage console III",66670000000.0,"profit","console",2],["Session players III",120400000000.0,"profit","liveroom",2],["Entertainment lawyer III",217300000000.0,"profit","labeldeal",2],["Magazine cover",392300000000.0,"all",null,1.5],["Session recall II",708300000000.0,"speed","console",1.5],["Click track II",1279000000000.0,"speed","liveroom",1.5],["A&R fast-track II",2309000000000.0,"speed","labeldeal",1.5],["Vintage console IV",4169000000000.0,"profit","console",2],["Session players IV",7526000000000.0,"profit","liveroom",2],["Entertainment lawyer IV",13590000000000.0,"profit","labeldeal",2]],"mansion":[["Grand piano",8477000000.0,"profit","piano",2],["Guest booking",13360000000.0,"profit","podcast",2],["Sneaker collab",21070000000.0,"profit","brand",2],["Film crew",33210000000.0,"profit","docu",2],["Personal chef",52350000000.0,"crew",null,1.25],["Piano tech",82520000000.0,"speed","piano",1.5],["Remote guests",130100000000.0,"speed","podcast",1.5],["Brand manager",205100000000.0,"speed","brand",1.5],["Second unit",323300000000.0,"speed","docu",1.5],["Late-night TV spot",509600000000.0,"fanfreq",null,1.25],["Grand piano II",803400000000.0,"profit","piano",2],["Guest booking II",1266000000000.0,"profit","podcast",2],["Sneaker collab II",1996000000000.0,"profit","brand",2],["Film crew II",3147000000000.0,"profit","docu",2],["Grand piano III",4961000000000.0,"profit","piano",2],["Guest booking III",7821000000000.0,"profit","podcast",2],["Sneaker collab III",12330000000000.0,"profit","brand",2],["Film crew III",19440000000000.0,"profit","docu",2],["Award nomination",30640000000000.0,"all",null,1.5],["Piano tech II",48300000000000.0,"speed","piano",1.5],["Remote guests II",76140000000000.0,"speed","podcast",1.5],["Brand manager II",120000000000000.0,"speed","brand",1.5],["Second unit II",189200000000000.0,"speed","docu",1.5],["Fan club perks",298300000000000.0,"fanval",null,1.5],["Grand piano IV",470200000000000.0,"profit","piano",2],["Guest booking IV",741300000000000.0,"profit","podcast",2],["Sneaker collab IV",1169000000000000.0,"profit","brand",2],["Film crew IV",1842000000000000.0,"profit","docu",2]],"stadium":[["Bigger stage",432000000000.0,"profit","mainstage",2],["Laser rig",660600000000.0,"profit","lightrig",2],["Fan cam",1010000000000.0,"profit","jumbotron",2],["Tour bus",1545000000000.0,"profit","worldtour",2],["Tour catering",2362000000000.0,"crew",null,1.25],["Stage crew",3612000000000.0,"speed","mainstage",1.5],["Lighting desk",5524000000000.0,"speed","lightrig",1.5],["Live director",8447000000000.0,"speed","jumbotron",1.5],["Tour manager",12920000000000.0,"speed","worldtour",1.5],["Bigger stage II",19750000000000.0,"profit","mainstage",2],["Laser rig II",30210000000000.0,"profit","lightrig",2],["Fan cam II",46190000000000.0,"profit","jumbotron",2],["Tour bus II",70630000000000.0,"profit","worldtour",2],["Billboard campaign",108000000000000.0,"fanfreq",null,1.25],["Bigger stage III",165200000000000.0,"profit","mainstage",2],["Laser rig III",252600000000000.0,"profit","lightrig",2],["Fan cam III",386200000000000.0,"profit","jumbotron",2],["Tour bus III",590600000000000.0,"profit","worldtour",2],["Headline billing",903100000000000.0,"all",null,1.5],["Stage crew II",1381000000000000.0,"speed","mainstage",1.5],["Lighting desk II",2112000000000000.0,"speed","lightrig",1.5],["Live director II",3229000000000000.0,"speed","jumbotron",1.5],["Tour manager II",4938000000000000.0,"speed","worldtour",1.5],["Bigger stage IV",7551000000000000.0,"profit","mainstage",2],["Laser rig IV",1.155e+16,"profit","lightrig",2],["Fan cam IV",1.766e+16,"profit","jumbotron",2],["Tour bus IV",2.7e+16,"profit","worldtour",2],["Deluxe vinyl drop",4.129e+16,"fanval",null,1.5],["Bigger stage V",6.314e+16,"profit","mainstage",2],["Laser rig V",9.655e+16,"profit","lightrig",2],["Fan cam V",1.476e+17,"profit","jumbotron",2],["Tour bus V",2.258e+17,"profit","worldtour",2]]}};
 const UPG_V = 2, UPG_OLD = {"apartment":[[4356.0,"profit","beats",2],[7411.0,"profit","busk",2],[12610.0,"fanfreq",null,1.25],[21450.0,"speed","beats",1.5],[36490.0,"profit","beats",2],[62080.0,"crew",null,1.25],[105600.0,"speed","busk",1.5],[179700.0,"profit","busk",2],[305700.0,"fanval",null,1.5],[520000.0,"speed","beats",1.5],[884700.0,"all",null,1.5],[1505000.0,"speed","busk",1.5],[2560000.0,"profit","beats",2],[4356000.0,"profit","busk",2]],"studio":[[669000.0,"profit","mixer",2],[1004000.0,"profit","vocalpro",2],[1508000.0,"fanfreq",null,1.25],[2264000.0,"speed","mixer",1.5],[3399000.0,"profit","mixer",2],[5103000.0,"crew",null,1.25],[7661000.0,"speed","vocalpro",1.5],[11500000.0,"profit","vocalpro",2],[17270000.0,"fanval",null,1.5],[25920000.0,"speed","mixer",1.5],[38920000.0,"all",null,1.5],[58430000.0,"speed","vocalpro",1.5],[87720000.0,"profit","mixer",2],[131700000.0,"profit","vocalpro",2],[197700000.0,"fanfreq",null,1.25],[296800000.0,"speed","mixer",1.5],[445600000.0,"profit","mixer",2],[669000000.0,"crew",null,1.25]],"loft":[[67950000.0,"profit","decks",2],[94420000.0,"profit","merch",2],[131200000.0,"fanfreq",null,1.25],[182300000.0,"speed","decks",1.5],[253300000.0,"profit","stream",2],[352000000.0,"crew",null,1.25],[489100000.0,"speed","merch",1.5],[679500000.0,"profit","decks",2],[944200000.0,"fanval",null,1.5],[1312000000.0,"speed","stream",1.5],[1823000000.0,"all",null,1.5],[2533000000.0,"speed","decks",1.5],[3520000000.0,"profit","decks",2],[4891000000.0,"profit","merch",2],[6795000000.0,"fanfreq",null,1.25],[9442000000.0,"speed","decks",1.5],[13120000000.0,"profit","stream",2],[18230000000.0,"crew",null,1.25],[25330000000.0,"speed","merch",1.5],[35200000000.0,"profit","decks",2],[48910000000.0,"fanval",null,1.5],[67950000000.0,"speed","stream",1.5]],"pro":[[6533000000.0,"profit","console",2],[8613000000.0,"profit","liveroom",2],[11350000000.0,"fanfreq",null,1.25],[14970000000.0,"speed","console",1.5],[19730000000.0,"profit","labeldeal",2],[26010000000.0,"crew",null,1.25],[34290000000.0,"speed","liveroom",1.5],[45200000000.0,"profit","console",2],[59590000000.0,"fanval",null,1.5],[78550000000.0,"speed","labeldeal",1.5],[103500000000.0,"all",null,1.5],[136500000000.0,"speed","console",1.5],[179900000000.0,"profit","console",2],[237200000000.0,"profit","liveroom",2],[312700000000.0,"fanfreq",null,1.25],[412200000000.0,"speed","console",1.5],[543400000000.0,"profit","labeldeal",2],[716400000000.0,"crew",null,1.25],[944400000000.0,"speed","liveroom",1.5],[1245000000000.0,"profit","console",2],[1641000000000.0,"fanval",null,1.5],[2163000000000.0,"speed","labeldeal",1.5],[2852000000000.0,"all",null,1.5],[3760000000000.0,"speed","console",1.5],[4956000000000.0,"profit","console",2],[6533000000000.0,"profit","liveroom",2]],"mansion":[[1150000000000.0,"profit","piano",2],[1460000000000.0,"profit","podcast",2],[1852000000000.0,"fanfreq",null,1.25],[2044000000000.0,"profit","piano",2],[2330000000000.0,"profit","podcast",2],[2351000000000.0,"speed","piano",1.5],[2656000000000.0,"profit","brand",2],[2983000000000.0,"profit","brand",2],[3028000000000.0,"profit","docu",2],[3785000000000.0,"crew",null,1.25],[4803000000000.0,"speed","podcast",1.5],[6095000000000.0,"profit","docu",2],[7734000000000.0,"fanval",null,1.5],[9814000000000.0,"speed","brand",1.5],[12450000000000.0,"all",null,1.5],[15800000000000.0,"speed","docu",1.5],[20050000000000.0,"profit","piano",2],[25450000000000.0,"profit","podcast",2],[32290000000000.0,"fanfreq",null,1.25],[40980000000000.0,"speed","piano",1.5],[52000000000000.0,"profit","brand",2],[65980000000000.0,"crew",null,1.25],[83730000000000.0,"speed","podcast",1.5],[106300000000000.0,"profit","docu",2],[134800000000000.0,"fanval",null,1.5],[171100000000000.0,"speed","brand",1.5],[217100000000000.0,"all",null,1.5],[275500000000000.0,"speed","docu",1.5],[349600000000000.0,"profit","piano",2],[443600000000000.0,"profit","podcast",2],[563000000000000.0,"fanfreq",null,1.25],[714400000000000.0,"speed","piano",1.5],[906500000000000.0,"profit","brand",2],[1150000000000000.0,"crew",null,1.25]],"stadium":[[86370000000000.0,"profit","mainstage",2],[106500000000000.0,"profit","lightrig",2],[131300000000000.0,"fanfreq",null,1.25],[149100000000000.0,"profit","mainstage",2],[161800000000000.0,"speed","mainstage",1.5],[163500000000000.0,"profit","lightrig",2],[179400000000000.0,"profit","jumbotron",2],[196800000000000.0,"profit","worldtour",2],[199500000000000.0,"profit","jumbotron",2],[246000000000000.0,"crew",null,1.25],[303300000000000.0,"speed","lightrig",1.5],[373900000000000.0,"profit","worldtour",2],[460900000000000.0,"fanval",null,1.5],[568300000000000.0,"speed","jumbotron",1.5],[700600000000000.0,"all",null,1.5],[863700000000000.0,"speed","worldtour",1.5],[1065000000000000.0,"profit","mainstage",2],[1313000000000000.0,"profit","lightrig",2],[1618000000000000.0,"fanfreq",null,1.25],[1995000000000000.0,"speed","mainstage",1.5],[2460000000000000.0,"profit","jumbotron",2],[3033000000000000.0,"crew",null,1.25],[3739000000000000.0,"speed","lightrig",1.5],[4609000000000000.0,"profit","worldtour",2],[5683000000000000.0,"fanval",null,1.5],[7006000000000000.0,"speed","jumbotron",1.5],[8637000000000000.0,"all",null,1.5],[1.065e+16,"speed","worldtour",1.5],[1.313e+16,"profit","mainstage",2],[1.618e+16,"profit","lightrig",2],[1.995e+16,"fanfreq",null,1.25],[2.46e+16,"speed","mainstage",1.5],[3.033e+16,"profit","jumbotron",2],[3.739e+16,"crew",null,1.25],[4.609e+16,"speed","lightrig",1.5],[5.683e+16,"profit","worldtour",2],[7.006e+16,"fanval",null,1.5],[8.637e+16,"speed","jumbotron",1.5]]};   // Build 133-135 Upgrade prices, only for converting what players already bought
@@ -2530,7 +2535,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 184, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 185, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3883,15 +3888,19 @@ function placePop() {
   const pop = $('pop'), e = els[S.selected];
   if (!popOpen || !e || !lvl(S.selected) || !$('scrim').hidden) { pop.hidden = true; return; }
   pop.hidden = false;
-  const app = $('app').getBoundingClientRect(), room = $('roomWrap').getBoundingClientRect(), r = e.b.getBoundingClientRect();
+  const app = $('app').getBoundingClientRect(), room = $('roomWrap').getBoundingClientRect();
+  const box = () => { const a = e.b.getBoundingClientRect(), bd = e.badge && e.badge.getClientRects().length ? e.badge.getBoundingClientRect() : a; return { left: a.left, width: a.width, top: Math.min(a.top, bd.top) }; };   // the card sits above the level badge too
+  const r = box();
   const w = pop.offsetWidth, h = pop.offsetHeight, cx = r.left + r.width / 2;
   const left = Math.max(12, Math.min(app.width - w - 12, cx - app.left - w / 2));
-  const above = r.top - h - 14 > room.top + 4;
-  const top = above ? r.top - app.top - h - 14 : Math.min(r.bottom - app.top + 14, room.bottom - app.top - h - 6);
-  pop.style.left = left + 'px'; pop.style.top = top + 'px'; pop.classList.toggle('below', !above);
+  // the card always opens ABOVE the station (like Eatventure); near the top, the studio scrolls down to make room for it and the Bonus card
+  const BONUS_ROOM = 58, need = (room.top + 4 + BONUS_ROOM) - (r.top - h - 14);
+  let rr = r; if (need > 0 && !panDrag) { setPan(panY + need / fitS); rr = box(); }
+  const top = Math.max(room.top - app.top + 4, rr.top - app.top - h - 12);
+  pop.style.left = left + 'px'; pop.style.top = top + 'px'; pop.classList.remove('below');
   const arrow = $('popArrow');
   arrow.style.left = Math.max(22, Math.min(w - 22, cx - app.left - left)) + 'px';
-  arrow.style.top = above ? (h - 10) + 'px' : '-8px';
+  arrow.style.top = (h - 1) + 'px';
 }
 // the Bonus card above the upgrade card: shows for 2.5 s at a milestone, then goes away (no confetti)
 let bonusT = null, starPulse = false;
@@ -3904,7 +3913,7 @@ function buyOnce(quiet) {
   const before = milesHit(lvl(st.id)), lvBefore = lvl(st.id);
   S.cash -= cost; S.levels[st.id] += n; S.stats.upgrades += n; S.stats.maxLevel = Math.max(S.stats.maxLevel, lvl(st.id));
   const mg = payMileGems(st, lvBefore, lvl(st.id)), gemTxt = mg ? ` +${mg} gem${mg > 1 ? 's' : ''}` : '';
-  if (milesHit(lvl(st.id)) > before || mg || lvl(st.id) >= LV_CAP) { sfx('milestone'); popBonus(lvl(st.id) >= LV_CAP ? 'Maxed out' : milesHit(lvl(st.id)) > before ? 'x' + MILE_PAY + ' Pay' : 'Level ' + lvl(st.id), mg ? `+${mg} gem${mg > 1 ? 's' : ''}` : ''); starPulse = milesHit(lvl(st.id)) > before; }
+  if (milesHit(lvl(st.id)) > before || mg || lvl(st.id) >= LV_CAP) { sfx('milestone'); popBonus(lvl(st.id) >= LV_CAP ? 'Maxed out' : milesHit(lvl(st.id)) > before ? 'x' + MILE_PAY + ' Pay' : 'Level ' + lvl(st.id), ''); starPulse = milesHit(lvl(st.id)) > before; }
   else sfx('buy');
   render();
   return true;
@@ -4668,6 +4677,7 @@ function ratTick(dt) {
 const FAN_MIN = 30, FAN_MAX = 90, FAN_WALK = 11000, FAN_CASH_SECS = 60, FAN_GEMS = 3, FAN_GEM_CAP = 15, FAN_GEM_ODDS = 0.12;
 let fanAcc = 0, fanNext = FAN_MIN + Math.random() * (FAN_MAX - FAN_MIN), fanEl = null;
 const CAM_SVG = `<svg class="cam" viewBox="0 0 22 18" aria-hidden="true"><rect x="1" y="4" width="20" height="13" rx="3" fill="#2B2742" stroke="#14122A" stroke-width="1.5"></rect><rect x="6" y="1" width="8" height="4" rx="1.5" fill="#2B2742" stroke="#14122A" stroke-width="1.5"></rect><circle cx="11" cy="10.5" r="4.2" fill="#6E7BBF" stroke="#14122A" stroke-width="1.5"></circle><circle cx="12.3" cy="9.3" r="1.3" fill="#fff" opacity=".8"></circle><rect x="16" y="6" width="3" height="2" rx=".8" fill="#FFE27A"></rect></svg>`;
+const MILE_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z" fill="#F5B83D" stroke="#B9811A" stroke-width="1.4"/></svg>';
 const GEM_MINI = `<img src="art/gem.webp" width="22" height="18" alt="" draggable="false" style="display:block">`;
 const COIN_MINI = `<span class="coin fcoin">$</span>`;
 function fanGemsToday() { const d = new Date().toDateString(); if (!S.fanDay || S.fanDay.d !== d) S.fanDay = { d, gems: 0 }; return S.fanDay; }
@@ -5970,10 +5980,10 @@ function render() {
   $('popPay').textContent = fmt(payout(st) * mult()).replace(/^\$/, '');
   $('popTime').textContent = (ct < 1 ? ct.toFixed(2) : ct.toFixed(1)) + 's';
   $('sbMile').style.width = next ? ((L - prev) / (next - prev) * 100) + '%' : '100%';
-  $('sbMileLabel').innerHTML = GEM_MINI + (next ? next : 'MAX');
+  $('sbMileLabel').innerHTML = next ? (MILES.includes(next) ? MILE_STAR : '') + GEM_MINI : '';
   $('sbMileLabel').title = next ? `+1 gem at level ${next}${MILES.includes(next) ? ', and 3x pay' : ''}` : 'Level 100 is the max';
   if (isEv()) { const en = EV_PT_LV.find(m => L < m), ep = [0, ...EV_PT_LV].filter(m => L >= m).pop();
-    $('sbMile').style.width = en ? ((L - ep) / (en - ep) * 100) + '%' : '100%'; $('sbMileLabel').innerHTML = '★' + (en || 'MAX');
+    $('sbMile').style.width = en ? ((L - ep) / (en - ep) * 100) + '%' : '100%'; $('sbMileLabel').innerHTML = en ? MILE_STAR : '';
     $('sbMileLabel').title = en ? `Event points at level ${en}` : `Level ${EV_CAP} is the event max`; }
   { const cap = document.querySelector('.tab[data-tab="career"] .tcap'); if (cap) cap.textContent = isEv() ? 'Rewards' : 'Career'; }
   const plan = buyPlan(st);
