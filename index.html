@@ -1406,6 +1406,12 @@ html .sheet.float .welcome .lbl { color: #6E6990; letter-spacing: .08em; }
 html .sheet.float .welcome .amt { color: #6CBCF8 !important; text-shadow: 0 2px 0 #3A78AE; }
 html .sheet.float .welcome p { color: #6E6990; }
 html .sheet.float .ghost { background: #FFFFFF !important; color: #14122A !important; box-shadow: 0 3px 0 #D6D1E6, inset 0 0 0 2px #E6E2F1 !important; }
+
+/* Build 170: light panels sit on a soft gray, so the white cards stand out while the screens stay bright */
+html .sheet.light { --panel: #ECE9F4; background: #ECE9F4; }
+/* the Career tour track sits right on the panel: upcoming stops are white with an edge, the line is darker, so both read on the gray */
+html .tour .tstop:not(.done):not(.now) { background: #FFFFFF; color: #6E6990; box-shadow: inset 0 0 0 2px #CFC9E0; }
+html .tour .tline:not(.done) { background: #CFC9E0; }
 </style>
 </head>
 <body>
@@ -2452,7 +2458,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 169, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 170, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3717,7 +3723,7 @@ function toast(msg) {
   app.appendChild(t);
   const top0 = app.getBoundingClientRect().top, hb = hud ? hud.getBoundingClientRect().bottom : 0, th = t.offsetHeight;
   let y = hb + 8;
-  if (!$('scrim').hidden) {   // a panel is open: use the space above it, or else go below its title and tabs
+  if (!$('scrim').hidden && !$('sheet').classList.contains('float')) {   // a panel is open: use the space above it, or else go below its title and tabs (small centred cards leave the top bar spot free)
     const sh = $('sheet').getBoundingClientRect();
     if (sh.top - hb >= th + 16) y = sh.top - th - 8;
     else { const below = [...$('sheet').querySelectorAll('.sheet-head, .segtabs')].map(e => e.getBoundingClientRect().bottom).filter(b => b > sh.top); y = Math.max(hb, below.length ? Math.max(...below) : sh.top) + 8; }
@@ -4208,7 +4214,7 @@ $('scrim').addEventListener('click', e => {
   if (e.target.closest('[data-test-reset]')) { testCall('test_reset').then(r => { if (r) { TESTG = r.data; toast('Test grants reset'); } else toast("Couldn't reach the server"); render(); openTab('testaccess'); }); return; }
   const ub = e.target.closest('[data-upg]'); if (ub) return buyUpg(+ub.dataset.upg, ub);
   const tg = e.target.closest('[data-tab-go]');
-  if (tg) return openTab(tg.dataset.tabGo);
+  if (tg) { if (tg.dataset.tabGo === 'pass' && sheetKey === 'shop') passTop = true; return openTab(tg.dataset.tabGo); }   // from the Shop the Pass opens at its top
   const adb = e.target.closest('[data-ad]');
   if (adb) {
     const kind = adb.dataset.ad;
@@ -5417,7 +5423,8 @@ function openTab(tab) {
         ${p.owned ? '<span class="pown">VIP active</span>' : `<button class="cta gold pbuy" data-buy="goldPass">Unlock VIP · ${OFFERS.goldPass.money}</button>`}</div>
       ${any ? '<button class="cta pclaim" data-pass-all>Claim All</button>' : ''}
       <div class="ptrack"><div class="phead"><span>Free</span><span></span><span class="g">VIP</span></div>${rows}</div>`);
-    if (freshOpen) { passInfo = false; const r = $('sheet').querySelector('[data-pnow]'); if (r && T > 2) $('sheet').scrollTop = r.offsetTop - 160; }
+    if (freshOpen) { passInfo = false; const r = $('sheet').querySelector('[data-pnow]'); if (passTop) $('sheet').scrollTop = 0; else if (r && T > 2) $('sheet').scrollTop = r.offsetTop - 160; }
+    passTop = false;
   } else if (tab === 'events') {
     const e = ev(), now = Date.now(), days = Array.from({ length: 7 }, (_, k) => evDay(k)), sel = days[evPick || 0], w = wedChallenge();
     const cd = t => `<span data-cd="${t}">${hms(Math.max(0, t - now))}</span>`;
@@ -6286,7 +6293,7 @@ const evBadgeArt = (key, earned, sz = 84) => { const col = earned ? (key === 'we
 const evBadgeHave = id => !!(S.evBadges && S.evBadges[EV_DEFS[id].badge]);
 const evBadgeCount = () => Object.keys(EV_DEFS).filter(evBadgeHave).length;
 let evBadgeFrom = 'events';
-let passInfo = false;   // Backstage Pass: star help open or closed
+let passInfo = false, passTop = false;   // Backstage Pass: star help open or closed; passTop: opened from the Shop, start at the top
 function evBadgesView() {
   const ids = Object.keys(EV_DEFS), now = Date.now();
   const cards = ids.map(id => { const d = EV_DEFS[id], won = evBadgeHave(id), runs = (S.evHist || []).filter(h => h.id === id), wins = runs.filter(h => h.badge).length + (S.ev && S.ev.id === id && S.ev.got.free[EV_TIERS] ? 1 : 0);
