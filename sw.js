@@ -1,7 +1,8 @@
 // Offline support. Change VERSION whenever you upload a new build so players get the update.
-const VERSION = 'studio-hustle-v176';
+const VERSION = 'studio-hustle-v178';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './art/gem.webp', './art/cash.svg', './icons/icon-192.png', './icons/icon-512.png',
-  './music/beat1.mp3', './music/beat2.mp3', './music/beat3.mp3'];
+  './music/beat1.mp3', './music/beat2.mp3', './music/beat3.mp3',
+  './sfx/cash.wav', './sfx/denied.wav', './sfx/claim.wav', './sfx/move.wav'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))));

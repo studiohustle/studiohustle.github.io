@@ -2494,7 +2494,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 176, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 178, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3038,8 +3038,10 @@ function ac() {
     busMusic = actx.createGain(); busMusic.connect(busMaster);
     busSfx = actx.createGain(); busSfx.connect(busMaster);
     applyVolumes();
+    actx.onstatechange = () => onAudioState();
+    setTimeout(loadSamples, 0);
   }
-  if (actx.state === 'suspended') actx.resume().catch(() => {});
+  if (actx.state !== 'running' && actx.state !== 'closed') actx.resume().catch(() => {});   // 'suspended', and iOS's 'interrupted' after a call or app switch
   return actx;
 }
 function tone(freq, dur, type, vol, when = 0, slideTo = 0) {
@@ -3085,6 +3087,7 @@ const SFX = {
   gems: () => { for (let i = 0; i < 9; i++) tone([2093, 2637, 3136, 2349, 2794, 3520, 2637, 3136, 4186][i], 0.09, 'sine', 0.035, i * 0.045);
     tone(523, 0.35, 'triangle', 0.04); tone(784, 0.35, 'triangle', 0.03, 0.05); },
   reward: () => [1047, 1319, 1568, 2093].forEach((f, i) => tone(f, 0.18, 'sine', 0.05, i * 0.07)),
+  claim: () => SFX.reward(),
   // the Backer walks in: a soft shop-door bell, a few light strikes of one small bell (warm, not shrill)
   // the Backer sets a bag of coins down: a soft cloth thump, then a few coins settling inside
   doorbell: () => { thud(0.16, 0.16); tone(110, 0.16, 'sine', 0.05);
@@ -3101,7 +3104,24 @@ function sfx(name) {
   if (!S || volOf('sfx') === 0 || volOf('master') === 0) return;
   if (name === 'cash') { const n = performance.now(); if (n - lastDing < cashGap) return; lastDing = n; }
   if (name === 'upgrade') { const n = performance.now(); if (n - lastUp < 90) return; lastUp = n; }
+  if (playSample(name)) return;
   try { SFX[name](); } catch (e) {}
+}
+// Recorded sounds (picked by Eli in the Sound Check). Level = dB applied on top of the file, matched in the Sound Check
+// against the game's mix. Until a file has loaded (the first second or so), the old synth sound plays instead.
+const SAMPLES = {
+  cash:   { url: 'sfx/cash.wav',   db: -19.4, vary: 0.03 },   // workstation pays out; a slight pitch wobble so it never repeats exactly
+  denied: { url: 'sfx/denied.wav', db: -23.8 },
+  claim:  { url: 'sfx/claim.wav',  db: -10.5 },               // claiming a crate, the daily reward, the Backer's gift
+  move:   { url: 'sfx/move.wav',   db: -13.3 },               // moving to a new location
+};
+const sampleBuf = {};
+function loadSamples() { for (const [k, v] of Object.entries(SAMPLES)) if (!sampleBuf[k]) getBuf(v.url).then(b => { sampleBuf[k] = b; }, () => {}); }
+function playSample(name) {
+  const smp = SAMPLES[name], b = sampleBuf[name], a = actx; if (!smp || !b || !a) return false;
+  try { const src = a.createBufferSource(), g = a.createGain(); src.buffer = b;
+    if (smp.vary) src.playbackRate.value = 1 + (Math.random() * 2 - 1) * smp.vary;
+    g.gain.value = Math.pow(10, smp.db / 20); src.connect(g).connect(busSfx); src.start(); return true; } catch (e) { return false; }
 }
 // ---------- music: one controller, six beats as a shuffled playlist ----------
 // Each beat plays twice (the second time is a seamless loop of the first), fades out over its last 1.5s, then 5s of silence,
@@ -3193,11 +3213,28 @@ async function scheduleTrack(gen, at, tries) {
   };
   if (Music.cur === slot && !Music.next) scheduleTrack(gen, end + MUSIC_GAP, 0);
 }
-document.addEventListener('pointerdown', () => { if (S && volOf('master') > 0) { ac(); playMusic(); } }, { once: true });
+// Starting sound. Phones only let a page start audio inside a tap (iOS counts the end of a touch or a click, not the
+// first touch-down), so: every tap anywhere, the loading screen included, wakes the audio if it isn't running yet, and the
+// music starts the moment it is. Coming back from another app the game wakes it straight away; if the phone still holds
+// it, the next tap anywhere does. (Before: one touch-DOWN listener that fired once and was gone, so audio waited for a
+// later tap that happened to play a sound, like a workstation.)
+let audioWoke = false;
+function wakeAudio(fromTap) {
+  if (volOf('master') === 0) return;
+  const a = ac(); if (!a) return;
+  if (fromTap && !audioWoke) {   // older iPhones also need a sound to start inside the tap: a silent one
+    try { const b = a.createBuffer(1, 1, 22050), src = a.createBufferSource(); src.buffer = b; src.connect(a.destination); src.start(0); audioWoke = true; } catch (e) {}
+  }
+  if (a.state === 'running') playMusic();
+}
+['touchend', 'pointerup', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, () => { if (!actx || actx.state !== 'running' || !(Music.cur || Music.next)) wakeAudio(true); }, { capture: true, passive: true }));
+function onAudioState() { if (actx && actx.state === 'running' && !document.hidden) playMusic(); }
 document.addEventListener('visibilitychange', () => {
   if (!actx) return;
-  if (document.hidden) actx.suspend().catch(() => {}); else actx.resume().catch(() => {});
+  if (document.hidden) actx.suspend().catch(() => {}); else { actx.resume().then(onAudioState, () => {}); }
 });
+window.addEventListener('pageshow', () => { if (actx && !document.hidden) actx.resume().then(onAudioState, () => {}); });
+window.addEventListener('focus', () => { if (actx && !document.hidden && actx.state !== 'running') actx.resume().then(onAudioState, () => {}); });
 
 // ---------- daily reward ----------
 const dayKey = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
@@ -3894,7 +3931,7 @@ $('crateBtn').addEventListener('click', () => {
   if (Date.now() < S.crateReady) return;
   const e = ev(), cx = e === 'monday' ? 2 : 1, cg = e === 'monday' ? 6 : 3, cd = e === 'crates' ? 300 : CRATE_CD;   // Crate Party = faster crates, Music Monday = richer crates
   const v = Math.max(25, skipValue(180)) * (S.owned.lucky ? 2 : 1) * cx;   // about 3 minutes of income (more during events)
-  earn(v); S.gems += cg; owe('cash'); owe('gems'); S.stats.crates++; S.crateReady = Date.now() + cd * 1000; sfx('reward');
+  earn(v); S.gems += cg; owe('cash'); owe('gems'); S.stats.crates++; S.crateReady = Date.now() + cd * 1000; sfx('claim');
   pendingBonus = v;
   nextSheetKey = 'crate';   // same small centered card as Hype and Welcome back: X keeps it, a watched ad doubles it and closes
   openSheet(`<div class="sheet-head"><h2>Free crate</h2>${closeBtn()}</div>
@@ -4144,7 +4181,7 @@ function claimDaily() {
   if (cash) { earn(cash); owe('cash'); }
   S.gems += r.gems; if (r.gems) owe('gems');
   S.daily = { last: dayKey(), streak: day };
-  sfx('reward'); save(); render();
+  sfx('claim'); save(); render();
   openSheet(`<div class="welcome"><h2>Day ${day} claimed</h2>
     <span class="amt">${[cash ? '+' + fmt(cash) : '', r.gems ? '+' + r.gems + ' gems' : ''].filter(Boolean).join(' · ')}</span>
     <p>${day === 7 ? 'You finished the week. The streak starts over tomorrow.' : 'Come back tomorrow for day ' + (day + 1) + '. Miss a day and the streak resets.'}</p></div>
@@ -4672,7 +4709,7 @@ function payBacker() {
   const o = backerOffer; if (!o || !backerEl) return;
   const k = 1;
   if (o.gems) { S.gems += o.gems * k; owe('gems', o.gems * k); } else { earn(o.cash * k); owe('cash'); }
-  sfx('reward'); track('backer/' + (o.gems ? 'gems' : 'cash'));
+  sfx('claim'); track('backer/' + (o.gems ? 'gems' : 'cash'));
   backerLeave(); closeSheet(); save(); render();
   toast(o.gems ? `+${o.gems * k} gems from the Backer` : `+${fmt(o.cash * k)} from the Backer`);
 }
@@ -6469,6 +6506,7 @@ function alphaReset() {
 }
 
 function start(data) {
+  setTimeout(onAudioState, 0);   // a tap on the loading screen may already have woken the audio: start the music as soon as the game is up
   syncShine(document);
   S = (data && data.state) ? Object.assign(fresh(), { econV: 1, upgV: 1, mgV: null, hypeV: null, vaultV: null, resetV: null }, data.state) : (load() || fresh());
   if (S.resetV == null && !TEST) alphaReset();   // Build 163: one-time alpha reset, before any other migration
