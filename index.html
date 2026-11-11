@@ -521,7 +521,7 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .skipcard .gempack { overflow: visible; }
 .crow .rt > b { display: flex; align-items: center; min-width: 0; }
 .crow .rt > b .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ondot { display: none; flex: none; box-sizing: border-box; width: 7px; height: 7px; border-radius: 50%; margin-left: 6px; background: #3DDC6E; border: 1.25px solid #14122A; }
+.ondot { display: none; flex: none; box-sizing: border-box; width: 8px; height: 8px; border-radius: 50%; margin-left: 7px; background: #2DC75C; box-shadow: 0 0 0 3px rgba(45,199,92,.2); }
 .ondot.on, .onlegend .ondot { display: inline-block; } .onlegend .ondot { margin: 0 6px 0 0; }
 .onlegend { display: flex; align-items: center; justify-content: center; gap: 0; }
 .oninfo { position: relative; width: 32px; height: 32px; margin: -8px -6px -8px 0; display: grid; place-items: center; background: none; }
@@ -1080,8 +1080,8 @@ html, body { background: var(--bar) !important; }
 .sheet.light .row .ric { background: #4A3A9E; }   /* brand purple tiles keep white and gold icons readable */
 .sheet.light .hire:disabled, .sheet.light .cta:disabled { background: #ECEAF3; color: #A39EBC; box-shadow: none; }
 .sheet.light .hire.off { background: #ECEAF3; color: var(--text); }
-.sheet.light .segtabs { background: #ECE8F6; border-radius: 14px; padding: 4px; gap: 4px; }
-.sheet.light .segtabs .stab { background: transparent; color: #6E6990; border-radius: 10px; height: 36px; }
+.sheet.light .segtabs { background: #DDD7EE; border-radius: 14px; padding: 4px; gap: 4px; }
+.sheet.light .segtabs .stab { background: transparent; color: #3F3868; border-radius: 10px; height: 36px; }
 .sheet.light .segtabs .stab.on { background: #FFFFFF; color: #4A3A9E; box-shadow: 0 1px 4px rgba(30,26,51,.12); }
 .sheet.light .segtabs .tdot { border-color: #FFFFFF; }
 .sheet.light .hired { background: #8BF0A0; color: #14122A; border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 800; }
@@ -1129,7 +1129,7 @@ html, body { background: var(--bar) !important; }
 .vtile:active { transform: translateY(2px); box-shadow: 0 1px 0 #E2DEF0; }
 .vtile .vart { display: grid; place-items: center; width: 72px; height: 72px; border-radius: 14px; background: #F1EEFA; }
 .vtile.locked .vart svg { filter: grayscale(1) opacity(.45); } .vtile.locked b { color: #8A86A6; }
-.vcan { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #2FA552; color: #fff; font: 700 14px/22px sans-serif; text-align: center; }
+.vcan { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%; background: #2FA552; display: grid; place-items: center; } .vcan svg { width: 14px; height: 14px; }
 .vnote { margin: 14px 2px 0; font-size: 14px; color: #5C5780; text-align: center; }
 .vdet { display: flex; align-items: center; gap: 14px; margin-top: 2px; }
 .vdet .vtile.big { cursor: default; box-shadow: none; flex: none; } .vdet .vtile.big .vart { width: 96px; height: 96px; }
@@ -2473,7 +2473,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 173, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 174, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2950,7 +2950,7 @@ const ICONS = {
 };
 const svgIc = (k, color = '#F4F1EA', size = 14) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
 const LOCK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EA" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
-const UP = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>';
+const UP = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V9M5.5 13l6.5-6.5 6.5 6.5"></path></svg>';   // thick and stubby: reads at badge size
 
 // ---------- state ----------
 function runState(locIdx) {
@@ -4259,7 +4259,7 @@ $('scrim').addEventListener('click', e => {
     return askItem(it, bi.dataset.from || 'style'); }
   const bo = e.target.closest('[data-buy]');
   if (bo && !bo.disabled) { const id = bo.dataset.buy, o = OFFERS[id]; if (!o) return;
-    if (o.money) return openTab('pay:' + id);
+    if (o.money) { payFrom = sheetKey && !sheetKey.startsWith('pay:') ? sheetKey : 'shop'; return openTab('pay:' + id); }
     if (id === 'hypeRefill' && hypeLeftToFill() <= 60000) { sfx('denied'); toast('Your Hype is already full'); return; }
     const art = { skip15: ART.clock(0), skip1: ART.clock(4), monitors: ART.monitors(), nightOwl: ART.moon(), hypeRefill: ART.bolt(), fanFrenzy: ART.frenzy() }[id] || '';
     return askBuy(o.name, o.skip ? `Instant ${fmt(skipValue(o.skip))} cash` : o.sub, o.gems, art, () => { if (S.gems < o.gems || (o.once && S.perks[id])) return; S.gems -= o.gems; grant(id); }, 'shop'); }
@@ -5264,7 +5264,7 @@ function openTab(tab) {
     S.vaultSeen = true;
     const tiles = VAULT.map(v => {
       const L = vLv(v.id), c = vaultCost(v), can = c != null && S.gems >= c;
-      return `<button class="vtile ${L ? '' : 'locked'}" data-vopen="${v.id}" aria-label="${v.name}">${can ? '<span class="vcan">\u2191</span>' : ''}
+      return `<button class="vtile ${L ? '' : 'locked'}" data-vopen="${v.id}" aria-label="${v.name}">${can ? `<span class="vcan">${UP}</span>` : ''}
         <span class="vart">${vArt(v.icon)}</span><b>${c == null ? 'MAX' : L ? 'Level ' + L : 'Locked'}</b></button>`;
     }).join('');
     openSheet(`<div class="sheet-head"><h2>Vault</h2>${closeBtn()}</div><div class="pscroll"><div class="vgrid">${tiles}</div>
@@ -5644,7 +5644,7 @@ function openTab(tab) {
       <p>${o.sub}.</p><div class="keeps"><div><b>Real game</b>Checkout for ${o.money}</div><div><b>Test mode</b>Free, so you can try it.</div></div>
       <button class="cta" data-pay="${id}">Get it (test)</button><button class="ghost" data-close>Cancel</button>`);
     const said = (S.intent || {})[id];
-    openSheet(`<div class="sheet-head"><h2>${o.name}</h2>${headBtns('data-tab-go="shop"')}</div>
+    openSheet(`<div class="sheet-head"><h2>${o.name}</h2>${headBtns(`data-tab-go="${payFrom}"`)}</div>
       <div class="welcome"><span class="amt">${o.money}</span><p>${o.sub}.</p></div>
       <p class="cnote">Purchases aren't turned on during the playtest. If this were a real ${o.money} purchase right now, would you buy it?</p>
       <div class="fbopts">${['Yes', 'Maybe', 'No'].map(v => `<button class="fbo ${said === v ? 'on' : ''}" data-intent="${id}" data-v="${v}">${v}</button>`).join('')}</div>
@@ -6316,6 +6316,7 @@ const evBadgeArt = (key, earned, sz = 84) => { const col = earned ? (key === 'we
 const evBadgeHave = id => !!(S.evBadges && S.evBadges[EV_DEFS[id].badge]);
 const evBadgeCount = () => Object.keys(EV_DEFS).filter(evBadgeHave).length;
 let evBadgeFrom = 'events';
+let payFrom = 'shop';   // the screen a purchase was opened from: its back button returns there
 let passInfo = false, passTop = false;   // Backstage Pass: star help open or closed; passTop: opened from the Shop, start at the top
 function evBadgesView() {
   const ids = Object.keys(EV_DEFS), now = Date.now();
