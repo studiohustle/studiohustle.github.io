@@ -1379,16 +1379,16 @@ html .tour .tstop.now { background: #6343CC !important; color: #fff !important; 
 html .prow.done .pnode::before, html .prow.done .pnode i { background: #6343CC !important; color: #fff !important; } html .prow.next .pnode i { box-shadow: 0 0 0 3px #6343CC !important; }
 html .namebar button { background: #FFFFFF !important; color: #14122A !important; }
 /* the Backstage Pass card: white instead of a gold fill */
-html .phero2 { background: #FFFFFF !important; border-color: #14122A !important; } html .phero2 .pcd { background: #EFEAFB !important; }
+
 /* tutorial glow */
 html .tut-ptr { background: rgba(108,188,248,.14); box-shadow: 0 0 0 2px rgba(108,188,248,.9), 0 0 18px 6px rgba(108,188,248,.45); }
 /* alerts stay red */
 html .daily-btn .dot { background: #F0453A !important; }
 /* Pass VIP lane: deep purple tiles with a blue edge instead of gold */
-html .ptile.gold { background: #4A3A9E !important; box-shadow: inset 0 0 0 2px rgba(255,255,255,.22) !important; } html .ptile .pst.vip { color: #FFFFFF !important; }
+
 /* event schedule: white chips with dark icons, blue edge on the up-next card */
-html .evstrip { border-color: var(--line) !important; } html .evstrip .evdotic, html .evd .evic:not(.none) { background: #FFFFFF !important; color: #14122A !important; }
-html .evstrip small, html .evstrip.quiet small { color: var(--muted) !important; }
+
+
 
 /* Build 168: white icons and labels on blue buttons (like Eatventure), with a soft dark under-edge so they stay readable */
 html .cta:not(:disabled), html .cta.pink:not(:disabled), html .sheet.light .cta:not(:disabled), html .evh-foot .cta.exit, html .up-btn:not(:disabled), html .hire:not(:disabled):not(.on), html .hire.money:not(:disabled), html .act.hype, html .evh-pass button, html .evh-rc button, html .evb-btns button:first-child, html .lockspot.can .price {
@@ -1412,6 +1412,10 @@ html .sheet.light { --panel: #ECE9F4; background: #ECE9F4; }
 /* the Career tour track sits right on the panel: upcoming stops are white with an edge, the line is darker, so both read on the gray */
 html .tour .tstop:not(.done):not(.now) { background: #FFFFFF; color: #6E6990; box-shadow: inset 0 0 0 2px #CFC9E0; }
 html .tour .tline:not(.done) { background: #CFC9E0; }
+
+/* Build 171: the paid side of the Backstage Pass keeps its black-and-gold premium look (gold hero card, black Unlock VIP with gold text, gold VIP tiles);
+   events keep their own colors so each kind of event is easy to tell apart */
+html .cta.gold:not(:disabled), html .sheet.light .cta.gold:not(:disabled) { background: #14122A !important; color: #FFE27A !important; text-shadow: none !important; box-shadow: 0 4px 0 rgba(20,18,42,.4) !important; }
 </style>
 </head>
 <body>
@@ -2458,7 +2462,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 170, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 171, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
