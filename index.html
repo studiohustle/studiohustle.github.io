@@ -1024,6 +1024,14 @@ html, body { background: var(--bar) !important; }
 .evweek2 { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 .evd { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 0 16px; border-radius: 12px; background: var(--panel-2); color: var(--muted); min-height: 86px; box-sizing: border-box; border: 2px solid transparent; }
 .evd small { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; } .evd b { font: 400 16px/1.1 var(--display); color: var(--text); }
+.evweekw { display: flex; flex-direction: column; gap: 5px; }
+.evlrow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.evlbar { grid-row: 1; display: flex; align-items: center; gap: 6px; min-width: 0; height: 32px; padding: 0 8px 0 5px; border-radius: 10px; background: var(--c); border: 2px solid #14122A; color: var(--ink); font: 700 12px/1 var(--body); white-space: nowrap; overflow: hidden; box-shadow: 0 2px 0 #14122A; }
+.evlbar svg { flex: none; border-radius: 6px; } .evlbar span { overflow: hidden; text-overflow: ellipsis; }
+.evlbar em { margin-left: auto; font-style: normal; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; background: #14122A; color: #FFFFFF; padding: 3px 6px; border-radius: 999px; }
+.evd .evic.lw { padding: 0; overflow: hidden; } .evd .evic.lw svg { display: block; margin: -2px; }
+.evlnote { display: flex; align-items: center; gap: 8px; text-align: left; padding: 8px 10px; border-radius: 12px; background: color-mix(in srgb, var(--c) 30%, transparent); font: 500 13px var(--body); color: inherit; }
+.evlnote svg { flex: none; border-radius: 6px; }
 .evd .evic { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: var(--c); border: 2px solid #14122A; margin-top: 2px; } .evd .evic.none { background: none; border: 2px dashed rgba(218,212,242,.3); }
 .evd.today small { color: #8BF0A0; } .evd.today::after { content: ""; position: absolute; bottom: 6px; left: 50%; width: 6px; height: 6px; transform: translateX(-50%); border-radius: 50%; background: #3DDC6E; }
 .evd.sel { background: var(--text); border-color: var(--text); } .evd.sel small { color: var(--deep); } .evd.sel b { color: var(--deep); }
@@ -2494,7 +2502,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 181, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 182, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5511,14 +5519,24 @@ function openTab(tab) {
     const e = ev(), now = Date.now(), days = Array.from({ length: 7 }, (_, k) => evDay(k)), sel = days[evPick || 0], w = wedChallenge();
     const cd = t => `<span data-cd="${t}">${hms(Math.max(0, t - now))}</span>`;
     const nextOn = days.find(x => x.k > 0 && x.e && x.start > now);
+    // long events (Western / Island, Thu 00:00 to Sun 00:00, alternating weekly) on the same strip
+    const lwins = (() => { const o = TEST && S.test && S.test.evOv; const ws = o && now < o.end ? [o] : []; [evWindowAt(now), evWindowAt(now + 7 * 864e5)].forEach(w => { if (!ws.some(x => x.start < w.end && w.start < x.end)) ws.push(w); }); return ws; })();
+    days.forEach(x => { x.lw = lwins.find(w => x.t >= w.start && x.t < w.end) || null; });
+    const lrow = lwins.map(w => { const ks = days.filter(x => x.lw === w).map(x => x.k); if (!ks.length) return '';
+      const d = EV_DEFS[w.id], live = now >= w.start && now < w.end, a = ks[0], b = ks[ks.length - 1];
+      return `<button class="evlbar" data-evday="${a}" style="grid-column:${a + 1} / ${b + 2};--c:${d.color};--ink:${d.ink}" aria-label="${d.title}, ${live ? 'live now' : 'long event'}">${evEmblem(w.id, 20)}<span>${live && ks.length < 4 ? d.name : d.title}</span>${live ? '<em>Live</em>' : ''}</button>`; }).join('');
     // live strip: what's on now (tap to come back to today), or what's next
     const strip = evCard() + evBadgeBtn() + (e ? `<button class="evstrip" data-evday="0" style="--c:${EVENTS[e].color}"><span class="evdotic">${evIcon(e, 16)}</span><span class="t"><small>Live now</small><b>${EVENTS[e].name}</b></span><span class="cdx">ends in ${cd(evEnds())}</span></button>`
       : nextOn ? `<button class="evstrip quiet" data-evday="${nextOn.k}" style="--c:${EVENTS[nextOn.e].color}"><span class="evdotic">${evIcon(nextOn.e, 16)}</span><span class="t"><small>Up next</small><b>${EVENTS[nextOn.e].name}</b></span><span class="cdx">starts in ${cd(nextOn.start)}</span></button>` : '');
     const week = days.map(x => `<button class="evd ${x.k === 0 ? 'today' : ''} ${x.k === (evPick || 0) ? 'sel' : ''} ${x.e && (x.w === 6 || x.w === 0) ? 'wk wk' + x.w : ''}" data-evday="${x.k}" style="--c:${x.e ? EVENTS[x.e].color : 'transparent'}" aria-label="${x.label} ${x.date}${x.e ? ', ' + EVENTS[x.e].name : ', no event'}">
-      <small>${x.label}</small><b>${x.date}</b><span class="evic ${x.e || x.hol ? '' : 'none'}" ${!x.e && x.hol ? `style="--c:${x.hol.card}"` : ''}>${x.e ? evIcon(x.e, 15) : x.hol ? evIcon('leaf', 15) : ''}</span></button>`).join('');
+      <small>${x.label}</small><b>${x.date}</b><span class="evic ${x.e || x.hol || x.lw ? '' : 'none'} ${!x.e && x.lw ? 'lw' : ''}" ${!x.e && x.hol ? `style="--c:${x.hol.card}"` : !x.e && x.lw ? `style="--c:${EV_DEFS[x.lw.id].color}"` : ''}>${x.e ? evIcon(x.e, 15) : x.lw ? evEmblem(x.lw.id, 24) : x.hol ? evIcon('leaf', 15) : ''}</span></button>`).join('');
     let detail;
     const holNote = sel.hol ? `<p class="evnote">${sel.e ? `<b>${sel.hol.name}.</b> ` : ''}${sel.hol.gift ? 'A free thank-you gift and seasonal packs are in the Shop.' : 'Seasonal packs are in the Shop.'}</p>` : '';
     if (!sel.e && sel.hol) detail = `<div class="evdet" style="--c:${sel.hol.card}"><div class="evhead"><span class="evbig">${ART.gift(...sel.hol.colors)}</span><span class="t"><small>${new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' })}, a quiet day</small><b>${sel.hol.name}</b><span>No game changes today</span></span></div>${holNote}</div>`;
+    else if (!sel.e && sel.lw) { const w = sel.lw, d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
+      detail = `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
+        <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
+        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western and Island take turns each week.</p>'}</div>`; }
     else if (!sel.e) { const nx = days.find(x => x.k > sel.k && x.e);
       detail = `<div class="evdet quiet"><div class="evhead"><span class="evbig none">${svgIc('star', '#8C86A6', 30)}</span><span class="t"><small>${sel.k ? sel.label + ' ' + sel.date : 'Today'}</small><b>No scheduled event</b><span>${nx ? `Next: ${EVENTS[nx.e].name}, ${nx.k === sel.k + 1 ? 'the day after' : nx.label}` : ''}</span></span></div></div>`; }
     else { const E = EVENTS[sel.e], live = sel.e === e && sel.start <= now && now < sel.end, wkend = sel.w === 6 || sel.w === 0;
@@ -5542,10 +5560,11 @@ function openTab(tab) {
             <span class="evprog">${c.mins ? `${Math.floor(c.v / 60)} / ${c.target / 60} min` : `${c.v} / ${c.target}`} · ${PASS_STARS.encore} pass stars, once this weekend</span>
             <button class="cta" data-encore ${c.ready && !c.got ? '' : 'disabled'}>${c.got ? 'Claimed' : c.ready ? `Claim ${PASS_STARS.encore} stars` : 'In progress'}</button>`
             : `<span class="evprog">${PASS_STARS.encore} pass stars · once per weekend</span>`}</div>`; }
-      detail = `<div class="evdet" style="--c:${E.color}"><div class="evhead"><span class="evbig">${evArt(sel.e)}</span><span class="t"><small>${span}</small><b>${E.name}</b><span>${when}</span></span></div>${body}${holNote}</div>`; }
+      const lnote = sel.lw ? `<button class="evlnote" data-evday="${days.find(x => x.lw === sel.lw).k}" style="--c:${EV_DEFS[sel.lw.id].color}">${evEmblem(sel.lw.id, 20)}<span>Also on: <b>${EV_DEFS[sel.lw.id].title}</b> (long event)</span></button>` : '';
+      detail = `<div class="evdet" style="--c:${E.color}"><div class="evhead"><span class="evbig">${evArt(sel.e)}</span><span class="t"><small>${span}</small><b>${E.name}</b><span>${when}</span></span></div>${body}${holNote}${lnote}</div>`; }
     openSheet(`<div class="sheet-head"><h2>Events</h2>${closeBtn()}</div>
       ${strip}
-      <div class="evweek2">${week}</div>
+      <div class="evweekw"><div class="evweek2">${week}</div>${lrow ? `<div class="evlrow">${lrow}</div>` : ''}</div>
       ${detail}
 `);
   } else if (tab === 'reset-note') {
