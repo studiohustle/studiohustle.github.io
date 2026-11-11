@@ -247,7 +247,7 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .mult::before { content: ""; position: absolute; inset: -10px -30px -8px -14px; }
 .mult .info { position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); width: 13px; height: 13px; box-sizing: border-box; border: 2px solid var(--gem); border-radius: 50%;
   color: var(--gem); font: 700 9px/9px var(--body); font-style: normal; text-align: center; text-shadow: none; box-shadow: 0 1px 0 var(--deep); }
-.side { position: absolute; top: 10px; z-index: 5; transform: translateZ(0); will-change: transform; backface-visibility: hidden; isolation: isolate; display: flex; flex-direction: column; gap: 16px; }
+.side { position: absolute; top: 10px; z-index: 10; transform: translateZ(0); will-change: transform; backface-visibility: hidden; isolation: isolate; display: flex; flex-direction: column; gap: 16px; }
 .side-l { left: env(safe-area-inset-left, 0px); }
 .side-r { right: env(safe-area-inset-right, 0px); }
 /* docked to the screen edge: nearly square outer corners, rounded inner ones; the label sits inside the tile; the notification
@@ -280,7 +280,7 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .bang { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: #F0453A; color: #fff; border: 2px solid var(--text);
   font: 700 13px/16px var(--body); text-align: center; box-sizing: border-box; }
 .tab .bang { top: 0; right: 50%; margin-right: -30px; }
-.pop { position: absolute; z-index: 12; left: 12px; width: 222px; max-width: calc(100% - 24px); box-sizing: border-box; background: var(--text); color: var(--deep);
+.pop { position: absolute; z-index: 7; left: 12px; width: 222px; max-width: calc(100% - 24px); box-sizing: border-box; background: var(--text); color: var(--deep);
   border-radius: 18px; padding: 10px 12px 12px; box-shadow: 0 10px 30px rgba(10,8,30,.45); display: flex; flex-direction: column; gap: 7px; animation: popin .16s ease-out; }
 @keyframes popin { from { transform: scale(.94); opacity: 0; } }
 .pop-arrow { position: absolute; width: 20px; height: 10px; background: var(--text); left: 50%; margin-left: -10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }   /* points down from the card's bottom edge; never overlaps the button */
@@ -305,11 +305,11 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .pop-x { display: none; }   /* Eatventure-simple: tap anywhere else to close */
 .pop-stars { display: flex; justify-content: center; gap: 3px; margin: -2px 0 -1px; }
 .pop-stars svg { width: 17px; height: 17px; display: block; }
-.pop-mile { position: relative; } .pop-mile .mile { height: 16px; border-radius: 8px; } .pop-mile .mile i { border-radius: 8px; background: #5BC96A !important; }
+.pop-mile { position: relative; } .pop-mile .mile { height: 16px; border-radius: 8px; } .pop-mile .mile i { border-radius: 8px; background: #8BD24E !important; }
 #sbMileLabel { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); gap: 1px; }
 #sbMileLabel img { width: 13px; height: 11px; } #sbMileLabel svg { width: 12px; height: 12px; display: block; }
 .pop-stats { font-size: 13px; } .pop-stats .coin-s { width: 16px; height: 16px; } .pop-stats span { gap: 4px; }
-.pop-stars .on path { fill: #5BC96A; stroke: #2E8A3E; stroke-width: 1.2; } .pop-stars .off path { fill: #E2DFEA; }
+.pop-stars .on path { fill: #8BD24E; stroke: #8BD24E; stroke-width: 2.6; stroke-linejoin: round; } .pop-stars .off path { fill: #E5E2EB; stroke: #E5E2EB; stroke-width: 2.6; stroke-linejoin: round; }   /* rounded, no outline */
 .pop-stars .pulse { animation: starpop .45s cubic-bezier(.2,1.8,.4,1); }
 @keyframes starpop { from { transform: scale(.4); } to { transform: scale(1); } }
 .pop-stats .coin-s { flex: none; }
@@ -324,7 +324,7 @@ html #pop #upBtn.max:disabled { background: #C9C6D3 !important; box-shadow: 0 4p
 #upCost { white-space: nowrap; overflow: hidden; text-overflow: clip; font-variant-numeric: tabular-nums; }
 .pop-bonus { position: absolute; left: 0; right: 0; bottom: calc(100% + 6px); background: var(--text); color: var(--deep); border-radius: 14px; padding: 5px 10px 6px; text-align: center; box-shadow: 0 8px 24px rgba(10,8,30,.4); animation: bonusin .3s cubic-bezier(.2,1.6,.4,1); }
 .pop.below .pop-bonus { bottom: auto; top: calc(100% + 8px); }
-.pop-bonus small { display: flex; align-items: center; justify-content: center; gap: 4px; font: 800 13px var(--body); color: #3FAE52; }
+.pop-bonus small { display: flex; align-items: center; justify-content: center; gap: 4px; font: 800 13px var(--body); color: #6DBF3A; }
 .pop-bonus small svg path { fill: currentColor; }
 .pop-bonus b { display: block; font: 400 17px/1.05 var(--display); }
 .pop-bonus small { font-size: 12px !important; line-height: 1.2; }
@@ -2535,7 +2535,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 185, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 186, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3600,7 +3600,7 @@ function glidePan(v) {   // v in stage units per ms
   panGlide = requestAnimationFrame(step);
 }
 window.addEventListener('pointerup', () => { pressLock = false; }); window.addEventListener('pointercancel', () => { pressLock = false; });
-wrap.addEventListener('pointerdown', e => { pressLock = false; stopGlide(); panDrag = { y: e.clientY, start: panY, id: e.pointerId }; panMoved = false; panSamples = [[performance.now(), panY]]; });
+wrap.addEventListener('pointerdown', e => { if (e.target.closest('.pop')) return; pressLock = false; stopGlide(); panDrag = { y: e.clientY, start: panY, id: e.pointerId }; panMoved = false; panSamples = [[performance.now(), panY]]; });
 wrap.addEventListener('pointermove', e => {
   if (!panDrag || e.pointerId !== panDrag.id) return;
   const dy = e.clientY - panDrag.y;
@@ -3881,6 +3881,7 @@ const boostedId = () => boostSt || (Date.now() < boostTapUntil ? boostTapSt : nu
 function clearBoost() { boostSt = null; boostPress = null; boostTapSt = null; boostTapUntil = 0; }
 window.addEventListener('blur', () => { holdSt = null; clearBoost(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden) clearBoost(); });
+$('roomWrap').appendChild($('pop'));   // the card lives inside the studio, under the top bar, side buttons and tabs
 function closePop() { popOpen = false; $('pop').hidden = true; clearTimeout(bonusT); $('popBonus').hidden = true; }
 $('popClose').addEventListener('click', closePop);
 $('roomWrap').addEventListener('click', e => { if (!e.target.closest('.station, .sbtn, .pop')) closePop(); });
@@ -3888,18 +3889,21 @@ function placePop() {
   const pop = $('pop'), e = els[S.selected];
   if (!popOpen || !e || !lvl(S.selected) || !$('scrim').hidden) { pop.hidden = true; return; }
   pop.hidden = false;
-  const app = $('app').getBoundingClientRect(), room = $('roomWrap').getBoundingClientRect();
-  const box = () => { const a = e.b.getBoundingClientRect(), bd = e.badge && e.badge.getClientRects().length ? e.badge.getBoundingClientRect() : a; return { left: a.left, width: a.width, top: Math.min(a.top, bd.top) }; };   // the card sits above the level badge too
-  const r = box();
-  const w = pop.offsetWidth, h = pop.offsetHeight, cx = r.left + r.width / 2;
-  const left = Math.max(12, Math.min(app.width - w - 12, cx - app.left - w / 2));
-  // the card always opens ABOVE the station (like Eatventure); near the top, the studio scrolls down to make room for it and the Bonus card
-  const BONUS_ROOM = 58, need = (room.top + 4 + BONUS_ROOM) - (r.top - h - 14);
-  let rr = r; if (need > 0 && !panDrag) { setPan(panY + need / fitS); rr = box(); }
-  const top = Math.max(room.top - app.top + 4, rr.top - app.top - h - 12);
+  const room = $('roomWrap').getBoundingClientRect();
+  const sb = e.b.getBoundingClientRect(), bd = e.badge && e.badge.getClientRects().length ? e.badge.getBoundingClientRect() : sb;
+  const w = pop.offsetWidth, h = pop.offsetHeight, cx = sb.left + sb.width / 2 - room.left;
+  // always ABOVE the station and its badge, wherever that is; the studio never moves to fit it (scroll up if it's out of view).
+  // The card lives inside the studio, under the top bar, side buttons and tabs, like Eatventure.
+  const top = Math.min(sb.top, bd.top) - room.top - h - 12;
+  const BONUS_ROOM = 58, y0 = top - (document.getElementById('popBonus').hidden ? 0 : BONUS_ROOM), y1 = top + h;
+  let lo = 10, hi = room.width - w - 10;
+  for (const col of document.querySelectorAll('#roomWrap .side')) { const c = col.getBoundingClientRect(); if (!c.height || col.hidden) continue;   // keep clear of the side buttons where they are
+    const ct = c.top - room.top, cb = c.bottom - room.top; if (cb < y0 || ct > y1) continue;
+    if (c.left - room.left < room.width / 2) lo = Math.max(lo, c.right - room.left + 6); else hi = Math.min(hi, c.left - room.left - w - 6); }
+  const left = lo <= hi ? Math.max(lo, Math.min(hi, cx - w / 2)) : Math.max(10, Math.min(room.width - w - 10, cx - w / 2));
   pop.style.left = left + 'px'; pop.style.top = top + 'px'; pop.classList.remove('below');
   const arrow = $('popArrow');
-  arrow.style.left = Math.max(22, Math.min(w - 22, cx - app.left - left)) + 'px';
+  arrow.style.left = Math.max(18, Math.min(w - 18, cx - left)) + 'px';
   arrow.style.top = (h - 1) + 'px';
 }
 // the Bonus card above the upgrade card: shows for 2.5 s at a milestone, then goes away (no confetti)
@@ -4677,7 +4681,7 @@ function ratTick(dt) {
 const FAN_MIN = 30, FAN_MAX = 90, FAN_WALK = 11000, FAN_CASH_SECS = 60, FAN_GEMS = 3, FAN_GEM_CAP = 15, FAN_GEM_ODDS = 0.12;
 let fanAcc = 0, fanNext = FAN_MIN + Math.random() * (FAN_MAX - FAN_MIN), fanEl = null;
 const CAM_SVG = `<svg class="cam" viewBox="0 0 22 18" aria-hidden="true"><rect x="1" y="4" width="20" height="13" rx="3" fill="#2B2742" stroke="#14122A" stroke-width="1.5"></rect><rect x="6" y="1" width="8" height="4" rx="1.5" fill="#2B2742" stroke="#14122A" stroke-width="1.5"></rect><circle cx="11" cy="10.5" r="4.2" fill="#6E7BBF" stroke="#14122A" stroke-width="1.5"></circle><circle cx="12.3" cy="9.3" r="1.3" fill="#fff" opacity=".8"></circle><rect x="16" y="6" width="3" height="2" rx=".8" fill="#FFE27A"></rect></svg>`;
-const MILE_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z" fill="#F5B83D" stroke="#B9811A" stroke-width="1.4"/></svg>';
+const MILE_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z" fill="#FFC54A" stroke="#FFC54A" stroke-width="2.4" stroke-linejoin="round"/></svg>';
 const GEM_MINI = `<img src="art/gem.webp" width="22" height="18" alt="" draggable="false" style="display:block">`;
 const COIN_MINI = `<span class="coin fcoin">$</span>`;
 function fanGemsToday() { const d = new Date().toDateString(); if (!S.fanDay || S.fanDay.d !== d) S.fanDay = { d, gems: 0 }; return S.fanDay; }
