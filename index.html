@@ -2494,7 +2494,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 178, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 179, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3088,6 +3088,7 @@ const SFX = {
     tone(523, 0.35, 'triangle', 0.04); tone(784, 0.35, 'triangle', 0.03, 0.05); },
   reward: () => [1047, 1319, 1568, 2093].forEach((f, i) => tone(f, 0.18, 'sine', 0.05, i * 0.07)),
   claim: () => SFX.reward(),
+  album: () => SFX.reward(),
   // the Backer walks in: a soft shop-door bell, a few light strikes of one small bell (warm, not shrill)
   // the Backer sets a bag of coins down: a soft cloth thump, then a few coins settling inside
   doorbell: () => { thud(0.16, 0.16); tone(110, 0.16, 'sine', 0.05);
@@ -3110,10 +3111,9 @@ function sfx(name) {
 // Recorded sounds (picked by Eli in the Sound Check). Level = dB applied on top of the file, matched in the Sound Check
 // against the game's mix. Until a file has loaded (the first second or so), the old synth sound plays instead.
 const SAMPLES = {
-  cash:   { url: 'sfx/cash.wav',   db: -19.4, vary: 0.03 },   // workstation pays out; a slight pitch wobble so it never repeats exactly
-  denied: { url: 'sfx/denied.wav', db: -23.8 },
-  claim:  { url: 'sfx/claim.wav',  db: -10.5 },               // claiming a crate, the daily reward, the Backer's gift
-  move:   { url: 'sfx/move.wav',   db: -13.3 },               // moving to a new location
+  tap:      { url: 'sfx/tap.wav',    db: -20.5 },   // most buttons and toggles
+  doorbell: { url: 'sfx/backer.wav', db: -15.2 },   // the Backer walks in
+  album:    { url: 'sfx/album.wav',  db: -13.6 },   // an album goes live ("It's live!")
 };
 const sampleBuf = {};
 function loadSamples() { for (const [k, v] of Object.entries(SAMPLES)) if (!sampleBuf[k]) getBuf(v.url).then(b => { sampleBuf[k] = b; }, () => {}); }
@@ -4040,7 +4040,7 @@ function albumUpload(n, done) {
   el.innerHTML = `<div class="vinyl"></div><h2>Album #${n}</h2><p class="ustep">Mastering your tracks…</p><div class="upbar"><i></i></div><div class="plats">${PLAT_IC.map(i => `<span>${i}</span>`).join('')}</div>`;
   document.body.appendChild(el);
   const steps = ['Mastering your tracks…', 'Uploading to every platform…', 'Pitching to playlists…', "It's live!"];
-  steps.forEach((t, i) => setTimeout(() => { el.querySelector('.ustep').textContent = t; el.querySelectorAll('.plats span').forEach((p, k) => p.classList.toggle('on', k <= i)); if (i === 3) sfx('reward'); }, i * 1050));
+  steps.forEach((t, i) => setTimeout(() => { el.querySelector('.ustep').textContent = t; el.querySelectorAll('.plats span').forEach((p, k) => p.classList.toggle('on', k <= i)); if (i === 3) sfx('album'); }, i * 1050));
   setTimeout(() => { el.remove(); done(); }, 4300);
 }
 const MAYA_ALBUM = ['Your first album is out! We started with a desk and a dream. Now let’s take that sound even further.',
