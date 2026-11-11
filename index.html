@@ -2494,7 +2494,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 179, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 180, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3112,6 +3112,7 @@ function sfx(name) {
 // against the game's mix. Until a file has loaded (the first second or so), the old synth sound plays instead.
 const SAMPLES = {
   tap:      { url: 'sfx/tap.wav',    db: -20.5 },   // most buttons and toggles
+  click:    { url: 'sfx/panel.wav',  db: -26.3 },   // opening and closing panels and tabs (Sound Check level -3 dB)
   doorbell: { url: 'sfx/backer.wav', db: -15.2 },   // the Backer walks in
   album:    { url: 'sfx/album.wav',  db: -13.6 },   // an album goes live ("It's live!")
 };
