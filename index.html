@@ -2494,7 +2494,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 180, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 181, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3113,7 +3113,7 @@ function sfx(name) {
 const SAMPLES = {
   tap:      { url: 'sfx/tap.wav',    db: -20.5 },   // most buttons and toggles
   click:    { url: 'sfx/panel.wav',  db: -26.3 },   // opening and closing panels and tabs (Sound Check level -3 dB)
-  doorbell: { url: 'sfx/backer.wav', db: -15.2 },   // the Backer walks in
+  doorbell: { url: 'sfx/backer.wav', db: -20.2 },   // the Backer walks in (5 dB under the Sound Check start, per Eli)
   album:    { url: 'sfx/album.wav',  db: -13.6 },   // an album goes live ("It's live!")
 };
 const sampleBuf = {};
@@ -3602,7 +3602,7 @@ function flurry(kind, x, y, n = 10) {
     const midX = sx + (Math.random() * 120 - 60), midY = Math.min(sy, ty) + (sy - ty) * .35;
     el.animate([{ transform: 'translate(-50%,-50%) scale(.4)', opacity: 0 }, { transform: `translate(calc(-50% + ${midX - sx}px), calc(-50% + ${midY - sy}px)) scale(1)`, opacity: 1, offset: .35 },
       { transform: `translate(calc(-50% + ${tx - sx}px), calc(-50% + ${ty - sy}px)) scale(.55)`, opacity: .9 }], { duration: 1300 + i * 90, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' })
-      .onfinish = () => { el.remove(); target.closest('.pill') && target.closest('.pill').animate([{ transform: 'scale(1.08)' }, { transform: 'scale(1)' }], { duration: 160 }); if (i % 3 === 0) sfx(kind === 'gems' ? 'tap' : 'cash'); };
+      .onfinish = () => { el.remove(); target.closest('.pill') && target.closest('.pill').animate([{ transform: 'scale(1.08)' }, { transform: 'scale(1)' }], { duration: 160 }); };
   }
 }
 // rewards fly to the top bar when you collect them: owe() marks cash/gems as earned; they fly from the reward
