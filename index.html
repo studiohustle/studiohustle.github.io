@@ -297,6 +297,34 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .pop-stats { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }
 .pop-stats span { display: flex; align-items: center; gap: 6px; }
 .pop-stats b { font-family: var(--display); font-weight: 400; }
+/* Build 184: Eatventure-style card. Title centred, milestone stars, one big hold button, Bonus card for 2.5 s at a milestone */
+.pop { width: 240px; }
+.pop-head { justify-content: center; position: relative; }
+.pop-title { align-items: center; text-align: center; padding: 0 26px; }
+.pop-title b { font-size: 19px; }
+.pop-x { position: absolute; right: 0; top: 0; }
+.pop-stars { display: flex; justify-content: center; gap: 3px; margin: -2px 0 -1px; }
+.pop-stars svg { width: 19px; height: 19px; display: block; }
+.pop-stars .on path { fill: #5BC96A; stroke: #2E8A3E; stroke-width: 1.2; } .pop-stars .off path { fill: #E2DFEA; }
+.pop-stars .pulse { animation: starpop .45s cubic-bezier(.2,1.8,.4,1); }
+@keyframes starpop { from { transform: scale(.4); } to { transform: scale(1); } }
+.pop-stats .coin-s { flex: none; }
+.pop-row .up-btn { flex: 1; justify-content: center; height: 52px; border-radius: 15px; background: #6CBCF8; color: #FFFFFF; font-size: 20px; gap: 8px; box-shadow: 0 4px 0 #3A78AE; text-shadow: 0 2px 0 #3A78AE; min-width: 0; }
+.pop-row .up-btn:active { box-shadow: 0 1px 0 #3A78AE; }
+.pop-row .up-btn:disabled { background: #D9D5E6; color: #FFFFFF; box-shadow: 0 4px 0 #B3AEC6; text-shadow: none; transform: none; }
+.pop-row .up-btn .up-coin { width: 22px; height: 22px; flex: none; }
+.pop-row .up-btn .up-coin { text-shadow: none !important; }   /* the coin is an image: no text shadow behind it */
+html #pop #upBtn:disabled { background: #D9D5E6 !important; color: #FFFFFF !important; box-shadow: 0 4px 0 #B3AEC6 !important; text-shadow: none !important; }
+html #pop #upBtn.max:disabled { background: #C9C6D3 !important; box-shadow: 0 4px 0 #A6A2B4 !important; }
+.pop-row .up-btn.max .up-coin { display: none; }
+#upCost { white-space: nowrap; overflow: hidden; text-overflow: clip; font-variant-numeric: tabular-nums; }
+.pop-bonus { position: absolute; left: 10px; right: 10px; bottom: calc(100% + 8px); background: var(--text); color: var(--deep); border-radius: 16px; padding: 7px 10px 9px; text-align: center; box-shadow: 0 8px 24px rgba(10,8,30,.4); animation: bonusin .3s cubic-bezier(.2,1.6,.4,1); }
+.pop.below .pop-bonus { bottom: auto; top: calc(100% + 8px); }
+.pop-bonus small { display: flex; align-items: center; justify-content: center; gap: 4px; font: 800 13px var(--body); color: #3FAE52; }
+.pop-bonus small svg path { fill: currentColor; }
+.pop-bonus b { display: block; font: 400 19px/1.1 var(--display); }
+.pop-bonus span { display: block; font: 700 12px var(--body); color: #6A6390; } .pop-bonus span:empty { display: none; }
+@keyframes bonusin { from { transform: scale(.7); opacity: 0; } }
 .coin-s { width: 18px; height: 18px; border-radius: 50%; background: var(--cash); color: var(--deep); font: 400 11px/18px var(--display); text-align: center; font-style: normal; }
 .pop .mode-btn { background: #E4DFF2; color: var(--deep); }
 .pop .mode-btn { width: 44px; height: 44px; font-size: 12px; }
@@ -1024,6 +1052,8 @@ html, body { background: var(--bar) !important; }
 .evweek2 { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 .evd { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 0 16px; border-radius: 12px; background: var(--panel-2); color: var(--muted); min-height: 86px; box-sizing: border-box; border: 2px solid transparent; }
 .evd small { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; } .evd b { font: 400 16px/1.1 var(--display); color: var(--text); }
+.ptag { font: 700 10px var(--body); text-transform: uppercase; letter-spacing: .05em; color: #6A6390; background: #E4DFF2; padding: 2px 6px; border-radius: 6px; vertical-align: middle; margin-left: 6px; }
+.segtabs.pfeel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); } .pfeel .stab { font-size: 13px; padding: 0 4px; }
 .evweekw { display: flex; flex-direction: column; gap: 5px; }
 .evlrow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 .evlbar { grid-row: 1; display: flex; align-items: center; gap: 6px; min-width: 0; height: 32px; padding: 0 8px 0 5px; border-radius: 10px; background: var(--c); border: 2px solid #14122A; color: var(--ink); font: 700 12px/1 var(--body); white-space: nowrap; overflow: hidden; box-shadow: 0 2px 0 #14122A; }
@@ -1226,7 +1256,7 @@ details.more[open] > summary { margin-bottom: 8px; }
 /* Build 167: in an event, the money shows the event's own coin (same money, no name): HUD, station stats and every price */
 body.evmode .coin, body.evmode .coin-s, body.evmode .hud-ic.coin { background: var(--evcoin-img) center / contain no-repeat !important; color: transparent !important; }
 body.evmode .hud-ic.coin span { visibility: hidden; }
-body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body.evmode .hire[data-upg]::before, body.evmode #upCost::before {
+body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body.evmode .hire[data-upg]::before {
   content: ""; display: inline-block; width: 1.15em; height: 1.15em; margin-right: .22em; vertical-align: -.2em; background: var(--evcoin-img) center / contain no-repeat; }
 .pill.evcash { position: relative; } .pill.evcash .hud-ic.coin { background: var(--coin, #FFD93D) !important; } .pill.evcash .hud-ic.coin span { color: #14122A; }
 .pill.evcash::before { content: attr(data-cur); position: absolute; left: 30px; top: -9px; z-index: 2; background: #14122A; color: var(--coin, #FFD93D); font: 700 9px var(--body, sans-serif); letter-spacing: 1px; padding: 1px 6px; border-radius: 6px; }
@@ -1576,18 +1606,16 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
 
   <div class="pop" id="pop" hidden>
     <span class="pop-arrow" id="popArrow"></span>
+    <div class="pop-bonus" id="popBonus" hidden><small><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z"/></svg>Bonus</small><b id="popBonusTxt">x3 Pay</b><span id="popBonusSub"></span></div>
     <div class="pop-head">
       <div class="pop-title"><b id="popLv">Level 1</b><span id="sbName">Laptop Beats</span></div>
       <button class="pop-x" id="popClose" aria-label="Close upgrade card"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
     </div>
-    <div class="pop-stats"><span><i class="coin-s">$</i><b id="popPay">$1</b></span><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="popTime">1.2s</b></span></div>
+    <div class="pop-stars" id="popStars"></div>
+    <div class="pop-stats"><span><i class="coin-s">$</i><b id="popPay">1</b></span><span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="popTime">1.2s</b></span></div>
     <div class="pop-mile"><div class="mile"><i id="sbMile"></i></div><span class="pop-next" id="sbMileLabel"></span></div>
     <div class="pop-row">
-      <button class="mode-btn" id="modeBtn" aria-label="Change how many levels to buy">x1</button>
-      <button class="up-btn" id="upBtn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
-        <span id="upCost">$5</span>
-      </button>
+      <button class="up-btn" id="upBtn"><i class="coin-s up-coin" id="upCoin">$</i><span id="upCost">5</span></button>
     </div>
   </div>
 
@@ -2290,7 +2318,7 @@ const upgAffordable = () => upgList().map((u, i) => i).filter(i => !upgOwned().i
 const upgNewAffordable = () => upgAffordable().some(i => !(S.upgSeen || []).includes(i));   // the Crew dot: something affordable you haven't looked at yet
 let lastUpgBuy = 0;
 function buyUpg(i, btn) {
-  if (performance.now() - lastUpgBuy < 150) return;   // one tap buys one item, even as the next row slides under the finger
+  if (performance.now() - lastUpgBuy < 60) return;   // guards a double-fire only; fast spamming (6-10 taps a second) all goes through
   const u = upgList()[i]; if (!u || upgOwned().includes(i) || S.cash < upgCost(i)) { sfx('denied'); return; }
   lastUpgBuy = performance.now();
   S.cash -= upgCost(i); S.upg = [...upgOwned(), i]; S.stats.upgBuys = (S.stats.upgBuys || 0) + 1; upgCache = null;
@@ -2502,7 +2530,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 182, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 184, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3332,7 +3360,7 @@ const upCost = st => lvl(st.id) >= LV_CAP ? Infinity : Math.ceil(st.cost * (isEv
 // cost of buying n levels at once: geometric series from the current level's price
 const bulkCost = (st, n) => { const g = growthOf(); return Math.ceil(upCost(st) * (Math.pow(g, n) - 1) / (g - 1)); };
 function buyPlan(st) {
-  if (S.buyMode === 'max') {
+  if (false) {   // x10 / Max buying was replaced by hold-to-upgrade (Build 184)
     const left = LV_CAP - lvl(st.id); if (left <= 0) return { n: 0, cost: Infinity };
     const c0 = upCost(st), g = growthOf();
     let n = Math.floor(Math.log(1 + S.cash * (g - 1) / c0) / Math.log(g));
@@ -3340,7 +3368,7 @@ function buyPlan(st) {
     while (n > 1 && bulkCost(st, n) > S.cash) n--;   // guard against float rounding
     return { n, cost: bulkCost(st, n) };
   }
-  const n = Math.min(S.buyMode === 10 ? 10 : 1, LV_CAP - lvl(st.id));
+  const n = Math.min(1, LV_CAP - lvl(st.id));   // one level per tap; hold the button to keep buying
   return n <= 0 ? { n: 0, cost: Infinity } : { n, cost: bulkCost(st, n) };
 }
 const hypeOn = () => Date.now() < S.hypeUntil;
@@ -3554,11 +3582,15 @@ function applyPan() {
 function setPan(v) { panY = Math.max(panMin, Math.min(OUT_H, v)); applyPan(); }
 // the room follows the finger 1:1 while dragging; on release it glides on briefly and eases to a stop (no bounce, same scroll range)
 let panGlide = 0, panSamples = [];
+// scroll feel: drag = room movement per finger movement, dead = px before a drag starts,
+// glide = how long a flick keeps gliding (ms decay), vmax = top flick speed, fling = flick speed boost
+const PAN_FEEL = { now: { drag: 1, dead: 10, glide: 150, vmax: 1.5, fling: 1 }, a: { drag: 1.15, dead: 7, glide: 260, vmax: 2.4, fling: 1.25 }, b: { drag: 1.3, dead: 5, glide: 380, vmax: 3.2, fling: 1.5 } };
+const PAN = () => PAN_FEEL.a;   // Eli picked 'A bit faster' (Nov 11)
 const stopGlide = () => { if (panGlide) cancelAnimationFrame(panGlide); panGlide = 0; };
 function glidePan(v) {   // v in stage units per ms
   let last = performance.now();
   const step = now => { const dt = Math.min(40, now - last); last = now;
-    const before = panY; setPan(panY + v * dt); v *= Math.exp(-dt / 150);
+    const before = panY; setPan(panY + v * dt); v *= Math.exp(-dt / PAN().glide);
     panGlide = (Math.abs(v) > .015 && panY !== before) ? requestAnimationFrame(step) : 0; };
   panGlide = requestAnimationFrame(step);
 }
@@ -3567,15 +3599,15 @@ wrap.addEventListener('pointerdown', e => { pressLock = false; stopGlide(); panD
 wrap.addEventListener('pointermove', e => {
   if (!panDrag || e.pointerId !== panDrag.id) return;
   const dy = e.clientY - panDrag.y;
-  if (!panMoved && (pressLock || Math.abs(dy) < 10)) return;   // a hold that has started owns the finger until it lifts
+  if (!panMoved && (pressLock || Math.abs(dy) < PAN().dead)) return;   // a hold that has started owns the finger until it lifts
   if (!panMoved) { panMoved = true; holdSt = null; clearBoost(); closePop(); try { wrap.setPointerCapture(e.pointerId); } catch (err) {} }
-  setPan(panDrag.start + dy / fitS);
+  setPan(panDrag.start + dy * PAN().drag / fitS);
   const now = performance.now(); panSamples.push([now, panY]); while (panSamples.length > 2 && now - panSamples[0][0] > 100) panSamples.shift();
 });
 wrap.addEventListener('pointerup', e => {
   if (panDrag && panMoved && e.pointerId === panDrag.id && panSamples.length > 1) {
     const now = performance.now(), [t0, p0] = panSamples[0], [t1, p1] = panSamples[panSamples.length - 1];
-    if (now - t1 < 60 && t1 - t0 > 8) { const v = Math.max(-1.5, Math.min(1.5, (p1 - p0) / (t1 - t0))); if (Math.abs(v) > .05) glidePan(v); }   // only a moving release glides
+    if (now - t1 < 60 && t1 - t0 > 8) { const P = PAN(), v = Math.max(-P.vmax, Math.min(P.vmax, (p1 - p0) / (t1 - t0) * P.fling)); if (Math.abs(v) > .05) glidePan(v); }   // only a moving release glides
   }
   panDrag = null;
 });
@@ -3844,7 +3876,7 @@ const boostedId = () => boostSt || (Date.now() < boostTapUntil ? boostTapSt : nu
 function clearBoost() { boostSt = null; boostPress = null; boostTapSt = null; boostTapUntil = 0; }
 window.addEventListener('blur', () => { holdSt = null; clearBoost(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden) clearBoost(); });
-function closePop() { popOpen = false; $('pop').hidden = true; }
+function closePop() { popOpen = false; $('pop').hidden = true; clearTimeout(bonusT); $('popBonus').hidden = true; }
 $('popClose').addEventListener('click', closePop);
 $('roomWrap').addEventListener('click', e => { if (!e.target.closest('.station, .sbtn, .pop')) closePop(); });
 function placePop() {
@@ -3856,11 +3888,15 @@ function placePop() {
   const left = Math.max(12, Math.min(app.width - w - 12, cx - app.left - w / 2));
   const above = r.top - h - 14 > room.top + 4;
   const top = above ? r.top - app.top - h - 14 : Math.min(r.bottom - app.top + 14, room.bottom - app.top - h - 6);
-  pop.style.left = left + 'px'; pop.style.top = top + 'px';
+  pop.style.left = left + 'px'; pop.style.top = top + 'px'; pop.classList.toggle('below', !above);
   const arrow = $('popArrow');
   arrow.style.left = Math.max(22, Math.min(w - 22, cx - app.left - left)) + 'px';
   arrow.style.top = above ? (h - 10) + 'px' : '-8px';
 }
+// the Bonus card above the upgrade card: shows for 2.5 s at a milestone, then goes away (no confetti)
+let bonusT = null, starPulse = false;
+function popBonus(txt, sub) { const b = $('popBonus'); $('popBonusTxt').textContent = txt; $('popBonusSub').textContent = sub || '';
+  b.hidden = false; b.style.animation = 'none'; void b.offsetWidth; b.style.animation = ''; clearTimeout(bonusT); bonusT = setTimeout(() => { b.hidden = true; }, 2500); }
 function buyOnce(quiet) {
   const st = def(S.selected); const { n, cost } = buyPlan(st);
   if (S.cash < cost) { if (!quiet) sfx('denied'); return false; }
@@ -3868,7 +3904,7 @@ function buyOnce(quiet) {
   const before = milesHit(lvl(st.id)), lvBefore = lvl(st.id);
   S.cash -= cost; S.levels[st.id] += n; S.stats.upgrades += n; S.stats.maxLevel = Math.max(S.stats.maxLevel, lvl(st.id));
   const mg = payMileGems(st, lvBefore, lvl(st.id)), gemTxt = mg ? ` +${mg} gem${mg > 1 ? 's' : ''}` : '';
-  if (milesHit(lvl(st.id)) > before || mg) { sfx('milestone'); toast(st.name + (lvl(st.id) >= LV_CAP ? ' maxed out!' : ' hit Lv ' + lvl(st.id) + (milesHit(lvl(st.id)) > before ? ': 3x pay' : '')) + gemTxt); }
+  if (milesHit(lvl(st.id)) > before || mg || lvl(st.id) >= LV_CAP) { sfx('milestone'); popBonus(lvl(st.id) >= LV_CAP ? 'Maxed out' : milesHit(lvl(st.id)) > before ? 'x' + MILE_PAY + ' Pay' : 'Level ' + lvl(st.id), mg ? `+${mg} gem${mg > 1 ? 's' : ''}` : ''); starPulse = milesHit(lvl(st.id)) > before; }
   else sfx('buy');
   render();
   return true;
@@ -3881,18 +3917,14 @@ $('upBtn').addEventListener('pointerdown', e => {
   e.preventDefault();
   stopHold();
   if (!buyOnce()) return;
-  let delay = 380;
-  const step = () => { if (!buyOnce(true)) return stopHold(); delay = Math.max(55, delay * 0.82); holdT = setTimeout(step, delay); };
+  let delay = 300;   // 'Faster' from the demo: 0.3 s, speeding up to 25 buys a second; runs straight through milestones
+  const step = () => { if (!buyOnce(true)) return stopHold(); delay = Math.max(40, delay * 0.78); holdT = setTimeout(step, delay); };
   holdT = setTimeout(step, delay);
 });
 ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => $('upBtn').addEventListener(ev, stopHold));
 window.addEventListener('blur', stopHold);
 $('upBtn').addEventListener('click', e => { if (e.detail === 0) buyOnce(); });   // keyboard Enter/Space
 $('upBtn').addEventListener('contextmenu', e => e.preventDefault());
-$('modeBtn').addEventListener('click', () => {
-  S.buyMode = S.buyMode === 1 ? 10 : S.buyMode === 10 ? 'max' : 1;
-  render();
-});
 $('hypeBtn').addEventListener('click', () => openTab('hype'));
 function addHype() {
   const now = Date.now(), base = Math.max(now, S.hypeUntil);
@@ -3954,7 +3986,7 @@ document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () =>
 // soft click for navigation buttons (money actions have their own sounds)
 // Back buttons reopen the previous sheet at the spot you left it
 document.addEventListener('click', e => { if (e.target.closest('.close.back')) { backNav = true; setTimeout(() => { backNav = false; }, 0); } }, true);
-document.addEventListener('click', e => { if (e.target.closest('.tab, .tab-hype, .close, .sbtn, .shopb, #mult, #chartsBtn, #settings, #buyGems, .ghost, #tutSkip, .sw, .stab, .slot, #popClose, #modeBtn')) sfx('click'); }, true);
+document.addEventListener('click', e => { if (e.target.closest('.tab, .tab-hype, .close, .sbtn, .shopb, #mult, #chartsBtn, #settings, #buyGems, .ghost, #tutSkip, .sw, .stab, .slot, #popClose')) sfx('click'); }, true);
 $('buyGems').addEventListener('click', () => openTab('shop'));
 $('chartsBtn').addEventListener('click', () => { openTab('charts'); refreshCharts(); });
 $('mult').addEventListener('click', () => openTab('boosts'));
@@ -5935,7 +5967,7 @@ function render() {
   const ct = cycleTime(st);
   $('popLv').textContent = 'Level ' + L;
   $('sbName').textContent = st.name;
-  $('popPay').textContent = fmt(payout(st) * mult());
+  $('popPay').textContent = fmt(payout(st) * mult()).replace(/^\$/, '');
   $('popTime').textContent = (ct < 1 ? ct.toFixed(2) : ct.toFixed(1)) + 's';
   $('sbMile').style.width = next ? ((L - prev) / (next - prev) * 100) + '%' : '100%';
   $('sbMileLabel').innerHTML = GEM_MINI + (next ? next : 'MAX');
@@ -5945,8 +5977,11 @@ function render() {
     $('sbMileLabel').title = en ? `Event points at level ${en}` : `Level ${EV_CAP} is the event max`; }
   { const cap = document.querySelector('.tab[data-tab="career"] .tcap'); if (cap) cap.textContent = isEv() ? 'Rewards' : 'Career'; }
   const plan = buyPlan(st);
-  $('modeBtn').textContent = S.buyMode === 'max' ? 'MAX' : 'x' + S.buyMode;
-  $('upCost').textContent = !plan.n ? 'MAX' : (S.buyMode === 1 ? '' : '+' + plan.n + ' ') + fmt(plan.cost);
+  $('upCost').textContent = !plan.n ? 'MAX' : fmt(plan.cost).replace(/^\$/, '');
+  $('upBtn').classList.toggle('max', !plan.n);
+  { const sm = isEv() ? EV_PT_LV : MILES, got = sm.filter(m => L >= m).length, key = got + ':' + sm.length + ':' + (starPulse ? 1 : 0);
+    if ($('popStars').dataset.k !== key) { $('popStars').dataset.k = key; $('popStars').innerHTML = sm.map((m, i) => `<span class="${i < got ? 'on' : 'off'} ${starPulse && i === got - 1 ? 'pulse' : ''}" title="${isEv() ? 'Event points' : 'x' + MILE_PAY + ' pay'} at level ${m}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z"/></svg></span>`).join(''); }
+    starPulse = false; }
   $('upBtn').disabled = !plan.n || S.cash < plan.cost;
   $('upBtn').setAttribute('aria-label', `Upgrade ${st.name} by ${plan.n} level${plan.n > 1 ? 's' : ''} for ${fmt(plan.cost)}`);
   if (!TEST && !S.fbPrompted && S.stats.playSec > 2700 && $('scrim').hidden && S.onboarded) { S.fbPrompted = true; save(); openTab('feedback'); }
@@ -6525,6 +6560,11 @@ function alphaReset() {
   S = n;
 }
 
+// a picture that fails to download (a flaky connection, an in-app browser) tries once more, then hides instead of showing a broken icon
+document.addEventListener('error', e => { const im = e.target; if (!im || im.tagName !== 'IMG') return;
+  if (!im.dataset.retry) { im.dataset.retry = '1'; const u = im.getAttribute('src') || ''; setTimeout(() => { im.src = u + (u.includes('?') ? '&' : '?') + 'r=' + Date.now(); }, 1500); }
+  else im.style.visibility = 'hidden'; }, true);
+document.addEventListener('load', e => { const im = e.target; if (im && im.tagName === 'IMG' && im.dataset.retry) im.style.visibility = ''; }, true);
 function start(data) {
   setTimeout(onAudioState, 0);   // a tap on the loading screen may already have woken the audio: start the music as soon as the game is up
   syncShine(document);
