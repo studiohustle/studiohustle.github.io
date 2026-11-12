@@ -1365,7 +1365,7 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evr-c em { font-style: normal; font-size: 11px; opacity: .65; } .evr-c em.ok { color: #2E9E5B; opacity: 1; font-weight: 700; } .evr-c .hire { align-self: flex-start; padding: 3px 12px; }
 
 /* ---- Build 165: simpler, flatter buttons (Eatventure-style): solid fills, a solid darker bottom lip, no sheen, softer corners. */
-html .tab .ticon.wt, html .tab.shop .ticon { background: #FFFFFF !important; border-radius: 8px !important; box-shadow: 0 4px 0 #9E97B8 !important; }
+html .tab .ticon.wt, html .tab.shop .ticon { background: #FFFFFF !important; border-radius: 8px !important; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.18), 0 7px 0 #9E97B8 !important; }
 html .tab.on .ticon.wt, html .tab.shop.on .ticon { background: #FF6FAE !important; box-shadow: 0 4px 0 #B84778 !important; }
 html .tab .ticon::after, html .tab .ticon.wt::after, html .sbtn.crate::after, html .tab-hype .orb::after, html .card::after, html .offer::after { display: none !important; animation: none !important; }
 html .tab-hype .orb { background: #FF6FAE !important; border-radius: 10px !important; box-shadow: 0 4px 0 #B84778 !important; }
@@ -1410,6 +1410,11 @@ html .pop-stats { font-size: 16px !important; } html .pop-stats .coin-s { width:
 html .pop-row .up-btn, html .pop .up-btn { height: 46px !important; font-size: 20px !important; border-radius: 10px !important; gap: 4px !important; text-shadow: 0 2px 0 rgba(35,90,150,.5) !important; }
 html .pop-row .up-btn .up-coin { width: 24px !important; height: 24px !important; }
 html .pop-row .up-btn:disabled { box-shadow: 0 7px 0 #B3AEC6 !important; }
+/* Crew + Upgrades lists, like Eatventure: every price button the same width, one line of fine print (the row never grows) */
+html .row > .hire[data-hire], html .row > .hire[data-upg], html .row > .hired { flex: 0 0 min(96px, 24vw); width: min(96px, 24vw); box-sizing: border-box; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; overflow: hidden; }
+html .row > .hired { text-align: center; }
+html .row .rt { min-width: 0; flex: 1; }
+html .row .rt > span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: min(12px, 3vw) !important; }
 html .hire.on { background: var(--panel) !important; color: #6CBCF8 !important; box-shadow: inset 0 0 0 2px #6CBCF8 !important; }
 html .evh-pass button, html .evh-rc button { background: #6CBCF8 !important; color: #14122A !important; }
 html .evb-btns button:first-child { background: #6CBCF8 !important; }
@@ -1424,7 +1429,7 @@ html #buyGems svg { stroke-width: 4.6; filter: drop-shadow(0 1.5px 0 rgba(20,18,
 @media (max-width: 380px) { html .tab[data-tab="career"] .tab-pct { margin-right: -20px; } }   /* small phones: keep the Career % badge on screen */
 /* side and bottom buttons: all white; the selected tab gets a small blue bar under it */
 html .sbtn.crate, html .sbtn.gpass, html .sbtn.vaultb { background: #FFFDF7 !important; color: #14122A !important; }
-html .tab.on .ticon.wt, html .tab.shop.on .ticon, html .tab.shop .ticon { background: #FFFFFF !important; color: #14122A !important; box-shadow: 0 4px 0 #9E97B8 !important; }
+html .tab.on .ticon.wt, html .tab.shop.on .ticon, html .tab.shop .ticon { background: #FFFFFF !important; color: #14122A !important; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.18), 0 7px 0 #9E97B8 !important; }
 html .tab.on { color: #14122A !important; } html .tab.on .tcap { background: #14122A !important; color: #fff !important; }
 html .tab.on::after { content: ""; position: absolute; left: 50%; bottom: 1px; width: 26px; height: 5px; margin-left: -13px; border-radius: 3px; background: #6CBCF8; box-shadow: 0 0 0 1.5px #14122A; z-index: 3; }
 /* secondary highlights: neutral or deep purple, so blue is kept for the Shop, main actions, Hype and the selected-tab bar */
@@ -2375,7 +2380,7 @@ function liveCrewSheet() {
 }
 const upgText = ([, , kind, sid, x]) => { const nm = sid && (def(sid) || {}).name;
   return kind === 'profit' ? `${nm} pays x${x}` : kind === 'speed' ? `${nm} runs ${x}x faster` : kind === 'crew' ? `Crewed stations run ${Math.round((x - 1) * 100)}% faster`
-    : kind === 'all' ? `All stations pay x${x}` : kind === 'fanfreq' ? `The Backer visits ${Math.round((x - 1) * 100)}% more often · +5% all pay` : `Backer cash offers ${x}x bigger · +5% all pay`; };
+    : kind === 'all' ? `All stations pay x${x}` : kind === 'fanfreq' ? `Backer +${Math.round((x - 1) * 100)}% visits · +5% all pay` : `Backer cash offers ${x}x bigger · +5% all pay`; };
 const crewTabs = on => segTabs(on, [['crew', 'Crew', ''], ['upgrades', 'Upgrades' + (S.upgOpened ? '' : ' <em class="newtag">NEW</em>'), upgAffordable().length ? String(upgAffordable().length) : '']]);
 const growthOf = () => ECON.G[LOC().id] || 1.12;
 const stationsPct = cap => { const sts = LOC().stations; return sts.reduce((a, st) => a + Math.min(lvl(st.id), cap), 0) / (sts.length * cap) * 100; };
@@ -2482,7 +2487,7 @@ const HYPE_LEN = [20, 24, 28, 32], HYPE_LEN_COST = [50, 120, 250];     // minute
 const HYPE_CAPS = [1, 1.5, 2, 3], HYPE_CAP_COST = [80, 200, 400];      // hours of stacked Hype (Eatventure's 1 h to start)
 const hypeLv = () => Object.assign({ len: 0, cap: 0 }, S.hypeLv);
 const hypePerAd = () => Math.round(HYPE_BASE_MIN * vaultFx('tv') * 60);   // seconds; 6.5 min at TV Lv 1
-const hypeX = () => isEv() ? 2 : 2 * vaultFx('remote');   // Hype ad = 2x base x the Remote factor (Build 158)
+const hypeX = () => 2 * vaultFx('remote');   // same Hype in events as on the career maps   // Hype ad = 2x base x the Remote factor (Build 158)
 const hypeTxt = () => fmtX(hypeX()) + 'x';
 const hypeCap = () => vaultFx('cap') * 3600;
 const capText = () => { const h = vaultFx('cap'); return h === 1 ? '1 hour' : h + ' hours'; };
@@ -2558,7 +2563,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 198, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 199, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5400,7 +5405,7 @@ function openTab(tab) {
       const unlocked = lvl(st.id) > 0, hired = S.crew[st.id];
       const right = hired ? '<span class="hired">Working</span>'
         : `<button class="hire" data-hire="${st.id}" ${!unlocked || S.cash < crewCostOf(st) ? 'disabled' : ''}>${fmt(crewCostOf(st))}</button>`;
-      return `<div class="row"><span class="ric">${svgIc(st.icon, '#F4F1EA', 20)}</span><span class="rt"><b>${st.crew}</b><span>${unlocked ? 'Runs ' + st.name + ' for you, even offline' : 'Unlock ' + st.name + ' first'}</span></span>${right}</div>`;
+      return `<div class="row"><span class="ric">${svgIc(st.icon, '#F4F1EA', 20)}</span><span class="rt"><b>${st.crew}</b><span>${unlocked ? 'Runs ' + st.name + ' for you' : 'Unlock ' + st.name + ' first'}</span></span>${right}</div>`;
     }).join('');
     openSheet(`<div class="sheet-head"><h2>Crew</h2>${closeBtn()}</div>${crewTabs('crew')}<div class="pscroll"><p>Hire someone for a station and it keeps earning without tapping, even while you're away (up to ${capHrs()}).</p>${rows}</div>`);
   } else if (tab === 'vault') {
@@ -5606,10 +5611,15 @@ function openTab(tab) {
       : nextOn ? `<button class="evstrip quiet" data-evday="${nextOn.k}" style="--c:${EVENTS[nextOn.e].color}"><span class="evdotic">${evIcon(nextOn.e, 16)}</span><span class="t"><small>Up next</small><b>${EVENTS[nextOn.e].name}</b></span><span class="cdx">starts in ${cd(nextOn.start)}</span></button>` : '');
     const week = days.map(x => `<button class="evd ${x.k === 0 ? 'today' : ''} ${x.k === (evPick || 0) ? 'sel' : ''} ${x.e && (x.w === 6 || x.w === 0) ? 'wk wk' + x.w : ''}" data-evday="${x.k}" style="--c:${x.e ? EVENTS[x.e].color : 'transparent'}" aria-label="${x.label} ${x.date}${x.e ? ', ' + EVENTS[x.e].name : ', no event'}">
       <small>${x.label}</small><b>${x.date}</b><span class="evic ${x.e || x.hol || x.lw ? '' : 'none'} ${!x.e && x.lw ? 'lw' : ''}" ${!x.e && x.hol ? `style="--c:${x.hol.card}"` : !x.e && x.lw ? `style="--c:${EV_DEFS[x.lw.id].color}"` : ''}>${x.e ? evIcon(x.e, 15) : x.lw ? evEmblem(x.lw.id, 24) : x.hol ? evIcon('leaf', 15) : ''}</span></button>`).join('');
+    const lwCard = w => { const d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
+      return `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
+        <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
+        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western and Island take turns each week.</p>'}</div>`; };
     let detail;
     const holNote = sel.hol ? `<p class="evnote">${sel.e ? `<b>${sel.hol.name}.</b> ` : ''}${sel.hol.gift ? 'A free thank-you gift and seasonal packs are in the Shop.' : 'Seasonal packs are in the Shop.'}</p>` : '';
     if (!sel.e && sel.hol) detail = `<div class="evdet" style="--c:${sel.hol.card}"><div class="evhead"><span class="evbig">${ART.gift(...sel.hol.colors)}</span><span class="t"><small>${new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' })}, a quiet day</small><b>${sel.hol.name}</b><span>No game changes today</span></span></div>${holNote}</div>`;
-    else if (!sel.e && sel.lw) { const w = sel.lw, d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
+    else if (!sel.e && sel.lw) detail = lwCard(sel.lw);
+    else if (false) { const w = sel.lw, d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       detail = `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
         <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
         ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western and Island take turns each week.</p>'}</div>`; }
@@ -5641,7 +5651,7 @@ function openTab(tab) {
     openSheet(`<div class="sheet-head"><h2>Events</h2>${closeBtn()}</div>
       ${strip}
       <div class="evweekw"><div class="evweek2">${week}</div>${lrow ? `<div class="evlrow">${lrow}</div>` : ''}</div>
-      ${detail}
+      ${detail}${(() => { const lw = evLive(); return lw && !/data-evhub|Reach Home Studio/.test(detail) ? lwCard(lw) : ''; })()}
 `);
   } else if (tab === 'reset-note') {
     S.resetNote = 0; save();
@@ -6443,6 +6453,7 @@ function evCard() {
     <div><button data-evt="unlock" ${S.test.evUnlock ? 'class="on"' : ''}>${S.test.evUnlock ? 'Joins before Map 2: on' : 'Let this test profile join before Map 2'}</button></div>
     <div><span>Event Fame:</span><button data-evt="f0" ${S.test.evFame === 0 ? 'class="on"' : ''}>x1.00</button><button data-evt="f8" ${S.test.evFame === 8 ? 'class="on"' : ''}>x2.40</button><button data-evt="f30" ${S.test.evFame === 30 ? 'class="on"' : ''}>x4.40</button><button data-evt="freal" ${S.test.evFame == null ? 'class="on"' : ''}>Real</button></div></div>` : '';
   if (!w) return `<div class="evlong quiet" style="--c:${nd.color}"><div class="evl-h"><span class="evl-tag">Long event</span><b>${nd.title}</b><span>Starts in ${evLeft(nx.start).replace(' left', '')} · ${String(nx.key)[0] === 'w' ? 'Thursday 00:00 to Sunday 00:00' : 'test window'}</span></div>${test}</div>`;
+  if (w) return TEST ? test : '';   /* the live event is shown once, by the white card under the week strip */
   const here = isEv(), lock = !evUnlocked();
   const btn = lock ? `<p class="evl-lock">Reach Home Studio (map 2) to join long events.</p>` : here ? `<button class="cta" data-evhub>Open event · Exit to career</button>` : `<button class="cta" data-evhub>Open the ${d.name} event</button>`;
   const prog = S.ev && S.ev.key === w.key ? `<span class="evl-p">★ ${evPoints()} / ${EV_MAX_PTS} · Tier ${evTier()} of ${EV_TIERS}${S.ev.pass ? ' · Mini Pass' : ''}</span>` : '';
