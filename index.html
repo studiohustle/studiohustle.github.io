@@ -802,6 +802,12 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
   background: repeating-conic-gradient(rgba(255,255,255,.34) 0 8deg, rgba(255,255,255,0) 8deg 24deg); animation: spin 22s linear infinite; }
 .album-stage .spk { background: #fff; }
 .album-pop .amt { font-size: 40px; animation: fameIn .7s cubic-bezier(.2,1.6,.4,1) both .25s; }
+.album-pop .amt { line-height: 1; margin-top: 4px; }
+.album-pop .acap { margin-top: -4px; font-size: 14px; font-weight: 700; color: var(--muted); }
+.arew { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+.rchip { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px 0 6px; border-radius: 12px; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
+.rchip > img { flex: none; margin-left: 4px; } .rchip.notxt { padding-left: 12px; }
+.rchip b { font-size: 15px; font-weight: 700; color: var(--text); } .rchip em { font-style: normal; font-size: 15px; font-weight: 700; color: #8BF0A0; }
 @keyframes fameIn { from { transform: scale(.4); opacity: 0; } }
 .sec { display: flex; flex-direction: column; gap: 10px; }
 .sec + .sec { border-top: 1px solid var(--line); padding-top: 14px; }
@@ -2541,7 +2547,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 195, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 196, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4134,8 +4140,8 @@ function dropAlbum() {
   const mayaLine = S.albums > (S.mayaAlbum || 0) ? (S.albums <= 3 ? MAYA_ALBUM[S.albums - 1] : MAYA_ALBUM_LATER[(S.albums - 4) % MAYA_ALBUM_LATER.length]) : '';
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
   const mayaNote = mayaLine ? `<div class="maya-note"><span class="mfig"><img src="art/maya-celebrating.webp?v=124" alt="" draggable="false"></span><div class="mcard"><span class="mname">Maya · Your manager</span><p>${mayaLine}</p><i class="mtail" aria-hidden="true"></i></div></div>` : '';
-  albumUpload(S.albums, () => (setTimeout(moreBelow, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span>
-    <p>Fame now adds +${pctTxt(fameBonus())} to your All Profit, forever.${it ? ` You unlocked the <b style="color:var(--text)">${it.name}</b>, an album exclusive that adds +${Math.round(it.bonus * 100)}% income to your wardrobe.` : ''}${albumGems + plaqueGems ? ` +${albumGems + plaqueGems} gems${plaqueGems ? ` (including the ${LOCATIONS[lastLoc()].name} plaque)` : ''}.` : ''}${nextExclusive() ? ` Next exclusive outfit at album ${nextExclusive().album}.` : ''}</p></div>
+  albumUpload(S.albums, () => (setTimeout(albumTop, 0), setTimeout(albumTop, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span><small class="acap">Permanent All Profit bonus</small>
+    ${it || albumGems + plaqueGems ? `<div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}</div>` : ''}</div>
     ${mayaNote}
     ${it ? `<button class="cta" data-equip="${it.id}" data-then="close">Wear it</button>` : ''}
     <button class="ghost" data-close>Start the next run</button>`)));
@@ -4153,6 +4159,9 @@ function syncShine(root) {
   const t = (performance.now() / 1000) % 4.5;
   root.querySelectorAll('.card, .offer, .sbtn.crate, .tab-hype .orb, .tab.shop .ticon, .tab .ticon.wt').forEach(el => el.style.setProperty('--shine-at', `-${t.toFixed(2)}s`));
 }
+// the album results always open at the top (the artist on stage first); stops as soon as the player touches the panel
+let albumTouched = false; $('sheet').addEventListener('touchstart', () => { albumTouched = true; }, { passive: true });
+function albumTop() { const sh = $('sheet'); if (!sh.querySelector('.album-pop')) return; if (!albumTouched) sh.scrollTop = 0; moreBelow(); }
 function moreBelow() { const sh = $('sheet'); $('scrim').classList.toggle('more-below', !!sh.querySelector('.album-pop') && sh.scrollHeight - sh.clientHeight - sh.scrollTop > 6); }
 $('sheet').addEventListener('scroll', moreBelow, { passive: true });
 const MAIN_SHEETS = ['vault', 'career', 'crew', 'upgrades', 'goals', 'daily', 'pass', 'events', 'charts', 'settings', 'feedback', 'testaccess'];
@@ -4180,7 +4189,8 @@ function openSheet(html) {
   sh.innerHTML = html; $('scrim').hidden = false; sh.scrollTop = keep;
   syncShine(sh);
   if (refresh) return;
-  const c = sh.querySelector('[data-close]'); if (c) c.focus({ preventScroll: true });
+  albumTouched = false;
+  const c = sh.querySelector('[data-close]'); if (c && !sh.querySelector('.album-pop')) c.focus({ preventScroll: true });   /* iPhone can scroll to a focused button anyway */
 }
 let buildTaps = 0;
 let pendingDaily = false, pendingBonus = 0, pendingWelcome = false;
