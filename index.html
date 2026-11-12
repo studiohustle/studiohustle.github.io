@@ -1617,7 +1617,7 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
         <span class="cap" id="crateLbl">Free</span><span class="bang" id="crateBang" hidden>!</span>
       </button>
       <button class="sbtn" id="goalsBtn" aria-label="Goals">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"></path></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 14v7M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"></path></svg>
         <span class="cap">Goals</span><span class="bang" id="goalsDot" hidden>!</span>
       </button>
       <button class="sbtn gpass" id="passBtn" aria-label="Backstage Pass">
@@ -1631,7 +1631,7 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
         <span class="cap">Charts</span>
       </button>
       <button class="sbtn events" id="eventsBtn" aria-label="Events">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"></path><path d="M5 4h13l-2.5 4.5L18 13H5"></path></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.4 21.6 8.1 6.7l9.2 9.2z" fill="currentColor"></path><path d="M4.6 15.9l3.5 3.5M6.4 11.5l6.1 6.1" stroke="#FFFDF7" stroke-width="1.7"></path><ellipse cx="12.9" cy="11.1" rx="6.4" ry="2.3" transform="rotate(45 12.9 11.1)" fill="#FFFDF7" stroke-width="1.6"></ellipse><path d="M14.3 5.4c.1-2.3 2.2-3.2 3.2-1.9.8 1.1-.4 2.3.7 3 1 .6 2.1-.2 2.4-1.5"></path><path d="M18.9 11.9c1.4-.5 2.2.4 3.3 0"></path><circle cx="21.9" cy="2.4" r="1" fill="currentColor" stroke="none"></circle><circle cx="21.3" cy="16.4" r="1" fill="currentColor" stroke="none"></circle><path d="M10.6 1.9l.6 1.5"></path></svg>
         <span class="cap">Events</span><span class="bang evdot" id="eventsBang" hidden>!</span>
       </button>
       <button class="sbtn evtab" id="evTab" aria-label="Long event" hidden><span class="evt-ic" id="evTabIc"></span><span class="cap" id="evTabTime"></span></button>
@@ -2588,7 +2588,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 203, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 204, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
