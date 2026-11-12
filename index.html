@@ -1246,8 +1246,8 @@ html .side .sbtn.evtab .evt-ic { display: block; flex: none; }
 .tour .tstop { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 11px/1 var(--body); background: #ECE8F6; color: #A39EBC; }
 .tour .tstop.done { background: #8BF0A0; color: #14122A; } .tour .tstop.now { background: #F7A3C6; color: #14122A; box-shadow: 0 0 0 4px rgba(247,163,198,.3); }
 .tour .tline { flex: 1; height: 3px; background: #ECE8F6; } .tour .tline.done { background: #8BF0A0; }
-h3 .hinfo { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-left: 6px; vertical-align: 2px; border-radius: 50%; border: 1.8px solid #4A3A9E; background: none; color: #4A3A9E; font: 800 12px/1 var(--body, sans-serif); font-style: normal; padding: 0; cursor: pointer; }
-h3 .hinfo[aria-expanded="true"] { background: #4A3A9E; color: #FFFFFF; }
+h3 .hinfo, .phead .hinfo, .evh-prog .hinfo { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-left: 6px; vertical-align: 2px; border-radius: 50%; border: 1.8px solid #4A3A9E; background: none; color: #4A3A9E; font: 800 12px/1 var(--body, sans-serif); font-style: normal; padding: 0; cursor: pointer; }
+h3 .hinfo[aria-expanded="true"], .phead .hinfo[aria-expanded="true"], .evh-prog .hinfo[aria-expanded="true"] { background: #4A3A9E; color: #FFFFFF; }
 .hinfo-txt { margin-top: 8px; } .hinfo-txt p { margin: 0; }
 details.more.chev > summary { display: flex; align-items: center; }
 details.more.chev > summary::before { content: ''; flex: none; width: 7px; height: 7px; margin: 0 9px 0 2px; border: solid currentColor; border-width: 0 2.4px 2.4px 0; transform: rotate(-45deg); transition: transform .15s; }
@@ -1337,6 +1337,10 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evh-when { margin-left: auto; color: #fff; font: 700 11px var(--body, sans-serif); opacity: .92; text-align: right; line-height: 1.3; }
 .evh-prog { padding: 12px 16px 9px; display: grid; grid-template-columns: 1fr auto; gap: 5px 8px; align-items: center; background: #fff; border-bottom: 1px solid #E6E2F1; }
 .evh-prog b { font: 400 14px var(--display); } .evh-prog span { font: 700 12px var(--body, sans-serif); color: #6E6990; }
+.evh-prog > b { display: inline-flex; align-items: center; gap: 6px; }
+.evh-prog .hinfo { width: 18px; height: 18px; font-size: 11px; margin: 0 !important; vertical-align: 0; }
+.evh-info { grid-column: 1 / -1; margin-top: 6px; background: #F4F2FA; border-radius: 12px; padding: 9px 12px; font: 600 13px/1.4 var(--body, sans-serif); color: #4A4466; }
+.evh-info .evh-link { font: inherit; }
 .evh-prog .bar { grid-column: 1 / -1; height: 9px; border-radius: 9px; background: #E6E2F1; overflow: hidden; } .evh-prog .bar i { display: block; height: 100%; background: #FFD93D; border-radius: 9px; }
 .evh-tabs { display: flex; gap: 6px; padding: 10px 16px 6px; } .evh-tabs button { flex: 1; padding: 8px 0; border-radius: 12px; border: 0; font: 700 14px var(--body, sans-serif); background: #E9E5F5; color: #6E6990; }
 .evh-tabs button.on { background: #fff; color: #1E1A33; box-shadow: 0 2px 0 #DCD6EE; } .evh-tabs em { font-style: normal; background: #FF6FAE; color: #fff; border-radius: 9px; padding: 0 6px; font-size: 11px; margin-left: 4px; }
@@ -1430,10 +1434,12 @@ html .mode-btn, html .up-btn { border-radius: 8px !important; }
 html .cta, html .cta.pink, html .sheet.light .cta.pink, html .evh-foot .cta.exit, html .up-btn, html .hire, html .hire.money, html .act.hype { background: #6CBCF8 !important; color: #14122A !important; box-shadow: inset 0 0 0 1.5px rgba(40,100,165,.35), 0 7px 0 #4F95D2 !important; }
 html .cta:disabled, html .up-btn:disabled, html .hire:disabled { background: var(--line) !important; color: var(--muted) !important; box-shadow: none !important; }
 html .sheet.light .cta:disabled { background: #E6E2F1 !important; color: #8C87A8 !important; }
-/* Build 211: every greyed-out button is flat darker grey: no blue ledge, no drop shadow (the pink/blue variants used to keep theirs) */
+/* Build 212: greyed-out buttons keep the blue buttons' shape (same 7px ledge, outline, size) in grey, like Eatventure.
+   Text is always muted grey (no red for prices you can't afford yet) */
 html body .cta:disabled, html body .cta.pink:disabled, html body .sheet.light .cta:disabled, html body .sheet.light .cta.pink:disabled, html body .evh-foot .cta:disabled,
 html body .up-btn:disabled, html body .hire:disabled, html body .hire.money:disabled, html body #pop #upBtn:disabled, html body #pop #upBtn.max:disabled {
-  background: #D3CFE0 !important; color: #7C7799 !important; box-shadow: none !important; text-shadow: none !important; transform: none !important; border-color: transparent !important; }
+  background: #D3CFE0 !important; color: #7C7799 !important; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.22), 0 7px 0 #ADA8C2 !important; text-shadow: none !important; transform: none !important; border-color: transparent !important; }
+
 html .cta:active, html .up-btn:active { box-shadow: inset 0 0 0 1.5px rgba(40,100,165,.35), 0 2px 0 #4F95D2 !important; transform: translateY(5px); }
 /* Upgrade card, Eatventure proportions: bigger cost + coin, thick blue ledge (room for it under the button) */
 html .pop { border-radius: 12px !important; padding: 9px 9px 17px !important; gap: 7px !important; }
@@ -2410,7 +2416,6 @@ function buyUpg(i, btn) {
     const done = box.querySelector('.upg-done'), owned = box.querySelector('.upg-owned');
     row.remove(); row.classList.add('got'); const b = row.querySelector('[data-upg]'); if (b) b.outerHTML = '<span class="hired">Owned</span>';
     owned.appendChild(row); done.hidden = false; done.querySelector('summary span').textContent = upgOwned().length;
-    box.querySelector('.upg-empty').hidden = !!box.querySelector('[data-upg]');
   } else if (sheetKey === 'upgrades') openTab('upgrades');
   render();
 }
@@ -2610,7 +2615,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 211, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 213, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2867,7 +2872,7 @@ const goalsClaimable = () => activeGoals().some(goalReady) || tasksClaimable();
 const segTabs = (on, tabs) => `<div class="segtabs" role="tablist">${tabs.map(([k, label, dot]) => `<button class="stab ${k === on ? 'on' : ''}" role="tab" aria-selected="${k === on}" data-tab-go="${k}">${label}${dot ? `<i class="tdot">${dot}</i>` : ''}</button>`).join('')}</div>`;
 let hinfoOpen = {};   // Career panel: which section explainers are open (i buttons)
 document.addEventListener('click', e => { const b = e.target.closest('[data-hinfo]'); if (!b) return; const k = b.dataset.hinfo; hinfoOpen[k] = !hinfoOpen[k];
-  b.setAttribute('aria-expanded', hinfoOpen[k]); const t = b.closest('.sec') && b.closest('.sec').querySelector('.hinfo-txt'); if (t) t.hidden = !hinfoOpen[k]; });
+  b.setAttribute('aria-expanded', hinfoOpen[k]); const box = b.closest('.sec') || b.closest('#sheet'), t = box && box.querySelector('.hinfo-txt'); if (t) t.hidden = !hinfoOpen[k]; });
 const goalsTabs = on => segTabs(on, [['goals', 'Goals', goalsClaimable() ? '!' : ''], ['daily', 'Daily Rewards', dailyReady() ? '!' : '']]);
 const shopTabs = on => { const n = invQty('skips') + invQty('frenzies'); return segTabs(on, [['shop', 'Shop', ''], ['inv', 'Inventory', n ? (n > 99 ? '99+' : String(n)) : '']]); };
 const tasksClaimable = () => { const ts = dailyTasks(); return ts.some(t => t.ready && !t.got) || (ts.every(t => t.got) && !S.dt.bonus); };
@@ -5460,10 +5465,10 @@ function openTab(tab) {
     const rows = loc.stations.map(st => {
       const unlocked = lvl(st.id) > 0, hired = S.crew[st.id];
       const right = hired ? '<span class="hired">Working</span>'
-        : `<button class="hire" data-hire="${st.id}" ${!unlocked || S.cash < crewCostOf(st) ? 'disabled' : ''}>${fmt(crewCostOf(st))}</button>`;
+        : `<button class="hire${unlocked && S.cash < crewCostOf(st) ? ' short' : ''}" data-hire="${st.id}" ${!unlocked || S.cash < crewCostOf(st) ? 'disabled' : ''}>${fmt(crewCostOf(st))}</button>`;
       return `<div class="row"><span class="ric">${svgIc(st.icon, '#F4F1EA', 20)}</span><span class="rt"><b>${st.crew}</b><span>${unlocked ? 'Runs ' + st.name + ' for you' : 'Unlock ' + st.name + ' first'}</span></span>${right}</div>`;
     }).join('');
-    openSheet(`<div class="sheet-head"><h2>Crew</h2>${closeBtn()}</div>${crewTabs('crew')}<div class="pscroll"><p>Hire someone for a station and it keeps earning without tapping, even while you're away (up to ${capHrs()}).</p>${rows}</div>`);
+    openSheet(`<div class="sheet-head"><h2>Crew</h2>${closeBtn()}</div>${crewTabs('crew')}<div class="pscroll">${rows}</div>`);
   } else if (tab === 'vault') {
     S.vaultSeen = true;
     const tiles = VAULT.map(v => {
@@ -5479,7 +5484,7 @@ function openTab(tab) {
     openSheet(`<div class="sheet-head"><h2>${v.name}</h2>${headBtns('data-vback')}</div>
       <div class="vdet"><div class="vtile big"><span class="vart">${vArt(v.icon, 84)}</span><b>${c == null ? 'MAX' : L ? 'Level ' + L : 'Locked'}</b></div><p>${v.what}${v.id === 'seed' ? ':' : '.'}</p></div>
       <div class="vbox"><span>${VLABEL[v.id]}</span><b>${now}${nxt ? ` <i>\u203A</i> <em>${nxt}</em>` : ''}</b></div>
-      ${c == null ? '<button class="cta" disabled>Maxed out</button>' : `<p class="vup">${L ? 'Upgrade' : 'Unlock'}</p><button class="cta vbuy" data-vault="${v.id}" ${S.gems < c ? 'disabled' : ''}>${c ? GEM_MINI + c : 'Free'}</button>`}`);
+      ${c == null ? '<button class="cta" disabled>Maxed out</button>' : `<p class="vup">${L ? 'Upgrade' : 'Unlock'}</p><button class="cta vbuy${S.gems < c ? ' short' : ''}" data-vault="${v.id}" ${S.gems < c ? 'disabled' : ''}>${c ? GEM_MINI + c : 'Free'}</button>`}`);
   } else if (tab === 'backer') {
     const o = backerOffer; if (!o) return closeSheet();
     const amt = o.gems ? `+${o.gems} gems` : `+${fmt(o.cash)}`;
@@ -5501,10 +5506,10 @@ function openTab(tab) {
     const list = upgList().map((u, i) => [u, i]), own = upgOwned();
     const open = list.filter(([, i]) => !own.includes(i)).sort((a, b) => a[0][1] - b[0][1]), done = list.filter(([, i]) => own.includes(i));
     const row = ([u, i], bought) => `<div class="row upg ${bought ? 'got' : ''}"><span class="ric">${svgIc(u[2] === 'profit' || u[2] === 'all' ? 'star' : u[2] === 'speed' || u[2] === 'crew' ? 'sliders' : 'phone', bought ? '#8BF0A0' : '#FFD93D', 20)}</span>
-      <span class="rt"><b>${u[0]}</b><span>${upgText(u)}</span></span>${bought ? '<span class="hired">Owned</span>' : `<button class="hire" data-upg="${i}" ${S.cash < upgCost(i) ? 'disabled' : ''}>${fmt(upgCost(i))}</button>`}</div>`;
+      <span class="rt"><b>${u[0]}</b><span>${upgText(u)}</span></span>${bought ? '<span class="hired">Owned</span>' : `<button class="hire${S.cash < upgCost(i) ? ' short' : ''}" data-upg="${i}" ${S.cash < upgCost(i) ? 'disabled' : ''}>${fmt(upgCost(i))}</button>`}</div>`;
     openSheet(`<div class="sheet-head"><h2>Crew</h2>${closeBtn()}</div>${crewTabs('upgrades')}<div class="pscroll" id="upgScroll">
-      <p>One-time boosts for the ${LOC().name}. Buy any of them, in any order. ${isEv() ? 'They reset when the event ends.' : 'They reset when you move up or drop an album.'}</p>
-      ${open.map(x => row(x, false)).join('')}<p class="cnote upg-empty" ${open.length ? 'hidden' : ''}>Every Upgrade here is yours.</p>
+      <p class="cnote">${isEv() ? 'Resets when the event ends.' : 'Resets when you move up or drop an album.'}</p>
+      ${open.map(x => row(x, false)).join('')}
       <details class="upg-done" ${done.length ? '' : 'hidden'}><summary>Owned (<span>${done.length}</span>)</summary><div class="upg-owned">${done.map(x => row(x, true)).join('')}</div></details></div>`);
   } else if (tab === 'career') {
     const pct = movePct();
@@ -5584,7 +5589,7 @@ function openTab(tab) {
     else body = list || `<p class="cnote">${Charts.tab === 'friends' ? 'Add a friend with their code to start a friends chart.' : 'No artists here yet. Drop an album to get on the chart.'}</p>`;
     openSheet(`<div class="sheet-head"><h2>The Charts</h2>${closeBtn()}</div>
       <div class="stabs period-tabs">${[['week', 'This week'], ['all', 'All time']].map(([k, l]) => `<button class="stab ${Charts.period === k ? 'on' : ''}" data-period="${k}">${l}</button>`).join('')}</div>
-      ${Charts.period === 'week' ? (Charts.hasWeek === false ? `<p class="cnote">Weekly Charts need a quick database update. Showing all-time until then.</p>` : `<p class="cnote">Ranked by albums dropped this week. Ties go to cash earned this week. New week in <b>${resetIn}</b>.</p>`) : ''}
+      ${Charts.period === 'week' ? (Charts.hasWeek === false ? `<p class="cnote">Weekly Charts need a quick database update. Showing all-time until then.</p>` : `<p class="cnote">New week in <b>${resetIn}</b></p>`) : ''}
       <div class="row chartme" data-prof="me" role="button" tabindex="0" aria-label="See your profile"><span class="rank">${Charts.rank ? '#' + Charts.rank : '–'}</span><span class="rt"><b>${esc(cleanName(S.name))}</b><span>${titleTag(S.albums, S.maxLoc)} · ${fmt(weekly ? wk.earned : S.stats.lifetime)}${weekly ? ' this week' : ''}</span></span><span class="xv">${weekly ? wk.albums : S.albums || 0} <small>${weekly ? 'this week' : 'albums'}</small></span></div>
       ${Charts.syncError ? `<p class="cerr">Your rank isn't updated yet. ${esc(Charts.syncError)} Your progress is safe on this phone. <button class="hire" data-chart-retry>Try again</button></p>` : ''}
       <div class="stabs charts-tabs">${tabs.map(([k, l]) => `<button class="stab ${Charts.tab === k ? 'on' : ''}" data-ctab="${k}">${esc(l)}</button>`).join('')}</div>
@@ -5742,7 +5747,6 @@ function openTab(tab) {
       ${firstTime && gemsNext ? `<p class="ch-reward">First move here: <b>+${gemsNext} gems</b> and the ${LOC().name} plaque</p>` : ''}
       <div class="keeps"><div><b>You keep</b><ul><li>Gems &amp; inventory</li><li>Outfits &amp; style</li><li>Fame, perks &amp; Hype</li></ul></div>
         <div class="lose"><b>Starts fresh</b><ul><li>Cash to $0</li><li>Levels &amp; crew${perkOn('autoCrew') ? ' (Day-One Crew rehires your first)' : ''}</li><li>Upgrades</li></ul></div></div>
-      <p>The ${next.name} earns about 50 times more per tap, so you'll be past your old income within a few minutes.</p>
       <button class="cta" data-move>Move Up</button><button class="ghost" data-close>Not yet</button>`);
   } else if (tab === 'album-confirm') {
     openSheet(`<div class="sheet-head"><h2>Drop album #${(S.albums || 0) + 1}?</h2>${closeBtn()}</div>
@@ -5876,7 +5880,7 @@ function openTab(tab) {
       return `<div class="row"><span class="ric">${svgIc(key === 'len' ? 'star' : 'monitor', '#FF6FAE', 20)}</span>
         <span class="rt"><b>${label}</b><span>${max ? vals[i] + unit + ' · maxed' : vals[i] + unit + ' → ' + vals[i + 1] + unit}</span>
         <span class="pips">${vals.map((_, k) => `<i class="${k <= i ? 'on' : ''}"></i>`).join('')}</span></span>
-        ${max ? '<span class="hired">Max</span>' : `<button class="hire" data-hup="${key}" ${S.gems < costs[i] ? 'disabled' : ''}><i class="g"></i> ${costs[i]}</button>`}</div>`; };
+        ${max ? '<span class="hired">Max</span>' : `<button class="hire${S.gems < costs[i] ? ' short' : ''}" data-hup="${key}" ${S.gems < costs[i] ? 'disabled' : ''}><i class="g"></i> ${costs[i]}</button>`}</div>`; };
     openSheet(`<div class="sheet-head"><h2>Hype</h2>${closeBtn()}</div>
       <span class="awayamt">+${mins} min</span>
       <p class="cratesub">x${fmtX(hypeX())} income while it runs</p>
@@ -5958,7 +5962,6 @@ function openTab(tab) {
       return `<div class="day ${got ? 'got' : ''} ${ready && d === today ? 'today' : ''} ${d === 7 ? 'big' : ''}"><b>Day ${d}</b><span>${got ? 'Claimed' : what}</span></div>`;
     }).join('');
     openSheet(`<div class="sheet-head"><h2>Goals</h2>${closeBtn()}</div>${goalsTabs('daily')}
-      <p>Log in every day to climb the streak. Cash days pay a lump sum: \"5 min cash\" means 5 minutes of what you earn right now (about ${fmt(skipValue(300))} today).</p>
       <div class="days">${cells}</div>
       <button class="cta" ${ready ? 'data-claim' : 'disabled'}>${ready ? 'Claim day ' + today : 'Come back tomorrow'}</button>`);
   } else if (tab === 'settings') {
@@ -6104,7 +6107,7 @@ function render() {
   { const sm = isEv() ? EV_PT_LV : MILES, got = sm.filter(m => L >= m).length, key = got + ':' + sm.length + ':' + (starPulse ? 1 : 0);
     if ($('popStars').dataset.k !== key) { $('popStars').dataset.k = key; $('popStars').innerHTML = sm.map((m, i) => `<span class="${i < got ? 'on' : 'off'} ${starPulse && i === got - 1 ? 'pulse' : ''}" title="${isEv() ? 'Event points' : 'x' + MILE_PAY + ' pay'} at level ${m}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z"/></svg></span>`).join(''); }
     starPulse = false; }
-  $('upBtn').disabled = !plan.n || S.cash < plan.cost;
+  $('upBtn').disabled = !plan.n || S.cash < plan.cost; $('upBtn').classList.toggle('short', !!plan.n && S.cash < plan.cost);   /* can't afford: red price */
   $('upBtn').setAttribute('aria-label', `Upgrade ${st.name} by ${plan.n} level${plan.n > 1 ? 's' : ''} for ${fmt(plan.cost)}`);
   if (!TEST && !S.fbPrompted && S.stats.playSec > 2700 && $('scrim').hidden && S.onboarded) { S.fbPrompted = true; save(); openTab('feedback'); }
   if (TEST) $('testChip').textContent = `TEST · ${S.test.speed}x${S.test.hype ? ' · Hype' : ''}`;
@@ -6622,13 +6625,13 @@ function evRewardsTab() {
   const rows = Array.from({ length: EV_TIERS }, (_, k) => k + 1).map(n => `<div class="prow ${n <= T ? 'done' : ''} ${n === T + 1 ? 'next' : ''}">${tile('free', n)}<span class="pnode"><i>${n}</i></span>${tile('pass', n)}</div>`).join('');
   return `${pass}<div class="ptrack evtrack"><div class="phead"><span>Free</span><span></span><span class="g">Mini Pass</span></div>${rows}</div>
     ${evClaimCount() ? '<button class="cta evh-all" data-evall>Claim all</button>' : ''}
-    <p class="evh-note">Free tier 15 is the ${EV_DEFS[S.ev.id].badge} badge, kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>. Unclaimed rewards arrive when the event ends.</p>`;
+`;
 }
 function evHub() {
   const d = EV_DEFS[S.ev.id], p = evPoints(), T = evTier(), into = p - T * EV_TIER_PTS, here = isEv(), cc = evClaimCount(), left = S.ev.end - Date.now();
   const foot = here ? '<button class="cta exit" data-evexit>Exit to career</button>' : evUnlocked() ? '<button class="cta" data-eventer>Enter</button>' : '<button class="cta" disabled>Reach Home Studio (map 2)</button>';
   return `<div class="evh-head">${evEmblem(S.ev.id, 52)}<div><h2>${d.title}</h2><small>This week's long event</small></div>${closeBtn()}</div>
-    <div class="evh-prog"><b>★ ${p} / ${EV_MAX_PTS}</b><span>Tier ${T} of ${EV_TIERS}${T < EV_TIERS ? ` · ${EV_TIER_PTS - into}★ to next` : ' · complete'}</span><div class="bar"><i style="width:${p / EV_MAX_PTS * 100}%"></i></div></div>
+    <div class="evh-prog"><b>★ ${p} / ${EV_MAX_PTS} <button class="hinfo" data-hinfo="evrew" aria-label="About event rewards" aria-expanded="${!!hinfoOpen.evrew}">i</button></b><span>Tier ${T} of ${EV_TIERS}${T < EV_TIERS ? ` · ${EV_TIER_PTS - into}★ to next` : ' · complete'}</span><div class="bar"><i style="width:${p / EV_MAX_PTS * 100}%"></i></div><div class="evh-info hinfo-txt" ${hinfoOpen.evrew ? '' : 'hidden'}>Tier 15 is the free ${EV_DEFS[S.ev.id].badge} badge, kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>. Unclaimed rewards arrive at the end.</div></div>
     <div class="evh-fx">${[Date.now() < S.hypeUntil ? 'Hype ×' + (+hypeX().toFixed(1)) : '', evFame() > 1.001 ? 'All Profit ×' + evFame().toFixed(2).replace(/\.?0+$/, '') : '', micBought() ? 'Golden Mic ×2' : ''].filter(Boolean).map(t => `<span>${t}</span>`).join('') || '<span class="off">No boosts active</span>'}</div>
     <div class="evh-tabs"><button data-evtab="tasks" class="${evHubTab === 'tasks' ? 'on' : ''}">Tasks</button><button data-evtab="rewards" class="${evHubTab === 'rewards' ? 'on' : ''}">Rewards${cc ? ` <em>${cc}</em>` : ''}</button></div>
     <div class="evh-list">${evHubTab === 'tasks' ? evTasks() : evRewardsTab()}</div>
