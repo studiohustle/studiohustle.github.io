@@ -77,7 +77,8 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 
 /* Room */
 .room-wrap { flex: 1; min-height: 0; position: relative; overflow: hidden; touch-action: none; background-color: var(--floor); background-repeat: repeat; transform: translateZ(0); }
-.stage { position: absolute; left: 50%; top: 0; width: 390px; height: 600px; transform-origin: top center; }
+.stage { position: absolute; left: 50%; top: 0; width: 390px; height: 600px; transform-origin: top center; will-change: transform; }
+.floor-bg { position: absolute; left: 0; right: 0; top: 0; pointer-events: none; will-change: transform; z-index: 0; }
 .abs { position: absolute; }
 .loc-chip { position: absolute; top: 8px; left: max(10px, env(safe-area-inset-left, 0px)); z-index: 5; display: flex; align-items: center; gap: 6px;
   background: rgba(20,18,42,.82); border-radius: 999px; padding: 6px 12px 6px 8px; font-size: 12px; font-weight: 700; pointer-events: none; }
@@ -1428,6 +1429,11 @@ html .cta:active, html .up-btn:active { box-shadow: inset 0 0 0 1.5px rgba(40,10
 html .pop { border-radius: 12px !important; padding: 9px 9px 17px !important; gap: 7px !important; }
 html .pop-title b { font-size: 17px !important; } html .pop-title span { font-size: 14px !important; color: #9C97B2 !important; }
 html .pop-stats { font-size: 16px !important; } html .pop-stats .coin-s { width: 19px !important; height: 19px !important; } html .pop-stats svg { width: 18px; height: 18px; stroke-width: 3; }
+/* Build 206: stat numbers like Eatventure's: rounded bold body font instead of the chunky display face, icon tucked close to the number */
+html .pop-stats b { font: 800 17px/1 var(--body) !important; letter-spacing: -.01em; }
+html .pop-stats span { gap: 3px !important; } html .pop-stats .coin-s { width: 20px !important; height: 20px !important; } html .pop-stats svg { width: 19px; height: 19px; }
+/* milestone bonus bubble a touch smaller */
+html .pop-bonus b { font-size: 15px !important; } html .pop-bonus small { font-size: 11px !important; } html .pop-bonus span { font-size: 11px !important; } html .pop-bonus { padding: 4px 9px 5px !important; }
 html .pop-row .up-btn, html .pop .up-btn { height: 46px !important; font-size: 20px !important; border-radius: 10px !important; gap: 4px !important; text-shadow: 0 2px 0 rgba(35,90,150,.5) !important; }
 html .pop-row .up-btn .up-coin { width: 24px !important; height: 24px !important; }
 html .pop-row .up-btn:disabled { box-shadow: 0 7px 0 #B3AEC6 !important; }
@@ -2588,7 +2594,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 205, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 206, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3582,9 +3588,12 @@ function fit() {
   const chk = wrap.dataset.checker;
   if (chk) { layers.push(`repeating-conic-gradient(${chk} 0 25%, transparent 0 50%)`); sizes.push(`${gap * 2}px ${gap * 2}px`); reps.push('repeat'); pos.push([left + line / 2, wh]); }
   if (tiles) { layers.push(`linear-gradient(to right, ${pl} ${line}px, transparent ${line}px)`); sizes.push(`${gap}px 100%`); reps.push('repeat'); pos.push([left, wh]); }
-  wrap.style.backgroundImage = layers.join(', ');
-  wrap.style.backgroundSize = sizes.join(', ');
-  wrap.style.backgroundRepeat = reps.join(', ');
+  // Build 206: the floor pattern lives on its own layer that slides with the room (a GPU move), instead of being repainted at every finger move
+  let fb = document.getElementById('floorBg'); if (!fb) { fb = document.createElement('div'); fb.id = 'floorBg'; fb.className = 'floor-bg'; wrap.prepend(fb); }
+  fb.style.backgroundImage = layers.join(', '); fb.style.backgroundSize = sizes.join(', '); fb.style.backgroundRepeat = reps.join(', ');
+  fb.style.backgroundPosition = pos.map(([x, y]) => `${x}px ${y}px`).join(', ');
+  fb.style.height = Math.ceil(r.height + Math.max(0, -panMin) * s + 400) + 'px';
+  wrap.style.backgroundImage = 'none';
   bgPos = pos; applyPan(); clearBadges();
 }
 // ---------- looking outside: drag the room down to see the scene above it ----------
@@ -3637,7 +3646,7 @@ function startTraffic() {
 function applyPan() {
   const py = Math.round(panY * fitS);
   stage.style.transform = `translate(-50%, ${py}px) scale(${fitS})`;
-  wrap.style.backgroundPosition = bgPos.map(([x, y]) => `${x}px ${Math.round(y + py)}px`).join(', ');
+  const fb = document.getElementById('floorBg'); if (fb) fb.style.transform = `translate3d(0, ${py}px, 0)`;
   wrap.classList.toggle('panned', panY > 2);
 }
 function setPan(v) { panY = Math.max(panMin, Math.min(OUT_H, v)); applyPan(); }
@@ -3645,7 +3654,7 @@ function setPan(v) { panY = Math.max(panMin, Math.min(OUT_H, v)); applyPan(); }
 let panGlide = 0, panSamples = [];
 // scroll feel: drag = room movement per finger movement, dead = px before a drag starts,
 // glide = how long a flick keeps gliding (ms decay), vmax = top flick speed, fling = flick speed boost
-const PAN_FEEL = { now: { drag: 1, dead: 10, glide: 150, vmax: 1.5, fling: 1 }, a: { drag: 1, dead: 7, glide: 260, vmax: 2.4, fling: 1.25 }, b: { drag: 1.3, dead: 5, glide: 380, vmax: 3.2, fling: 1.5 } };
+const PAN_FEEL = { now: { drag: 1, dead: 10, glide: 150, vmax: 1.5, fling: 1 }, a: { drag: 1, dead: 5, glide: 320, vmax: 2.6, fling: 1.25 }, b: { drag: 1.3, dead: 5, glide: 380, vmax: 3.2, fling: 1.5 } };
 const PAN = () => PAN_FEEL.a;   // Eli picked 'A bit faster' (Nov 11)
 const stopGlide = () => { if (panGlide) cancelAnimationFrame(panGlide); panGlide = 0; };
 function glidePan(v) {   // v in stage units per ms
@@ -3661,11 +3670,14 @@ wrap.addEventListener('pointermove', e => {
   if (!panDrag || e.pointerId !== panDrag.id) return;
   const dy = e.clientY - panDrag.y;
   if (!panMoved && (pressLock || Math.abs(dy) < PAN().dead)) return;   // a hold that has started owns the finger until it lifts
-  if (!panMoved) { panMoved = true; holdSt = null; clearBoost(); closePop(); try { wrap.setPointerCapture(e.pointerId); } catch (err) {} }
-  setPan(panDrag.start + dy * PAN().drag / fitS);
-  const now = performance.now(); panSamples.push([now, panY]); while (panSamples.length > 2 && now - panSamples[0][0] > 100) panSamples.shift();
+  if (!panMoved) { panMoved = true; holdSt = null; clearBoost(); closePop(); try { wrap.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+  const target = panDrag.start + (e.clientY - panDrag.y) * PAN().drag / fitS;
+  panDrag.target = target; if (!panDrag.raf) panDrag.raf = requestAnimationFrame(() => { if (panDrag) { panDrag.raf = 0; setPan(panDrag.target); } });   // one update per frame
+  const now = performance.now(); panSamples.push([now, Math.max(panMin, Math.min(OUT_H, target))]); while (panSamples.length > 2 && now - panSamples[0][0] > 100) panSamples.shift();
 });
 wrap.addEventListener('pointerup', e => {
+  if (panDrag && panDrag.raf) { cancelAnimationFrame(panDrag.raf); panDrag.raf = 0; if (panDrag.target != null) setPan(panDrag.target); }
   if (panDrag && panMoved && e.pointerId === panDrag.id && panSamples.length > 1) {
     const now = performance.now(), [t0, p0] = panSamples[0], [t1, p1] = panSamples[panSamples.length - 1];
     if (now - t1 < 60 && t1 - t0 > 8) { const P = PAN(), v = Math.max(-P.vmax, Math.min(P.vmax, (p1 - p0) / (t1 - t0) * P.fling)); if (Math.abs(v) > .05) glidePan(v); }   // only a moving release glides
@@ -5701,7 +5713,7 @@ function openTab(tab) {
       <h3 style="margin-top:14px">All Profit</h3>
       <div class="row mrow ${fb > 0 ? '' : 'off'}"><span class="ric">${svgIc('note', '#FFD93D', 20)}</span><span class="rt"><b>Fame</b><span>${S.albums || 0} album${S.albums === 1 ? '' : 's'} dropped · Fame ×${fame().toFixed(2)} → +${pctTxt(fb)}</span><span>Fame's bonus counts 1.5× here · up to +${pctTxt(fameBonusAt(1e9))}</span></span><span class="xv">+${pctTxt(fb)}</span></div>
       <div class="row mrow ${g > 1 ? '' : 'off'}"><span class="ric">${svgIc('shirt', '#B18CFF', 20)}</span><span class="rt"><b>Wardrobe</b><span>${g > 1 ? `Your best item in each slot${S.owned.lucky ? ' · crates pay 2x' : ''}` : 'Collect items in Style for a bonus'}</span></span><span class="xv">+${Math.round((g - 1) * 100)}%</span></div>
-      <p class="cnote">All Profit = 1 + Fame bonus + outfit bonus = x${fmtX(cp)}.${S.albums > 0 ? ` In events, Fame ×${fame().toFixed(2)} applies on its own and outfits don't count.` : ''}</p>`);
+      <p class="cnote">All Profit = 1 + Fame bonus + outfit bonus = x${fmtX(cp)}. Events use the same multiplier.</p>`);
   } else if (tab === 'move-confirm') {
     const firstTime = (S.mapPaid || 0) <= S.loc, gemsNext = MAP_GEMS[S.loc] || 0;
     openSheet(`<div class="sheet-head"><h2>Your next chapter</h2>${closeBtn()}</div>
@@ -6059,7 +6071,7 @@ function render() {
   $('popLv').textContent = 'Level ' + L;
   $('sbName').textContent = st.name;
   $('popPay').textContent = fmt(payout(st) * mult()).replace(/^\$/, '');
-  $('popTime').textContent = (ct < 1 ? ct.toFixed(2) : ct.toFixed(1)) + 's';
+  $('popTime').textContent = (ct >= 10 ? ct.toFixed(1) : String(+ct.toFixed(2))) + 's';   /* exact to 2 decimals: 1.2s, 1.25s, 0.8s */
   $('sbMile').style.width = next ? ((L - prev) / (next - prev) * 100) + '%' : '100%';
   $('sbMileLabel').innerHTML = next ? (milesNow().includes(next) ? MILE_STAR : '') + (!isEv() && MILE_GEM_AT.includes(next) ? GEM_MINI : '') : '';
   $('sbMileLabel').title = next ? [milesNow().includes(next) ? `x${MILE_PAY} pay at level ${next}` : '', !isEv() && MILE_GEM_AT.includes(next) ? `+1 gem at level ${next}` : ''].filter(Boolean).join(', ') : 'Level ' + LV_CAP + ' is the max';
@@ -6394,7 +6406,7 @@ function evLive(t = Date.now()) {
 function evNext(t = Date.now()) { const o = TEST && S && S.test && S.test.evOv; if (o && t < o.start) return o;
   const w = evWindowAt(t); return t < w.start ? w : evWindowAt(t + 7 * 86400000); }
 const evUnlocked = () => (S.maxLoc || 0) >= 1 || (S.albums || 0) > 0 || (S.loc || 0) >= 1 || !!(TEST && S.test && S.test.evUnlock);   // test profile only: join before Map 2
-const evFame = () => (TEST && S.test && S.test.evFame != null) ? fameAt(S.test.evFame) : fame();
+const evFame = () => (TEST && S.test && S.test.evFame != null) ? fameAt(S.test.evFame) : careerProfit();   // Build 206: events use the career's All Profit (outfits + Fame), so the multiplier matches the career exactly
 const evStateNow = () => isEv() ? S : (S.ev && S.ev.state);
 const evStarList = () => (ECON.UPG[EV_LOCS[S.ev.id].id] || []).filter(u => !u[5]);
 const evStarUpg = arr => { const L = ECON.UPG[EV_LOCS[S.ev.id].id] || []; return (arr || []).filter(i => L[i] && !L[i][5]).length; };
@@ -6598,7 +6610,7 @@ function evHub() {
   const foot = here ? '<button class="cta exit" data-evexit>Exit to career</button>' : evUnlocked() ? '<button class="cta" data-eventer>Enter</button>' : '<button class="cta" disabled>Reach Home Studio (map 2)</button>';
   return `<div class="evh-head">${evEmblem(S.ev.id, 52)}<div><h2>${d.title}</h2><small>This week's long event</small></div>${closeBtn()}</div>
     <div class="evh-prog"><b>★ ${p} / ${EV_MAX_PTS}</b><span>Tier ${T} of ${EV_TIERS}${T < EV_TIERS ? ` · ${EV_TIER_PTS - into}★ to next` : ' · complete'}</span><div class="bar"><i style="width:${p / EV_MAX_PTS * 100}%"></i></div></div>
-    <div class="evh-fx">${[Date.now() < S.hypeUntil ? 'Hype ×' + (+hypeX().toFixed(1)) : '', evFame() > 1.001 ? 'Fame ×' + evFame().toFixed(2).replace(/\.?0+$/, '') : '', micBought() ? 'Golden Mic ×2' : ''].filter(Boolean).map(t => `<span>${t}</span>`).join('') || '<span class="off">No boosts active</span>'}</div>
+    <div class="evh-fx">${[Date.now() < S.hypeUntil ? 'Hype ×' + (+hypeX().toFixed(1)) : '', evFame() > 1.001 ? 'All Profit ×' + evFame().toFixed(2).replace(/\.?0+$/, '') : '', micBought() ? 'Golden Mic ×2' : ''].filter(Boolean).map(t => `<span>${t}</span>`).join('') || '<span class="off">No boosts active</span>'}</div>
     <div class="evh-tabs"><button data-evtab="tasks" class="${evHubTab === 'tasks' ? 'on' : ''}">Tasks</button><button data-evtab="rewards" class="${evHubTab === 'rewards' ? 'on' : ''}">Rewards${cc ? ` <em>${cc}</em>` : ''}</button></div>
     <div class="evh-list">${evHubTab === 'tasks' ? evTasks() : evRewardsTab()}</div>
     <div class="evh-foot">${foot}<div class="evh-ends ${left < 12 * 3600e3 ? 'warn' : ''}">Event ends in: <b id="evHubEnds">${evLeft(S.ev.end).replace(' left', '')}</b></div></div>`;
@@ -6608,7 +6620,7 @@ function evSheet(tab) {
   if (tab === 'evhub') return evHub();
   if (tab === 'evbadges') return evBadgesView();
   if (tab === 'evintro') return `<div class="sheet-head"><h2>${d.title}</h2>${closeBtn()}</div><div class="pscroll evsheet">
-    <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your Fame${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, same as your career. Outfits don't count here.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Sunday 00:00' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
+    <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Sunday 00:00' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
   if (tab === 'evresult') { const r = S.evResult; S.evResult = null; save();
     const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
