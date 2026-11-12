@@ -1,5 +1,5 @@
 // Offline support. Change VERSION whenever you upload a new build so players get the update.
-const VERSION = 'studio-hustle-v196';
+const VERSION = 'studio-hustle-v197';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './art/gem.webp', './art/cash.svg', './icons/icon-192.png', './icons/icon-512.png',
   './music/beat1.mp3', './music/beat2.mp3', './music/beat3.mp3',
   './sfx/tap.wav', './sfx/panel.wav', './sfx/backer.wav', './sfx/album.wav'];
