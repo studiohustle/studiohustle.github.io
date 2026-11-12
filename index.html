@@ -2600,7 +2600,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 208, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 209, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2815,7 +2815,7 @@ const GOALS = [
   { id: 'tasks50', tier: 3, text: 'Finish all 3 daily tasks 50 times', target: 50, val: () => S.stats.taskSets || 0, gems: 400 },
   { id: 'album20', tier: 3, text: 'Drop 20 albums', target: 20, val: () => S.albums || 0, gems: 400, reward: { phones: 'ruby' } },
   { id: 'days30', tier: 3, text: 'Play on 30 different days', target: 30, val: () => S.stats.days || 1, gems: 500, reward: { title: 'Lifer' } },
-  { id: 'up100k', tier: 3, text: 'Buy 100,000 upgrades', target: 100000, val: () => S.stats.upgrades, gems: 500, reward: { title: 'Grinder' } },
+  { id: 'up100k', tier: 3, text: 'Buy 50,000 upgrades', target: 50000, val: () => S.stats.upgrades, gems: 500, reward: { title: 'Grinder' } },   /* Build 209: was 100,000 (about 50 albums, longer than Drop 30 albums for the same reward) */
   { id: 'diamondplq', tier: 3, text: 'Get a Diamond plaque (clear a map 20 times)', target: 20, val: maxClears, gems: 500, reward: { phones: 'diamond' } },
   { id: 'album30', tier: 3, text: 'Drop 30 albums', target: 30, val: () => S.albums || 0, gems: 500, reward: { phones: 'gold' } },
 ];
