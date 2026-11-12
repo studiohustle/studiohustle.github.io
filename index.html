@@ -2270,7 +2270,7 @@ function rows() {
   if (LOC().event) {   // event map: exactly one playable screen for all five stations (three rows), sized to this phone; the scenery screen sits above it
     // Build 200: rows start right under the fence; on an event map each station's slot is just its art, so the top pair fits beside the
     // side buttons (when this phone leaves room for that; otherwise the first row waits below them as before). Centre station at the bottom.
-    const Lo = evLay(), bh = Lo.bh, bot = 16, top = Lo.besideOK ? Lo.bk + EV_BK_H + 24 : Lo.top;
+    const Lo = evLay(), bh = Lo.bh, bot = 64, top = Lo.besideOK ? Lo.bk + EV_BK_H + 24 : Lo.top;
     const g = Math.max(bh + 20, (viewH - bot - bh - top) / 2), need = top + 2 * g + bh + bot, R = [top, top + g, top + 2 * g];
     return { r1: R[0], r2: R[1], rows: R, g, H: Math.max(viewH, need), bk: Lo.bk, w0: Lo.w0, bh, mid: R[0] + (bh - 18 + g - 22) / 2 + 6 /* fans walk in the open lane between rows 1 and 2 */, rugShift: 0, decorShift: 0, stageH: Math.max(viewH, need) }; }
   const m = decorMetrics(LOC()), h1 = 112 * ART_SC, h2 = 150 * ART_SC, G = LAY.gap, r1 = LAY.r1;
@@ -2567,7 +2567,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 200, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 201, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6000,9 +6000,10 @@ function evRules() {
   if (S && S.ev && !S.ev.lv2) { const lv = isEv() ? S.levels : S.ev.state && S.ev.state.levels;
     if (lv) Object.keys(lv).forEach(k => { if (lv[k] > 0) lv[k] = Math.min(EV_CAP, lv[k] * 2); });
     S.ev.lv2 = true; upgCache = null; save(); }
-  if (S && S.ev && !S.ev.upg2) { const L = ECON.UPG[EV_LOCS[S.ev.id].id] || [], star = L.map((u, i) => [u, i]).filter(([u]) => !u[5]).map(([, i]) => i), st = isEv() ? S : S.ev.state;
-    if (st) ['upg', 'upgSeen'].forEach(f => { if (Array.isArray(st[f])) st[f] = st[f].map(k => star[k]).filter(k => k != null); });
-    S.ev.upg2 = true; upgCache = null; save(); }
+  if (S && S.ev && !S.ev.upg3) { const loc = EV_LOCS[S.ev.id], now = ECON.UPG[loc.id] || [], st = isEv() ? S : S.ev.state;
+    const old = S.ev.upg2 ? evUpgList(loc.stations, Math.sqrt(1.1135), 200, 'b200') : evUpgList(loc.stations, 1.1135, 100, 'b199');
+    if (st) ['upg', 'upgSeen'].forEach(f => { if (Array.isArray(st[f])) st[f] = st[f].map(k => old[k] && now.findIndex(u => u[0] === old[k][0])).filter(k => k != null && k >= 0); });
+    S.ev.upg2 = S.ev.upg3 = true; upgCache = null; save(); }
 }
 function render() {
   evRules();
@@ -6180,7 +6181,7 @@ function offline() {
 // game's live fields (cash, levels, crew, Upgrades, timers, selection) hold the event's copy and the career's copy waits in S.ev.car;
 // leaving swaps them back. Only the map you were last on earns offline, so no time is ever paid to both.
 const EV_BAR_H = 0;   // layout B: no event bar on the event map (the event tab in the left column replaces it)   // event bar height (CSS px) + the scenery hint strip under it; the station rows clear both
-const EV_K = 13.5, EV_G = Math.sqrt(1.1135), EV_CAP = 200,   // Build 200: twice the levels (200), half the growth per level, so each level takes about as long as before
+const EV_K = 13.5, EV_G = Math.sqrt(1.1135) * Math.pow(1.1, 14 / 200), EV_CAP = 200,   // Build 200: twice the levels (200), half the growth per level, so each level takes about as long as before
   EV_MILES = [50, 100, 150, 180], EV_TIERS = 15, EV_TIER_PTS = 20, EV_MAX_PTS = 300;
 const EV_PT_LV = [50, 100, 200];   // point milestones per station (5 / 10 / 20 stars); the finale needs all five at EV_CAP
 const EV_FIELDS = ['cash', 'levels', 'crew', 'upg', 'running', 'prog', 'selected', 'upgSeen'];
@@ -6251,9 +6252,9 @@ const evOutside = (key, H, down = 0) => {   // down: how far the scenery reaches
         L.push([x - dy / m * w, y + dx / m * w]); R.push([x + dy / m * w, y - dx / m * w]); C.push([x, y]); }
       const f = q => q.map(([x, y]) => `${x.toFixed(1)} ${Math.max(hz, y).toFixed(1)}`).join(' L');
       return `<path d="M${f(L)} L${f(R.reverse())} Z" fill="#EFD3A0"/><path d="M${f(C.slice(0, 20))}" fill="none" stroke="#C99A5E" stroke-width="2.5" stroke-dasharray="14 12"/>`; })()}
-    ${[[30, hz + 40, .45], [110, hz + 26, .35], [330, hz + 50, .5], [-60, hz + 60, .6], [450, hz + 70, .6], [70, H * .7, .85], [340, H * .76, .95], [-20, H * .86, 1.1], [410, H * .9, 1.1]].map(([x, y, s]) => evCactus(x, y, s)).join('')}
+    ${[[-40, hz + 40, .45], [128, hz + 22, .35], [330, hz + 50, .5], [-60, hz + 60, .6], [450, hz + 70, .6], [24, H * .74, .85], [340, H * .76, .95], [-20, H * .86, 1.1], [410, H * .9, 1.1]].map(([x, y, s]) => evCactus(x, y, s)).join('')}
     ${evRock(250, H * .62, 60, 34)}${evRock(-120, H * .7, 80, 46)}${evRock(560, H * .66, 90, 50)}
-    <g transform="translate(120 ${H * .62})"><rect x="-4" y="-80" width="8" height="80" fill="#7E4E25"/><path d="M0 -80 l-22 -10 M0 -80 l22 -10 M0 -80 l-10 22 M0 -80 l10 22 M0 -80 l0 -24" stroke="#7E4E25" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-80" r="6" fill="#5C3A1A"/></g>
+    <g transform="translate(90 ${H * .6})"><rect x="-4" y="-80" width="8" height="80" fill="#7E4E25"/><path d="M0 -80 l-22 -10 M0 -80 l22 -10 M0 -80 l-10 22 M0 -80 l10 22 M0 -80 l0 -24" stroke="#7E4E25" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-80" r="6" fill="#5C3A1A"/></g>
     <path d="M-390 ${H - 26} H780 M-390 ${H - 12} H780" stroke="#7E4E25" stroke-width="5"/>${Array.from({ length: 23 }, (_, i) => `<rect x="${-386 + i * 52}" y="${H - 38}" width="7" height="38" fill="#7E4E25" stroke="#5C3A1A" stroke-width="2"/>`).join('')}
     <rect x="150" y="${H - 44}" width="90" height="44" fill="#E6BE85"/>
     <g><rect x="146" y="${H - 96}" width="8" height="96" fill="#7E4E25" stroke="#5C3A1A" stroke-width="2"/><rect x="236" y="${H - 96}" width="8" height="96" fill="#7E4E25" stroke="#5C3A1A" stroke-width="2"/><rect x="136" y="${H - 104}" width="118" height="22" rx="4" fill="#A86F3A" stroke="#5C3A1A" stroke-width="2.5"/><text x="195" y="${H - 88}" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="700" font-size="12" letter-spacing="2" fill="#FFF1C1">RANCH</text></g>`);
@@ -6330,6 +6331,22 @@ function evCullDecor() {
   document.querySelectorAll('#roomArt .evdecor').forEach(g => { const r = g.getBoundingClientRect(); if (st.some(a => hit(r, a)) || (wk && hit(r, wk))) g.remove(); });
 }
 
+// Event Upgrades (Build 201). Career Map 6 has 8 upgrades per station over 100 levels; events have 200 levels, so 16 per station,
+// spread evenly along the path to level 200 and alternating pay and speed. The original two per station (pays x2 at 25%, runs 1.5x
+// faster at 45%) still give the stars; the 14 new ones are x1.1 each (about x3.8 per station in all). Level prices rise 1.1^(14/200)
+// per level more to match, so each level still takes about as long and the 300-star track is unchanged; you just buy something far more often.
+const EV_UP16 = [[.06, 'warm-up', 'profit'], [.12, 'tune-up', 'speed'], [.18, 'crowd pleaser', 'profit'], [.25, 'louder', 'profit', 2, 1], [.31, 'quick hands', 'speed'],
+  [.38, 'big sound', 'profit'], [.45, 'faster', 'speed', 1.5, 1], [.51, 'fan favorite', 'profit'], [.56, 'smooth set', 'speed'], [.62, 'encore', 'profit'], [.68, 'packed house', 'profit'],
+  [.74, 'tight band', 'speed'], [.8, 'dialed in', 'speed'], [.86, 'standing ovation', 'profit'], [.92, 'legendary', 'profit'], [.97, 'headliner', 'speed']];
+function evUpgList(stations, G, CAP, ver) {
+  const C = EV_C0, U = [], cost = (i, sh) => Math.round(C[i] * Math.pow(G, sh * CAP));
+  stations.forEach((st, i) => {
+    if (ver === 'now') EV_UP16.forEach(([sh, nm, kind, x, star]) => U.push([st.name + ': ' + nm, cost(i, sh), kind, st.id, x || 1.1].concat(star ? [] : [1])));
+    else { U.push([st.name + ': louder', cost(i, .25), 'profit', st.id, 2]); U.push([st.name + ': faster', cost(i, .45), 'speed', st.id, 1.5]);
+      if (ver === 'b200') { U.push([st.name + ': encore', cost(i, .62), 'profit', st.id, 2, 1]); U.push([st.name + ': dialed in', cost(i, .8), 'speed', st.id, 1.5, 1]); } } });
+  U.push(['Crew snacks', cost(2, .4), 'crew', null, 1.25]); U.push(['Big night', cost(4, .4), 'all', null, 1.5]);
+  return U.sort((a, b) => a[1] - b[1]);
+}
 const EV_LOCS = {};
 Object.entries(EV_DEFS).forEach(([key, d]) => {
   const id = 'ev_' + key;
@@ -6339,12 +6356,7 @@ Object.entries(EV_DEFS).forEach(([key, d]) => {
   const decor = '';   // drawn per phone by evOutside() + evGround()
   EV_LOCS[key] = { id, event: key, name: d.title, floor: d.floor, plank: d.plank, wall: 'transparent', decor, home: [160, 300], stations, goal: 0 };
   ECON.G[id] = EV_G;
-  const C = EV_C0, U = [];
-  // Upgrades sit on each station's own price curve, at a share of the cap: pays x2 at 25%, runs 1.5x faster at 45%, crew and all-stations at 40%
-  stations.forEach((st, i) => { U.push([st.name + ': louder', Math.round(C[i] * Math.pow(EV_G, .25 * EV_CAP)), 'profit', st.id, 2]); U.push([st.name + ': faster', Math.round(C[i] * Math.pow(EV_G, .45 * EV_CAP)), 'speed', st.id, 1.5]);
-    // Build 200: two more per station (four each, like the career maps); these add power only, no stars, so the 300-star track is unchanged
-    U.push([st.name + ': encore', Math.round(C[i] * Math.pow(EV_G, .62 * EV_CAP)), 'profit', st.id, 2, 1]); U.push([st.name + ': dialed in', Math.round(C[i] * Math.pow(EV_G, .8 * EV_CAP)), 'speed', st.id, 1.5, 1]); });
-  U.push(['Crew snacks', Math.round(C[2] * Math.pow(EV_G, .4 * EV_CAP)), 'crew', null, 1.25]); U.push(['Big night', Math.round(C[4] * Math.pow(EV_G, .4 * EV_CAP)), 'all', null, 1.5]);
+  const C = EV_C0, U = evUpgList(stations, EV_G, EV_CAP, 'now');
   ECON.UPG[id] = U.sort((a, b) => a[1] - b[1]);
 });
 const isEv = () => !!(S && S.inEv);
@@ -6394,7 +6406,7 @@ function evRebuild() { closePop(); if (typeof stopGlide === 'function') stopGlid
 function evEnsure() {
   const w = evLive(); if (!w || !evUnlocked()) return !!(S.ev && isEv());
   if (S.ev && S.ev.key !== w.key) evFinish();
-  if (!S.ev) { S.ev = { key: w.key, id: w.id, start: w.start, end: w.end, state: evFreshState(w.id), car: null, pass: false, got: { free: {}, pass: {} }, intro: false, lv2: true, upg2: true }; save(); }
+  if (!S.ev) { S.ev = { key: w.key, id: w.id, start: w.start, end: w.end, state: evFreshState(w.id), car: null, pass: false, got: { free: {}, pass: {} }, intro: false, lv2: true, upg2: true, upg3: true }; save(); }
   return true;
 }
 function evTravel() {
