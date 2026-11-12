@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Studio Hustle">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <style>
 html { height: 100%; background: #2A2A33; }
 body { margin: 0; font: 14px system-ui, sans-serif; }
@@ -1001,9 +1001,10 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 
 /* status bar area takes the page background on iPhone, so it matches the bar */
 html, body { background: var(--bar) !important; }
-/* iOS 26 colors the status bar from the top-most fixed box under it (theme-color is ignored), so keep a gray one there,
-   above the loading screen too. 0 tall anywhere without a status-bar inset. */
-.sbtint { position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: var(--bar); z-index: 110; pointer-events: none; }
+/* iOS 26 fills the solid status bar with the color of the fixed box at the very top of the page when the app opens
+   (theme-color is ignored, and a box under 10px tall doesn't count). Keep a 12px gray one there, above the loading screen,
+   so the bar opens gray. 12px only covers the top bar's own gray edge. */
+.sbtint { position: fixed; top: 0; left: 0; right: 0; height: max(12px, env(safe-area-inset-top, 0px)); background: var(--bar); z-index: 110; pointer-events: none; }
 /* the status bar area above the game (iPhone home-screen app draws the page under it) */
 .ios-full, .ios-full body { height: var(--full-h) !important; min-height: var(--full-h); overflow: hidden; }
 .ios-full .app, .ios-full .splash, .ios-full .upload { top: 0 !important; bottom: auto !important; height: var(--full-h) !important; }
@@ -2537,7 +2538,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 193, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 194, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
