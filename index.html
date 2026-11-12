@@ -1246,6 +1246,9 @@ html .side .sbtn.evtab .evt-ic { display: block; flex: none; }
 .tour .tstop { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 11px/1 var(--body); background: #ECE8F6; color: #A39EBC; }
 .tour .tstop.done { background: #8BF0A0; color: #14122A; } .tour .tstop.now { background: #F7A3C6; color: #14122A; box-shadow: 0 0 0 4px rgba(247,163,198,.3); }
 .tour .tline { flex: 1; height: 3px; background: #ECE8F6; } .tour .tline.done { background: #8BF0A0; }
+h3 .hinfo { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-left: 6px; vertical-align: 2px; border-radius: 50%; border: 1.8px solid #4A3A9E; background: none; color: #4A3A9E; font: 800 12px/1 var(--body, sans-serif); font-style: normal; padding: 0; cursor: pointer; }
+h3 .hinfo[aria-expanded="true"] { background: #4A3A9E; color: #FFFFFF; }
+.hinfo-txt { margin-top: 8px; } .hinfo-txt p { margin: 0; }
 details.more > summary { cursor: pointer; font-size: 13px; font-weight: 700; list-style: none; padding: 2px 0; }
 details.more > summary::-webkit-details-marker { display: none; } details.more > summary::before { content: 'ⓘ '; }
 details.more[open] > summary { margin-bottom: 8px; }
@@ -2600,7 +2603,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 209, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 210, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2855,6 +2858,9 @@ function dailyTasks() {
 const goalsClaimable = () => activeGoals().some(goalReady) || tasksClaimable();
 // tab rows inside the Goals and Shop panels (Daily Rewards and Inventory used to have their own home buttons)
 const segTabs = (on, tabs) => `<div class="segtabs" role="tablist">${tabs.map(([k, label, dot]) => `<button class="stab ${k === on ? 'on' : ''}" role="tab" aria-selected="${k === on}" data-tab-go="${k}">${label}${dot ? `<i class="tdot">${dot}</i>` : ''}</button>`).join('')}</div>`;
+let hinfoOpen = {};   // Career panel: which section explainers are open (i buttons)
+document.addEventListener('click', e => { const b = e.target.closest('[data-hinfo]'); if (!b) return; const k = b.dataset.hinfo; hinfoOpen[k] = !hinfoOpen[k];
+  b.setAttribute('aria-expanded', hinfoOpen[k]); const t = b.closest('.sec') && b.closest('.sec').querySelector('.hinfo-txt'); if (t) t.hidden = !hinfoOpen[k]; });
 const goalsTabs = on => segTabs(on, [['goals', 'Goals', goalsClaimable() ? '!' : ''], ['daily', 'Daily Rewards', dailyReady() ? '!' : '']]);
 const shopTabs = on => { const n = invQty('skips') + invQty('frenzies'); return segTabs(on, [['shop', 'Shop', ''], ['inv', 'Inventory', n ? (n > 99 ? '99+' : String(n)) : '']]); };
 const tasksClaimable = () => { const ts = dailyTasks(); return ts.some(t => t.ready && !t.got) || (ts.every(t => t.got) && !S.dt.bonus); };
@@ -5515,17 +5521,17 @@ function openTab(tab) {
         <div class="tour" role="list" aria-label="Tour progress">${tourStops}</div>
         <details class="more"><summary>All stops</summary><div style="display:flex;flex-direction:column;gap:8px">${allLocs.map((l, i) => `<div class="loc ${i === S.loc ? 'now' : i < S.loc ? 'done' : ''}"><span class="dot"></span>${l}${i === S.loc ? ' · you are here' : ''}</div>`).join('')}</div></details>
       </div>
-      <div class="sec"><h3>Albums</h3>
+      <div class="sec"><h3>Albums <button class="hinfo" data-hinfo="albums" aria-label="How albums work" aria-expanded="${!!hinfoOpen.albums}">i</button></h3>
         <div class="albumline"><span class="ric" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#4A3A9E;flex:none">${svgIc('note', '#FFFFFF', 20)}</span>
           <span class="rt"><b>${S.albums || 0} dropped · Fame +${pctTxt(fameBonus())}</b><span>${nextExclusive() ? `Next exclusive outfit at album ${nextExclusive().album}` : 'Every album adds fame'}</span></span>
           ${next ? `<button class="cta pink" ${canAlbum ? '' : 'disabled'} data-album-ask>${canAlbum ? 'Drop' : 'Locked'}</button>` : ''}</div>
-        <details class="more"><summary>How albums work</summary><p>Finish every map to drop an album. It restarts you in the apartment with +${pctTxt(fameBonusAt((S.albums || 0) + 1) - fameBonus())} more All Profit, forever. Fame grows with every album and levels off at +${pctTxt(fameBonusAt(1e9))}. It adds to the same All Profit pool as your outfits. Every station pays 1 gem at Lv 25, 50, 75 and 100, again on every album. Exclusive outfits unlock at albums ${ITEMS.filter(i => i.album).map(i => i.album).sort((a, b) => a - b).join(', ')}. ${canAlbum ? '<b style="color:var(--cash)">Ready to drop.</b>' : S.loc < lastLoc() ? `Reach the ${last.name} and max every station there.` : `Max every station in the ${last.name} first.`}</p></details>
+        <div class="hinfo-txt" ${hinfoOpen.albums ? '' : 'hidden'}><p>Finish every map to drop an album. It restarts you in the apartment with +${pctTxt(fameBonusAt((S.albums || 0) + 1) - fameBonus())} more All Profit, forever. Fame grows with every album and levels off at +${pctTxt(fameBonusAt(1e9))}. It adds to the same All Profit pool as your outfits. Every station pays 1 gem at Lv 25, 50, 75 and 100, again on every album. Exclusive outfits unlock at albums ${ITEMS.filter(i => i.album).map(i => i.album).sort((a, b) => a - b).join(', ')}. ${canAlbum ? '<b style="color:var(--cash)">Ready to drop.</b>' : S.loc < lastLoc() ? `Reach the ${last.name} and max every station there.` : `Max every station in the ${last.name} first.`}</p></div>
       </div>
-      <div class="sec"><h3>Plaques <small class="h3note">${clearsOf().filter(Boolean).length} of ${allLocs.length} maps cleared</small></h3>
+      <div class="sec"><h3>Plaques <button class="hinfo" data-hinfo="plaques" aria-label="About plaques" aria-expanded="${!!hinfoOpen.plaques}">i</button> <small class="h3note">${clearsOf().filter(Boolean).length} of ${allLocs.length} maps cleared</small></h3>
         ${plaqueRow(clearsOf())}
         ${MAP_GEMS[S.mapPaid || 0] && LOCATIONS[S.mapPaid || 0] ? `<p class="cnote">Next first clear: the ${allLocs[S.mapPaid || 0]} pays ${MAP_GEMS[S.mapPaid || 0]} gems.</p>` : ''}
-        <details class="more"><summary>About plaques</summary><p>Every time you clear a map its plaque counts it. Frames upgrade to Silver, Gold, Platinum and Diamond at 3, 5, 10 and 20 clears.</p></details></div>
-      <details class="sec more"><summary>Career stats (all-time)</summary>
+        <div class="hinfo-txt" ${hinfoOpen.plaques ? '' : 'hidden'}><p>Every time you clear a map its plaque counts it. Frames upgrade to Silver, Gold, Platinum and Diamond at 3, 5, 10 and 20 clears.</p></div></div>
+      <div class="sec"><h3>Career stats <small class="h3note">all-time</small></h3>
         <div class="statgrid">
           <div class="wide"><b>${titleTag(S.albums, S.maxLoc)}</b><span>Your title on The Charts${(() => { const nx = TITLES[TITLES.indexOf(titleOf(S.albums, S.maxLoc)) + 1]; return nx ? ` · next: ${nx[2]} at ${nx[0] ? 'album ' + nx[0] : 'the ' + allLocs[nx[1]]}` : ''; })()}</span></div>
           <div><b>${S.albums || 0}</b><span>Albums dropped</span></div>
@@ -5539,7 +5545,7 @@ function openTab(tab) {
           <div><b>${playTime(S.stats.playSec)}</b><span>Time in the studio</span></div>
           <div><b>${Object.keys(S.goalsDone).length} / ${GOALS.length}</b><span>Goals completed</span></div>
         </div>
-      </details>`);
+      </div>`);
   } else if (tab === 'welcome') {
     openSheet(`<div class="welcome-hero"><span class="wh-ic">${ART.mic()}</span><h2>Welcome to Studio Hustle</h2><p>You're a new artist in a rundown apartment. Let's get you on the charts.</p></div>
       <label class="lbl" for="welcomeName">Your artist name</label>
