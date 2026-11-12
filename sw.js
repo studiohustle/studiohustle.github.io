@@ -1,9 +1,9 @@
 // Offline support. Change VERSION whenever you upload a new build so players get the update.
-const VERSION = 'studio-hustle-v190';
+const VERSION = 'studio-hustle-v191';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './art/gem.webp', './art/cash.svg', './icons/icon-192.png', './icons/icon-512.png',
   './music/beat1.mp3', './music/beat2.mp3', './music/beat3.mp3',
   './sfx/tap.wav', './sfx/panel.wav', './sfx/backer.wav', './sfx/album.wav'];
-self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL))); self.skipWaiting(); });
+self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' }))))); self.skipWaiting(); });   // 'reload': never store a stale copy from the browser cache
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))));
   self.clients.claim();
@@ -15,6 +15,12 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (url.origin !== self.location.origin && !/fonts\.(googleapis|gstatic)\.com$/.test(url.hostname)) return;
   // pages: always ask the server for the newest copy (skipping the browser cache); use the saved copy only when offline
+  // the app manifest (name, icons, status-bar colors): always the newest copy, the saved one only when offline
+  if (url.pathname.endsWith('/manifest.webmanifest')) {
+    e.respondWith(fetch(e.request, { cache: 'no-store' }).then(r => { const copy = r.clone(); caches.open(VERSION).then(c => c.put(e.request, copy)); return r; })
+      .catch(() => caches.match(e.request)));
+    return;
+  }
   if (e.request.mode === 'navigate') {
     e.respondWith(fetch(e.request, { cache: 'no-store' }).then(r => { const copy = r.clone(); caches.open(VERSION).then(c => c.put('./index.html', copy)); return r; })
       .catch(() => caches.match('./index.html')));

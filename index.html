@@ -1507,7 +1507,7 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
     // a cold launch keeps the splash up for about 2 s from when it appeared (longer only if start-up needs it); the bar stays real and
     // may sit full for a moment. The page doesn't reload when coming back from the background, so this never replays then.
     window.splashProgress = v => { if (done) return; p = Math.max(p, v); bar.style.setProperty('--p', p.toFixed(3));
-      if (p >= 1) { done = true; setTimeout(() => { sp.classList.add('done'); dispatchEvent(new Event('splashdone')); }, Math.max(300, 2000 - (performance.now() - shown))); } };
+      if (p >= 1) { done = true; setTimeout(() => { sp.classList.add('done'); dispatchEvent(new Event('splashdone')); setTimeout(() => sp.remove(), 450); }, Math.max(300, 2000 - (performance.now() - shown))); /* removed once it fades, so nothing blue is left at the top */ } };
     splashProgress(.15);
     setTimeout(() => splashProgress(1), 9000);   // safety net: never keep the game behind the splash if something hangs
   })();
@@ -1524,9 +1524,7 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
     if (on) root.style.setProperty('--full-h', Math.max(screen.width, screen.height, innerHeight) + 'px');
     window.__vp = `view ${innerWidth}x${innerHeight} · screen ${screen.width}x${screen.height} · vv ${visualViewport ? Math.round(visualViewport.height) : '-'} · app ${on ? 'full' : 'normal'}`; };
   fit(); addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 300)); addEventListener('load', () => setTimeout(fit, 100)); })();
-// paint the phone's status bar the splash color while it shows, then back to the top-bar gray
-(() => { const m = document.querySelector('meta[name="theme-color"]'); if (!m) return; const was = m.content;
-  m.content = '#4FBDEE'; addEventListener('splashdone', () => setTimeout(() => { m.content = was; }, 350), { once: true }); })();
+// the phone's status bar stays the top-bar gray the whole time (painting it blue for the loading screen could stick on iPhone)
 </script>
 <div class="app" id="app">
   <header class="hud">
@@ -2535,7 +2533,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 190, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 191, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
