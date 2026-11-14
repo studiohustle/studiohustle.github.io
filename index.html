@@ -693,7 +693,8 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .buycost > span { font-size: 12px; color: var(--muted); font-weight: 700; }
 .buycost b { display: flex; align-items: center; gap: 6px; font: 400 26px var(--display); color: var(--gem); }
 .fbq { display: flex; flex-direction: column; gap: 8px; }
-.fbopts { display: flex; gap: 6px; } .fbo { flex: 1; min-width: 0; height: 42px; border-radius: 12px; background: var(--panel-2); color: var(--text); font-weight: 800; font-size: 14px; border: 2px solid transparent; }
+.namecost { margin: 8px 2px 12px; font-size: 13px; font-weight: 600; color: #6F6893; } .gemcta .gemprice { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; } .gemcta { display: flex; align-items: center; justify-content: center; }
+.fbopts { display: flex; gap: 6px; } .fbopts.wrap { flex-wrap: wrap; } .fbopts.wrap .fbo { flex: 1 1 30%; } .fbo { flex: 1; min-width: 0; height: 42px; border-radius: 12px; background: var(--panel-2); color: var(--text); font-weight: 800; font-size: 14px; border: 2px solid transparent; }
 .fbo.on { background: var(--text); color: var(--deep); border-color: var(--gem); }
 .fbtext { border-radius: 14px; border: 2px solid var(--line); background: var(--panel-2); color: var(--text); font: 600 15px var(--body); padding: 10px 12px; resize: vertical; -webkit-user-select: text; user-select: text; }
 .fbtext:focus { outline: none; border-color: var(--gem); }
@@ -2625,7 +2626,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 214, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 215, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4471,8 +4472,16 @@ $('scrim').addEventListener('click', e => {
     return askItem(it, 'style'); }
   const rn = e.target.closest('[data-rename]');
   if (rn) { renameFrom = rn.dataset.from || 'style'; return openTab('rename'); }
-  if (e.target.closest('[data-save-name]')) { const v = ($('artistNameInput').value || '').trim().slice(0, 16); const clean = cleanName(v); S.name = clean;
-    save(); toast(clean !== (v || 'New Artist') ? "That name isn't allowed" : 'Name saved'); syncChart(true); return openTab(renameFrom); }
+  if (e.target.closest('[data-save-name]')) { const v = ($('artistNameInput').value || '').trim().slice(0, 16); const clean = cleanName(v);
+    if (clean !== (v || 'New Artist')) { sfx('denied'); return toast("That name isn't allowed"); }
+    if (clean === cleanName(S.name)) return openTab(renameFrom);   // unchanged: nothing used up
+    const c = nameCost(), apply = () => { S.name = clean; S.nameChanges = (S.nameChanges || 0) + 1; save(); toast('Name saved'); syncChart(true); track('rename/' + S.nameChanges); };
+    if (!c) { apply(); return openTab(renameFrom); }
+    if (S.gems < c) { sfx('denied'); return toast('Not enough gems'); }
+    pendingName = { clean, apply }; return openTab('rename-ok'); }
+  if (e.target.closest('[data-name-ok]')) { const p = pendingName, c = nameCost(); pendingName = null; if (!p || S.gems < c) return openTab('rename');
+    S.gems -= c; p.apply(); return openTab(renameFrom); }
+  if (e.target.closest('[data-name-back]')) { pendingName = null; return openTab('rename'); }
   const bi = e.target.closest('[data-buy-item]');
   if (bi) { const it = itemById(bi.dataset.buyItem); if (!it || S.owned[it.id]) return openTab(bi.dataset.from || 'style');
     return askItem(it, bi.dataset.from || 'style'); }
@@ -4789,6 +4798,10 @@ const FAN_MIN = 30, FAN_MAX = 90, FAN_WALK = 11000, FAN_CASH_SECS = 60, FAN_GEMS
 let fanAcc = 0, fanNext = FAN_MIN + Math.random() * (FAN_MAX - FAN_MIN), fanEl = null;
 const CAM_SVG = `<svg class="cam" viewBox="0 0 22 18" aria-hidden="true"><rect x="1" y="4" width="20" height="13" rx="3" fill="#2B2742" stroke="#14122A" stroke-width="1.5"></rect><rect x="6" y="1" width="8" height="4" rx="1.5" fill="#2B2742" stroke="#14122A" stroke-width="1.5"></rect><circle cx="11" cy="10.5" r="4.2" fill="#6E7BBF" stroke="#14122A" stroke-width="1.5"></circle><circle cx="12.3" cy="9.3" r="1.3" fill="#fff" opacity=".8"></circle><rect x="16" y="6" width="3" height="2" rx=".8" fill="#FFE27A"></rect></svg>`;
 const MILE_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.8 6.3 6.9.6-5.2 4.6 1.5 6.8L12 17.3l-6 3.5 1.5-6.8L2.3 9.4l6.9-.6z" fill="#FFC54A" stroke="#FFC54A" stroke-width="2.4" stroke-linejoin="round"/></svg>';
+// Name changes: 2 free, then 500 gems, 1,000, and 1,500 from then on (Clash of Clans' pattern)
+const NAME_FREE = 2, nameCost = () => { const n = S.nameChanges || 0; return n < NAME_FREE ? 0 : Math.min(1500, 500 * (n - NAME_FREE + 1)); };
+let pendingName = null;
+const NAME_ART = `<svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true"><rect x="5" y="12" width="38" height="24" rx="7" fill="#fff" stroke="#14122A" stroke-width="3"/><path d="M12 24h14" stroke="#14122A" stroke-width="3" stroke-linecap="round"/><path d="M30 33 L40 15 l4 2.4 L34 35.4 l-5 1.6Z" fill="#6CBCF8" stroke="#14122A" stroke-width="2.6" stroke-linejoin="round"/></svg>`;
 const GEM_MINI = `<img src="art/gem.webp" width="22" height="18" alt="" draggable="false" style="display:block">`;
 const COIN_MINI = `<span class="coin fcoin">$</span>`;
 function fanGemsToday() { const d = new Date().toDateString(); if (!S.fanDay || S.fanDay.d !== d) S.fanDay = { d, gems: 0 }; return S.fanDay; }
@@ -5415,15 +5428,21 @@ const FB_QS = [
   { k: 'pace', q: 'How did the pace feel?', opts: ['Too slow', 'Just right', 'Too fast'] },
   { k: 'back', q: 'Would you play again tomorrow?', opts: ['Yes', 'Maybe', 'No'] },
   { k: 'tomorrow', q: 'What would make you come back tomorrow?', text: 'A goal, a feature, a reward…' },
-  { k: 'look', q: 'Could you make an artist that feels like you?', opts: ['Yes', 'Mostly', 'No'] },
-  { k: 'buy', q: 'Would you spend money on anything?', opts: ['Yes', 'Maybe', 'No'] },
+  { k: 'event', q: 'How did the weekend event feel?', opts: ['Too hard', 'Just right', 'Too easy', 'Haven\'t tried one'] },
+  { k: 'spend', q: 'What would you most likely spend money on?', opts: ['Golden Mic', 'Backstage Pass', 'Event Mini Pass', 'Gems', 'Nothing yet'] },
   { k: 'best', q: 'What was the most satisfying moment?', text: 'Anything that felt good' },
   { k: 'stuck', q: 'Was there a moment you got bored, stuck, confused or almost quit?', text: 'A map, a screen, a moment…' },
   { k: 'change', q: 'One thing you would change, or any bugs?', text: 'Be brutally honest' },
 ];
 function fbDraft() { if (!S.fb) S.fb = {}; return S.fb; }
+// Event play attached to every response, so testers don't have to describe it
+function fbEventMeta() {
+  const h = (S.evHist || []).filter(e => e.tier > 0), cur = S.ev ? { id: S.ev.id, tier: evTier(), pass: !!S.ev.pass } : null;
+  const tiers = h.map(e => e.tier).concat(cur ? [cur.tier] : []);
+  return { played: h.length + (cur && (cur.tier > 0 || evPoints() > 0) ? 1 : 0), bestTier: tiers.length ? Math.max(...tiers) : 0, finished: h.filter(e => e.tier >= EV_TIERS).length, badges: Object.keys(S.evBadges || {}).length, current: cur };
+}
 async function sendFeedback() {
-  const answers = Object.assign({}, fbDraft()), meta = { build: BUILD, map: LOC().id, albums: S.albums || 0, minutes: Math.round(S.stats.playSec / 60), days: S.stats.days || 1, test: TEST, wouldBuy: S.intent || {}, channel: PLAYTEST ? 'playtest' : TEST ? 'test' : 'live', playtest: PLAYTEST ? PLAYTEST_LABEL : null };
+  const answers = Object.assign({}, fbDraft()), meta = { build: BUILD, map: LOC().id, albums: S.albums || 0, minutes: Math.round(S.stats.playSec / 60), days: S.stats.days || 1, test: TEST, wouldBuy: S.intent || {}, events: fbEventMeta(), channel: PLAYTEST ? 'playtest' : TEST ? 'test' : 'live', playtest: PLAYTEST ? PLAYTEST_LABEL : null };
   if (!Object.keys(answers).length) { toast('Answer at least one question first'); return; }
   try {
     if (inPreview) throw new Error('preview');
@@ -5939,11 +5958,19 @@ function openTab(tab) {
       <div class="stabs">${['top', 'hat', 'neck', 'face', 'colors'].map(k => `<button class="stab ${styleSlot === k ? 'on' : ''}" data-stab="${k}" aria-label="${k === 'colors' ? 'Colors' : SLOTS.find(x => x[0] === k)[1]}">${ic(slotIc[k], 24)}</button>`).join('')}</div>
       ${grid}
       <p class="bonusline"><small>Wardrobe bonus: your best item in each slot counts toward your income, so wear whatever you like.</small></p>`);
+  } else if (tab === 'rename-ok') {   // plain confirm for a paid name change: no art, it's not an achievement
+    const c = nameCost();
+    openSheet(`<div class="sheet-head"><h2>Change name?</h2>${closeBtn()}</div>
+      <p class="namecost">Change your name to <b>${esc(pendingName ? pendingName.clean : '')}</b>. You have ${Math.floor(S.gems).toLocaleString('en-US')} gems.</p>
+      <button class="cta gemcta" data-name-ok>Change for <span class="gemprice">${GEM_MINI}${c}</span></button>
+      <button class="ghost" data-name-back>Cancel</button>`);
   } else if (tab === 'rename') {
+    const c = nameCost(), left = Math.max(0, NAME_FREE - (S.nameChanges || 0));
     openSheet(`<div class="sheet-head"><h2>Name your artist</h2>${closeBtn()}</div>
       <label class="lbl" for="artistNameInput">Artist name</label>
       <input id="artistNameInput" class="nameinput" maxlength="16" value="${esc(S.name || '')}" placeholder="New Artist" autocomplete="off">
-      <button class="cta" data-save-name>Save</button>`);
+      <p class="namecost">${c ? 'Your free name changes are used up.' : `${left} free name change${left === 1 ? '' : 's'} left`}</p>
+      <button class="cta ${c ? 'gemcta' : ''}" data-save-name>${c ? `Save <span class="gemprice">${GEM_MINI}${c}</span>` : 'Save'}</button>`);
     setTimeout(() => { const i = $('artistNameInput'); if (i) i.focus(); }, 50);
   } else if (tab === 'goals') {
     const done = GOALS.filter(g => S.goalsDone[g.id]).length, tierName = ['', 'Starter', 'Mid-term', 'Long-term'];
@@ -6013,7 +6040,7 @@ function openTab(tab) {
     openSheet(`<div class="sheet-head"><h2>Playtest feedback</h2>${closeBtn()}</div>
       <p>${S.fbPrompted && !S.fbSent ? 'Got a minute? ' : ''}${FB_QS.length} quick questions. Skip any you like. Honest answers help most.</p>
       ${FB_QS.map(x => `<div class="fbq"><label class="lbl" ${x.text ? `for="fb-${x.k}"` : ''}>${x.q}</label>${x.opts
-        ? `<div class="fbopts">${x.opts.map(o => `<button class="fbo ${d[x.k] === o ? 'on' : ''}" data-fb="${x.k}" data-v="${o}">${o}</button>`).join('')}</div>`
+        ? `<div class="fbopts ${x.opts.length > 4 ? 'wrap' : ''}">${x.opts.map(o => `<button class="fbo ${d[x.k] === o ? 'on' : ''}" data-fb="${x.k}" data-v="${o}">${o}</button>`).join('')}</div>`
         : `<textarea id="fb-${x.k}" class="fbtext" data-fbt="${x.k}" rows="2" maxlength="400" placeholder="${x.text}">${esc(d[x.k] || '')}</textarea>`}</div>`).join('')}
       <button class="cta" data-fb-send>Send feedback</button>
       ${S.fbPrompted && !S.fbSent ? '<button class="ghost" data-close>Maybe later</button>' : ''}`);
@@ -6120,7 +6147,8 @@ function render() {
     starPulse = false; }
   $('upBtn').disabled = !plan.n || S.cash < plan.cost; $('upBtn').classList.toggle('short', !!plan.n && S.cash < plan.cost);   /* can't afford: red price */
   $('upBtn').setAttribute('aria-label', `Upgrade ${st.name} by ${plan.n} level${plan.n > 1 ? 's' : ''} for ${fmt(plan.cost)}`);
-  if (!TEST && !S.fbPrompted && S.stats.playSec > 2700 && $('scrim').hidden && S.onboarded) { S.fbPrompted = true; save(); openTab('feedback'); }
+  if (!TEST && !S.fbPrompted && S.stats.playSec > 2700 && $('scrim').hidden && S.onboarded) { S.fbPrompted = true; if ((S.evHist || []).some(e => e.tier > 0)) S.fbPrompted2 = true; save(); openTab('feedback'); }
+  else if (!TEST && S.fbPrompted && !S.fbPrompted2 && (S.evHist || []).some(e => e.tier > 0) && $('scrim').hidden && S.onboarded) { S.fbPrompted2 = true; save(); openTab('feedback'); }   // one more time after their first event
   if (TEST) $('testChip').textContent = `TEST · ${S.test.speed}x${S.test.hype ? ' · Hype' : ''}`;
   if (S.stats.lastDay !== dayKey()) { S.stats.lastDay = dayKey(); S.stats.days = (S.stats.days || 0) + 1; if (S.stats.days <= 30) track('days-played/' + S.stats.days); }
   $('goalsDot').hidden = !(goalsClaimable() || dailyReady());
@@ -6226,13 +6254,16 @@ function tick(t) {
   requestAnimationFrame(tick);
 }
 
-function offline() {
-  const now = Date.now(), last = S.last || now;
+function awayValue(last) {   // capped, half-rate crew income for the time since `last` on the map you're on now
+  const now = Date.now();
   const away = (Math.min(now, isEv() && S.ev ? S.ev.end : now) - last) / 1000, secs = Math.min(offlineCap(), away);
-  if (secs < 30) return;
+  if (secs < 30) return 0;
   // hype time that overlapped the counted part of the time away pays double
   const hyped = Math.max(0, Math.min(secs, (Math.min(S.hypeUntil, last + secs * 1000) - last) / 1000));
-  const v = Math.round(perSec() * (secs + hyped * (hypeX() - 1)) * offlineRate());
+  return Math.round(perSec() * (secs + hyped * (hypeX() - 1)) * offlineRate());
+}
+function offline() {
+  const now = Date.now(), last = S.last || now, v = awayValue(last), secs = 0;
   if (v < 1) return;
   earn(v); pendingBonus = v; owe('cash');
   const h = Math.floor(secs / 3600), m = Math.floor(secs % 3600 / 60);
@@ -6566,11 +6597,17 @@ function evEnsure() {
 function evTravel() {
   if (!evLive() || !evUnlocked() || !evEnsure()) return;
   if (isEv()) return closeSheet();
-  bumpRev(); evSwapIn(); closeSheet(); evRebuild(); save();
+  bumpRev(); evSwapIn(); S.ev.carAway = Date.now(); closeSheet(); evRebuild(); save();
   toast(`Welcome to the ${evDef().title}! Level up and fill the reward track.`);
+  // away earnings for the time spent on the career: the event's normal offline rules (base 2 h cap, half rate,
+  // ad doubles it, no Vault on events, nothing past the event's end), the same as if the app had been closed on the event map
+  if (S.ev && S.ev.away) { const keep = Date.now(); S.last = S.ev.away; S.ev.away = null; offline(); S.last = keep; save(); }
   if (!S.ev.intro) { S.ev.intro = true; setTimeout(() => openTab('evintro'), 600); }
 }
-function evBack() { if (!isEv()) return; bumpRev(); evSwapOut(); closeSheet(); evRebuild(); save(); toast('Back to your career'); }
+function evBack() { if (!isEv()) return; bumpRev(); evSwapOut(); S.ev.away = Date.now();   // the event's crew keep working while you're on the career
+  closeSheet(); evRebuild(); save(); toast('Back to your career');
+  // and the career's crew kept working while you were on the event: the career's normal offline rules (Vault included)
+  if (S.ev.carAway) { const keep = Date.now(); S.last = S.ev.carAway; S.ev.carAway = null; offline(); S.last = keep; save(); } }
 // rewards: resolve cosmetics (never duplicated: 100 gems if already owned), then pay through the normal reward path
 function evResolve(r) { const d = EV_DEFS[S.ev.id]; if (r.acc || r.top) { const it = r.acc ? d.acc : d.top; return S.owned[it] ? { gems: 100 } : { item: it }; } return r; }
 function evClaim(lane, n) {
@@ -6590,8 +6627,10 @@ function evFinish() {
   for (let n = 1; n <= T; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
   S.evResult = { title: EV_DEFS[S.ev.id].title, tier: T, pts, pass: S.ev.pass, got };
   S.evHist = [...(S.evHist || []), { key: S.ev.key, id: S.ev.id, start: S.ev.start, end: S.ev.end, tier: T, badge: !!S.ev.got.free[EV_TIERS] }].slice(-40);
+  const carAway = wasIn && S.ev.carAway;
   S.ev = null; bumpRev();
   if (wasIn) { S.last = Date.now(); evRebuild(); }
+  if (carAway) { const v = awayValue(carAway); if (v >= 1) { earn(v); toast(`Your career earned +${fmt(v)} while you were at the event`); } }
   save();
 }
 let evResultShown = false;
@@ -6776,7 +6815,7 @@ document.addEventListener('click', e => {
 
 // Build 163 alpha reset: every career from before this build starts again at album 0 on the normal curve.
 // Kept: account, email sign-in, friend code and friends, name and look, settings, cosmetic-only items and badges.
-const RESET_KEEP = ['name', 'skin', 'hc', 'hs', 'fd', 'phones', 'country', 'vol', 'volV', 'tipsOff', 'coach', 'coinHint', 'fanHint', 'fb', 'fbPrompted', 'fbSent', 'intent', 'buyMode', 'badges', 'evBadges', 'evSeen', 'upgSeen', 'upgOpened', 'vaultSeen'];
+const RESET_KEEP = ['name', 'skin', 'hc', 'hs', 'fd', 'phones', 'country', 'vol', 'volV', 'tipsOff', 'coach', 'coinHint', 'fanHint', 'fb', 'fbPrompted', 'fbPrompted2', 'fbSent', 'nameChanges', 'intent', 'buyMode', 'badges', 'evBadges', 'evSeen', 'upgSeen', 'upgOpened', 'vaultSeen'];
 // thank-you gems, by account id (the save's cloud uid). Every other alpha career that resets gets RESET_GEMS_DEFAULT.
 const RESET_GEMS = { '40010cbe-83f6-45a0-8a21-d1211abb9973': 2000, 'b6edaa2b-ba54-4d09-b8eb-cfc12e0a99aa': 2000 };   // DJ Yummm, IntricatePlays
 const RESET_GEMS_DEFAULT = 1000;
