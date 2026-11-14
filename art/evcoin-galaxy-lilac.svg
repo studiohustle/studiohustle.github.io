@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 44 44">
+  <title>Studio Hustle — Event Coin</title>
+  <defs>
+    <radialGradient id="face" gradientUnits="userSpaceOnUse" cx="15" cy="12" r="32">
+      <stop offset="0" stop-color="#F7F2FF"/>
+      <stop offset=".52" stop-color="#DCCDFF"/>
+      <stop offset="1" stop-color="#B9A2F2"/>
+    </radialGradient>
+    <clipPath id="coin"><circle cx="22" cy="22" r="19"/></clipPath>
+  </defs>
+  <circle cx="22" cy="22" r="20.5" fill="#14122A"/>
+  <g clip-path="url(#coin)">
+    <circle cx="22" cy="22" r="19" fill="#7F63D8"/>
+    <circle cx="21.5" cy="20.4" r="18.7" fill="url(#face)"/>
+    <path d="M37.1 11.8C40.5 24.1 31.1 36.5 16.1 35.4C10.8 35 6.7 32.5 4 29.1C7.7 40.6 28.1 45.1 37.8 31C41.7 25.4 41.7 18.1 37.1 11.8Z" fill="#A58BEA" opacity=".48"/>
+    <circle cx="21.6" cy="20.8" r="16.7" fill="none" stroke="#F4EEFF" stroke-width=".7"/>
+    <path d="M6.1 25.2A16.7 16.7 0 0 1 33.1 8.7" fill="none" stroke="#C3AFF5" stroke-width=".42" stroke-linecap="round"/>
+    <path d="M10.1 16.4C11 12.5 14.1 9.4 17 9.1C19.1 8.9 19.5 10.5 17.9 12C15.4 14.2 13.6 17.3 11.9 18C10.6 18.5 9.8 17.9 10.1 16.4Z" fill="#FFFFFF" opacity=".8"/>
+  </g>
+  <g transform="rotate(-18 22 22.4)">
+    <ellipse cx="22" cy="22.4" rx="13.4" ry="4.3" fill="none" stroke="#14122A" stroke-width="2.6"/>
+    <circle cx="22" cy="22.4" r="7.4" fill="#14122A" stroke="#DCCDFF" stroke-width="1.5"/>
+    <path d="M8.6 22.4A13.4 4.3 0 0 0 35.4 22.4" fill="none" stroke="#DCCDFF" stroke-width="4.6"/>
+    <path d="M8.6 22.4A13.4 4.3 0 0 0 35.4 22.4" fill="none" stroke="#14122A" stroke-width="2.6"/>
+    <path d="M16.6 19.6Q22 18.2 27.4 19.6" fill="none" stroke="#DCCDFF" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+</svg>

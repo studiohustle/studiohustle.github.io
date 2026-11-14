@@ -1384,11 +1384,19 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evbird.rtl { left: auto; right: -44px; animation-name: evfly-rtl; } .evbird.rtl svg { transform: scaleX(-1); }
 @keyframes evfly { 0% { transform: translateX(0); } 58% { transform: translateX(480px); } 100% { transform: translateX(480px); } }
 @keyframes evfly-rtl { 0% { transform: translateX(0); } 58% { transform: translateX(-480px); } 100% { transform: translateX(-480px); } }
+.evbird.evufo { animation-name: evufo; } .evbird.evufo.rtl { animation-name: evufo-rtl; }
+@keyframes evufo { 0% { transform: translate(0, 0); } 11% { transform: translate(520px, -26px); } 100% { transform: translate(520px, -26px); } }
+@keyframes evufo-rtl { 0% { transform: translate(0, 0); } 11% { transform: translate(-520px, -18px); } 100% { transform: translate(-520px, -18px); } }
 .evbird-bob { animation: evbob 2.6s ease-in-out infinite alternate; } @keyframes evbob { from { transform: translateY(-7px); } to { transform: translateY(7px); } }
 .evbird .wl, .evbird .wr { transform-box: fill-box; animation: evflap .34s ease-in-out infinite alternate; }
 .evbird .wl { transform-origin: 100% 100%; } .evbird .wr { transform-origin: 0% 100%; }
 @keyframes evflap { from { transform: scaleY(1); } to { transform: scaleY(-.45); } }
 @media (prefers-reduced-motion: reduce) { .evbirds { display: none; } }
+.evtw { transform-box: fill-box; transform-origin: center; animation: evtw 2.4s ease-in-out infinite alternate; } @keyframes evtw { from { opacity: .15; transform: scale(.6); } to { opacity: 1; transform: scale(1.25); } }
+.evblink { animation: evblink 1.2s ease-in-out infinite alternate; } @keyframes evblink { from { opacity: .35; } to { opacity: 1; } }
+.evbeam { transform-box: view-box; animation: evbeam 4.5s ease-in-out infinite alternate; } @keyframes evbeam { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+.evshoot { animation: evshoot 7s linear infinite; } @keyframes evshoot { 0%, 82% { transform: translate(0, 0); opacity: 0; } 85% { opacity: 1; } 100% { transform: translate(520px, 170px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .evtw, .evblink, .evbeam, .evshoot { animation: none; } .evshoot { display: none; } }
 .evsway { animation: evsway 3.6s ease-in-out infinite alternate; } @keyframes evsway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 .evsun { border-radius: 50%; box-shadow: 0 0 34px 10px var(--glow); animation: evsun 5s ease-in-out infinite alternate; } @keyframes evsun { from { box-shadow: 0 0 26px 6px var(--glow); } to { box-shadow: 0 0 44px 16px var(--glow); } }
 @media (prefers-reduced-motion: reduce) { .evsway, .evsun { animation: none; } }
@@ -2566,6 +2574,8 @@ const ITEMS = (() => { const list = [
   { id: 'evfringe', rar: 'seasonal', slot: 'top', name: 'Fringe Jacket', gift: true, bonus: 0, perk: 'Event · Western Mini Pass', look: { body: '#8B5A2B', trim: '#E7C08A', style: 'jacket' } },
   { id: 'evlei', rar: 'seasonal', slot: 'neck', name: 'Island Lei', gift: true, bonus: 0, perk: 'Event · Island Mini Pass', look: { color: '#FF6FAE', style: 'rope' } },
   { id: 'evhibiscus', rar: 'seasonal', slot: 'top', name: 'Hibiscus Shirt', gift: true, bonus: 0, perk: 'Event · Island Mini Pass', look: { body: '#2FB5A5', trim: '#FF6FAE', style: 'tee' } },
+  { id: 'evorbit', rar: 'seasonal', slot: 'neck', name: 'Orbit Pendant', gift: true, bonus: 0, perk: 'Event · Galaxy Mini Pass', look: { style: 'record', color: '#C9CED9', pend: '#9B7BFF' } },
+  { id: 'evnebula', rar: 'seasonal', slot: 'top', name: 'Nebula Jacket', gift: true, bonus: 0, perk: 'Event · Galaxy Mini Pass', look: { body: '#3A2E7A', trim: '#7FE3FF', style: 'jacket' } },
   { id: 'harvestbeanie', rar: 'seasonal', slot: 'hat', name: 'Harvest Beanie', gift: true, bonus: 0, perk: 'Seasonal · Thank-you gift', look: { color: '#D9772E', style: 'beanie' } },
   { id: 'founder', rar: 'founder', slot: 'top', name: 'Founder Tee', gift: true, bonus: 0, look: { style: 'tee', body: '#7C4FE0', trim: '#FFD93D', graphic: 'founder' } },
   { id: 'foundingpin', rar: 'founder', slot: 'neck', name: 'Founding Tester Pin', gift: true, bonus: 0, perk: 'Thank-you · Alpha testers', look: { style: 'pin', color: '#FFD93D', pend: '#7C4FE0' } },
@@ -2615,7 +2625,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 213, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 214, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -2916,6 +2926,7 @@ const OFFERS = {
   // long-event Mini Pass (one per event): during the playtest it opens the "would you buy it?" screen like the other paid items
   evPassWestern: { name: 'Western Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Western Event: gems, time skips, Fan Frenzies, the Western Bandana and the Fringe Jacket', money: '$2.99' },
   evPassIsland: { name: 'Island Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Island Event: gems, time skips, Fan Frenzies, the Island Lei and the Hibiscus Shirt', money: '$2.99' },
+  evPassGalaxy: { name: 'Galaxy Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Galaxy Event: gems, time skips, Fan Frenzies, the Orbit Pendant and the Nebula Jacket', money: '$2.99' },
   frenzy4: { name: '4 Fan Frenzies', sub: '4 Fan Frenzies to store and use any time', money: '$0.99', frenzyOut: 4 },
   frenzy20: { name: '20 Fan Frenzies', sub: '20 Fan Frenzies to store and use any time', money: '$3.99', frenzyOut: 20 },
   frenzy50: { name: '50 Fan Frenzies', sub: '50 Fan Frenzies to store and use any time', money: '$7.99', frenzyOut: 50 },
@@ -3483,7 +3494,7 @@ const legacyGoal = () => S.legacyGoal === S.loc && S.legacyAlbums === (S.albums 
 const movePct = () => isEv() ? evPoints() / EV_MAX_PTS * 100 : tourMet() ? 100 : Math.min(100, Math.max(stationsPct(ev() === 'tour' ? 90 : LV_CAP), legacyGoal() ? S.earned / goalOf(S.loc) * 100 : 0));
 
 const CUR = () => isEv() ? '' : '$';   // events use the game's regular money, shown with the event's own coin instead of a $ (never named)
-let EV_COIN = { western: 'tan', island: 'aqua' };   // own light colors, so the coin stands out on the blue price buttons   // coin art per event: art/evcoin-<event>-<style>.svg
+let EV_COIN = { western: 'tan', island: 'aqua', galaxy: 'lilac' };   // own light colors, so the coin stands out on the blue price buttons   // coin art per event: art/evcoin-<event>-<style>.svg
 function fmt(n) {
   if (n < 1000) return CUR() + (n < 10 && n % 1 ? n.toFixed(1).replace(/\.0$/, '') : Math.floor(n));
   const u = ['K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc', 'Ud', 'Dd'];
@@ -5675,7 +5686,7 @@ function openTab(tab) {
     const lwCard = w => { const d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       return `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
         <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
-        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western and Island take turns each week.</p>'}</div>`; };
+        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western, Island and Galaxy take turns each week.</p>'}</div>`; };
     let detail;
     const holNote = sel.hol ? `<p class="evnote">${sel.e ? `<b>${sel.hol.name}.</b> ` : ''}${sel.hol.gift ? 'A free thank-you gift and seasonal packs are in the Shop.' : 'Seasonal packs are in the Shop.'}</p>` : '';
     if (!sel.e && sel.hol) detail = `<div class="evdet" style="--c:${sel.hol.card}"><div class="evhead"><span class="evbig">${ART.gift(...sel.hol.colors)}</span><span class="t"><small>${new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' })}, a quiet day</small><b>${sel.hol.name}</b><span>No game changes today</span></span></div>${holNote}</div>`;
@@ -5683,7 +5694,7 @@ function openTab(tab) {
     else if (false) { const w = sel.lw, d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       detail = `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
         <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
-        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western and Island take turns each week.</p>'}</div>`; }
+        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western, Island and Galaxy take turns each week.</p>'}</div>`; }
     else if (!sel.e) { const nx = days.find(x => x.k > sel.k && x.e);
       detail = `<div class="evdet quiet"><div class="evhead"><span class="evbig none">${svgIc('star', '#8C86A6', 30)}</span><span class="t"><small>${sel.k ? sel.label + ' ' + sel.date : 'Today'}</small><b>No scheduled event</b><span>${nx ? `Next: ${EVENTS[nx.e].name}, ${nx.k === sel.k + 1 ? 'the day after' : nx.label}` : ''}</span></span></div></div>`; }
     else { const E = EVENTS[sel.e], live = sel.e === e && sel.start <= now && now < sel.end, wkend = sel.w === 6 || sel.w === 0;
@@ -6233,7 +6244,7 @@ function offline() {
 }
 
 // ---------- LONG EVENTS (local prototype, TEMPORARY ART) ----------
-// A 3-day side map (Thu 00:00 to Sun 00:00, phone time), Western and Island alternating weekly. While you're on the event map the
+// A 3-day side map (Thu 00:00 to Sun 00:00, phone time), Western, Island and Galaxy rotating weekly. While you're on the event map the
 // game's live fields (cash, levels, crew, Upgrades, timers, selection) hold the event's copy and the career's copy waits in S.ev.car;
 // leaving swaps them back. Only the map you were last on earns offline, so no time is ever paid to both.
 const EV_BAR_H = 0;   // layout B: no event bar on the event map (the event tab in the left column replaces it)   // event bar height (CSS px) + the scenery hint strip under it; the station rows clear both
@@ -6249,7 +6260,12 @@ const EV_DEFS = {
   island: { name: 'Island', title: 'Island Event', floor: '#F5E6C0', plank: 'transparent', wall: '#2E9AA8', color: '#7FD6D0', ink: '#14545C',
     badge: 'Island Legend', acc: 'evlei', top: 'evhibiscus',
     st: [['Ukulele Hut', 'guitar', 'Strummer'], ['Steel Drums', 'disc', 'Drummer'], ['Beach Bonfire Jam', 'star', 'Firekeeper'], ['Tiki DJ Booth', 'sliders', 'Tiki DJ'], ['Sunset Stage', 'mic', 'Stage Crew']] },
+  // Galaxy (third long event): a cosmic music festival at night. The play floor stays light lilac so stations read on a phone.
+  galaxy: { name: 'Galaxy', title: 'Galaxy Event', floor: '#CDC2EC', plank: 'transparent', wall: '#3A2C7A', color: '#B79CFF', ink: '#2E2266',
+    badge: 'Galaxy Headliner', acc: 'evorbit', top: 'evnebula',
+    st: [['Asteroid Busker', 'guitar', 'Space Roadie'], ['Zero-G DJ Booth', 'sliders', 'Zero-G DJ'], ['Alien Meet & Greet', 'star', 'Greeter Bot'], ['Satellite Radio', 'disc', 'Radio Host'], ['Orbital Main Stage', 'mic', 'Stage Crew']] },
 };
+const EV_ROT = ['western', 'island', 'galaxy'];   // weekly rotation order
 const EV_BASE = [1, 9, 80, 700, 6000].map(b => b / 2), EV_CYC = [1.5, 3, 5, 8, 12], EV_C0 = [5, 70, 800, 9000, 100000].map(c => c * EV_K), EV_UNL = [0, 250, 4000, 60000, 900000].map(c => c * EV_K);
 // rewards per tier, index = tier. acc / top = that event's cosmetic (100 gems instead if already owned); badge = profile badge (placeholder)
 const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 10 }, { gems: 15 }, { frenzy: 1 }, { gems: 15 }, { gems: 15 }, { gems: 20 }, { skips: 1 }, { gems: 20 }, { gems: 20 }, { gems: 25 }, { skips: 1 }, { gems: 25 }, { badge: true }];   // tier 15: the event's completion badge (no currency)
@@ -6287,14 +6303,78 @@ const evPalm = (x, y, flip = 1, s = 1) => { const fr = [[-46, -4, -16], [-40, -2
     ${[-10, -22, -34, -46, -58, -70, -82].map((v, k) => `<path d="M${-4 + k * .3} ${v} q5 -3 9 0" fill="none" stroke="#6B4423" stroke-width="2" stroke-linecap="round"/>`).join('')}
     <g transform="translate(-4 -92)"><g class="evsway" style="animation-delay:${(-(x * 7 + y) % 40) / 10}s">${fr.map(frond).join('')}
       <circle cx="-5" cy="4" r="5.5" fill="#6B4423"/><circle cx="4" cy="6" r="5.5" fill="#7A4A26"/><circle cx="0" cy="-1" r="5" fill="#5C3A1A"/></g></g></g>`; };
+// ---- Galaxy art (drawn in code, temporary like the other event art) ----
+const evRand = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const evGalaxyEmblem = sz => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="gEmb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E1648"/><stop offset="1" stop-color="#4A3594"/></linearGradient></defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#gEmb)"/><path d="M4 48 H60 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#CDC2EC"/>
+  ${[[14, 14], [50, 12], [44, 24], [10, 30], [24, 9], [56, 34]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.3" fill="#FFFFFF"/>`).join('')}
+  <ellipse cx="32" cy="31" rx="19" ry="5.5" transform="rotate(-16 32 31)" fill="none" stroke="#FFD58A" stroke-width="2.6"/>
+  <circle cx="32" cy="31" r="10" fill="#FF8FB1" stroke="#14122A" stroke-width="2"/><path d="M23 28 Q32 25 41 29 M23.5 34 Q32 31 40.5 35" stroke="#E2588F" stroke-width="2" fill="none"/>
+  <path d="M14.5 37 A19 5.5 0 0 0 49.5 25" transform="rotate(-16 32 31) translate(0 0)" fill="none" stroke="#FFD58A" stroke-width="2.6"/>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
+const evCrystal = (x, y, s = 1, c = '#7FE3FF', k = '#2E6F9E') => `<g transform="translate(${x} ${y}) scale(${s})" stroke="${k}" stroke-width="2" stroke-linejoin="round"><ellipse cx="0" cy="2" rx="16" ry="4" fill="#2E2266" opacity=".18" stroke="none"/>
+  <path d="M-10 0 L-13 -16 L-7 -24 L-4 0Z" fill="${c}"/><path d="M-4 0 L-3 -30 L4 -38 L8 -28 L6 0Z" fill="${c}"/><path d="M6 0 L10 -18 L15 -12 L13 0Z" fill="${c}"/>
+  <path d="M-1 -29 L3 -35 M-11 -15 L-8 -21" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".8"/></g>`;
+const evCrater = (x, y, r, c = '#B9ABE2', k = '#8D7DC6') => `<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * .55}" fill="${k}"/><ellipse cx="${x}" cy="${y + r * .1}" rx="${r * .82}" ry="${r * .42}" fill="${c}"/>`;
+const evBeacon = (x, y, d = 0) => `<rect x="${x - 2.5}" y="${y - 34}" width="5" height="34" fill="#8C84BA" stroke="#4A3F86" stroke-width="1.5"/><path d="M${x - 9} ${y} H${x + 9}" stroke="#4A3F86" stroke-width="3" stroke-linecap="round"/>
+  <circle class="evblink" style="animation-delay:${d}s" cx="${x}" cy="${y - 38}" r="5" fill="#FF6FAE" stroke="#B8306E" stroke-width="1.5"/>`;
+const evAlienPlant = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})" stroke="#2E5A3A" stroke-width="2" stroke-linejoin="round"><ellipse cx="0" cy="2" rx="14" ry="3.5" fill="#2E2266" opacity=".18" stroke="none"/>
+  <path d="M0 0 Q-3 -14 -10 -20 M0 0 Q2 -18 4 -28 M0 0 Q5 -10 12 -16" fill="none" stroke="#3E8F5A" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="-10" cy="-21" r="4.5" fill="#7FF0B0"/><circle cx="4" cy="-30" r="5.5" fill="#B9FF7F"/><circle cx="12" cy="-17" r="4" fill="#7FF0B0"/></g>`;
+const evRocket = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})" stroke="#2E2266" stroke-width="2.4" stroke-linejoin="round"><ellipse cx="0" cy="2" rx="18" ry="4.5" fill="#2E2266" opacity=".2" stroke="none"/>
+  <path d="M-8 -8 L-16 2 L-6 0Z M8 -8 L16 2 L6 0Z" fill="#FF6FAE"/><path d="M0 -50 Q12 -36 9 0 H-9 Q-12 -36 0 -50Z" fill="#F4F1FF"/><circle cx="0" cy="-26" r="5" fill="#7FE3FF"/><path d="M-9 -8 H9" stroke="#2E2266"/>
+  <path d="M-5 0 Q0 9 5 0" fill="#FFB347" stroke="#E2711D" stroke-width="1.6"/></g>`;
+const evRingPlanet = (x, y, r, a = -16) => `<g transform="translate(${x} ${y})">
+  <ellipse cx="0" cy="0" rx="${r * 1.9}" ry="${r * .46}" transform="rotate(${a})" fill="none" stroke="#FFD58A" stroke-width="${r * .16}" opacity=".95"/>
+  <circle r="${r}" fill="url(#gPlanet)" stroke="#2E1A5E" stroke-width="3"/>
+  <path d="M${-r * .95} ${-r * .25} Q0 ${-r * .45} ${r * .95} ${-r * .1} M${-r * .9} ${r * .35} Q0 ${r * .15} ${r * .92} ${r * .42}" fill="none" stroke="#E2588F" stroke-width="${r * .12}" opacity=".7"/>
+  <path d="M${-r * .55} ${-r * .55} Q${-r * .2} ${-r * .8} ${r * .2} ${-r * .78}" fill="none" stroke="#FFFFFF" stroke-width="${r * .08}" stroke-linecap="round" opacity=".55"/>
+  <path d="M${-r * 1.9 * Math.cos(a * Math.PI / 180)} ${-r * 1.9 * Math.sin(a * Math.PI / 180)} A${r * 1.9} ${r * .46} ${a} 0 0 ${r * 1.9 * Math.cos(a * Math.PI / 180)} ${r * 1.9 * Math.sin(a * Math.PI / 180)}" fill="none" stroke="#FFD58A" stroke-width="${r * .16}"/></g>`;
+const evGalaxyOutside = (H, hz) => { const rnd = evRand(7), stars = Array.from({ length: 90 }, () => { const x = -390 + rnd() * 1170, y = rnd() * (hz - 30), r = .7 + rnd() * 1.6;
+    return `<circle class="evtw" style="animation-duration:${(1.4 + rnd() * 2.2).toFixed(1)}s;animation-delay:${(rnd() * -4).toFixed(1)}s" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="#FFFFFF"/>`; }).join('');
+  const P = [[195, H], [170, H * .84], [230, H * .7], [195, hz + 6]], bz = (t, k) => { const u = 1 - t; return u * u * u * P[0][k] + 3 * u * u * t * P[1][k] + 3 * u * t * t * P[2][k] + t * t * t * P[3][k]; };
+  const road = (() => { const L = [], R = []; for (let n = 0; n <= 24; n++) { const t = n / 24, x = bz(t, 0), y = bz(t, 1), w = 2 + 34 * Math.pow(1 - t, 1.25); L.push(`${(x - w).toFixed(1)} ${Math.max(hz, y).toFixed(1)}`); R.unshift(`${(x + w).toFixed(1)} ${Math.max(hz, y).toFixed(1)}`); }
+    return `<path d="M${L.join(' L')} L${R.join(' L')} Z" fill="#DCD3F4" stroke="#9D8FD2" stroke-width="2"/>`; })();
+  const TIP = hz - 108, beams = [[-14, '#7FE3FF', 5.2], [6, '#FF8FD1', 4.4], [-30, '#B9FF7F', 6], [26, '#FFD58A', 4.8]].map(([a, c, d], k) => `<path class="evbeam" style="animation-duration:${d}s;animation-delay:${-k * 1.3}s;transform-origin:195px ${TIP}px" d="M195 ${TIP} L${195 + Math.tan(a * Math.PI / 180) * 250 - 24} ${TIP - 250} H${195 + Math.tan(a * Math.PI / 180) * 250 + 24} Z" fill="${c}" opacity=".26"/>`).join('');
+  return `<defs><linearGradient id="gOSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#120D2E"/><stop offset=".55" stop-color="#2A1E62"/><stop offset="1" stop-color="#5B419F"/></linearGradient>
+      <linearGradient id="gOGnd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9C8BD6"/><stop offset="1" stop-color="#CDC2EC"/></linearGradient>
+      <radialGradient id="gNeb1"><stop offset="0" stop-color="#FF6FC8" stop-opacity=".55"/><stop offset="1" stop-color="#FF6FC8" stop-opacity="0"/></radialGradient>
+      <radialGradient id="gNeb2"><stop offset="0" stop-color="#5FD8FF" stop-opacity=".45"/><stop offset="1" stop-color="#5FD8FF" stop-opacity="0"/></radialGradient>
+      <radialGradient id="gPlanet" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFC2A6"/><stop offset=".55" stop-color="#FF8FB1"/><stop offset="1" stop-color="#B8457E"/></radialGradient>
+      <radialGradient id="gMoon" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#F4F1FF"/><stop offset="1" stop-color="#A99CD8"/></radialGradient></defs>
+    <rect x="-390" width="1170" height="${hz + 4}" fill="url(#gOSky)"/>
+    <ellipse cx="-120" cy="${hz * .35}" rx="320" ry="130" fill="url(#gNeb1)"/><ellipse cx="560" cy="${hz * .55}" rx="300" ry="120" fill="url(#gNeb2)"/><ellipse cx="250" cy="${hz * .12}" rx="200" ry="70" fill="url(#gNeb1)" opacity=".6"/>
+    ${stars}
+    ${evRingPlanet(40, hz * .4, 74)}
+    <g transform="translate(330 ${hz * .16})"><circle r="24" fill="url(#gMoon)" stroke="#2E1A5E" stroke-width="2.5"/><circle cx="-7" cy="-4" r="5" fill="#B9ABE2"/><circle cx="8" cy="7" r="3.5" fill="#B9ABE2"/><circle cx="6" cy="-10" r="2.5" fill="#B9ABE2"/></g>
+    <g class="evshoot"><path d="M-200 ${hz * .15} l90 30" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity=".9"/></g>
+    <path d="M-390 ${hz} V${hz - 26} Q-300 ${hz - 60} -200 ${hz - 30} Q-110 ${hz - 6} -20 ${hz - 40} Q60 ${hz - 70} 140 ${hz - 24} Q260 ${hz - 4} 420 ${hz - 36} Q520 ${hz - 58} 620 ${hz - 28} Q700 ${hz - 10} 780 ${hz - 30} V${hz} Z" fill="#6E58B8" opacity=".85"/>
+    <rect x="-390" y="${hz}" width="1170" height="${H - hz}" fill="url(#gOGnd)"/>
+    <g transform="translate(0 -6)"><path d="M127 ${hz + 4} Q127 ${hz - 70} 195 ${hz - 74} Q263 ${hz - 70} 263 ${hz + 4} Z" fill="#7FE3FF" opacity=".35" stroke="#2E2266" stroke-width="3"/>
+      <path d="M137 ${hz + 4} H253 V${hz - 18} H272 Z" fill="#3A2C7A" stroke="#2E2266" stroke-width="3"/><path d="M141 ${hz - 18} H249" stroke="#FF6FAE" stroke-width="4" stroke-linecap="round"/>
+      <path d="M195 ${hz - 74} V${hz - 98}" stroke="#2E2266" stroke-width="3"/><circle class="evblink" cx="195" cy="${hz - 102}" r="5" fill="#FF6FAE" stroke="#2E2266" stroke-width="2"/>
+      ${[155, 175, 195, 215, 235].map((x, k) => `<circle cx="${x}" cy="${hz - 6}" r="4" fill="${['#7FE3FF', '#FF8FD1', '#FFD58A', '#B9FF7F', '#7FE3FF'][k]}"/>`).join('')}</g>
+    ${beams}<circle class="evblink" cx="195" cy="${TIP}" r="5.5" fill="#FF6FAE" stroke="#2E2266" stroke-width="2"/>
+    <g transform="translate(-70 ${hz + 6})" stroke="#2E2266" stroke-width="2.5" stroke-linejoin="round"><path d="M-4 0 L4 0 L2 -26 L-2 -26Z" fill="#8C84BA"/><path d="M-26 -50 Q0 -18 26 -40 Q4 -60 -26 -50Z" fill="#F4F1FF"/><path d="M0 -44 L10 -60" stroke-width="2"/><circle cx="10" cy="-61" r="3" fill="#FF6FAE"/></g>
+    ${road}
+    ${evCrater(-30, hz + 60, 26, '#A797DA', '#7D6CBE')}${evCrater(300, hz + 70, 18, '#A797DA', '#7D6CBE')}${evCrater(120, hz + 120, 22, '#AE9FDE', '#8473C2')}${evCrater(250, H * .62, 28)}${evCrater(470, hz + 46, 20)}${evCrater(80, H * .7, 34)}${evCrater(330, H * .78, 24)}${evCrater(-200, H * .66, 40)}${evCrater(620, H * .7, 36)}
+    ${evCrystal(-120, H * .62, 1.1)}${evCrystal(560, H * .6, 1, '#FF8FD1', '#A8306E')}${evCrystal(20, H * .86, 1.2, '#FF8FD1', '#A8306E')}${evCrystal(380, H * .9, 1.15)}
+    ${evRocket(330, H * .55, 1.1)}${evRocket(470, H * .72, 1.1)}${evCrystal(240, H * .7, .9)}${evAlienPlant(120, H * .58, 1.1)}${evBeacon(-10, hz + 90, -.3)}${evBeacon(400, hz + 96, -.9)}${evAlienPlant(-20, H * .76, 1.2)}${evAlienPlant(300, H * .68, 1)}
+    <path d="M-390 ${H - 26} H780 M-390 ${H - 12} H780" stroke="#6A5BB0" stroke-width="5"/><path d="M-390 ${H - 26} H780" stroke="#7FE3FF" stroke-width="1.6" opacity=".9"/>
+    ${Array.from({ length: 23 }, (_, i) => `<rect x="${-386 + i * 52}" y="${H - 38}" width="7" height="38" rx="2" fill="#8C84BA" stroke="#4A3F86" stroke-width="2"/><circle cx="${-382.5 + i * 52}" cy="${H - 40}" r="3.4" fill="#7FE3FF"/>`).join('')}
+    <rect x="150" y="${H - 44}" width="90" height="44" fill="#CDC2EC"/>
+    <g><rect x="146" y="${H - 96}" width="8" height="96" fill="#8C84BA" stroke="#4A3F86" stroke-width="2"/><rect x="236" y="${H - 96}" width="8" height="96" fill="#8C84BA" stroke="#4A3F86" stroke-width="2"/>
+      <rect x="136" y="${H - 106}" width="118" height="24" rx="12" fill="#2E2266" stroke="#7FE3FF" stroke-width="2.5"/><text x="195" y="${H - 89}" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="700" font-size="12" letter-spacing="2" fill="#FFD58A">ORBIT FEST</text></g>`;
+};
 const evOutside = (key, H, down = 0) => {   // down: how far the scenery reaches onto the station screen (Build 200: fence right above the Backer)
   const hz = Math.round(H * .46);   // horizon
-  const sky = key === 'western' ? { sun: [640, hz * .42, 64, '#FFF1C1', 'rgba(255,214,140,.85)'], cl: '#FFF4E6' } : { sun: [690, hz * .35, 52, '#FFF6C8', 'rgba(255,240,170,.9)'], cl: '#FFFFFF' };
-  const clouds = [[180, hz * .16, 74, 60, -5, .92], [440, hz * .3, 56, 75, -30, .85], [560, hz * .1, 70, 66, -18, .9], [690, hz * .24, 50, 82, -44, .82], [760, hz * .12, 64, 68, -50, .9], [960, hz * .26, 48, 80, -12, .8], [60, hz * .36, 44, 90, -40, .7]]
+  const sky = key === 'galaxy' ? { sun: [650, hz * .32, 18, '#FFE3F6', 'rgba(255,150,220,.85)'], cl: '#FFFFFF' } : key === 'western' ? { sun: [640, hz * .42, 64, '#FFF1C1', 'rgba(255,214,140,.85)'], cl: '#FFF4E6' } : { sun: [690, hz * .35, 52, '#FFF6C8', 'rgba(255,240,170,.9)'], cl: '#FFFFFF' };
+  const clouds = key === 'galaxy' ? '' : [[180, hz * .16, 74, 60, -5, .92], [440, hz * .3, 56, 75, -30, .85], [560, hz * .1, 70, 66, -18, .9], [690, hz * .24, 50, 82, -44, .82], [760, hz * .12, 64, 68, -50, .9], [960, hz * .26, 48, 80, -12, .8], [60, hz * .36, 44, 90, -40, .7]]
     .map(([l, t, w, d, dl, o]) => `<div class="abs cloud2" style="left:${l}px;top:${Math.round(t)}px;width:${w}px;height:${Math.round(w * .38)}px;opacity:${o};background:${sky.cl};animation-duration:${d}s;animation-delay:${dl}s"></div>`).join('');
   const sun = `<div class="abs evsun" style="left:${sky.sun[0] - sky.sun[2] / 2}px;top:${Math.round(sky.sun[1] - sky.sun[2] / 2)}px;width:${sky.sun[2]}px;height:${sky.sun[2]}px;background:${sky.sun[3]};--glow:${sky.sun[4]}"></div>`;
   const svg = inner => { const k = inner.indexOf('</defs>') + 7, sk = inner.indexOf('/>', inner.indexOf('<rect x="-390" width="1170"')) + 2;   // sky gradient first, then sun and clouds, then the rest of the scene
     return `<div class="abs outside" style="left:-390px;top:${-H + down}px;width:1170px;height:${H}px;overflow:hidden;pointer-events:none"><svg class="abs" style="left:0;top:0" width="1170" height="${H}" viewBox="-390 0 1170 ${H}" aria-hidden="true">${inner.slice(0, sk)}</svg>${sun}${clouds}<svg class="abs" style="left:0;top:0" width="1170" height="${H}" viewBox="-390 0 1170 ${H}" aria-hidden="true">${inner.slice(0, k)}${inner.slice(sk)}</svg></div>`; };
+  if (key === 'galaxy') return svg(evGalaxyOutside(H, hz));
   if (key === 'western') return svg(`<defs><linearGradient id="wOSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9765A"/><stop offset=".6" stop-color="#F6A66A"/><stop offset="1" stop-color="#FAD58E"/></linearGradient>
       <linearGradient id="wOGnd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9A56C"/><stop offset="1" stop-color="#E6BE85"/></linearGradient></defs>
     <rect x="-390" width="1170" height="${hz + 4}" fill="url(#wOSky)"/>
@@ -6333,6 +6413,10 @@ const evOutside = (key, H, down = 0) => {   // down: how far the scenery reaches
 // and two over the play area. Each crosses in about 11-15 s, then waits off-screen, so the map isn't always busy.
 // They never take taps (pointer-events: none). Reduced-motion players don't see them.
 const evBirds = (key, H) => {
+  if (key === 'galaxy') { const ufo = (y, sc, dur, dl, rtl) => `<div class="abs evbird evufo ${rtl ? 'rtl' : ''}" style="top:${Math.round(y)}px;--dur:${dur}s;animation-delay:${dl}s"><div class="evbird-bob" style="animation-delay:${dl / 3}s"><svg width="${Math.round(34 * sc)}" height="${Math.round(20 * sc)}" viewBox="-17 -12 34 20" aria-hidden="true">
+      <path d="M-7 -2 Q-6 -11 0 -11 Q6 -11 7 -2Z" fill="#7FE3FF" stroke="#2E2266" stroke-width="1.6"/><ellipse cx="0" cy="0" rx="15" ry="5" fill="#C9CED9" stroke="#2E2266" stroke-width="1.8"/>
+      <circle class="evblink" cx="-8" cy="0.5" r="1.6" fill="#FF6FAE"/><circle class="evblink" style="animation-delay:-.4s" cx="0" cy="1.5" r="1.6" fill="#FFD58A"/><circle class="evblink" style="animation-delay:-.8s" cx="8" cy="0.5" r="1.6" fill="#B9FF7F"/></svg></div></div>`;
+    return `<div class="abs evbirds" style="left:0;top:${-OUT_H}px;width:390px;height:${OUT_H + H}px">${[ufo(OUT_H * .24, 1.3, 40, 0, true), ufo(OUT_H * .38, 1.15, 40, -20, false)].join('')}</div>`; }
   const W = key === 'western', ink = W ? '#4A2A1F' : '#2E4A5A', fill = W ? '#6B3B2A' : '#FFFFFF';
   const one = (y, sc, dur, dl, rtl) => `<div class="abs evbird ${rtl ? 'rtl' : ''}" style="top:${Math.round(y)}px;--dur:${dur}s;animation-delay:${dl}s"><div class="evbird-bob" style="animation-delay:${dl / 3}s"><svg width="${Math.round(30 * sc)}" height="${Math.round(16 * sc)}" viewBox="-15 -10 30 16" aria-hidden="true">
     <g class="wl"><path d="M0 0 Q-6 -9 -14 -4" fill="none" stroke="${ink}" stroke-width="${W ? 3 : 4.2}" stroke-linecap="round"/>${W ? '' : `<path d="M0 0 Q-6 -9 -14 -4" fill="none" stroke="${fill}" stroke-width="2" stroke-linecap="round"/>`}</g>
@@ -6364,6 +6448,20 @@ const evGround = (key, L) => {
       ${dec(hay(14, r2 + bx + 4))}${dec(hay(336, r2 + bx + 2))}
       ${dec(evCactus(cL - 40, r2 + 34, .75, false))}${dec(evCactus(cR + 42, r2 + 30, .7))}
       ${d('evedge', `<path d="M-400 ${H - 12} H790" stroke="#7E4E25" stroke-width="5"/>${Array.from({ length: 9 }, (_, i) => `<rect x="${4 + i * 48}" y="${H - 22}" width="6" height="22" fill="#7E4E25" stroke="#5C3A1A" stroke-width="2"/>`).join('')}`)}`);
+  }
+  if (key === 'galaxy') {
+    const pads = Array.from({ length: Math.ceil(wEnd / 26) }, (_, i) => `<rect x="${wl + 4}" y="${i * 26}" width="${wr - wl - 8}" height="${Math.min(22, wEnd - i * 26)}" rx="4" fill="#A9A2CF" stroke="#6A5BB0" stroke-width="2"/><circle cx="195" cy="${i * 26 + 11}" r="2.2" fill="#7FE3FF"/>`).join('');
+    const deckH = Math.min(bx + 44, H - r2 + 6), dcy = r2 - 22 + deckH / 2;
+    return svg(`<rect x="-400" width="1190" height="${H + 300}" fill="#CDC2EC"/>
+      ${[laneA, laneB].map(y => `<path d="M-20 ${y + 12} Q100 ${y + 2} 200 ${y + 12} T420 ${y + 8}" fill="none" stroke="#DCD3F4" stroke-width="10" stroke-linecap="round" opacity=".8"/>`).join('')}
+      ${pads}${walk}
+      <ellipse cx="195" cy="${dcy}" rx="${w0 / 2 + 26}" ry="${deckH / 2}" fill="#B3ABDA" stroke="#6A5BB0" stroke-width="3"/><ellipse cx="195" cy="${dcy}" rx="${w0 / 2 + 12}" ry="${deckH / 2 - 12}" fill="none" stroke="#7FE3FF" stroke-width="2.5" stroke-dasharray="10 6"/>
+      ${dec(evCrater(40, laneA + 14, 16))}${dec(evCrater(352, laneB + 22, 18))}${dec(evCrater(cL - 40, r2 + bx - 6, 14))}
+      ${dec(evCrystal(30, laneB + 38, .8))}${dec(evCrystal(360, laneA + 30, .75, '#FF8FD1', '#A8306E'))}
+      ${dec(evAlienPlant(352, laneB + 40 + 30, .8))}${dec(evAlienPlant(36, laneA + 30 + 30, .8))}
+      ${dec(evBeacon(cL - 20, r2 + 26, 0))}${dec(evBeacon(cR + 20, r2 + 26, -.6))}
+      ${dec(evRocket(cL - 52, H - 14, .7))}${dec(evCrystal(cR + 52, H - 14, .85))}
+      ${dec(evCrater(124, laneA + 2, 9))}${dec(evCrater(268, laneB - 2, 10))}`);
   }
   const shell = (x, y, r = 1) => `<g transform="translate(${x} ${y}) rotate(${r * 30})"><path d="M0 0 Q-8 -2 -7 -10 Q0 -16 7 -10 Q8 -2 0 0 Z" fill="#FFD9C7" stroke="#D9967A" stroke-width="1.5"/><path d="M0 0 L-4 -11 M0 0 L0 -13 M0 0 L4 -11" stroke="#D9967A" stroke-width="1.2"/></g>`;
   const star = (x, y) => `<path transform="translate(${x} ${y})" d="M0 -9 L2.6 -3 9 -2.8 4 1.5 5.6 8 0 4.5 -5.6 8 -4 1.5 -9 -2.8 -2.6 -3 Z" fill="#FF9E57" stroke="#C96A2C" stroke-width="1.5" stroke-linejoin="round"/>`;
@@ -6419,7 +6517,7 @@ const isEv = () => !!(S && S.inEv);
 const evDef = () => EV_DEFS[S.inEv || (S.ev && S.ev.id)] || EV_DEFS.western;
 const evAnchor = (() => { const t = new Date(2026, 10, 12, 12).getTime(); return Math.floor((localDay(t) + 3) / 7); })();   // the week of Thu Nov 12 2026 is Western
 function evWindowAt(t) { const d = localDay(t), mon = d - ((new Date(t).getDay() + 6) % 7), wk = Math.floor((mon + 3) / 7);
-  return { key: 'w' + wk, id: (((wk - evAnchor) % 2) + 2) % 2 === 0 ? 'western' : 'island', start: dayStartMs(mon + 3), end: dayStartMs(mon + 6) }; }
+  return { key: 'w' + wk, id: EV_ROT[(((wk - evAnchor) % EV_ROT.length) + EV_ROT.length) % EV_ROT.length], start: dayStartMs(mon + 3), end: dayStartMs(mon + 6) }; }
 // the live event (or null). Test profile can override the calendar.
 function evLive(t = Date.now()) {
   const o = TEST && S && S.test && S.test.evOv; if (o && t < o.end) return t >= o.start ? o : null;
@@ -6469,7 +6567,7 @@ function evTravel() {
   if (!evLive() || !evUnlocked() || !evEnsure()) return;
   if (isEv()) return closeSheet();
   bumpRev(); evSwapIn(); closeSheet(); evRebuild(); save();
-  toast(`Welcome to the ${evDef().title}! Earn ${evDef().cash}, level up, fill the reward track.`);
+  toast(`Welcome to the ${evDef().title}! Level up and fill the reward track.`);
   if (!S.ev.intro) { S.ev.intro = true; setTimeout(() => openTab('evintro'), 600); }
 }
 function evBack() { if (!isEv()) return; bumpRev(); evSwapOut(); closeSheet(); evRebuild(); save(); toast('Back to your career'); }
@@ -6534,7 +6632,7 @@ const evClaimable = () => { if (!S.ev) return false; const T = evTier(); for (le
 function evCard() {
   const w = evLive(), d = w && EV_DEFS[w.id], nx = !w && evNext(), nd = nx && EV_DEFS[nx.id];
   const test = TEST ? `<div class="evtest"><small>Test profile only</small>
-    <div><button data-evt="western">Start Western now</button><button data-evt="island">Start Island now</button></div>
+    <div><button data-evt="western">Start Western now</button><button data-evt="island">Start Island now</button><button data-evt="galaxy">Start Galaxy now</button></div>
     <div><button data-evt="last">Jump to last hour</button><button data-evt="end">End event now</button></div>
     <div><button data-evt="cash">+10 min of event cash</button><button data-evt="pts">+$1T event cash</button></div>
     <div><button data-evt="unlock" ${S.test.evUnlock ? 'class="on"' : ''}>${S.test.evUnlock ? 'Joins before Map 2: on' : 'Let this test profile join before Map 2'}</button></div>
@@ -6553,7 +6651,7 @@ let evHubTab = 'tasks';
 
 const evI = (k, sz = 18, c = 'currentColor', w = 2.4) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${EVI[k] || EVI.star}</svg>`;
 // event emblems (shortcut art)
-const evEmblem = (key, sz = 52) => key === 'western'
+const evEmblem = (key, sz = 52) => key === 'galaxy' ? evGalaxyEmblem(sz) : key === 'western'
   ? `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#F6A66A"/><path d="M4 44 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#E6BE85"/><path d="M10 44 V32 H20 L23 26 H34 L37 34 H54 V44Z" fill="#B5523B" stroke="#6E2A1E" stroke-width="2"/><circle cx="46" cy="18" r="6" fill="#FFF1C1"/><g transform="translate(18 52)" stroke="#2C4A22" stroke-width="1.6"><rect x="-3" y="-18" width="6" height="20" rx="3" fill="#5E9A43"/><path d="M-3 -8 H-7 V-13 M3 -11 H7 V-16" fill="none"/></g><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`
   : `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#BDEBF5"/><rect x="4" y="26" width="56" height="20" fill="#2DB4C2"/><path d="M4 46 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#F5E6C0"/><path d="M22 26 Q32 14 42 26Z" fill="#3F8F5A"/><circle cx="46" cy="15" r="5" fill="#FFF6C8"/><path d="M14 50 Q16 40 12 32" stroke="#8B5A2B" stroke-width="3" fill="none"/><path d="M12 32 q-8 0 -10 5 M12 32 q8 -2 10 4 M12 32 q-2 -8 4 -10" stroke="#2F8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 const evMoney = n => fmt(n);
@@ -6561,7 +6659,7 @@ const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday 00:00 to<br>Sunday 00:0
 // event badges: one per event, earned by claiming free tier 15. Earning it again never adds a second badge or any currency.
 // symmetric rosette: everything is centred on x = 50 (viewBox 100 x 120); the medal centre is (50, 44)
 const EV_ROSETTE = (() => { const n = 24, pts = []; for (let k = 0; k < 2 * n; k++) { const a = -Math.PI / 2 + k * Math.PI / n, r = k % 2 ? 34 : 39; pts.push((50 + r * Math.cos(a)).toFixed(2) + ' ' + (44 + r * Math.sin(a)).toFixed(2)); } return 'M' + pts.join(' L') + 'Z'; })();
-const evBadgeArt = (key, earned, sz = 84) => { const col = earned ? (key === 'western' ? ['#E7B36A', '#B5523B', '#FFF1D6'] : ['#7FD6D0', '#2E9AA8', '#E6FBF8']) : ['#D9D5E6', '#A9A3C2', '#F1EFF7'];
+const evBadgeArt = (key, earned, sz = 84) => { const col = earned ? (key === 'western' ? ['#E7B36A', '#B5523B', '#FFF1D6'] : key === 'galaxy' ? ['#B79CFF', '#5B3FC4', '#F1EAFF'] : ['#7FD6D0', '#2E9AA8', '#E6FBF8']) : ['#D9D5E6', '#A9A3C2', '#F1EFF7'];
   const tail = 'M34 62 L24 112 L32 106 L40 114 L48 66Z M66 62 L76 112 L68 106 L60 114 L52 66Z', s = 0.66, t = 50 - 32 * s, u = 44 - 32 * s;
   return `<svg width="${sz}" height="${Math.round(sz * 1.2)}" viewBox="0 0 100 120" aria-hidden="true">
     <path d="${tail}" fill="${col[1]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round" ${earned ? '' : 'opacity=".65"'}/>
@@ -6612,7 +6710,7 @@ function evRewardsTab() {
   const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0) }), { gems: 0, skips: 0, frenzy: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy;   // the shop's one value formula
   const pass = S.ev.pass ? `<div class="evh-pass on">${evI('check', 20, '#2E9E5B')}<div>Mini Pass active<span>The right-hand lane is unlocked for this event.</span></div></div>`
     : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.skips} skips + ${pt.frenzy} Frenzies + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
-      ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${S.ev.id === 'island' ? 'Island' : 'Western'}">$${EV_PRICE}</button>`}</div>`;
+      ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${EV_DEFS[S.ev.id].name}">$${EV_PRICE}</button>`}</div>`;
   const cell = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], reached = n <= T, ready = reached && !!r && (lane === 'free' || S.ev.pass);
     if (!r) return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>—</span></div>`;
     const right = got ? '<span class="ok">✓</span>' : ready ? `<button data-evclaim="${lane}:${n}">Claim</button>` : lane === 'pass' && !S.ev.pass ? `<span class="lk">${evI('lock', 13, '#9A6A00', 2.6)}</span>` : '';
@@ -6666,7 +6764,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-evall]')) { let g = 0, n2 = 0, bd = null; for (let n = 1; n <= evTier(); n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { n2++; g += r.gems || 0; if (r.badge) bd = r.badge; } } if (n2) { sfx('bling'); toast(`Claimed ${n2} reward${n2 > 1 ? 's' : ''}${g ? ` · +${g} gems` : ''}${bd ? ` · ${bd} badge` : ''}`); } save(); render(); return openTab('evrewards'); }
   if (e.target.closest('[data-evbuy]')) { if (TEST && S.ev && !S.ev.pass) { S.ev.pass = true; bumpRev(); sfx('bling'); toast('Mini Pass unlocked (test purchase, no charge)'); save(); } return openTab('evrewards'); }
   const t = e.target.closest('[data-evt]'); if (t && TEST) { const k = t.dataset.evt, now = Date.now();
-    if (k === 'western' || k === 'island') { if (S.ev) evFinish(); evResultShown = false; S.test.evOv = { key: 'test' + now, id: k, start: now - 1000, end: now + 3 * 86400000 }; toast(`Test: ${EV_DEFS[k].title} started`); }
+    if (EV_DEFS[k]) { if (S.ev) evFinish(); evResultShown = false; S.test.evOv = { key: 'test' + now, id: k, start: now - 1000, end: now + 3 * 86400000 }; toast(`Test: ${EV_DEFS[k].title} started`); }
     else if (k === 'last' && S.ev) { S.ev.end = now + 3600000; if (S.test.evOv) S.test.evOv.end = S.ev.end; toast('Test: 1 hour left'); }
     else if (k === 'end' && S.ev) { S.ev.end = now; if (S.test.evOv) S.test.evOv.end = now; }
     else if (k === 'pts' && S.ev) { const s = evStateNow(); s.cash = (s.cash || 0) + 1e12; toast('Test: +$1T event cash'); }
