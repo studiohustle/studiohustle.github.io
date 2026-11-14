@@ -973,10 +973,14 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .sheet.shopmode { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='6 6 74 74'%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.07' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M18 46a19 19 0 0 1 38 0'/%3E%3C/g%3E%3Cg fill='%23fff' fill-opacity='.07'%3E%3Crect x='12' y='42' width='12' height='18' rx='5'/%3E%3Crect x='50' y='42' width='12' height='18' rx='5'/%3E%3Ccircle cx='72' cy='16' r='4'/%3E%3C/g%3E%3C/svg%3E"); background-size: 54px 54px; animation: shopdrift 22s linear infinite; }
 @keyframes shopdrift { to { background-position: 54px -54px; } }
 /* bonus coin: now and then a payout drops a spinning coin you can tap */
-.bcoin { position: absolute; z-index: 9; width: 40px; height: 40px; margin: -20px 0 0 -20px; padding: 0; border: 0; background: none; cursor: pointer; animation: bcoinIn .5s cubic-bezier(.2,1.6,.4,1) both, bcoinFloat 1.6s ease-in-out .5s infinite alternate; -webkit-tap-highlight-color: transparent; }
-.bcoin::before { content: ""; position: absolute; inset: -10px; border-radius: 50%; background: radial-gradient(circle, rgba(139,240,160,.6), rgba(139,240,160,0) 70%); }
-.bcoin .coin { position: relative; width: 40px; height: 40px; display: grid; place-items: center; animation: bcoinSpin 1.4s linear infinite; }
+.bcoin { position: absolute; z-index: 7; width: 46px; height: 46px; margin: -23px 0 0 -23px; padding: 0; border: 0; background: none; cursor: pointer; animation: bcoinIn .5s cubic-bezier(.2,1.6,.4,1) both; -webkit-tap-highlight-color: transparent; }   /* Build 217: piles spin but never bob */
+.bcoin::before { content: ""; position: absolute; inset: 0px; border-radius: 50%; background: radial-gradient(circle, rgba(139,240,160,.6), rgba(139,240,160,0) 70%); }
+.bcoin .coin { position: relative; width: 32px; height: 32px; margin: 7px; display: grid; place-items: center; animation: bcoinSpin 1.4s linear infinite; }
 .bcoin.gone { animation: bcoinOut .4s ease-in forwards; pointer-events: none; }
+.bcoin .pilen { position: absolute; left: 50%; top: 39px; transform: translate(-50%, -50%); white-space: nowrap; color: #fff; font: 700 13px/1 var(--body); letter-spacing: .01em; pointer-events: none;
+  text-shadow: -1px -1px 0 #14122A, 1px -1px 0 #14122A, -1px 1px 0 #14122A, 1px 1px 0 #14122A, 0 1px 0 #14122A, 0 -1px 0 #14122A, 1px 0 0 #14122A, -1px 0 0 #14122A, 0 2px 0 rgba(20,18,42,.35); }   /* centered under the coin, half over its bottom edge; regular-weight font so it doesn't compete with the spinning coin */
+.bcoin .pilen:empty { display: none; }
+.bcoin.bump .coin { animation: bcoinBump .35s ease-out, bcoinSpin 1.4s linear infinite; } @keyframes bcoinBump { 40% { transform: scale(1.3); } }
 @keyframes bcoinIn { from { transform: scale(0) translateY(20px); } }
 @keyframes bcoinFloat { to { translate: 0 -6px; } }
 @keyframes bcoinSpin { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.15); } }
@@ -2626,7 +2630,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 216, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 217, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3526,7 +3530,7 @@ function buildRoom() {
   wrap.style.setProperty('--floor', loc.floor);
   wrap.dataset.plank = loc.plank; wrap.dataset.wall = loc.wall; wrap.dataset.tiles = loc.tiles ? '1' : ''; wrap.dataset.checker = loc.checker || ''; fit();
   if (shownLoc !== S.loc) { shownLoc = S.loc; showLocTitle(); }
-  placeStations(loc);
+  placeStations(loc); drawPiles();
   if (fanEl) { fanEl.remove(); fanEl = null; }
   if (shownPanLoc !== S.loc) { shownPanLoc = S.loc; if (typeof stopGlide === 'function') stopGlide(); panY = 0; applyPan(); }
   setTimeout(startTraffic, 0);
@@ -3900,34 +3904,58 @@ function nextEvents() {
   return out;
 }
 // ---------- bonus coins ----------
-// after a payout there's a small chance a spinning coin pops out of the station; tap it for 30 seconds of income
-const BCOIN_GAP = 40000, BCOIN_ODDS = 0.04, BCOIN_LIFE = 7000, BCOIN_SECS = 30;
-let bcoinAt = Date.now(), bcoinEl = null;
+// after a payout there's a small chance a spinning coin pops out of the station; tap it for 30 seconds of income.
+// Build 217 (like Eatventure's tips): coins never vanish. They pile up per station (x2, x3...) until tapped, and a pile is
+// worth its count x the coin value at the moment you collect. Piles clear when you move to the next map or drop an album,
+// and nothing piles up while the app is closed (coins only come from live payouts).
+const BCOIN_GAP = 40000, BCOIN_ODDS = 0.04, BCOIN_SECS = 30;
+let bcoinAt = Date.now();
+const pileKeyCareer = () => 'c:' + S.loc + ':' + (S.albums || 0), pileKey = () => isEv() && S.ev ? 'ev:' + S.ev.key : pileKeyCareer();
+function piles() {   // this map's piles; drops piles from maps you've left
+  const keep = [pileKeyCareer(), S.ev ? 'ev:' + S.ev.key : null], all = S.piles || (S.piles = {});
+  Object.keys(all).forEach(k => { if (!keep.includes(k)) delete all[k]; });
+  return all[pileKey()] || (all[pileKey()] = {});
+}
+const coinValue = () => Math.max(20, Math.round(skipValue(BCOIN_SECS) * vaultFx('piggy')));
 function maybeCoin(st) {
-  if (bcoinEl || Date.now() - bcoinAt < BCOIN_GAP || Math.random() > BCOIN_ODDS || !els[st.id]) return;
+  if (Date.now() - bcoinAt < BCOIN_GAP || Math.random() > BCOIN_ODDS || !els[st.id]) return;
   if (S.tut != null && S.tut < TUT.length) return;
   bcoinAt = Date.now();
-  bcoinEl = popCoin(st);
+  addCoin(st);
   if (Math.random() * 100 < vaultFx('tip')) {   // Tip Jar: a second coin, from another working station when there is one
     const others = LOC().stations.filter(o => o.id !== st.id && lvl(o.id) && els[o.id]);
-    setTimeout(() => popCoin(others.length ? others[Math.floor(Math.random() * others.length)] : st, true), 350); }
+    setTimeout(() => addCoin(others.length ? others[Math.floor(Math.random() * others.length)] : st), 350); }
 }
-function popCoin(st, extra) {
-  const b = els[st.id].b, el = document.createElement('button');
-  el.className = 'bcoin'; el.setAttribute('aria-label', 'Bonus coin: tap to collect');
-  if (!S.coinHint) { S.coinHint = true; toast('A bonus coin popped out! Tap it quick'); }
-  el.innerHTML = '<span class="coin">$</span>';
-  el.style.left = (b.offsetLeft + b.offsetWidth / 2 + (Math.random() * 60 - 30)) + 'px';
-  el.style.top = (b.offsetTop + b.offsetHeight * 0.45) + 'px';
-  stage.appendChild(el);
-  const gone = setTimeout(() => { el.classList.add('gone'); setTimeout(() => { el.remove(); if (bcoinEl === el) bcoinEl = null; }, 400); }, BCOIN_LIFE);
-  el.addEventListener('click', e => {
-    e.stopPropagation(); if (el.classList.contains('gone')) return; clearTimeout(gone);
-    const v = Math.max(20, Math.round(skipValue(BCOIN_SECS) * vaultFx('piggy'))); earn(v); sfx('reward'); el.classList.add('gone');
-    const f = document.createElement('span'); f.className = 'floater'; f.textContent = '+' + fmt(v); f.style.left = el.style.left; f.style.top = el.style.top; stage.appendChild(f); setTimeout(() => f.remove(), 1000);
-    setTimeout(() => { el.remove(); if (bcoinEl === el) bcoinEl = null; }, 400); save();
-  });
-  return el;
+function addCoin(st) {
+  const P = piles(); P[st.id] = (P[st.id] || 0) + 1; save();
+  if (!S.coinHint) { S.coinHint = true; toast('A bonus coin popped out! Tap it to collect'); }
+  drawPile(st, true);
+}
+function pileLabels() {   // keep the amounts current as income grows
+  const P = piles(); stage.querySelectorAll('.bcoin[data-pile]').forEach(el => { const n = P[el.dataset.pile] || 0, l = el.querySelector('.pilen'), t = fmt(n * coinValue()).replace(/^\$/, ''); if (n && l && l.textContent !== t) l.textContent = t; });
+}
+function drawPiles() { stage.querySelectorAll('.bcoin').forEach(e => e.remove()); const P = piles(); LOC().stations.forEach(st => { if (P[st.id] && els[st.id]) drawPile(st, false); }); }
+function drawPile(st, pop) {
+  const n = piles()[st.id] || 0, b = els[st.id] && els[st.id].b; if (!b) return;
+  let el = stage.querySelector(`.bcoin[data-pile="${st.id}"]`);
+  if (!n) { if (el) el.remove(); return; }
+  if (!el) {
+    el = document.createElement('button'); el.className = 'bcoin'; el.dataset.pile = st.id;
+    el.innerHTML = '<span class="coin">$</span><b class="pilen"></b>';
+    el.style.left = (b.offsetLeft + 24) + 'px';   // sits on the station's bottom-left corner; the amount is centered under it, half over the coin
+    el.style.top = (b.offsetTop + b.offsetHeight * 0.88) + 'px';
+    if (!pop) el.style.animationDuration = '0s';
+    stage.appendChild(el);
+    el.addEventListener('click', e => {
+      e.stopPropagation(); if (el.classList.contains('gone')) return;
+      const P = piles(), k = P[st.id] || 0; if (!k) return; delete P[st.id];
+      const v = k * coinValue(); earn(v); sfx('reward'); el.classList.add('gone');
+      const f = document.createElement('span'); f.className = 'floater'; f.textContent = '+' + fmt(v); f.style.left = el.style.left; f.style.top = el.style.top; stage.appendChild(f); setTimeout(() => f.remove(), 1000);
+      setTimeout(() => el.remove(), 400); save();
+    });
+  } else if (pop) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+  el.querySelector('.pilen').textContent = fmt(n * coinValue()).replace(/^\$/, '');   // what the pile pays right now (Eatventure-style tiny amount next to the coin)
+  el.setAttribute('aria-label', `Bonus coin${n > 1 ? 's' : ''} x${n}: tap to collect`);
 }
 function floater(st, text) {
   const b = els[st.id].b;
@@ -6100,6 +6128,7 @@ function evRules() {
 }
 function render() {
   evRules();
+  try { pileLabels(); } catch (e) {}
   try { evTick(); } catch (e) {}
   try { liveCrewSheet(); } catch (e) {}
   setFit($('cash'), fmt(S.cash).replace(/^\$/, ''), 19, 12);   // the coin already says it's cash
