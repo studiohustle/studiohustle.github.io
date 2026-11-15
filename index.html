@@ -1400,8 +1400,9 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evtw { transform-box: fill-box; transform-origin: center; animation: evtw 2.4s ease-in-out infinite alternate; } @keyframes evtw { from { opacity: .15; transform: scale(.6); } to { opacity: 1; transform: scale(1.25); } }
 .evblink { animation: evblink 1.2s ease-in-out infinite alternate; } @keyframes evblink { from { opacity: .35; } to { opacity: 1; } }
 .evbeam { transform-box: view-box; animation: evbeam 4.5s ease-in-out infinite alternate; } @keyframes evbeam { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+.evfield { animation: evfield 1.6s linear infinite; } @keyframes evfield { to { stroke-dashoffset: -24; } }
 .evshoot { animation: evshoot 7s linear infinite; } @keyframes evshoot { 0%, 82% { transform: translate(0, 0); opacity: 0; } 85% { opacity: 1; } 100% { transform: translate(520px, 170px); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .evtw, .evblink, .evbeam, .evshoot { animation: none; } .evshoot { display: none; } }
+@media (prefers-reduced-motion: reduce) { .evtw, .evblink, .evbeam, .evshoot, .evfield { animation: none; } .evshoot { display: none; } }
 .evsway { animation: evsway 3.6s ease-in-out infinite alternate; } @keyframes evsway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 .evsun { border-radius: 50%; box-shadow: 0 0 34px 10px var(--glow); animation: evsun 5s ease-in-out infinite alternate; } @keyframes evsun { from { box-shadow: 0 0 26px 6px var(--glow); } to { box-shadow: 0 0 44px 16px var(--glow); } }
 @media (prefers-reduced-motion: reduce) { .evsway, .evsun { animation: none; } }
@@ -1445,6 +1446,7 @@ html .mode-btn, html .up-btn { border-radius: 8px !important; }
    Yellow and pink stay in game art, items, gems and currency, not on UI buttons, fills or selected states. */
 /* main actions */
 html .cta, html .cta.pink, html .sheet.light .cta.pink, html .evh-foot .cta.exit, html .up-btn, html .hire, html .hire.money, html .act.hype { background: #6CBCF8 !important; color: #14122A !important; box-shadow: inset 0 0 0 1.5px rgba(40,100,165,.35), 0 7px 0 #4F95D2 !important; }
+html .cta.discord { background: #5865F2 !important; color: #fff !important; box-shadow: inset 0 0 0 1.5px rgba(40,46,140,.35), 0 7px 0 #3C45B8 !important; }   /* Discord keeps its own purple */
 html .cta:disabled, html .up-btn:disabled, html .hire:disabled { background: var(--line) !important; color: var(--muted) !important; box-shadow: none !important; }
 html .sheet.light .cta:disabled { background: #E6E2F1 !important; color: #8C87A8 !important; }
 /* Build 212: greyed-out buttons keep the blue buttons' shape (same 7px ledge, outline, size) in grey, like Eatventure.
@@ -2630,7 +2632,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 218, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 219, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6438,11 +6440,20 @@ const evGalaxyOutside = (H, hz) => { const rnd = evRand(7), stars = Array.from({
     ${evCrater(-30, hz + 60, 26, '#A797DA', '#7D6CBE')}${evCrater(300, hz + 70, 18, '#A797DA', '#7D6CBE')}${evCrater(120, hz + 120, 22, '#AE9FDE', '#8473C2')}${evCrater(250, H * .62, 28)}${evCrater(470, hz + 46, 20)}${evCrater(80, H * .7, 34)}${evCrater(330, H * .78, 24)}${evCrater(-200, H * .66, 40)}${evCrater(620, H * .7, 36)}
     ${evCrystal(-120, H * .62, 1.1)}${evCrystal(560, H * .6, 1, '#FF8FD1', '#A8306E')}${evCrystal(20, H * .86, 1.2, '#FF8FD1', '#A8306E')}${evCrystal(380, H * .9, 1.15)}
     ${evRocket(330, H * .55, 1.1)}${evRocket(470, H * .72, 1.1)}${evCrystal(240, H * .7, .9)}${evAlienPlant(120, H * .58, 1.1)}${evBeacon(-10, hz + 90, -.3)}${evBeacon(400, hz + 96, -.9)}${evAlienPlant(-20, H * .76, 1.2)}${evAlienPlant(300, H * .68, 1)}
-    <path d="M-390 ${H - 26} H780 M-390 ${H - 12} H780" stroke="#6A5BB0" stroke-width="5"/><path d="M-390 ${H - 26} H780" stroke="#7FE3FF" stroke-width="1.6" opacity=".9"/>
-    ${Array.from({ length: 23 }, (_, i) => `<rect x="${-386 + i * 52}" y="${H - 38}" width="7" height="38" rx="2" fill="#8C84BA" stroke="#4A3F86" stroke-width="2"/><circle cx="${-382.5 + i * 52}" cy="${H - 40}" r="3.4" fill="#7FE3FF"/>`).join('')}
-    <rect x="150" y="${H - 44}" width="90" height="44" fill="#CDC2EC"/>
-    <g><rect x="146" y="${H - 96}" width="8" height="96" fill="#8C84BA" stroke="#4A3F86" stroke-width="2"/><rect x="236" y="${H - 96}" width="8" height="96" fill="#8C84BA" stroke="#4A3F86" stroke-width="2"/>
-      <rect x="136" y="${H - 106}" width="118" height="24" rx="12" fill="#2E2266" stroke="#7FE3FF" stroke-width="2.5"/><text x="195" y="${H - 89}" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="700" font-size="12" letter-spacing="2" fill="#FFD58A">ORBIT FEST</text></g>`;
+    <defs><linearGradient id="gField" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FE3FF" stop-opacity=".05"/><stop offset=".5" stop-color="#7FE3FF" stop-opacity=".32"/><stop offset="1" stop-color="#B79CFF" stop-opacity=".12"/></linearGradient>
+      <linearGradient id="gArch" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF6FC8"/><stop offset=".5" stop-color="#B79CFF"/><stop offset="1" stop-color="#7FE3FF"/></linearGradient></defs>
+    ${[[-390, 146], [244, 780]].map(([x0, x1]) => `<rect x="${x0}" y="${H - 40}" width="${x1 - x0}" height="30" fill="url(#gField)"/>
+      <path class="evfield" d="M${x0} ${H - 36} H${x1} M${x0} ${H - 25} H${x1} M${x0} ${H - 14} H${x1}" stroke="#7FE3FF" stroke-width="1.6" stroke-dasharray="14 10" opacity=".85"/>`).join('')}
+    ${[-360, -290, -220, -150, -80, -10, 60, 115, 275, 330, 400, 470, 540, 610, 680, 750].map((x, i) => `<g transform="translate(${x} ${H - 8})"><ellipse cx="0" cy="3" rx="11" ry="3.5" fill="#2E2266" opacity=".25"/>
+      <path d="M-7 0 L-5 -38 L5 -38 L7 0 Z" fill="#3A2C7A" stroke="#2E2266" stroke-width="2" stroke-linejoin="round"/><path d="M-3 -34 V-6" stroke="#7FE3FF" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+      <path d="M-9 -38 L0 -48 L9 -38 Z" fill="#B79CFF" stroke="#2E2266" stroke-width="2" stroke-linejoin="round"/><circle class="evblink" style="animation-delay:${-(i % 5) * .3}s" cx="0" cy="-51" r="3.2" fill="#7FE3FF"/></g>`).join('')}
+    <rect x="146" y="${H - 44}" width="98" height="44" fill="#CDC2EC"/>
+    <g><path d="M141 ${H} V${H - 70} A54 54 0 0 1 249 ${H - 70} V${H}" fill="none" stroke="#2E2266" stroke-width="12" stroke-linecap="round"/>
+      <path d="M141 ${H} V${H - 70} A54 54 0 0 1 249 ${H - 70} V${H}" fill="none" stroke="url(#gArch)" stroke-width="6" stroke-linecap="round"/>
+      <path class="evfield" d="M149 ${H - 4} V${H - 70} A46 46 0 0 1 241 ${H - 70} V${H - 4}" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-dasharray="6 9" opacity=".7"/>
+      ${[[141, H - 40], [249, H - 40], [195, H - 124]].map(([x, y], i) => `<circle class="evblink" style="animation-delay:${-i * .4}s" cx="${x}" cy="${y}" r="4" fill="#FFFFFF" stroke="#2E2266" stroke-width="1.5"/>`).join('')}
+      <g transform="translate(195 ${H - 136})"><ellipse rx="66" ry="15" fill="#2E2266"/><ellipse rx="66" ry="15" fill="none" stroke="url(#gArch)" stroke-width="2.5"/>
+        <text y="4.5" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="800" font-size="12" letter-spacing="2" fill="#FFD58A">ORBIT FEST</text></g></g>`;
 };
 const evOutside = (key, H, down = 0) => {   // down: how far the scenery reaches onto the station screen (Build 200: fence right above the Backer)
   const hz = Math.round(H * .46);   // horizon
