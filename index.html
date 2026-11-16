@@ -677,6 +677,7 @@ html .lb-pm-art { flex: 1; min-width: 0; min-height: 0; height: 200px; padding-b
 .lb-big:not(:disabled):active { transform: translateY(4px); box-shadow: none; }
 .lb-cd { position: absolute; right: 14px; top: 50%; width: 30px; height: 30px; margin-top: -15px; border-radius: 50%; border: 3px solid #fff; display: grid; place-items: center; font: 400 15px var(--display); font-style: normal; }
 .lb-kc { text-align: center; } html .lb-kc-h b { padding: 0; } html .lb-mc .lb-kc-q { margin: 4px 0 14px; font-size: 16px; font-weight: 700; color: #4A4566; } html .lb-mc .lb-kc-t { margin: 0 0 8px; font-size: 13.5px; font-weight: 600; color: #6E6A88; line-height: 1.4; }
+.lb-top-pend { display: block; font: 700 11px var(--body); color: #8C88A6; }
 .lb-btn2 { flex: 1; height: 44px; border: 0; border-radius: 10px; font: 800 14px var(--body); background: #E6E2F1; color: #3F3868; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.18), 0 5px 0 #C3BDD6; }
 .lb-btn2.red { background: #E2554A; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.25), 0 5px 0 #B23A31; }
 .lb-btn2:active { transform: translateY(3px); box-shadow: 0 2px 0 #C3BDD6; }
@@ -2779,7 +2780,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 222, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 223, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3584,11 +3585,12 @@ const fameNext = () => fameAt((S.albums || 0) + 1) - fameAt(S.albums || 0);
 const FAME_POOL_W = 1.5;
 const fameBonusAt = a => FAME_POOL_W * (fameAt(a) - 1);   // e.g. 30 albums: +501% All Profit
 const fameBonus = () => fameBonusAt(S.albums || 0);
+function labelProfitX() { const x = S.lbx, d = new Date(), s = d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0'); return x && x.season === s && x.x > 1 ? x.x : 1; }   // Label All Profit (Labels)
 const allProfit = () => gearMult() + fameBonus();   // 1 + wardrobe + Fame bonus
 // Build 162 income protection (half rate): careers from before Option D keep at least the income they had (old Fame x outfits).
 // The gap is an Early tester bonus inside All Profit. Each album, half of Fame's gain is taken from the bonus and the other half
 // raises income, so income never goes backward and still grows. Outfits always add on top. Career only; events keep plain Fame.
-const careerProfit = () => allProfit();   // 1 + outfits + Fame bonus (Build 163: the early tester bonus ended with the alpha reset)
+const careerProfit = () => allProfit() * labelProfitX();   // 1 + outfits + Fame bonus (Build 163: the early tester bonus ended with the alpha reset)
 // every album raises the money goals a little so tours level off at about 30 minutes instead of shrinking to nothing
 // Option H (Build 158): album prices rise from 1.36 and level off at 2.00, so they never drop. a = albums dropped before the run
 const goalScale = (a = S.albums || 0) => Math.round((2 - 0.64 * Math.pow(0.6, Math.max(0, a))) * 1000) / 1000;
@@ -4394,7 +4396,7 @@ const MAYA_ALBUM_LATER = ['Another album out in the world. Let’s keep building
 function dropAlbum() {
   if (!albumReady()) return;
   S.albums = (S.albums || 0) + 1;
-  passStars('album');
+  passStars('album'); lbQueue('album');
   thisWeek().albums++;
   S.clears = clearsOf(); S.clears[lastLoc()]++;
   const plaqueGems = (S.mapPaid || 0) <= lastLoc() ? (MAP_GEMS[lastLoc()] || 0) : 0;
@@ -4423,8 +4425,8 @@ function dropAlbum() {
 }
 
 // ---------- sheets ----------
-// ===================== LABELS (clubs) — VISUAL DEMO, sample data only (Build 220 demo) =====================
-// Nothing here is online yet: every label, member and number below is made-up demo data so the design can be reviewed.
+// ===================== LABELS (clubs): online, Build 223 =====================
+// Labels live on the server (tables label*, functions lb_*). The save only keeps the All Profit bonus (S.lbx), queued XP (S.lbq) and paid rewards (S.lbPaid).
 const LB_COLORS = ['#7C5CFF', '#FF6FAE', '#2FB5A5', '#FF9F43', '#3D8BFF', '#E24B4B'];
 const LB_GLYPHS = ['bolt', 'star', 'note', 'crown', 'flame', 'wave'];
 const LB_GLYPH = {
@@ -4448,51 +4450,91 @@ const LB_MULT = [[1, 1.0], [2, 1.1], [5, 1.2], [10, 1.4], [15, 1.6], [20, 1.75],
 const lbMult = L => LB_MULT.filter(([l]) => L >= l).pop()[1];
 // season rewards sit below the free Backstage Pass track in gems and skips; the multiplier is the label's main draw
 const LB_REWARD = L => {
-  if (L === 30) return { k: 'cos', t: 'Label Chain (look-only, this season)', ic: 'chain' };
+  if (L === 30) return { k: 'gems', n: 50, t: '50 gems', ic: 'gems' };
   if (L === 5 || L === 15 || L === 25) return { k: 'hype', t: 'Hype Hour: 1 hour of Hype', ic: 'hype' };
   if (L === 10 || L === 20) return { k: 'frenzy', t: 'Fan Frenzy', ic: 'frenzy' };
   if ([6, 12, 18, 24, 28].includes(L)) return { k: 'skip', t: 'Time Skip', ic: 'skip' };
-  return { k: 'gems', t: (L < 10 ? 10 : L < 20 ? 15 : 20) + ' gems', ic: 'gems' };
+  const n = L < 10 ? 10 : L < 20 ? 15 : 20; return { k: 'gems', n, t: n + ' gems', ic: 'gems' };
 };
 const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Earn an event star', '+2 XP'], ['Send a labelmate Hype', '+10 XP']];
 const LB_DAILY_CAP = 400;   // per member per day, so one very active player can't carry a whole label
 
-// ---- demo data ----
-const LBD = {
-  joined: true, owner: true, modal: null, unclaimed: 1, tab: 'home', view: null, hypes: [], hypeIn: 'Kaylo', set: null, firstFree: true, seasonEnd: (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth() + 1, 1).getTime(); })(),
-  mine: { name: 'Midnight Static', badge: { color: '#7C5CFF', glyph: 'bolt' }, code: 'MS7K2Q', open: false, minAlbums: 10, xp: 14650, weekXp: 3880, rank: 7 },
-  members: [
-    { n: 'Kaylo', role: 'Member', xp: 3420, today: 400, al: 61, on: true, sk: '#8D5A3B', eq: { top: 'puffer', hat: 'crown', neck: 'cuban', face: 'diamondframes' }, bt: 'a', hs: 'buzz', hc: '#231A17' },
-    { n: 'Nova Ray', role: 'Member', xp: 2780, today: 260, al: 44, on: true, sk: '#F2C9A0', eq: { top: 'neon', hat: null, neck: 'icedchain', face: 'starshades' }, bt: 'b', hs: 'long', hc: '#FF8FC0' },
-    { n: '@me', role: 'Owner', xp: 2310, today: 180, al: 0, on: true, sk: '' },
-    { n: 'DJ Mango', role: 'Member', xp: 2040, today: 90, al: 38, on: false, sk: '#C68B5E', eq: { top: 'varsity', hat: 'fitted', neck: 'goldchain', face: null }, bt: 'a', hs: 'buzz', hc: '#6E4A2E' },
-    { n: 'Remi Waves', role: 'Member', xp: 1650, today: 0, al: 27, on: false, sk: '#5C3A28', eq: { top: 'tourtee', hat: 'bucket', neck: null, face: 'aviators' }, bt: 'a', hs: 'buzz', hc: '#231A17' },
-    { n: 'Saint Echo', role: 'Member', xp: 1290, today: 130, al: 19, on: false, sk: '#E8B48A', eq: { top: 'latenight', hat: null, neck: 'silverrope', face: 'clearframes' }, bt: 'b', hs: 'long', hc: '#E6C36A' },
-    { n: 'Juno', role: 'Member', xp: 760, today: 0, al: 9, on: false, sk: '#A86B45', eq: { top: 'mixtape', hat: 'beanie', neck: null, face: null }, bt: 'b', hs: 'long', hc: '#A8442A' },
-    { n: 'Lil Static', role: 'Member', xp: 400, today: 30, al: 4, on: false, sk: '#F2C9A0', eq: { top: 'jersey', hat: 'trucker', neck: null, face: 'shades' }, bt: 'a', hs: 'buzz', hc: '#231A17' }
-  ],
-  discover: [
-    { name: 'Velvet Underground Co', badge: { color: '#FF6FAE', glyph: 'note' }, m: 9, lv: 18, open: true, wk: 1 },
-    { name: 'Bassline Kings', badge: { color: '#3D8BFF', glyph: 'crown' }, m: 7, lv: 11, open: true, wk: 4 },
-    { name: 'Sunset Sessions', badge: { color: '#FF9F43', glyph: 'wave' }, m: 4, lv: 5, open: true, wk: 22 },
-    { name: 'Neon Tape', badge: { color: '#2FB5A5', glyph: 'star' }, m: 10, lv: 24, open: false, wk: 2 },
-    { name: 'Garage Gold', badge: { color: '#E24B4B', glyph: 'flame' }, m: 2, lv: 1, open: true, wk: 0 }
-  ],
-  chart: [['Velvet Underground Co', '#FF6FAE', 'note', 6420], ['Neon Tape', '#2FB5A5', 'star', 6105], ['Afterhours', '#3D8BFF', 'wave', 5230], ['Bassline Kings', '#3D8BFF', 'crown', 4870],
-    ['Loud Pack', '#E24B4B', 'flame', 4410], ['Tape Deck Heroes', '#FF9F43', 'note', 4020], ['Midnight Static', '#7C5CFF', 'bolt', 3880], ['Pocket Choir', '#FF6FAE', 'star', 3510],
-    ['Basement Tapes', '#2FB5A5', 'wave', 3120], ['First Take', '#FF9F43', 'crown', 2890]],
-  create: { name: '', color: '#7C5CFF', glyph: 'star', open: true }
-};
-const lbLevel = xp => { let L = 1; while (L < LB_MAX && xp >= lbXpAt(L + 1)) L++; return L; };
+// ---- live state: everything below comes from the server (lb_* functions); nothing about a label lives in the save ----
+const LB = { st: null, list: null, chart: null, status: 'idle', err: '', tab: 'home', modal: null, view: null, set: null, kickAt: 0, busy: false, at: 0,
+  create: { name: '', color: '#7C5CFF', glyph: 'star', open: true, min: 0 }, find: { code: '', res: null, err: '' }, report: null };
 const LB_MINS = [0, 5, 10, 25, 50, 100, 200];
-const lbMe = () => LBD.members.find(m => m.n === '@me');
-const lbName = m => m.n === '@me' ? cleanName(S.name) + ' (you)' : m.n;
-const lbLeft = () => { const t = Math.max(0, LBD.seasonEnd - Date.now()), d = Math.floor(t / 864e5), h = Math.floor(t % 864e5 / 36e5), m = Math.floor(t % 36e5 / 6e4); return d ? d + 'd ' + h + 'h' : h + 'h ' + m + 'm'; };   // two units only: 15d 3h, or 19h 31m in the last day
-const lbDays = () => Math.max(0, Math.ceil((LBD.seasonEnd - Date.now()) / 864e5));
 const LB_HYPES = 3;   // Hypes a day, each to a different labelmate; reset at local midnight
-const lbHypesLeft = () => LB_HYPES - LBD.hypes.length;
-const lbHypeLeft = () => { const d = new Date(), m = Math.max(1, Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1) - d) / 6e4)); return Math.floor(m / 60) + 'h ' + (m % 60) + 'm'; };   // resets at local midnight
-const lbDemoTag = '<span class="lb-demo">Demo data</span>';
+const lbLevel = xp => { let L = 1; while (L < LB_MAX && xp >= lbXpAt(L + 1)) L++; return L; };
+const lbTz = () => -new Date().getTimezoneOffset();
+const lbL = () => LB.st && LB.st.label;
+const lbMeRow = () => LB.st && LB.st.me;
+const lbIsOwner = () => !!(lbMeRow() && lbMeRow().role === 'owner');
+const lbSent = () => (lbMeRow() && lbMeRow().hype_to) || [];
+const lbHypesLeft = () => Math.max(0, LB_HYPES - lbSent().length);
+const lbSeason = () => { const d = new Date(); return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0'); };
+const lbSeasonEnd = () => { const d = new Date(); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1); };
+const lbTwo = ms => { const t = Math.max(0, ms), d = Math.floor(t / 864e5), h = Math.floor(t % 864e5 / 36e5), m = Math.floor(t % 36e5 / 6e4); return d ? d + 'd ' + h + 'h' : h + 'h ' + m + 'm'; };   // two units only
+const lbLeft = () => lbTwo(lbSeasonEnd() - Date.now());
+const lbWeekLeft = () => { const d = new Date(), t = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()), day = (new Date(t).getUTCDay() + 6) % 7; return lbTwo(t + (7 - day) * 864e5 - Date.now()); };
+const lbHypeLeft = () => { const d = new Date(); return lbTwo(new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1) - d); };   // local midnight
+const lbAgo = at => { const s = Math.max(0, (Date.now() - Date.parse(at)) / 1000); return s < 3600 ? Math.max(1, Math.floor(s / 60)) + 'm' : s < 86400 ? Math.floor(s / 3600) + 'h' : Math.floor(s / 86400) + 'd'; };
+const lbErr = r => (r && r.data && (r.data.message || r.data.hint)) || (r && r.status ? 'Something went wrong (' + r.status + ')' : 'No connection');
+// the Label All Profit bonus this player gets now: the label's level multiplier once they've added 100 XP this season.
+// Kept in the save so income stays right offline; it only counts during the season it was read in.
+async function lbCall(fn, body) {
+  if (PREVIEW_LOCK || PLAYTEST) return { ok: false, status: 0, data: { message: 'Labels are off in this build' } };
+  try { await ensureAuth(); } catch (e) { return { ok: false, status: 0, data: { message: 'No connection' } }; }
+  try { return await supa('/rest/v1/rpc/' + fn, { method: 'POST', auth: true, body: body || {} }); } catch (e) { return { ok: false, status: 0, data: { message: 'No connection' } }; }
+}
+function lbAddHype(min) { const now = Date.now(), base = Math.max(now, S.hypeUntil || 0); S.hypeUntil = Math.max(S.hypeUntil || 0, Math.min(base + min * 60000, now + hypeCap() * 1000)); }
+// read the label state; also delivers Hype labelmates sent and keeps the saved All Profit bonus current
+async function lbLoad(quiet) {
+  if (LB.busy) return; LB.busy = true; if (!quiet && !LB.st) LB.status = 'loading';
+  const r = await lbCall('lb_state', { tz: lbTz() });
+  LB.busy = false; LB.at = Date.now();
+  if (!r.ok || !r.data) { LB.status = 'error'; LB.err = lbErr(r); return false; }
+  LB.st = r.data; LB.status = 'ok'; LB.err = '';
+  const L = lbL(), me = lbMeRow();
+  S.lbIn = !!L; S.lbx = { season: r.data.season || lbSeason(), x: L && me && me.xp >= 100 ? lbMult(lbLevel(L.xp)) : 1 };
+  const hin = r.data.hype_in || [];
+  if (hin.length) { hin.forEach(() => lbAddHype(10)); const who = [...new Set(hin)];
+    toast(`${who.slice(0, 2).map(cleanName).join(' and ')}${who.length > 2 ? ' and others' : ''} sent you Hype: +${hin.length * 10} min`); sfx('hype'); }
+  if (!L) { const l = await lbCall('lb_list'); if (l.ok) LB.list = l.data || []; }
+  save(); return true;
+}
+async function lbLoadChart() { const r = await lbCall('lb_chart'); if (r.ok) LB.chart = r.data || []; }
+const lbRefresh = () => { if (sheetKey === 'labels' && !$('scrim').hidden) openTab('labels'); };
+// ---- Label XP from normal play: queued in the save and sent when online, only while in a label ----
+function lbQueue(kind, n = 1) { if (!S.lbIn) return; const q = S.lbq || (S.lbq = {}); q[kind] = (q[kind] || 0) + n; lbFlushSoon(); }
+let lbFlushT = 0;
+const lbFlushSoon = () => { clearTimeout(lbFlushT); lbFlushT = setTimeout(lbFlush, 4000); };
+async function lbFlush() {
+  const q = S.lbq; if (!q || !S.lbIn || PREVIEW_LOCK || PLAYTEST) return;
+  for (const kind of ['album', 'tasks', 'stars']) {
+    let n = q[kind] || 0;
+    while (n > 0) { const take = kind === 'album' ? Math.min(n, 4) : kind === 'tasks' ? 1 : Math.min(n, 200);
+      const r = await lbCall('lb_xp', { kind, n: take, tz: lbTz() }); if (!r.ok) return;
+      n -= take; q[kind] = n; if (kind === 'tasks') n = q.tasks = 0; }
+  }
+  S.lbq = {}; save();
+}
+// event stars: count the new ones since the last look (2 XP each)
+setInterval(() => { try {
+  if (!S.ev || !S.ev.key || !S.lbIn) return; const p = evPoints(), b = S.lbStars;
+  if (!b || b.key !== S.ev.key) { S.lbStars = { key: S.ev.key, p }; return; }
+  if (p > b.p) { lbQueue('stars', p - b.p); b.p = p; } } catch (e) {} }, 30000);
+setInterval(() => { if (!document.hidden && S.onboarded && S.lbIn) { lbFlush(); lbLoad(true).then(lbRefresh); } }, 300000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && S.onboarded && S.lbIn && Date.now() - LB.at > 60000) lbLoad(true).then(lbRefresh); });
+// rewards: the server marks the level paid, the save gets the reward once (keyed by season and level)
+function lbPay(season, level) {
+  const id = 'lb:' + season + ':' + level, r = LB_REWARD(level); S.lbPaid = S.lbPaid || {};
+  if (S.lbPaid[id]) return r; S.lbPaid[id] = 1; bumpRev();
+  if (r.k === 'gems') { S.gems += r.n; owe('gems'); }
+  if (r.k === 'skip') addInv('skips', 1, id);
+  if (r.k === 'frenzy') addInv('frenzies', 1, id);
+  if (r.k === 'hype') S.hypeUntil = Math.max(Date.now(), S.hypeUntil || 0) + 3600000;
+  save(); render(); return r;
+}
 const lbRewardIc = (ic, sz = 30) => ic === 'gems' ? `<img src="art/gem.webp" width="${sz}" height="${Math.round(sz * .82)}" alt="">`
   : ic === 'skip' ? `<img src="art/shop/boost-60.svg" width="${sz}" height="${sz}" alt="">`
   : ic === 'frenzy' ? ART.frenzy().replace('width="78" height="78"', `width="${sz}" height="${sz}"`)
@@ -4508,50 +4550,51 @@ const LB_IC = {
   check: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>'
 };
 const lbI = (what, cls = '') => `<button class="lb-i ${cls}" data-lbmodal="${what}" aria-label="More info"><span>i</span></button>`;
-const LB_FEED = [['xp', 'Nova Ray dropped an album', '+100 XP', '12m'], ['hype', 'Kaylo sent you Hype', '+10 min Hype', '1h'], ['lv', 'Midnight Static reached Level 14', 'Everyone: 15 gems', '3h'],
-  ['xp', 'DJ Mango finished daily tasks', '+30 XP', '5h'], ['join', 'Lil Static joined the label', '', '2d'], ['xp', 'Saint Echo earned 40 event stars', '+80 XP', '3d'],
-  ['leave', 'Stefan left the label', '', '6d'], ['season', 'A new season started', 'Runs until the end of the month', '14d']];
+const LB_X = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+const lbBadgeOf = l => lbBadge({ color: l.color, glyph: l.glyph }, 34);
 function lbHead() {
-  const M = LBD.mine, L = lbLevel(M.xp), next = Math.min(LB_MAX, L + 1), a = lbXpAt(L), b = lbXpAt(next), pct = L >= LB_MAX ? 100 : Math.round((M.xp - a) / (b - a) * 100), nr = LB_REWARD(next);
+  const M = lbL(), me = lbMeRow(), L = lbLevel(M.xp), next = Math.min(LB_MAX, L + 1), a = lbXpAt(L), b = lbXpAt(next), pct = L >= LB_MAX ? 100 : Math.round((M.xp - a) / (b - a) * 100), nr = LB_REWARD(next), cl = LB.st.claim;
   return `<div class="lb-top">
     <div class="lb-top-l">
-      <div class="lb-top-name">${lbBadge(M.badge, 34)}<b>${esc(M.name)}</b>${lbI('info')}</div>
-      <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b></div>
+      <div class="lb-top-name">${lbBadge({ color: M.color, glyph: M.glyph }, 34)}<b>${esc(M.name)}</b>${lbI('info')}</div>
+      <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b>${me.xp < 100 ? '<small class="lb-top-pend">after you add 100 XP</small>' : ''}</div>
       <div class="lb-top-lv">Level ${L}</div>
-      <div class="lb-top-bar"><i style="width:${Math.max(8, pct)}%"></i><span>${fmtN(M.xp - a)}/${fmtN(b - a)} XP</span></div>
+      <div class="lb-top-bar"><i style="width:${Math.max(8, pct)}%"></i><span>${L >= LB_MAX ? 'Max level' : `${fmtN(M.xp - a)}/${fmtN(b - a)} XP`}</span></div>
       <div class="lb-top-season">Season ends in <b>${lbLeft()}</b></div>
     </div>
     <div class="lb-top-r">
-      ${LBD.unclaimed ? `<div class="lb-top-rw ready">${lbI('rewards', 'sm')}${lbRewardIc(LB_REWARD(L).ic, 34)}<small>Level ${L} · ready</small></div>`
+      ${cl ? `<div class="lb-top-rw ready">${lbI('rewards', 'sm')}${lbRewardIc(LB_REWARD(cl).ic, 34)}<small>Level ${cl} · ready${LB.st.claims > 1 ? ` (${LB.st.claims})` : ''}</small></div>`
         : `<div class="lb-top-rw">${lbI('rewards', 'sm')}${lbRewardIc(nr.ic, 34)}<small>Next: Level ${next}</small></div>`}
-      <button class="cta lb-claim" data-lbclaim ${LBD.unclaimed ? '' : 'disabled'}>Claim</button>
+      <button class="cta lb-claim" data-lbclaim ${cl ? '' : 'disabled'}>Claim</button>
     </div></div>`;
 }
 function lbIconTabs() {
-  return `<div class="segtabs lb-tabs" role="tablist">${[['home', 'Members'], ['feed', 'Activity'], ['charts', 'Charts']].map(([k, l]) => `<button class="stab ${LBD.tab === k ? 'on' : ''}" role="tab" aria-selected="${LBD.tab === k}" data-lbtab="${k}">${l}</button>`).join('')}</div>`;
+  return `<div class="segtabs lb-tabs" role="tablist">${[['home', 'Members'], ['feed', 'Activity'], ['charts', 'Charts']].map(([k, l]) => `<button class="stab ${LB.tab === k ? 'on' : ''}" role="tab" aria-selected="${LB.tab === k}" data-lbtab="${k}">${l}</button>`).join('')}</div>`;
 }
+const lbIsMe = m => m.uid === lbMeRow().uid;
+const lbNm = m => lbIsMe(m) ? cleanName(S.name) + ' (you)' : cleanName(m.name);
 function lbMembers() {
-  const members = LBD.members.slice().sort((x, y) => y.xp - x.xp);
-  return `<div class="lb-lhead"><b>Members ${LBD.members.length}/10</b><span>Season XP</span></div>
-    <div class="lb-hypeline ${lbHypesLeft() ? '' : 'spent'}">${LB_IC.bolt}<span>${lbHypesLeft() ? `<b>Hype available today: ${lbHypesLeft()}/${LB_HYPES}</b> · ${LBD.hypes.length ? 'Sent to ' + LBD.hypes.map(esc).join(', ') : 'Send to 3 different labelmates'}` : `<b>All ${LB_HYPES} Hypes sent</b> · Available again in ${lbHypeLeft()}`}</span></div>
-    <div class="lb-mlist">${members.map((m, i) => { const me = m.n === '@me', st = LBD.hypes.includes(m.n) ? 'sent' : lbHypesLeft() ? 'ready' : 'used';
-      return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${LBD.members.indexOf(m)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
-        <span class="rt"><b><span class="nm">${esc(lbName(m))}</span>${m.on ? '<i class="ondot on"></i>' : ''}</b><span>${m.role === 'Owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.al} albums</span></span>
+  const ms = LB.st.members || [], sent = lbSent(), left = lbHypesLeft(), M = lbL();
+  return `<div class="lb-lhead"><b>Members ${ms.length}/10</b><span>Season XP</span></div>
+    ${ms.length > 1 ? `<div class="lb-hypeline ${left ? '' : 'spent'}">${LB_IC.bolt}<span>${left ? `<b>Hype available today: ${left}/${LB_HYPES}</b> · ${sent.length ? 'Sent to ' + ms.filter(m => sent.includes(m.uid)).map(m => esc(cleanName(m.name))).join(', ') : 'Send to 3 different labelmates'}` : `<b>All ${LB_HYPES} Hypes sent</b> · Available again in ${lbHypeLeft()}`}</span></div>` : ''}
+    <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
+      return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
+        <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i></b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
         <span class="lb-mx">${fmtN(m.xp)} XP</span>
-        ${me ? '<span class="lb-hb none"></span>' : `<button class="lb-hb ${st}" data-lbhype="${esc(m.n)}" ${st === 'ready' ? '' : 'disabled'} aria-label="${st === 'sent' ? 'Hype sent' : 'Send ' + esc(m.n) + ' Hype'}">${st === 'sent' ? LB_IC.check : LB_IC.bolt}</button>`}</div>`; }).join('')}
-      ${LBD.members.length < 10 ? `<div class="lb-open">${10 - LBD.members.length} open spots · share code <b>${LBD.mine.code}</b></div>` : ''}</div>
-    <div class="lb-democtl"><span>Demo controls</span><button class="hire" data-lbowner>${LBD.owner ? 'View as member' : 'View as owner'}</button><button class="hire" data-lbreset>Reset Hype</button></div>`;
+        ${me ? '<span class="lb-hb none"></span>' : `<button class="lb-hb ${st}" data-lbhype="${esc(m.uid)}" ${st === 'ready' ? '' : 'disabled'} aria-label="${st === 'sent' ? 'Hype sent' : 'Send ' + esc(cleanName(m.name)) + ' Hype'}">${st === 'sent' ? LB_IC.check : LB_IC.bolt}</button>`}</div>`; }).join('')}
+      ${ms.length < 10 ? `<div class="lb-open">${10 - ms.length} open spot${ms.length === 9 ? '' : 's'} · share code <b>${M.code}</b></div>` : ''}</div>`;
 }
 function lbFeed() {
-  return `<div class="lb-lhead"><b>Activity</b><span>No chat in v1</span></div><div class="lb-feed">${LB_FEED.map(([k, t, s, w]) => `<div class="lb-f ${k}"><span class="rt"><b>${esc(t)}</b>${s ? `<span>${esc(s)}</span>` : ''}</span><small>${w}</small></div>`).join('')}</div>`;
+  const ev = LB.st.events || [];
+  return `<div class="lb-lhead"><b>Activity</b></div><div class="lb-feed">${ev.length ? ev.map(e => `<div class="lb-f ${esc(e.kind)}"><span class="rt"><b>${esc(e.title)}</b>${e.sub ? `<span>${esc(e.sub)}</span>` : ''}</span><small>${lbAgo(e.at)}</small></div>`).join('') : '<p class="cnote">Nothing yet. Drop an album to get things going.</p>'}</div>`;
 }
 function lbModal() {
-  if (LBD.modal === 'info') {
-    const M = LBD.mine;
-    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc" role="dialog" aria-label="Label info"><div class="lb-mc-h"><b>Label Info</b><button class="lb-x" data-lbmodalx aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-      <div class="lb-mc-row"><span>Label settings${LBD.owner ? '' : ' <small>owner only</small>'}</span><button class="lb-ibtn" data-lbsettings aria-label="Label settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
+  const M = lbL(); if (!M) return '';
+  if (LB.modal === 'info') {
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc" role="dialog" aria-label="Label info"><div class="lb-mc-h"><b>Label Info</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
+      <div class="lb-mc-row"><span>Label settings${lbIsOwner() ? '' : ' <small>owner only</small>'}</span><button class="lb-ibtn" data-lbsettings aria-label="Label settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
       <div class="lb-mc-row"><span>Label code: <b>${M.code}</b></span><button class="lb-ibtn" data-lbcopy aria-label="Copy label code"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div>
-      <div class="lb-mc-row lb-mc-meta"><span>${M.open ? 'Open' : 'Private'} · ${M.minAlbums ? M.minAlbums + '+ albums to join' : 'No album minimum'}</span></div>
+      <div class="lb-mc-row lb-mc-meta"><span>${M.open ? 'Open' : 'Private'} · ${M.min_albums ? M.min_albums + '+ albums to join' : 'No album minimum'}</span></div>
       <div class="lb-mc-txt">
         <p>Everything you already do earns Label XP: albums <b>+100</b>, daily tasks <b>+30</b>, event stars <b>+2</b>, Hype <b>+10</b>.</p>
         <p>Every level pays every member who was in the label when it was reached.</p>
@@ -4562,110 +4605,109 @@ function lbModal() {
           <p>Up to 10 members. If the owner leaves, the top contributor becomes owner. Kicked members can't rejoin until next season, and the Label XP they added is removed.</p></details></div>
       <button class="lb-leave" data-lbleave>Leave Label</button></div></div>`;
   }
-  if (LBD.modal === 'settings') {
-    const C = LBD.set, ro = !LBD.owner;
-    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc" role="dialog" aria-label="Label settings"><div class="lb-mc-h"><b>Label Settings</b><button class="lb-x" data-lbmodal="info" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  if (LB.modal === 'leave') {
+    const last = (LB.st.members || []).length <= 1;
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-kc" role="alertdialog" aria-label="Leave label"><div class="lb-mc-h lb-kc-h"><b>Leave Label</b></div>
+      <p class="lb-kc-q">Leave <b>${esc(M.name)}</b>?</p>
+      <p class="lb-kc-t">${last ? 'You\'re the last member, so the label closes.' : 'Your XP stays with the label and the Label All Profit bonus stops.'} Rewards you already collected are yours to keep.</p>
+      <button class="lb-big red" data-lbleavego>Leave</button><button class="lb-big blue" data-lbmodal="info">Cancel</button></div></div>`;
+  }
+  if (LB.modal === 'settings') {
+    const C = LB.set, ro = !lbIsOwner(), renamed = C.name.trim() !== M.name;
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc" role="dialog" aria-label="Label settings"><div class="lb-mc-h"><b>Label Settings</b><button class="lb-x" data-lbmodal="info" aria-label="Back">${LB_X}</button></div>
       ${ro ? `<p class="lb-mc-sub">Only the owner can change these.</p>` : ''}
       <div class="lb-set"><label for="lbSetName">Label name</label><input id="lbSetName" class="nameinput" maxlength="18" value="${esc(C.name)}" ${ro ? 'disabled' : ''} autocomplete="off"></div>
-      <div class="lb-set"><label>Albums needed to join</label><div class="lb-step"><button class="lb-ibtn" data-lbstep="-1" ${ro || !C.minAlbums ? 'disabled' : ''} aria-label="Fewer">−</button><b>${C.minAlbums}</b><button class="lb-ibtn" data-lbstep="1" ${ro || C.minAlbums >= LB_MINS[LB_MINS.length - 1] ? 'disabled' : ''} aria-label="More">+</button></div></div>
+      <div class="lb-set"><label>Albums needed to join</label><div class="lb-step"><button class="lb-ibtn" data-lbstep="-1" ${ro || !C.min ? 'disabled' : ''} aria-label="Fewer">−</button><b>${C.min}</b><button class="lb-ibtn" data-lbstep="1" ${ro || C.min >= LB_MINS[LB_MINS.length - 1] ? 'disabled' : ''} aria-label="More">+</button></div></div>
       <div class="lb-set"><label>Who can join</label><div class="segtabs lb-tabs2">${[[true, 'Open'], [false, 'Private']].map(([v, l]) => `<button class="stab ${C.open === v ? 'on' : ''}" data-lbsetopen="${v}" ${ro ? 'disabled' : ''}>${l}</button>`).join('')}</div>
-        <p class="lb-set-note">${C.open ? `Anyone with ${C.minAlbums}+ albums can join from the Labels list.` : `Only players with your label code (and ${C.minAlbums}+ albums) can join.`}</p></div>
+        <p class="lb-set-note">${C.open ? `Anyone with ${C.min}+ albums can join from the Labels list.` : `Only players with your label code (and ${C.min}+ albums) can join.`}</p></div>
       ${ro ? '' : `<div class="lb-mc-row"><span>New label code <small>old code stops working</small></span><button class="lb-btn2 sm" data-lbnewcode>Reset</button></div>
-      <button class="lb-save" data-lbsave>${C.name.trim() !== LBD.mine.name ? `Save · <span class="gemprice">${GEM_MINI}500</span>` : 'Save'}</button>
-      <p class="lb-set-note lb-set-c">Renaming costs 500 gems. Demo: none are spent.</p>`}</div></div>`;
+      <button class="lb-save" data-lbsave>${renamed ? `Save · <span class="gemprice">${GEM_MINI}500</span>` : 'Save'}</button>
+      <p class="lb-set-note lb-set-c">Renaming costs 500 gems.</p>`}</div></div>`;
   }
-  if (LBD.modal === 'rewards') {
-    const L = lbLevel(LBD.mine.xp);
-    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-mc-rw" role="dialog" aria-label="Label rewards"><div class="lb-mc-h"><b>Label Rewards</b><button class="lb-x" data-lbmodalx aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  if (LB.modal === 'rewards') {
+    const L = lbLevel(M.xp);
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-mc-rw" role="dialog" aria-label="Label rewards"><div class="lb-mc-h"><b>Label Rewards</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
       <p class="lb-mc-sub">Everything you already do levels up your label. Every level pays every member.</p>
       <div class="lb-rl">${Array.from({ length: LB_MAX - 1 }, (_, i) => i + 2).map(l => { const r = LB_REWARD(l), step = LB_MULT.find(([x]) => x === l), st = l <= L ? 'got' : l === L + 1 ? 'next' : '';
-        return `<div class="lb-rr ${st}"><span class="lb-rr-l"><b>Level ${l}</b><span class="lb-rr-x">${st === 'next' ? `Next · ${fmtN(LBD.mine.xp - lbXpAt(L))}/${fmtN(lbXpAt(l) - lbXpAt(L))} XP` : st === 'got' ? `${LB_IC.check} Reached` : fmtN(lbXpAt(l)) + ' XP'}</span></span>
-          ${step ? `<span class="lb-chip lb-mc2"><b>x${step[1]}</b><small>All Profit</small></span>` : ''}<span class="lb-chip">${lbRewardIc(r.ic, 26)}<small>${esc(r.t.replace(' (look-only, this season)', '').replace('Hype Hour: 1 hour of Hype', '1h Hype'))}</small></span></div>`; }).join('')}</div>
+        return `<div class="lb-rr ${st}"><span class="lb-rr-l"><b>Level ${l}</b><span class="lb-rr-x">${st === 'next' ? `Next · ${fmtN(M.xp - lbXpAt(L))}/${fmtN(lbXpAt(l) - lbXpAt(L))} XP` : st === 'got' ? `${LB_IC.check} Reached` : fmtN(lbXpAt(l)) + ' XP'}</span></span>
+          ${step ? `<span class="lb-chip lb-mc2"><b>x${step[1]}</b><small>All Profit</small></span>` : ''}<span class="lb-chip">${lbRewardIc(r.ic, 26)}<small>${esc(r.t.replace('Hype Hour: 1 hour of Hype', '1h Hype'))}</small></span></div>`; }).join('')}</div>
       <div class="lb-mc-foot">Season ends in <b>${lbLeft()}</b></div></div></div>`;
   }
-  if (LBD.modal === 'member') {
-    const m = LBD.members[LBD.view]; if (!m) return '';
-    const me = m.n === '@me', eq = me ? S.equip : m.eq, rank = LBD.members.slice().sort((x, y) => y.xp - x.xp).indexOf(m) + 1;
-    const lk = me ? myLook() : { hs: m.hs, hc: m.hc, fd: null, ph: false }, slot = sl => { const it = itemById(eq[sl]); return `<span class="lb-ps" style="--rc:${it ? RARITY[it.rar][1] : '#CFCADF'}">${it ? itemArt(it, 44) : ''}</span>`; };
-    const sent = LBD.hypes.includes(m.n), canKick = LBD.owner && !me && m.role !== 'Owner';
-    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-pm" role="dialog" aria-label="${esc(lbName(m))}"><div class="lb-mc-h"><b>${esc(me ? cleanName(S.name) : m.n)}</b><button class="lb-x" data-lbmodalx aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
-      <div class="lb-pm-sub">${m.role === 'Owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.al} albums · #${rank} in the label</div>
+  if (LB.modal === 'member') {
+    const m = (LB.st.members || []).find(x => x.uid === LB.view); if (!m) return '';
+    const me = lbIsMe(m), p = me ? myProfile() : (m.profile || {}), eq = me ? S.equip : (p.eq || { top: 'basic' }), bt = p.bt === 'b' ? 'b' : 'a';
+    const rank = LB.st.members.indexOf(m) + 1, sent = lbSent().includes(m.uid), canKick = lbIsOwner() && !me;
+    const lk = me ? myLook() : { hs: p.hs || defaultHair(bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd || null, ph: !!p.ph && p.ph !== 'none' };
+    const slot = sl => { const it = itemById(eq[sl]); return `<span class="lb-ps" style="--rc:${it ? RARITY[it.rar][1] : '#CFCADF'}">${it ? itemArt(it, 44) : ''}</span>`; };
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-pm" role="dialog" aria-label="${esc(lbNm(m))}"><div class="lb-mc-h"><b>${esc(me ? cleanName(S.name) : cleanName(m.name))}</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
+      <div class="lb-pm-sub">${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums · #${rank} in the label</div>
       <div class="lb-pm-body"><div class="lb-pm-col">${slot('neck')}${slot('face')}</div>
-        <div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : m.sk};--phones:${PHONES[0]}">${bigArtist(eq, me ? S.bt : m.bt, lk)}</div>
+        <div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : p.skin || '#C68B5E'};--phones:${me ? S.phones : (p.ph && p.ph !== 'none' ? p.ph : PHONES[0])}">${bigArtist(eq, me ? S.bt : bt, lk)}</div>
         <div class="lb-pm-col">${slot('hat')}${slot('top')}</div></div>
       <div class="lb-pm-stats"><div><b>${fmtN(m.xp)}</b><span>Label XP</span></div><div><b>${m.today}/${LB_DAILY_CAP}</b><span>XP today</span></div></div>
-      ${me ? '' : `<button class="lb-big blue" data-lbhype="${esc(m.n)}" ${sent || !lbHypesLeft() ? 'disabled' : ''}>${sent ? 'Hype sent' : lbHypesLeft() ? `Send Hype · ${lbHypesLeft()}/${LB_HYPES} left` : 'No Hypes left today'}</button>`}
+      ${me ? '' : `<button class="lb-big blue" data-lbhype="${esc(m.uid)}" ${sent || !lbHypesLeft() ? 'disabled' : ''}>${sent ? 'Hype sent' : lbHypesLeft() ? `Send Hype · ${lbHypesLeft()}/${LB_HYPES} left` : 'No Hypes left today'}</button>`}
       ${canKick ? `<button class="lb-big red" data-lbkick>Kick</button>` : ''}</div></div>`;
   }
-  if (LBD.modal === 'kick') {
-    const m = LBD.members[LBD.view], left = Math.max(0, Math.ceil((LBD.kickAt - Date.now()) / 1000));
+  if (LB.modal === 'kick') {
+    const m = (LB.st.members || []).find(x => x.uid === LB.view); if (!m) return '';
+    const left = Math.max(0, Math.ceil((LB.kickAt - Date.now()) / 1000));
     return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-kc" role="alertdialog" aria-label="Kick player"><div class="lb-mc-h lb-kc-h"><b>Kick Player</b></div>
-      <p class="lb-kc-q">Are you sure you want to kick <b>${esc(m.n)}</b>?</p>
+      <p class="lb-kc-q">Are you sure you want to kick <b>${esc(cleanName(m.name))}</b>?</p>
       <p class="lb-kc-t">All Label XP they added this season will be lost. They won't be able to rejoin until next season.</p>
       <button class="lb-big ${left ? 'wait' : 'red'}" data-lbkickgo ${left ? 'disabled' : ''}>Kick Player${left ? `<i class="lb-cd">${left}</i>` : ''}</button>
       <button class="lb-big blue" data-lbkickno>Cancel</button></div></div>`;
   }
   return '';
 }
-function lbRewards() {
-  const L = lbLevel(LBD.mine.xp);
-  const rows = Array.from({ length: LB_MAX - 1 }, (_, i) => i + 2).map(l => { const r = LB_REWARD(l), step = LB_MULT.find(([x]) => x === l), st = l <= L ? 'got' : l === L + 1 ? 'next' : '';
-    return `<div class="lb-rw ${st} ${r.k === 'cos' ? 'cos' : ''}"><span class="lb-lv">${l}</span><span class="lb-ric-w">${lbRewardIc(r.ic, 30)}</span>
-      <span class="rt"><b>${esc(r.t)}</b><span>${fmtN(lbXpAt(l))} XP${step ? ` · <em>Label All Profit x${step[1]}</em>` : ''}</span></span>
-      <span class="lb-st">${st === 'got' ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>' : st === 'next' ? 'Next' : ''}</span></div>`; }).join('');
-  return `<div class="sec"><h3>How your label levels up</h3>
-      <div class="lb-src">${LB_XP_SOURCES.map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('')}</div>
-      <p class="cnote">Everything you already do counts. Each member adds up to ${LB_DAILY_CAP} XP a day.</p></div>
-    <div class="sec"><h3>Who gets rewards</h3><div class="lb-rules">
-      <div><b>Levels reached while you're in the label</b><span>Join late and you collect from the next level on, not the ones already passed.</span></div>
-      <div><b>Each level once per season</b><span>Switching labels can't pay out the same level twice.</span></div>
-      <div><b>The bonus starts after 100 XP</b><span>New members get Label All Profit once they've added 100 XP.</span></div>
-      <div><b>Leaving keeps what you earned</b><span>Rewards stay yours; the bonus stops and your XP stays with the label.</span></div></div></div>
-    <div class="sec"><h3>Season rewards <small class="h3note">resets in ${lbDays()}d</small></h3><div class="lb-rws">${rows}</div>
-      <p class="cnote">At the end of the season the level and the Label All Profit bonus go back to the start. Everything you've collected, including the season's Label Chain and Jacket, is yours to keep.</p></div>`;
-}
 function lbCharts() {
-  const rows = LBD.chart.map(([n, c, g, xp], i) => `<div class="crow ${n === LBD.mine.name ? 'me' : ''}"><span class="cr">${i + 1}</span>${lbBadge({ color: c, glyph: g }, 34)}
-      <span class="rt"><b><span class="nm">${esc(n)}</span></b><span>Level ${[24, 18, 16, 11, 13, 10, 12, 9, 8, 7][i]}</span></span><span class="ca lb-ca">${lbXpShort(xp)}<small>XP this week</small></span></div>`).join('');
-  return `<p class="cnote">New week in <b>${(() => { const d = new Date(), dd = (8 - d.getDay()) % 7 || 7; return dd + 'd'; })()}</b></p>
-    <div class="clist lb-clist">${rows}</div>`;
+  if (!LB.chart) return '<p class="cnote">Loading the Label Charts…</p>';
+  const rows = LB.chart.map((r, i) => `<div class="crow ${r.mine ? 'me' : ''}"><span class="cr">${i + 1}</span>${lbBadgeOf(r)}
+      <span class="rt"><b><span class="nm">${esc(r.name)}</span></b><span>Level ${r.level}</span></span><span class="ca lb-ca">${lbXpShort(r.week_xp)}<small>XP this week</small></span></div>`).join('');
+  return `<p class="cnote">New week in <b>${lbWeekLeft()}</b></p><div class="clist lb-clist">${rows}</div>`;
 }
 function lbDiscover() {
+  const free = !(LB.st && LB.st.created > 0), list = LB.list || [];
   return `<div class="welcome lb-why"><p><b>Team up with up to 10 artists.</b> Everything you already do levels up your label, and every level pays out to every member, plus a Label All Profit bonus up to x2.</p></div>
-    <div class="lb-actions"><button class="cta" data-lbcreate>${LBD.firstFree ? 'Create a Label · free' : `Create a Label <span class="gemprice">${GEM_MINI}500</span>`}</button><button class="ghost" data-lbinvite>Have an invite code?</button></div>
-    <div class="sec"><h3>Labels looking for artists</h3><div class="clist">${LBD.discover.map((d, i) => `<div class="crow lb-drow">${lbBadge(d.badge, 40)}
-      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>Level ${d.lv} · ${d.m}/10 · ${d.open ? 'Open' : 'Invite only'}</span></span>
-      <button class="hire" data-lbjoin="${i}" ${d.m >= 10 || !d.open ? 'disabled' : ''}>${d.m >= 10 ? 'Full' : d.open ? 'Join' : 'Invite'}</button></div>`).join('')}</div>
-      <p class="cnote">Labels unlock at Map 3. You can be in one label at a time; after leaving, wait 12 hours to join another.</p></div>`;
+    <div class="lb-actions"><button class="cta" data-lbcreate>${free ? 'Create a Label · free' : `Create a Label <span class="gemprice">${GEM_MINI}500</span>`}</button><button class="ghost" data-lbinvite>Have a label code?</button></div>
+    <div class="sec"><h3>Labels looking for artists</h3><div class="clist">${list.length ? list.map(d => { const short = (S.albums || 0) < d.min_albums;
+      return `<div class="crow lb-drow">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
+      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>Level ${d.level} · ${d.members}/10${d.min_albums ? ` · ${d.min_albums}+ albums` : ''}</span></span>
+      <button class="hire" data-lbjoin="${esc(d.id)}" ${short ? 'disabled' : ''}>${short ? d.min_albums + ' albums' : 'Join'}</button></div>`; }).join('') : '<p class="cnote">No open labels right now. Start one and share its code!</p>'}</div>
+      <p class="cnote">You can be in one label at a time.</p></div>`;
 }
 function lbOpen(tab) {
   if (tab === 'labels') {
-    const body = LBD.joined ? lbHead() + lbIconTabs() + `<div class="lb-pane">${LBD.tab === 'feed' ? lbFeed() : LBD.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : lbDiscover();
-    return openSheet(`<div class="sheet-head"><h2>${LBD.joined ? 'Your Label' : 'Labels'}</h2>${closeBtn()}</div>${lbDemoTag}${body}`);
+    if (!LB.busy && Date.now() - LB.at > 15000) lbLoad().then(() => { lbFlush(); lbRefresh(); });
+    let body;
+    if (!LB.st) body = LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>';
+    else body = lbL() ? lbHead() + lbIconTabs() + `<div class="lb-pane">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : lbDiscover();
+    return openSheet(`<div class="sheet-head"><h2>${lbL() ? 'Your Label' : 'Labels'}</h2>${closeBtn()}</div>${body}`);
   }
   if (tab === 'label-create') {
-    const C = LBD.create;
-    return openSheet(`<div class="sheet-head"><h2>New Label</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
+    const C = LB.create, free = !(LB.st && LB.st.created > 0);
+    return openSheet(`<div class="sheet-head"><h2>New Label</h2>${headBtns('data-lbback')}</div>
       <div class="lb-preview">${lbBadge({ color: C.color, glyph: C.glyph }, 72)}<b>${esc(C.name || 'Your Label')}</b></div>
       <label class="lbl" for="lbName">Label name</label><input id="lbName" class="nameinput" maxlength="18" value="${esc(C.name)}" placeholder="Midnight Static" autocomplete="off">
       <div class="sec"><h3>Badge</h3><div class="lb-pick">${LB_GLYPHS.map(g => `<button class="lb-pk ${C.glyph === g ? 'on' : ''}" data-lbglyph="${g}" aria-label="${g}">${lbBadge({ color: C.color, glyph: g }, 40)}</button>`).join('')}</div>
         <div class="lb-pick">${LB_COLORS.map(c => `<button class="lb-sw ${C.color === c ? 'on' : ''}" data-lbcolor="${c}" style="background:${c}" aria-label="Colour"></button>`).join('')}</div></div>
-      <div class="sec"><h3>Who can join</h3><div class="segtabs">${[[true, 'Anyone'], [false, 'Invite code only']].map(([v, l]) => `<button class="stab ${C.open === v ? 'on' : ''}" data-lbopen="${v}">${l}</button>`).join('')}</div></div>
-      <button class="cta" data-lbmake>${LBD.firstFree ? 'Create for free' : `Create for <span class="gemprice">${GEM_MINI}500</span>`}</button>
-      <p class="cnote">Your first label is free; after that a new label costs 500 gems. Demo: nothing goes online.</p>`);
+      <div class="sec"><h3>Who can join</h3><div class="segtabs">${[[true, 'Open'], [false, 'Private']].map(([v, l]) => `<button class="stab ${C.open === v ? 'on' : ''}" data-lbopen="${v}">${l}</button>`).join('')}</div></div>
+      <button class="cta" data-lbmake>${free ? 'Create for free' : `Create for <span class="gemprice">${GEM_MINI}500</span>`}</button>
+      <p class="cnote">Your first label is free; after that a new label costs 500 gems.</p>`);
   }
   if (tab === 'label-invite') {
-    const d = LBD.discover[1];
-    return openSheet(`<div class="sheet-head"><h2>Invite</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
-      <label class="lbl" for="lbCode">Label code</label><div class="addrow"><input id="lbCode" class="nameinput" maxlength="6" value="BK4N8D" autocomplete="off" autocapitalize="characters"><button class="hire">Find</button></div>
-      <div class="lb-invite">${lbBadge(d.badge, 72)}<b>${esc(d.name)}</b><span>Kaylo invited you · Level ${d.lv} · ${d.m}/10 members</span>
-        <div class="lb-inv-stats"><div><b>x${lbMult(d.lv)}</b><span>Label All Profit</span></div><div><b>#${d.wk}</b><span>This week</span></div></div>
-        <button class="cta" data-lbjoin="1">Join ${esc(d.name)}</button><button class="ghost lb-mini" data-lbreport="label">Report this label's name</button></div>`);
+    const F = LB.find, d = F.res, short = d && (S.albums || 0) < d.min_albums;
+    return openSheet(`<div class="sheet-head"><h2>Label code</h2>${headBtns('data-lbback')}</div>
+      <label class="lbl" for="lbCode">Label code</label><div class="addrow"><input id="lbCode" class="nameinput" maxlength="6" value="${esc(F.code)}" placeholder="ABC123" autocomplete="off" autocapitalize="characters"><button class="hire" data-lbfind>Find</button></div>
+      ${F.err ? `<p class="cnote">${esc(F.err)}</p>` : ''}
+      ${d ? `<div class="lb-invite">${lbBadge({ color: d.color, glyph: d.glyph }, 72)}<b>${esc(d.name)}</b><span>Level ${d.level} · ${d.members}/10 members${d.min_albums ? ` · ${d.min_albums}+ albums` : ''}</span>
+        <div class="lb-inv-stats"><div><b>x${lbMult(d.level)}</b><span>Label All Profit</span></div><div><b>${d.open ? 'Open' : 'Private'}</b><span>Who can join</span></div></div>
+        <button class="cta" data-lbjoin="${esc(d.id)}" ${d.members >= 10 || short ? 'disabled' : ''}>${d.members >= 10 ? 'This label is full' : short ? `Needs ${d.min_albums} albums` : 'Join ' + esc(d.name)}</button><button class="ghost lb-mini" data-lbreport="${esc(d.id)}">Report this label's name</button></div>` : ''}`);
   }
   if (tab === 'label-report') {
-    return openSheet(`<div class="sheet-head"><h2>Report</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
-      <p class="cnote" style="text-align:left">What's wrong with ${LBD.reportWhat === 'player' ? 'this player name' : `the label name <b>${esc(LBD.mine.name)}</b>`}?</p>
-      <div class="lb-reasons">${['Offensive or hateful', 'Sexual or inappropriate', 'Impersonation', 'Spam or advertising'].map((r, i) => `<label class="row"><input type="radio" name="lbr" ${i ? '' : 'checked'}><span class="rt"><b>${r}</b></span></label>`).join('')}</div>
+    const d = LB.find.res;
+    return openSheet(`<div class="sheet-head"><h2>Report</h2>${headBtns('data-lbback')}</div>
+      <p class="cnote" style="text-align:left">What's wrong with the label name <b>${esc(d ? d.name : '')}</b>?</p>
+      <div class="lb-reasons">${['Offensive or hateful', 'Sexual or inappropriate', 'Impersonation', 'Spam or advertising'].map((r, i) => `<label class="row"><input type="radio" name="lbr" value="${r}" ${i ? '' : 'checked'}><span class="rt"><b>${r}</b></span></label>`).join('')}</div>
       <button class="cta" data-lbsendreport>Send report</button>
       <p class="cnote">Reports go to the Studio Hustle team. Names that break the rules are reset; labels can be closed.</p>`);
   }
@@ -4673,49 +4715,70 @@ function lbOpen(tab) {
 const fmtN = n => Math.round(n).toLocaleString('en-US');
 // compact like the money pill: 940, 6.42K, 28K (a label can earn at most 400 x 10 members x 7 days = 28,000 XP a week)
 const lbXpShort = n => n < 1000 ? String(Math.round(n)) : (n < 1e4 ? (n / 1e3).toFixed(2) : n < 1e5 ? (n / 1e3).toFixed(1) : String(Math.round(n / 1e3))).replace(/\.?0+$/, '') + 'K';
-document.addEventListener('input', e => { if (e.target.id !== 'lbSetName' || !LBD.set) return; LBD.set.name = e.target.value;
-  const b = document.querySelector('[data-lbsave]'); if (b) b.innerHTML = e.target.value.trim() !== LBD.mine.name ? `Save · <span class="gemprice">${GEM_MINI}500</span>` : 'Save'; });
-document.addEventListener('click', e => {
-  const mb = e.target.closest('[data-lbkick],[data-lbkickgo],[data-lbkickno],[data-lbmodal],[data-lbmodalx],[data-lbclaim],[data-lbsettings],[data-lbstep],[data-lbsetopen],[data-lbsave]');
-  const sn = $('lbSetName'); if (sn && LBD.set) LBD.set.name = sn.value.slice(0, 18);
-  if (mb && mb.dataset.lbkick !== undefined) { LBD.modal = 'kick'; LBD.kickAt = Date.now() + 3000; openTab('labels');
-    const tick = () => { if (LBD.modal !== 'kick') return; const b = document.querySelector('[data-lbkickgo]'), left = Math.ceil((LBD.kickAt - Date.now()) / 1000);
+document.addEventListener('input', e => { if (e.target.id !== 'lbSetName' || !LB.set) return; LB.set.name = e.target.value;
+  const b = document.querySelector('[data-lbsave]'); if (b) b.innerHTML = e.target.value.trim() !== (lbL() || {}).name ? `Save · <span class="gemprice">${GEM_MINI}500</span>` : 'Save'; });
+// one action at a time; every action re-reads the label from the server afterwards
+let lbActing = false;
+async function lbAct(fn, body, done) {
+  if (lbActing) return; lbActing = true;
+  const r = await lbCall(fn, body); lbActing = false;
+  if (!r.ok) { toast(lbErr(r)); return null; }
+  if (done) await done(r.data);
+  await lbLoad(true); lbRefresh(); return r;
+}
+document.addEventListener('click', async e => {
+  const t = e.target.closest('[data-lbretry],[data-lbkick],[data-lbkickgo],[data-lbkickno],[data-lbmodal],[data-lbmodalx],[data-lbclaim],[data-lbsettings],[data-lbstep],[data-lbsetopen],[data-lbsave],[data-lbnewcode],[data-lbtab],[data-lbmember],[data-lbhype],[data-lbcopy],[data-lbleave],[data-lbleavego],[data-lbcreate],[data-lbinvite],[data-lbfind],[data-lbjoin],[data-lbglyph],[data-lbcolor],[data-lbopen],[data-lbmake],[data-lbback],[data-lbreport],[data-lbsendreport]');
+  if (!t) { if (e.target.matches('[data-lbmodalbg]')) { LB.modal = null; openTab('labels'); } return; }
+  const D = t.dataset, sn = $('lbSetName'); if (sn && LB.set) LB.set.name = sn.value.slice(0, 18);
+  const nm = $('lbName'); if (nm) LB.create.name = nm.value.trim().slice(0, 18);
+  const cd = $('lbCode'); if (cd) LB.find.code = cd.value.trim().toUpperCase().slice(0, 6);
+  if (D.lbretry !== undefined) { LB.status = 'loading'; openTab('labels'); await lbLoad(); return lbRefresh(); }
+  if (D.lbtab) { LB.tab = D.lbtab; openTab('labels'); if (LB.tab === 'charts') { await lbLoadChart(); lbRefresh(); } return; }
+  if (D.lbmodalx !== undefined) { LB.modal = null; return openTab('labels'); }
+  if (D.lbmodal !== undefined) { LB.modal = D.lbmodal || null; openTab('labels'); if (LB.modal === 'rewards') { const n = document.querySelector('.lb-rr.next'); if (n) n.parentNode.scrollTop = n.offsetTop - n.parentNode.offsetTop - 60; } return; }
+  if (D.lbmember) { if (e.target.closest('[data-lbhype]')) return; LB.view = D.lbmember; LB.modal = 'member'; return openTab('labels'); }
+  if (D.lbhype) { if (t.disabled) return; const m = (LB.st.members || []).find(x => x.uid === D.lbhype);
+    return lbAct('lb_hype', { who: D.lbhype, tz: lbTz() }, () => { toast(`Sent ${cleanName(m ? m.name : 'them')} 10 minutes of Hype`); sfx('reward'); }); }
+  if (D.lbclaim !== undefined) { if (t.disabled) return;
+    return lbAct('lb_claim', {}, d => { const r = lbPay(d.season, d.level); toast(`Level ${d.level} reward: ${r.t}`); sfx('reward'); }); }
+  if (D.lbcopy !== undefined) { const c = (lbL() || {}).code || ''; try { await navigator.clipboard.writeText(c); toast('Label code ' + c + ' copied'); } catch (er) { toast('Label code: ' + c); } return; }
+  if (D.lbsettings !== undefined) { const M = lbL(); LB.set = { name: M.name, min: M.min_albums, open: M.open }; LB.modal = 'settings'; return openTab('labels'); }
+  if (D.lbstep) { if (t.disabled) return; const i = Math.max(0, LB_MINS.indexOf(LB.set.min)); LB.set.min = LB_MINS[Math.max(0, Math.min(LB_MINS.length - 1, i + +D.lbstep))]; return openTab('labels'); }
+  if (D.lbsetopen) { if (t.disabled) return; LB.set.open = D.lbsetopen === 'true'; return openTab('labels'); }
+  if (D.lbsave !== undefined) { const n = LB.set.name.trim(), renamed = n !== lbL().name;
+    if (renamed && S.gems < 500) return toast('Renaming costs 500 gems');
+    return lbAct('lb_settings', { name: n, open: LB.set.open, min_albums: LB.set.min }, d => { if (d.renamed) { S.gems -= 500; bumpRev(); save(); render(); }
+      LB.modal = 'info'; toast(d.renamed ? 'Label renamed' : 'Label settings saved'); sfx('reward'); }); }
+  if (D.lbnewcode !== undefined) return lbAct('lb_newcode', {}, () => toast('New label code made. The old one stops working'));
+  if (D.lbkick !== undefined) { LB.modal = 'kick'; LB.kickAt = Date.now() + 3000; openTab('labels');
+    const tick = () => { if (LB.modal !== 'kick') return; const b = document.querySelector('[data-lbkickgo]'), left = Math.ceil((LB.kickAt - Date.now()) / 1000);
       if (!b) return; if (left > 0) { const c = b.querySelector('.lb-cd'); if (c) c.textContent = left; return setTimeout(tick, 200); }
       b.disabled = false; b.className = 'lb-big red'; b.innerHTML = 'Kick Player'; }; setTimeout(tick, 200); return; }
-  if (mb && mb.dataset.lbkickno !== undefined) { LBD.modal = 'member'; return openTab('labels'); }
-  if (mb && mb.dataset.lbkickgo !== undefined) { if (mb.disabled || Date.now() < LBD.kickAt) return; const m = LBD.members[LBD.view]; LBD.members.splice(LBD.view, 1); LBD.mine.xp = Math.max(0, LBD.mine.xp - m.xp);   // a Hype already sent still counts toward today's 3
-    LBD.modal = null; toast(`Kicked ${m.n} (demo)`); return openTab('labels'); }
-  if (mb && mb.dataset.lbsettings !== undefined) { LBD.set = { name: LBD.mine.name, minAlbums: LBD.mine.minAlbums, open: LBD.mine.open }; LBD.modal = 'settings'; return openTab('labels'); }
-  if (mb && mb.dataset.lbstep) { if (mb.disabled) return; const i = LB_MINS.indexOf(LBD.set.minAlbums); LBD.set.minAlbums = LB_MINS[Math.max(0, Math.min(LB_MINS.length - 1, i + +mb.dataset.lbstep))]; return openTab('labels'); }
-  if (mb && mb.dataset.lbsetopen) { if (mb.disabled) return; LBD.set.open = mb.dataset.lbsetopen === 'true'; return openTab('labels'); }
-  if (mb && mb.dataset.lbsave !== undefined) { const n = cleanName(LBD.set.name || '').trim(); if (n.length < 3) return toast('Label names need at least 3 characters');
-    const renamed = n !== LBD.mine.name; Object.assign(LBD.mine, { name: n, minAlbums: LBD.set.minAlbums, open: LBD.set.open }); LBD.modal = 'info'; toast(renamed ? 'Label renamed for 500 gems (demo: no gems spent)' : 'Label settings saved (demo)'); sfx('reward'); return openTab('labels'); }
-  if (mb) { if (mb.dataset.lbclaim !== undefined) { if (!LBD.unclaimed) return; LBD.unclaimed = 0; toast(`Claimed Level ${lbLevel(LBD.mine.xp)}: ${LB_REWARD(lbLevel(LBD.mine.xp)).t} (demo)`); sfx('reward'); return openTab('labels'); }
-    LBD.modal = mb.dataset.lbmodal || null; openTab('labels'); if (LBD.modal === 'rewards') { const n = document.querySelector('.lb-rr.next'); if (n) n.parentNode.scrollTop = n.offsetTop - n.parentNode.offsetTop - 60; } return; }
-  if (e.target.matches('[data-lbmodalbg]')) { LBD.modal = null; return openTab('labels'); }
-  const t = e.target.closest('[data-lbowner],[data-lbreset],[data-lbnewcode],[data-lbreport],[data-lbsendreport],[data-lbtab],[data-lbmember],[data-lbhype],[data-lbcopy],[data-lbleave],[data-lbcreate],[data-lbinvite],[data-lbjoin],[data-lbglyph],[data-lbcolor],[data-lbopen],[data-lbmake],[data-lbback]');
-  if (!t) return;
-  const nm = $('lbName'); if (nm) LBD.create.name = nm.value.trim().slice(0, 18);
-  if (t.dataset.lbowner !== undefined) { LBD.owner = !LBD.owner; const me = lbMe(), k = LBD.members.find(m => m.n === 'Kaylo'); me.role = LBD.owner ? 'Owner' : 'Member'; k.role = LBD.owner ? 'Member' : 'Owner'; return openTab('labels'); }
-  if (t.dataset.lbreset !== undefined) { LBD.hypes = []; return openTab('labels'); }
-    if (t.dataset.lbnewcode !== undefined) { LBD.mine.code = 'NEW' + Math.random().toString(36).slice(2, 5).toUpperCase(); toast('New label code made (demo)'); return openTab('labels'); }
-    if (t.dataset.lbreport) { LBD.modal = null; LBD.reportWhat = t.dataset.lbreport; return openTab('label-report'); }
-  if (t.dataset.lbsendreport !== undefined) { toast('Report sent. Thanks for keeping Labels friendly (demo)'); return openTab('labels'); }
-  if (t.dataset.lbtab) { LBD.tab = t.dataset.lbtab; return openTab('labels'); }
-  if (t.dataset.lbmember) { if (e.target.closest('[data-lbhype]')) return; LBD.view = +t.dataset.lbmember; LBD.modal = 'member'; return openTab('labels'); }
-  if (t.dataset.lbhype && !t.disabled && lbHypesLeft() && !LBD.hypes.includes(t.dataset.lbhype)) { LBD.hypes.push(t.dataset.lbhype); lbMe().today = Math.min(LB_DAILY_CAP, lbMe().today + 10); toast(`Sent ${t.dataset.lbhype} 10 minutes of Hype · ${lbHypesLeft()}/${LB_HYPES} left today`); sfx('reward'); return openTab(sheetKey); }
-  if (t.dataset.lbcopy !== undefined) return toast('Label code copied (demo)');
-  if (t.dataset.lbleave !== undefined) { LBD.modal = null; LBD.joined = false; return openTab('labels'); }
-  if (t.dataset.lbcreate !== undefined) return openTab('label-create');
-  if (t.dataset.lbinvite !== undefined) return openTab('label-invite');
-  if (t.dataset.lbjoin) { const d = LBD.discover[+t.dataset.lbjoin]; toast(`Joined ${d.name} (demo). Showing the demo label`); LBD.joined = true; LBD.tab = 'home'; return openTab('labels'); }
-  if (t.dataset.lbglyph) { LBD.create.glyph = t.dataset.lbglyph; return openTab('label-create'); }
-  if (t.dataset.lbcolor) { LBD.create.color = t.dataset.lbcolor; return openTab('label-create'); }
-  if (t.dataset.lbopen) { LBD.create.open = t.dataset.lbopen === 'true'; return openTab('label-create'); }
-  if (t.dataset.lbmake !== undefined) { LBD.firstFree = false; LBD.owner = true; lbMe().role = 'Owner'; LBD.members.find(m => m.n === 'Kaylo').role = 'Member'; LBD.mine.name = LBD.create.name || 'Your Label'; LBD.mine.badge = { color: LBD.create.color, glyph: LBD.create.glyph }; LBD.joined = true; LBD.tab = 'home'; toast('Label created (demo)'); return openTab('labels'); }
-  if (t.dataset.lbback !== undefined) return openTab('labels');
+  if (D.lbkickno !== undefined) { LB.modal = 'member'; return openTab('labels'); }
+  if (D.lbkickgo !== undefined) { if (t.disabled || Date.now() < LB.kickAt) return; const m = (LB.st.members || []).find(x => x.uid === LB.view);
+    return lbAct('lb_kick', { who: LB.view }, () => { LB.modal = null; toast(`Kicked ${cleanName(m ? m.name : 'player')}`); }); }
+  if (D.lbleave !== undefined) { LB.modal = 'leave'; return openTab('labels'); }
+  if (D.lbleavego !== undefined) return lbAct('lb_leave', {}, () => { LB.modal = null; LB.tab = 'home'; S.lbx = null; S.lbIn = false; S.lbq = {}; toast('You left the label'); });
+  if (D.lbcreate !== undefined) return openTab('label-create');
+  if (D.lbinvite !== undefined) { LB.find = { code: '', res: null, err: '' }; return openTab('label-invite'); }
+  if (D.lbfind !== undefined) { if (LB.find.code.length < 6) { LB.find.err = 'Label codes have 6 letters and numbers'; return openTab('label-invite'); }
+    const r = await lbCall('lb_find', { code: LB.find.code }); LB.find.res = r.ok && r.data ? r.data : null; LB.find.err = r.ok ? (r.data ? '' : 'No label has that code') : lbErr(r); return openTab('label-invite'); }
+  if (D.lbjoin) { if (t.disabled) return; const code = LB.find.res && LB.find.res.id === D.lbjoin ? LB.find.code : null;
+    return lbAct('lb_join', { label: D.lbjoin, code }, d => { LB.tab = 'home'; LB.modal = null; toast(`Joined ${d.name}!`); sfx('reward'); openTab('labels'); }); }
+  if (D.lbglyph) { LB.create.glyph = D.lbglyph; return openTab('label-create'); }
+  if (D.lbcolor) { LB.create.color = D.lbcolor; return openTab('label-create'); }
+  if (D.lbopen) { LB.create.open = D.lbopen === 'true'; return openTab('label-create'); }
+  if (D.lbmake !== undefined) { const C = LB.create, free = !(LB.st && LB.st.created > 0);
+    if (C.name.length < 3) return toast('Pick a label name with at least 3 characters');
+    if (!free && S.gems < 500) return toast('A new label costs 500 gems');
+    return lbAct('lb_create', { name: C.name, color: C.color, glyph: C.glyph, open: C.open, min_albums: 0 }, () => { if (!free) { S.gems -= 500; bumpRev(); save(); render(); }
+      LB.tab = 'home'; toast('Label created! Share your label code to invite friends'); sfx('reward'); openTab('labels'); }); }
+  if (D.lbreport) return openTab('label-report');
+  if (D.lbsendreport !== undefined) { const v = (document.querySelector('input[name=lbr]:checked') || {}).value || '';
+    await lbCall('lb_report', { label: LB.find.res && LB.find.res.id, reason: v }); toast('Report sent. Thanks for keeping Labels friendly'); return openTab('label-invite'); }
+  if (D.lbback !== undefined) return openTab('labels');
 });
-// ===================== end LABELS demo =====================
+// ===================== end LABELS =====================
 
 const closeBtn = () => '<button class="close" data-close aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>';
 // a back arrow that sits beside the X on screens opened from another screen
@@ -4915,7 +4978,7 @@ $('scrim').addEventListener('click', e => {
   if (e.target.closest('[data-wed]')) { const w = wedChallenge(); if (w.ready && !w.got && ev() === 'wed') { S.wed.got = true; passStars('wed'); S.gems += WED_GEMS; flurry('gems', lastTap.x, lastTap.y, 12); sfx('bling'); toast('Challenge complete! +' + WED_GEMS + ' gems + ' + PASS_STARS.wed + ' pass stars'); save(); render(); } return openTab('events'); }
   const tk = e.target.closest('[data-task]');
   if (tk) { const t = dailyTasks().find(x => x.id === tk.dataset.task); if (t && t.ready && !t.got) { S.dt.got[t.id] = true; passStars('task'); S.gems += TASK_GEMS; flurry('gems', lastTap.x, lastTap.y, 6); sfx('gems'); toast('+' + TASK_GEMS + ' gems'); save(); render(); } return openTab('goals'); }
-  if (e.target.closest('[data-task-bonus]')) { if (dailyTasks().every(t => t.got) && !S.dt.bonus) { S.dt.bonus = true; passStars('taskSet'); S.stats.taskSets = (S.stats.taskSets || 0) + 1; S.gems += TASK_BONUS; flurry('gems', lastTap.x, lastTap.y, 10); sfx('bling'); toast('All done today! +' + TASK_BONUS + ' gems'); save(); render(); } return openTab('goals'); }
+  if (e.target.closest('[data-task-bonus]')) { if (dailyTasks().every(t => t.got) && !S.dt.bonus) { S.dt.bonus = true; passStars('taskSet'); lbQueue('tasks'); S.stats.taskSets = (S.stats.taskSets || 0) + 1; S.gems += TASK_BONUS; flurry('gems', lastTap.x, lastTap.y, 10); sfx('bling'); toast('All done today! +' + TASK_BONUS + ' gems'); save(); render(); } return openTab('goals'); }
   const pf = e.target.closest('[data-prof]');
   if (pf) { Charts.view = pf.dataset.prof === 'me' ? 'me' : Charts.rows[+pf.dataset.prof]; if (Charts.view) { sfx('tap'); openTab('profile'); } return; }
   if (e.target.closest('[data-back-charts]')) return openTab('charts');
@@ -6127,7 +6190,7 @@ function openTab(tab) {
     const maps = [...LOCATIONS.map(l => l.name), ...FUTURE], loc = p ? p.loc : 0, best = p && itemById(p.best);
     const t = titleOf(albums, loc), pcl = p && p.clears ? p.clears : maps.map((_, i) => i < loc ? 1 : 0);
     openSheet(`<div class="sheet-head"><h2>${esc(name)}${me ? ' <small class="h3note">you</small>' : ''}</h2>${headBtns('data-back-charts')}</div>
-      <div class="prof-top"><span class="ptags">${me && LBD.joined ? `<span class="lb-ptag" data-tab-go="labels" role="button">${lbBadge(LBD.mine.badge, 20)}${esc(LBD.mine.name)}</span>` : ''}<span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
+      <div class="prof-top"><span class="ptags">${me && lbL() ? `<span class="lb-ptag" data-tab-go="labels" role="button">${lbBadge({ color: lbL().color, glyph: lbL().glyph }, 20)}${esc(lbL().name)}</span>` : ''}<span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
       ${p ? `<div class="dresser prof-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><span class="spot"></span>${stageSparks()}${country ? `<span class="pcountry">${esc(countryName(country))}</span>` : ''}${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>` : `<p class="cnote">This artist hasn't opened the latest version yet, so their outfit, plaques and stats will show up after they do.</p>`}
       ${p ? `<div class="sec"><h3>Plaques <small class="h3note">${pcl.filter(Boolean).length} of ${maps.length} maps cleared</small></h3>${plaqueRow(pcl)}</div>` : ''}
       <div class="sec"><h3>Career</h3><div class="statgrid">
@@ -7421,6 +7484,7 @@ function start(data) {
   pass();   // a new month delivers last season's unclaimed rewards
   setTimeout(loadTestAccess, 2500);
   setTimeout(startHeartbeat, 4000);
+  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); }), 5000);   // Labels: Hype from labelmates, queued XP
   if (S.passRecap) { const r = S.passRecap; S.passRecap = null; setTimeout(() => toast('Backstage Pass season ended. Delivered: ' + rewardLine(r)), 3200); }
   render(); save(); startTracking();
   setTimeout(cloudBoot, 2500); setInterval(() => backup(), 180000);   // back up every 3 minutes when something changed
