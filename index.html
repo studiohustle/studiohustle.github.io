@@ -589,6 +589,8 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .item.epic:not(.locked) { border-color: #B79CFF; }
 .item.legendary:not(.locked) { border-color: #FF9A4A; box-shadow: 0 0 12px rgba(255,122,47,.5); }
 .item.mythic:not(.locked), .card.mythic { border-color: #21B4EC; animation: mythicglow 2.6s ease-in-out infinite; }
+.boostchip { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 20px); z-index: 4; padding: 1px 8px; border-radius: 99px; font: 400 10.5px/1.6 var(--display); color: #fff; white-space: nowrap; border: 2px solid #14122A; pointer-events: none; }
+.boostchip[hidden] { display: none; } .boostchip.b2 { background: #2FA866; } .boostchip.b5 { background: #F07A2E; } .boostchip.bboth { background: linear-gradient(90deg, #2FA866 50%, #F07A2E 50%); }
 /* Build 236: Ultimate glow (red), the Event Box tier */
 .item.ultimate:not(.locked), .card.ultimate { border-color: #D4231F; animation: ultglow 2.6s ease-in-out infinite; }
 @keyframes ultglow { 0%, 100% { box-shadow: 0 0 14px rgba(212,35,31,.6); border-color: #D4231F; } 50% { box-shadow: 0 0 22px rgba(255,170,90,.85); border-color: #FF9A5A; } }
@@ -3074,7 +3076,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 238, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 239, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3362,6 +3364,8 @@ const OFFERS = {
   monitors: { name: 'Pro Monitors', sub: 'Permanent +25% income', gems: 300, once: true },
   skip15: { name: 'Time Skip · 15 min', sub: 'Instant cash', gems: 10, skip: 900 },
   skip1: { name: 'Time Skip · 1 hour', sub: 'Instant cash', gems: 30, skip: 3600 },
+  boost2: { name: 'Income x2 · 20 min', sub: 'Double all income for 20 minutes. Stacks with Hype', gems: 25, boost: 2, dur: 1200 },   // Build 239
+  boost5: { name: 'Income x5 · 5 min', sub: '5x all income for 5 minutes. Stacks with Hype', gems: 40, boost: 5, dur: 300 },
   hypeRefill: { name: 'Hype Refill', sub: 'Fill your Hype all the way to its cap, no ads', gems: 25 },
   fanFrenzy: { name: 'Fan Frenzy', sub: 'Brings a crowd of fans to tap for 30 minutes', gems: 20 },
   gems100: { name: 'Handful of Gems', sub: '80 gems', money: '$0.99', gemsOut: 80 },
@@ -3910,7 +3914,11 @@ async function testCall(fn, body) {
   return r.ok ? { data: r.data } : null;
 }
 async function loadTestAccess() { try { const r = await testCall('test_state'); TESTG = r && r.data ? r.data : null; if (TESTG) { applyAutoCrew(); render(); } } catch (e) {} }
-const boostMult = () => micX();   // Pro Monitors retired in Build 158 (owners refunded 300 gems once)
+// x2 and x5 run on their own timers: buying one adds to its own time, and both together give x10 (Eatventure works the same way)
+const bLeft = x => Math.max(0, ((S.bst || {})[x] || 0) - Date.now());
+const boostOn = () => bLeft(2) > 0 || bLeft(5) > 0;
+const incBoostX = () => (bLeft(2) > 0 ? 2 : 1) * (bLeft(5) > 0 ? 5 : 1);   // Build 239: gem income boosts, multiply with Hype and everything else
+const boostMult = () => micX() * incBoostX();   // Pro Monitors retired in Build 158 (owners refunded 300 gems once)
 const legacyPayX = () => (S.legacyPay && S.legacyPay.key === runKey()) ? S.legacyPay.x : 1;
 const payout = st => (isEv() ? 1 : legacyPayX()) * st.base * lvl(st.id) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) * (upgFx().pay[st.id] || 1) * upgFx().all * (isEv() ? evFame() : careerProfit()) * boostMult();
 const bestRate = () => LOC().stations.filter(st => lvl(st.id)).reduce((a, st) => Math.max(a, payout(st) / cycleTime(st)), 0);
@@ -5220,6 +5228,8 @@ function grant(id) {
   if (o.skip) { const v = skipValue(o.skip); earn(v); owe('cash'); toast('+' + fmt(v) + ' from the time skip'); }
   if (id === 'autoCrew') { applyAutoCrew(); buildRoom(); }
   if (id === 'hypeRefill') S.hypeUntil = Date.now() + hypeCap() * 1000;
+  if (o.boost) { S.bst = S.bst || {}; S.bst[o.boost] = Date.now() + bLeft(o.boost) + o.dur * 1000;   // time adds up
+    toast(`Income x${o.boost} · ${hms(bLeft(o.boost))} left${bLeft(o.boost === 2 ? 5 : 2) > 0 ? ' · both running: x10' : ''}`); }
   // Fan Frenzy runs on real time, so moving maps (or dropping an album) never interrupts it; buying again adds 30 more minutes
   if (id === 'fanFrenzy') S.frenzyUntil = Math.max(Date.now(), S.frenzyUntil || 0) + 30 * 60000;
   track('buy/' + id);
@@ -5414,8 +5424,8 @@ $('scrim').addEventListener('click', e => {
   if (bo && !bo.disabled) { const id = bo.dataset.buy, o = OFFERS[id]; if (!o) return;
     if (o.money) { payFrom = sheetKey && !sheetKey.startsWith('pay:') ? sheetKey : 'shop'; return openTab('pay:' + id); }
     if (id === 'hypeRefill' && hypeLeftToFill() <= 60000) { sfx('denied'); toast('Your Hype is already full'); return; }
-    const art = { skip15: ART.clock(0), skip1: ART.clock(4), monitors: ART.monitors(), nightOwl: ART.moon(), hypeRefill: ART.bolt(), fanFrenzy: ART.frenzy() }[id] || '';
-    return askBuy(o.name, o.skip ? `Instant ${fmt(skipValue(o.skip))} cash` : o.sub, o.gems, art, () => { if (S.gems < o.gems || (o.once && S.perks[id])) return; S.gems -= o.gems; grant(id); }, 'shop'); }
+    const art = { boost2: ART.boost(2), boost5: ART.boost(5), skip15: ART.clock(0), skip1: ART.clock(4), monitors: ART.monitors(), nightOwl: ART.moon(), hypeRefill: ART.bolt(), fanFrenzy: ART.frenzy() }[id] || '';
+    return askBuy(o.name, o.skip ? `Instant ${fmt(skipValue(o.skip))} cash` : o.boost ? (bLeft(o.boost) > 0 ? `Adds ${hms(o.dur * 1000)} to your x${o.boost} boost (${hms(bLeft(o.boost))} left)` : o.sub) + (bLeft(o.boost === 2 ? 5 : 2) > 0 ? `. Your x${o.boost === 2 ? 5 : 2} is running too, so together it's x10` : '') : o.sub, o.gems, art, () => { if (S.gems < o.gems || (o.once && S.perks[id])) return; S.gems -= o.gems; grant(id); }, 'shop'); }
   if (e.target.closest('[data-confirm-buy]')) { const pb = pendingBuy; pendingBuy = null; if (pb) { pb.run(); return backFromBuy(pb); } return closeSheet(); }
   if (e.target.closest('[data-get-gems]')) { pendingBuy = null; openTab('shop'); const g = document.querySelector('[data-buy="gems100"]'); if (g) g.scrollIntoView({ block: 'center' }); return; }
   if (e.target.closest('[data-cancel-buy]')) { const pb = pendingBuy; pendingBuy = null; return pb ? backFromBuy(pb) : closeSheet(); }
@@ -5934,6 +5944,10 @@ const ART = {
     return `<svg class="gempack" viewBox="0 0 120 98" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><filter id="sk${n}" x="-10%" y="-10%" width="120%" height="120%"><feMorphology in="SourceAlpha" operator="dilate" radius="3" result="d"></feMorphology><feFlood flood-color="#fff"></feFlood><feComposite in2="d" operator="in" result="w"></feComposite><feMerge><feMergeNode in="w"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g filter="url(#sk${n})">${set.map(c => ck(...c)).join('')}</g></svg>`; },
   clock: t => `<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#fff" stroke="#14122A" stroke-width="3"></circle><circle cx="32" cy="32" r="24" fill="none" stroke="#6FD3FF" stroke-width="5" stroke-dasharray="${t === 4 ? '150 1' : '38 200'}" transform="rotate(-90 32 32)"></circle><path d="M32 18v14l9 6" stroke="#14122A" stroke-width="3.5" stroke-linecap="round" fill="none"></path></svg>`,
   monitors: () => `<svg width="84" height="84" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="14" width="22" height="36" rx="4" fill="#2C2F48" stroke="#14122A" stroke-width="3"></rect><rect x="36" y="14" width="22" height="36" rx="4" fill="#2C2F48" stroke="#14122A" stroke-width="3"></rect><circle cx="17" cy="38" r="7" fill="#8BF0A0"></circle><circle cx="47" cy="38" r="7" fill="#8BF0A0"></circle><circle cx="17" cy="23" r="3" fill="#8BF0A0"></circle><circle cx="47" cy="23" r="3" fill="#8BF0A0"></circle></svg>`,
+  boost: x => `<svg width="70" height="70" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="${x === 5 ? '#FF8A3D' : '#34C77B'}" stroke="#14122A" stroke-width="3.5"></circle><circle cx="32" cy="32" r="21" fill="${x === 5 ? '#FFB067' : '#6FE0A4'}"></circle>
+    <path d="M14 22 A21 21 0 0 1 36 11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"></path>
+    <text x="32" y="41" text-anchor="middle" font-family="Bungee, 'Arial Black', sans-serif" font-size="22" fill="#fff" stroke="#14122A" stroke-width="2.4" paint-order="stroke">x${x}</text>
+    <path d="M48 6 l7 8 h-4.5 v7 h-5 v-7 H41 z" fill="#FFD93D" stroke="#14122A" stroke-width="2" stroke-linejoin="round"></path></svg>`,
   bolt: () => `<span class="hype-tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"></path></svg></span>`,
   frenzy: () => `<svg width="78" height="78" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 L36 14 L46 8 L44 19 L56 18 L48 27 L58 32 L48 37 L56 46 L44 45 L46 56 L36 50 L32 60 L28 50 L18 56 L20 45 L8 46 L16 37 L6 32 L16 27 L8 18 L20 19 L18 8 L28 14 Z" fill="#FFE27A" opacity=".9"></path><rect x="14" y="22" width="36" height="26" rx="6" fill="#2B2742" stroke="#14122A" stroke-width="3"></rect><rect x="24" y="16" width="14" height="8" rx="2.5" fill="#2B2742" stroke="#14122A" stroke-width="3"></rect><circle cx="32" cy="35" r="8" fill="#6E7BBF" stroke="#14122A" stroke-width="3"></circle><circle cx="34.5" cy="32.5" r="2.4" fill="#fff" opacity=".85"></circle><rect x="42" y="26" width="5" height="3.5" rx="1.2" fill="#FFD93D"></rect></svg>`,
   moon: () => `<svg width="84" height="84" viewBox="0 0 64 64" aria-hidden="true"><path d="M44 42A20 20 0 1 1 26 12a15 15 0 0 0 18 30z" fill="#FFE08A" stroke="#14122A" stroke-width="3" stroke-linejoin="round"></path><circle cx="48" cy="16" r="2.5" fill="#fff"></circle><circle cx="54" cy="28" r="1.8" fill="#fff"></circle></svg>`,
@@ -6773,9 +6787,10 @@ function openTab(tab) {
     openSheet(`<div class="sheet-head"><h2>Your multipliers</h2>${closeBtn()}</div>
       <div class="welcome"><span class="amt mgold">x${fmtX(totalMult())}</span><p>Every station earns this much more than its base pay. Hype, the Golden Mic and All Profit multiply each other.</p>${perSec() > 0 ? `<p>Your crew earns <b class="mcash">+${fmt(perSec() * mult())} / sec</b> right now.</p>` : ''}</div>
       ${row(h, bolt, hypeTxt() + ' Hype', h ? hypeX() : 1, h ? hms(S.hypeUntil - Date.now()) + ' left' : 'Off · tap the Hype button to start it')}
-            ${row(micBought(), svgIc('mic', '#FFD93D', 20), 'Golden Mic', micX(), micBought() ? 'Owned · forever' : 'Available in the Shop')}
+            ${bLeft(2) > 0 ? row(true, svgIc('star', '#34C77B', 20), 'Income boost x2', 2, hms(bLeft(2)) + ' left') : ''}${bLeft(5) > 0 ? row(true, svgIc('star', '#F07A2E', 20), 'Income boost x5', 5, hms(bLeft(5)) + ' left') : ''}
+      ${row(micBought(), svgIc('mic', '#FFD93D', 20), 'Golden Mic', micX(), micBought() ? 'Owned · forever' : 'Available in the Shop')}
       ${row(cp > 1.0001, svgIc('star', '#FFD93D', 20), 'All Profit', cp, labelProfitX() > 1 ? 'Fame, outfits and your label' : 'Fame and outfits added together')}
-      <p class="mathline">${[h ? hypeX() : 1, micX(), cp].map(fmtX).join(' × ')} = <b>x${fmtX(totalMult())}</b></p>
+      <p class="mathline">${[h ? hypeX() : 1, ...(bLeft(2) > 0 ? [2] : []), ...(bLeft(5) > 0 ? [5] : []), micX(), cp].map(fmtX).join(' × ')} = <b>x${fmtX(totalMult())}</b></p>
       <h3 style="margin-top:14px">All Profit</h3>
       <div class="row mrow ${fb > 0 ? '' : 'off'}"><span class="ric">${svgIc('note', '#FFD93D', 20)}</span><span class="rt"><b>Fame</b><span>${S.albums || 0} album${S.albums === 1 ? '' : 's'} dropped · Fame ×${fame().toFixed(2)} → +${pctTxt(fb)}</span><span>Fame's bonus counts 1.5× here · up to +${pctTxt(fameBonusAt(1e9))}</span></span><span class="xv">+${pctTxt(fb)}</span></div>
       <div class="row mrow ${g > 1 ? '' : 'off'}"><span class="ric">${svgIc('shirt', '#B18CFF', 20)}</span><span class="rt"><b>Wardrobe</b><span>${g > 1 ? `Your best item in each slot${S.owned.lucky ? ' · crates pay 2x' : ''}` : 'Collect items in Style for a bonus'}</span></span><span class="xv">+${Math.round((g - 1) * 100)}%</span></div>
@@ -6880,6 +6895,8 @@ function openTab(tab) {
         ${card('skip1', ART.clock(4), 'Skip 1 hour', '+' + fmt(skipValue(3600)), 'gold spend', 'Best value')}
         ${card('hypeRefill', ART.bolt(), 'Hype Refill<br>fill to max', hypeLeftToFill() > 60000 ? '+' + hms(hypeLeftToFill()) : 'Full', 'gold spend')}
         ${card('fanFrenzy', ART.frenzy(), 'Fan Frenzy<br>fan crowd', frenzyOn() ? hms(S.frenzyUntil - Date.now()) + ' left' : '30 min', 'gold spend')}
+        ${card('boost2', ART.boost(2), 'Income x2<br>all income', bLeft(2) > 0 ? hms(bLeft(2)) + ' left' : '20 min', 'gold spend')}
+        ${card('boost5', ART.boost(5), 'Income x5<br>all income', bLeft(5) > 0 ? hms(bLeft(5)) + ' left' : '5 min', 'gold spend')}
       </div>
       <div class="banner">Time Skip Packs</div>
       <div class="skipbar"><span>Each skip grants 1 hour of cash.</span><button class="hire" data-tab-go="inv">Inventory${invQty('skips') + invQty('frenzies') ? ' · ' + (invQty('skips') + invQty('frenzies')) : ''}</button></div>
