@@ -798,7 +798,12 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .lb-prize { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } .lb-prize div { background: #2E2266; color: #fff; border-radius: 12px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .lb-prize b { font: 400 13px var(--display); } .lb-prize span { display: inline-flex; align-items: center; gap: 3px; font: 400 15px var(--display); color: #FFD93D; } .lb-prize img { width: 18px !important; height: auto !important; }
 .lb-prize-note { margin-top: 6px; }
-.lb-why { margin-bottom: 10px; } .lb-actions { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.lb-why { margin-bottom: 10px; }
+.lb-fsub { margin: 2px 0 0; font: 500 14px/1.4 var(--body); color: #5A5480; }
+.lb-disc { display: flex; flex-direction: column; gap: 12px; } html .lbfull .lb-disc > * { margin: 0 !important; }
+.lb-disc .lb-actions { gap: 10px; margin: 0; } .lb-disc .lb-actions .cta, .lb-disc .lb-actions .ghost { width: 100%; margin: 0; }
+.lb-dh { margin: 6px 2px 0; font: 400 16px var(--display); color: #FFFFFF; letter-spacing: .02em; }
+.lb-disc .clist { display: flex; flex-direction: column; gap: 8px; } .lb-disc .cnote { text-align: center; } .lb-actions { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
 .cta .gemprice, .lb-actions .gemprice { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
 .lb-drow .hire { min-width: 76px; }
 .lb-preview { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 4px 0 12px; } .lb-preview b { font: 400 18px var(--display); }
@@ -1803,11 +1808,12 @@ html .lbfull .lb-pane { box-shadow: inset 0 10px 0 #241F45; padding-top: 22px; }
 .shop-float[hidden] { display: none; }
 /* Build 240: compact like the Welcome back card */
 .shop-float > .shopflt { padding: 0 16px 16px; gap: 12px; }
-.shopflt > .sheet-head { position: sticky; top: 0; z-index: 3; margin: 0 -16px; padding: 12px 16px; min-height: 58px; justify-content: center; box-sizing: border-box; }
-.shopflt > .sheet-head h2 { flex: 1; min-width: 0; margin: 0; padding: 0 44px; text-align: center; font-size: 17px; line-height: 1.15; white-space: normal; overflow: visible; text-overflow: clip; text-wrap: balance; }
-.shopflt > .sheet-head > .headbtns { display: contents; }
-.shopflt > .sheet-head .close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; }
-.shopflt > .sheet-head .close.back { right: auto; left: 12px; }   /* back on the left, close on the right, so the title sits dead center */
+html .shop-float > .shopflt > .sheet-head { margin: 0 -16px 14px !important; } html .shop-float > .shopflt { display: block; } html .shop-float > .shopflt > * + * { margin-top: 12px; } html .shop-float > .shopflt > .sheet-head + * { margin-top: 0; }
+.shopflt > .sheet-head { position: sticky; top: 0; z-index: 3; margin: 0 -16px; padding: 12px 16px 12px 20px; min-height: 58px; justify-content: flex-start; box-sizing: border-box; }
+.shopflt > .sheet-head h2 { flex: 1; min-width: 0; margin: 0; padding: 0 50px 0 0; text-align: left; font-size: 17px; line-height: 1.15; white-space: normal; overflow: visible; text-overflow: clip; text-wrap: balance; }
+.shopflt > .sheet-head > .close, .shopflt > .sheet-head > .headbtns { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+.shopflt > .sheet-head > .headbtns { display: flex; gap: 6px; } .shopflt > .sheet-head .close { width: 36px; height: 36px; }
+.shopflt > .sheet-head:has(.headbtns) h2 { padding: 0 92px 0 0; font-size: 16px; white-space: nowrap; }   /* titles sit on the left like every other screen */   /* back sits beside the X (same as every other pop-up); equal space on both sides keeps the title centered */
 .shopflt .buycost { gap: 2px; padding: 12px; } .shopflt .buycost .need { color: #E0307A; font-weight: 700; font-size: 13px; }
 /* box odds card: one fixed size for Small/Big/Event/Label, scrolls inside if needed */
 .shop-float > .shopflt.fk-sbox { height: min(100%, 560px); max-height: min(100%, 560px); }
@@ -1933,7 +1939,7 @@ html .sheet.float:has(> .adnote:last-child) { padding-bottom: 9px; }
 .sb-wear { width: 100%; margin: 0; } .sb-note { text-align: center; margin: 2px 0 0; }
 .rchip.sbchip { display: inline-flex; align-items: center; gap: 6px; } .rchip.sbchip svg { flex: none; }
 /* ---- box stack, Open Boxes popup and full-screen reveal (Build 233) ---- */
-.boxstack { position: relative; width: 60px; height: 58px; margin-left: 4px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; }
+.boxstack { position: relative; width: 50px; height: 48px; margin-left: 4px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; }
 .boxstack[hidden] { display: none; }
 .boxstack .bs-art { display: grid; animation: bsbob 2.6s ease-in-out infinite; filter: drop-shadow(0 3px 3px rgba(0,0,0,.35)); }
 img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-user-drag: none; }
@@ -1948,7 +1954,7 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 @keyframes boglow { 50% { transform: scale(1.12); opacity: .75; } }
 .bo-box { z-index: 0; }
 .bp-body { gap: 10px; } .bp-row { gap: 8px; }
-.boxstack .bs-n { position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); min-width: 30px; height: 22px; padding: 0 7px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; border: 2px solid #fff; font: 400 13px/18px var(--display); text-align: center; }
+.boxstack .bs-n { position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); min-width: 24px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; border: 2px solid #fff; font: 400 11px/14px var(--display); text-align: center; }
 .boxstack:active { transform: scale(.94); }
 @keyframes bsbob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 .box-pop { position: fixed; inset: 0; z-index: 96; background: rgba(10,9,24,.55); display: grid; place-items: center; padding: 16px; animation: bpfade .18s ease; }
@@ -3092,7 +3098,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 241, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 242, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4990,18 +4996,17 @@ function lbCharts() {
       <span class="rt"><b><span class="nm">${esc(r.name)}</span></b><span>Level ${r.level}</span></span><span class="ca lb-ca">${lbXpShort(r.week_xp)}<small>XP this week</small></span></div>`).join('');
   return `<p class="cnote">New week in <b>${lbWeekLeft()}</b></p><div class="clist lb-clist">${rows}</div>`;
 }
-function lbDiscover() {
+function lbDiscover() {   // Build 242: simpler "not in a label" screen
   const free = !(LB.st && LB.st.created > 0), list = LB.list || [];
-  return `<div class="welcome lb-why"><p><b>Team up with up to 10 artists.</b> Everything you already do levels up your label, and every level pays out to every member, plus a Label All Profit bonus up to x2.</p></div>
-    <div class="lb-actions"><button class="cta" data-lbcreate>${free ? 'Create a Label · free' : `Create a Label <span class="gemprice">${GEM_MINI}500</span>`}</button><button class="ghost" data-lbinvite>Have a label code?</button></div>
-    ${(LB.invites || []).length ? `<div class="sec"><h3>Invites</h3><div class="clist">${LB.invites.map(d => `<div class="crow lb-drow lb-inv" data-lbview="${esc(d.id)}" role="button">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
-      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>${esc(cleanName(d.from || 'A member'))} invited you · Level ${d.level} · ${d.members}/10</span></span>
-      <button class="hire" data-lbjoin="${esc(d.id)}" ${d.members >= 10 ? 'disabled' : ''}>${d.members >= 10 ? 'Full' : 'Join'}</button><button class="lb-dec" data-lbdecline="${esc(d.id)}" aria-label="Decline">${LB_X}</button></div>`).join('')}</div></div>` : ''}
-    <div class="sec"><h3>Labels looking for artists</h3><div class="clist">${list.length ? list.map(d => { const short = (S.albums || 0) < d.min_albums;
-      return `<div class="crow lb-drow" data-lbview="${esc(d.id)}" role="button">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
-      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>Level ${d.level} · ${d.members}/10${d.min_albums ? ` · ${d.min_albums}+ albums` : ''}</span></span>
-      <button class="hire" data-lbjoin="${esc(d.id)}" ${short ? 'disabled' : ''}>${short ? d.min_albums + ' albums' : 'Join'}</button></div>`; }).join('') : '<p class="cnote">No open labels right now. Start one and share its code!</p>'}</div>
-      <p class="cnote">You can be in one label at a time.</p></div>`;
+  const row = (d, inv) => `<div class="crow lb-drow ${inv ? 'lb-inv' : ''}" data-lbview="${esc(d.id)}" role="button">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
+      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>${inv ? esc(cleanName(d.from || 'A member')) + ' invited you · ' : ''}Level ${d.level} · ${d.members}/10${!inv && d.min_albums ? ` · ${d.min_albums}+ albums` : ''}</span></span>
+      ${inv ? `<button class="hire" data-lbjoin="${esc(d.id)}" ${d.members >= 10 ? 'disabled' : ''}>${d.members >= 10 ? 'Full' : 'Join'}</button><button class="lb-dec" data-lbdecline="${esc(d.id)}" aria-label="Decline">${LB_X}</button>`
+        : (S.albums || 0) < d.min_albums ? `<button class="hire" disabled>${d.min_albums} albums</button>` : `<button class="hire" data-lbjoin="${esc(d.id)}">Join</button>`}</div>`;
+  return `<div class="lb-disc">
+    <div class="lb-actions"><button class="cta" data-lbcreate>${free ? 'Create a Label' : `Create a Label <span class="gemprice">${GEM_MINI}500</span>`}</button><button class="ghost" data-lbinvite>Join with a code</button></div>
+    ${(LB.invites || []).length ? `<h3 class="lb-dh">Invites</h3><div class="clist">${LB.invites.map(d => row(d, true)).join('')}</div>` : ''}
+    <h3 class="lb-dh">Open labels</h3>
+    <div class="clist">${list.length ? list.map(d => row(d)).join('') : '<p class="cnote">No open labels right now. Start one and share its code!</p>'}</div></div>`;
 }
 function lbOpen(tab) {
   if (tab === 'labels') {
@@ -5009,9 +5014,9 @@ function lbOpen(tab) {
     let body;
     // full screen like the Shop: white top that never moves, purple panel below that scrolls on its own
     const old = $('sheet').querySelector('.lb-pane'), keep = sheetKey === 'labels' && old && old.dataset.tab === (lbL() ? LB.tab : 'find') ? old.scrollTop : 0;
-    const plain = (title, inner) => `<div class="lb-fix lb-fix-s"><div class="lb-ftitle"><b>${title}</b></div></div><div class="lb-pane" data-tab="find">${inner}</div>`;
+    const plain = (title, inner, sub = '') => `<div class="lb-fix lb-fix-s"><div class="lb-ftitle"><b>${title}</b></div>${sub ? `<p class="lb-fsub">${sub}</p>` : ''}</div><div class="lb-pane" data-tab="find">${inner}</div>`;
     if (!LB.st) body = plain('Labels', LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>');
-    else body = lbL() ? `<div class="lb-fix">${lbHead()}${lbIconTabs()}</div><div class="lb-pane" data-tab="${LB.tab}">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : plain('Labels', lbDiscover());
+    else body = lbL() ? `<div class="lb-fix">${lbHead()}${lbIconTabs()}</div><div class="lb-pane" data-tab="${LB.tab}">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : plain('Labels', lbDiscover(), 'Team up with up to 10 artists. Everything you do levels up your label, and every level pays every member.');
     openSheet(body); const pn = $('sheet').querySelector('.lb-pane'); if (pn && keep) pn.scrollTop = keep; return;
   }
   if (tab === 'label-view') return lbPage();
@@ -7359,7 +7364,7 @@ function sboxSheet() {
   const k = sboxKind, B = BOXES[k], st = sboxState(), P = boxPity(k), noUlt = k === 'event' && !sboxPool('ultimate').length;
   const pity = P ? `<div class="sec"><h3>Bad-luck protection</h3>${sboxPityRow(RARITY[P.rar][0], pityLeft(k), P.n, RARITY[P.rar][1])}
       <p class="cnote">Counts ${B.name}es opened in a row without one.</p></div>` : '';
-  return `<div class="sheet-head"><h2>${B.name}</h2>${headBtns('data-tab-go="shop"')}</div>
+  return `<div class="sheet-head"><h2>${B.name.replace(' Style', '')}</h2>${headBtns('data-tab-go="shop"')}</div>
     <div class="sbk-tabs">${BOX_KINDS.map(x => `<button class="stab ${x === k ? 'on' : ''}" data-sbox-view="${x}">${BOXES[x].name.replace(' Style Box', '').replace(' Box', '')}</button>`).join('')}</div>
     <div class="sb-hero"><span class="sb-art">${boxArt(k, 96)}</span><span class="rt"><b>${B.rolls} outfits per box</b><span>${noUlt ? 'Up to Legendary for now; brand-new Ultimates are on the way' : B.top}. Every outfit you get is yours to keep; duplicates turn into Style Tokens.</span>
       <span class="sb-earn">${B.earn}</span></span></div>
@@ -7393,7 +7398,7 @@ function boxStackUpd() {
   const b = $('boxStack'); if (!b) return; const k = boxTopKind(), n = boxesOwned();
   b.hidden = !k || !S.onboarded; if (!k) return;
   const key = boxTheme(k) + ':' + n; if (b.dataset.k === key) return; b.dataset.k = key;
-  b.innerHTML = `<span class="bs-art">${boxArt(k, 56)}${boxSparks(2, 5, 'sm')}</span><span class="bs-n">${n}</span>`;
+  b.innerHTML = `<span class="bs-art">${boxArt(k, 44)}${boxSparks(2, 5, 'sm')}</span><span class="bs-n">${n}</span>`;
   b.setAttribute('aria-label', `${n} Style Box${n === 1 ? '' : 'es'} to open`);
 }
 const boxCardHtml = (x, big) => { const [rn, rc] = RARITY[x.rar];
