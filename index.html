@@ -1846,6 +1846,10 @@ html .sty-pane, html .lbfull .lb-pane { padding-top: 0 !important; }
 
 .lb-hyped { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: #4DB6F7; color: #fff; margin-left: 2px; }
 .lb-hyped svg { width: 12px; height: 12px; }
+
+.lb-pbtn.purple { background: #7C5CFF; box-shadow: 0 4px 0 #5A3FD0; }
+.lb-pbtn.done { background: #4B4580; color: #CFC8F5; box-shadow: 0 4px 0 #332E62; }
+.lb-pbtns .lb-pbtn { font-size: 15px; }
 </style>
 </head>
 <body>
@@ -2901,7 +2905,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 229, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 230, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4913,14 +4917,15 @@ function lbProfCard(me, r) {
   const code = r && r.friend_code; if (!code) return '';
   // re-check every time the profile opens (after 10s), so joins and leaves show up; keep the last answer on screen meanwhile
   if (LB.of[code] === undefined) LB.of[code] = null; if (Date.now() - (LB.ofAt[code] || 0) > 10000) lbLoadOf(code);
-  const o = LB.of[code];
-  if (!o) return row(null, 'Loading…', '');
-  if (o.err) return row(null, "Couldn't load their label", '');
+  const o = LB.of[code], isFr = (cloud().friends || []).includes(code);
+  const fr = `<button class="lb-pbtn ${isFr ? 'done' : 'blue'}" data-addfr="${esc(code)}" ${isFr ? 'disabled' : ''}>${isFr ? 'Friends ✓' : 'Add Friend'}</button>`;
+  if (!o) return row(null, 'Loading…', fr);
+  if (o.err) return row(null, "Couldn't load their label", fr);
   const mine = lbL(), room = mine && (LB.st.members || []).length < 10;
   const short = mine && (r.albums || 0) < mine.min_albums, ownerOnly = mine && !mine.open && !lbIsOwner();
-  const inv = mine && room && o.none && !ownerOnly ? `<button class="lb-pbtn green" data-lbinv="${esc(code)}" ${o.invited || short ? 'disabled' : ''}>${o.invited ? 'Invited' : short ? `Needs ${mine.min_albums} albums` : 'Invite'}</button>` : '';
+  const inv = fr + (mine && room && o.none && !ownerOnly ? `<button class="lb-pbtn green" data-lbinv="${esc(code)}" ${o.invited || short ? 'disabled' : ''}>${o.invited ? 'Invited' : short ? `Needs ${mine.min_albums} albums` : 'Invite'}</button>` : '');
   if (o.none) return row(null, mine ? (!room ? 'Your label is full' : ownerOnly ? 'Only the owner can invite to a private label' : short ? `Your label needs ${mine.min_albums}+ albums` : `Invite them to ${esc(mine.name)}`) : 'They haven\'t joined one yet', inv);
-  return row(o, `Level ${o.level} · ${o.members}/10 · ${o.role === 'owner' ? 'Owner' : 'Member'}`, `<button class="lb-pbtn blue" data-lbview="${esc(o.id)}">View Label</button>`);
+  return row(o, `Level ${o.level} · ${o.members}/10 · ${o.role === 'owner' ? 'Owner' : 'Member'}`, fr + `<button class="lb-pbtn purple" data-lbview="${esc(o.id)}">View Label</button>`);
 }
 async function lbOpenPage(id, from) { LB.from = from || 'labels'; LB.page = { id, d: null }; openTab('label-view');
   const r = await lbCall('lb_view', { label: id }); if (!LB.page || LB.page.id !== id) return; LB.page.d = r.ok ? r.data : { err: lbErr(r) }; if (sheetKey === 'label-view') openTab('label-view'); }
@@ -5115,6 +5120,7 @@ $('scrim').addEventListener('click', e => {
   if (e.target.closest('[data-chart-retry]')) { refreshCharts(); return; }
   if (e.target.closest('[data-backup-retry]')) { Cloud.err = ''; backup(true).then(() => { if (sheetKey === 'settings') openTab('settings'); }); toast('Trying again…'); return; }
   if (e.target.closest('[data-add-friend]')) { addFriend($('friendInput').value); return; }
+  { const af = e.target.closest('[data-addfr]'); if (af) { if (!af.disabled) { af.disabled = true; addFriend(af.dataset.addfr, true); } return; } }
   if (e.target.closest('[data-copy-code]')) { const code = cloud().code; try { navigator.clipboard.writeText(code).then(() => toast('Code copied'), () => toast('Your code: ' + code)); } catch (err) { toast('Your code: ' + code); } return; }
   const hu = e.target.closest('[data-hup]');
   if (hu) { const key = hu.dataset.hup, lv = hypeLv(), costs = key === 'len' ? HYPE_LEN_COST : HYPE_CAP_COST, c = costs[lv[key]];
@@ -6182,7 +6188,7 @@ async function refreshCharts() {
   await syncChart(true); await loadChart();
   if (sheetKey === 'charts' && !$('scrim').hidden) openTab('charts');
 }
-async function addFriend(code) {
+async function addFriend(code, stay) {
   const c = cloud(); code = (code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   if (code.length !== 6) { toast('Friend codes are 6 letters and numbers'); return; }
   if (code === c.code) { toast("That's your own code"); return; }
@@ -6192,6 +6198,7 @@ async function addFriend(code) {
     if (!r.ok) throw new Error();
     if (!r.data || !r.data.length) { toast('No artist with that code yet'); return; }
     c.friends.push(code); save(); sfx('unlock'); toast(r.data[0].name + ' added');
+    if (stay) { if (sheetKey === 'profile') openTab('profile'); return; }
     Charts.tab = 'friends'; await loadChart(); openTab('charts');
   } catch (e) { toast("Couldn't reach the charts. Check your connection."); }
 }
