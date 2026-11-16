@@ -1787,6 +1787,62 @@ html .lb-ft.on { height: 62px; margin-bottom: -10px; position: relative; z-index
 html .lbfull .lb-pane { box-shadow: inset 0 10px 0 #241F45; padding-top: 22px; }
 
 .app.lbopen #settings { visibility: hidden; }   /* full-screen screens: the red X takes the gear's corner until you close them */
+
+/* ---- Style full screen (Build 227): blue stage, folder tabs, purple panel ---- */
+.sheet.stylefull { height: 100%; padding: 0 !important; display: flex; flex-direction: column; overflow: hidden; border-radius: 0; gap: 0 !important; background: #3A336F; }
+html .sheet.stylefull > * { margin-top: 0 !important; margin-bottom: 0 !important; }
+.sty-top { flex: none; position: relative; z-index: 2; padding: 30px max(14px, env(safe-area-inset-right, 0px)) 0 max(14px, env(safe-area-inset-left, 0px));
+  background: radial-gradient(ellipse 80% 70% at 50% 42%, #E4F5FF 0%, #ABDDF6 48%, #78C1EA 100%); }
+.sty-name { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 auto 6px; max-width: 280px; }
+.sty-name span { flex: 1; min-width: 0; height: 40px; display: flex; align-items: center; justify-content: center; padding: 0 12px; border-radius: 12px; background: rgba(255,255,255,.55);
+  font: 400 18px var(--display); color: #2A2456; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.6); }
+html .sty-edit { width: 46px; height: 40px; flex: none; border: 0; border-radius: 10px; display: grid; place-items: center; background: #4DB6F7 !important; color: #fff !important; box-shadow: inset 0 0 0 1.5px rgba(40,100,165,.3), 0 5px 0 #2E8ACB; }
+html .sty-edit:active { transform: translateY(4px); box-shadow: 0 1px 0 #2E8ACB; }
+.sty-stage { display: grid; grid-template-columns: 62px minmax(0, 1fr) 62px; align-items: center; gap: 6px; }
+.sty-col { display: flex; flex-direction: column; gap: 12px; }
+.sty-slot { width: 62px; height: 62px; padding: 0; border-radius: 14px; background: #FFFFFF; border: 3px solid var(--rc); display: grid; place-items: center; overflow: hidden; box-shadow: 0 4px 0 rgba(30,60,100,.18); color: #4A6E92; }
+.sty-slot.empty { background: rgba(255,255,255,.28); border: 2.5px dashed rgba(255,255,255,.85); box-shadow: none; }
+.sty-slot.on { outline: 3px solid #FFFFFF; outline-offset: 2px; }
+html .sty-art { background: transparent !important; border-radius: 0; min-height: 0; height: 218px; padding-block: 4px 0; overflow: visible; }
+html .sty-art > svg { width: 150px; height: auto; }
+html .sty-art::before { background: rgba(45,110,150,.35); box-shadow: none; }
+.sty-art .wbadge { top: -2px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+.sty-tabs { grid-template-columns: repeat(5, 1fr) !important; gap: 6px !important; margin: 10px -2px 0 !important; }
+.sty-tabs .lb-ft { height: 46px; } .sty-tabs .lb-ft.on { height: 58px; }
+.sty-tabs .lb-ft svg { width: 26px; height: 26px; }
+.sty-pane { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; background: #3A336F; box-shadow: inset 0 10px 0 #241F45;
+  padding: 22px max(14px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(14px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 14px; }
+@media (max-height: 700px) { html .sty-art { height: 168px; } html .sty-art > svg { width: 118px; } .sty-slot { width: 54px; height: 54px; } .sty-stage { grid-template-columns: 54px minmax(0, 1fr) 54px; } .sty-col { gap: 8px; } .sty-top { padding-top: 26px; } }
+.sty-pane .sec h3 { color: #FFFFFF; } .sty-pane .bonusline small { color: #C9C2EC; }
+
+/* Build 227 polish: Eatventure proportions, fixed band above the scrolling panels */
+.sty-top { padding-top: 24px !important; }
+.sty-name { max-width: 250px; margin-bottom: 2px !important; } .sty-name span { height: 34px !important; font-size: 16px !important; border-radius: 10px !important; }
+html .sty-edit { width: 42px; height: 36px; }
+.sty-stage { grid-template-columns: 52px minmax(0, 1fr) 52px !important; }
+.sty-slot { width: 52px !important; height: 52px !important; border-radius: 12px !important; }
+.sty-col { gap: 10px !important; }
+html .sty-art { height: 236px !important; padding: 0 !important; align-items: flex-end; }
+html .sty-art > svg { width: 164px !important; }
+html .sty-art::before { width: 112px !important; height: 20px !important; margin-left: -56px !important; bottom: 4px !important; background: rgba(45,110,150,.32) !important; }
+html .sty-art .spot { width: 200px; height: 200px; margin-left: -100px; }
+.sty-stage { position: relative; } .sty-inc { position: absolute; left: 0; bottom: 8px; z-index: 2; padding: 3px 9px; border-radius: 99px; background: rgba(20,18,42,.72); color: #8BF0A0; font: 400 11px var(--display); white-space: nowrap; }
+/* the dark band is a real border: content scrolls under it, so the edge never changes while scrolling */
+html .sty-pane, html .lbfull .lb-pane { box-shadow: none !important; border-top: 10px solid #241F45; padding-top: 14px !important; }
+html .lb-ft.on, html .sty-tabs .lb-ft.on { margin-bottom: -10px; }
+@media (max-height: 700px) { html .sty-art { height: 176px !important; } html .sty-art > svg { width: 124px !important; } html .sty-art::before { width: 86px !important; margin-left: -43px !important; } .sty-slot { width: 46px !important; height: 46px !important; } .sty-stage { grid-template-columns: 46px minmax(0, 1fr) 46px !important; } }
+
+/* a lighter strip in the open tab's color stays put under the dark band; items scroll beneath both */
+html .sty-pane, html .lbfull .lb-pane { padding-top: 0 !important; }
+.sty-pane::before, .lbfull .lb-pane::before { content: ""; position: sticky; top: 0; z-index: 5; display: block; flex: none; height: 14px; background: #3A336F;
+  margin-left: calc(-1 * max(14px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(14px, env(safe-area-inset-right, 0px))); }
+.sty-pane::before { margin-bottom: -14px; }
+
+/* a strip of the panel's own purple stays put under the dark bar, so items slide under it while scrolling */
+html .sty-pane, html .lbfull .lb-pane { padding-top: 0 !important; }
+.sty-pane::before, .lbfull .lb-pane::before { content: ""; position: sticky; top: 0; z-index: 5; display: block; flex: none; height: 14px; background: #3A336F;
+  margin-left: calc(-1 * max(14px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(14px, env(safe-area-inset-right, 0px))); }
+.sty-pane::before { margin-bottom: -14px; }
 </style>
 </head>
 <body>
@@ -2842,7 +2898,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 226, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 227, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4788,6 +4844,7 @@ async function lbAct(fn, body, done) {
   const r = await lbCall(fn, body); lbActing = false;
   if (!r.ok) { toast(lbErr(r)); return null; }
   if (done) await done(r.data);
+  LB.ofAt = {};   // label changes can change what any profile shows
   await lbLoad(true); lbRefresh(); return r;
 }
 document.addEventListener('click', async e => {
@@ -4843,8 +4900,9 @@ document.addEventListener('click', async e => {
   if (D.lbback !== undefined) return openTab('labels');
 });
 // ---- Labels on profiles (Clash-style: View Label / Invite) and a label's public page ----
-LB.of = {}; LB.page = null; LB.invites = []; LB.from = 'labels';
-async function lbLoadOf(code) { const r = await lbCall('lb_of', { code }); LB.of[code] = r.ok ? (r.data || { none: true }) : { err: lbErr(r) }; if (sheetKey === 'profile' && !$('scrim').hidden) openTab('profile'); }
+LB.of = {}; LB.ofAt = {}; LB.ofBusy = {}; LB.page = null; LB.invites = []; LB.from = 'labels';
+async function lbLoadOf(code) { if (LB.ofBusy[code]) return; LB.ofBusy[code] = 1; const r = await lbCall('lb_of', { code }); LB.ofBusy[code] = 0; LB.ofAt[code] = Date.now();
+  const nv = r.ok ? (r.data || { none: true }) : (LB.of[code] && !LB.of[code].err ? LB.of[code] : { err: lbErr(r) }); if (JSON.stringify(nv) === JSON.stringify(LB.of[code])) return; LB.of[code] = nv; if (sheetKey === 'profile' && !$('scrim').hidden) openTab('profile'); }
 function lbProfCard(me, r) {
   const row = (l, sub, btns) => `<div class="sec lb-psec"><h3>Label</h3><div class="lb-pcard">${l ? lbBadge({ color: l.color, glyph: l.glyph }, 46) : '<span class="lb-pnone">' + LB_IC.members + '</span>'}
     <span class="rt"><b>${l ? esc(l.name) : 'Not in a label'}</b><span>${sub}</span></span></div>${btns ? `<div class="lb-pbtns">${btns}</div>` : ''}</div>`;
@@ -4852,7 +4910,9 @@ function lbProfCard(me, r) {
     if (l) return row(l, `Level ${lbLevel(l.xp)} · ${(LB.st.members || []).length}/10 · ${lbIsOwner() ? 'Owner' : 'Member'}`, `<button class="lb-pbtn blue" data-tab-go="labels">View Label</button>`);
     return row(null, 'Team up with up to 10 artists', `<button class="lb-pbtn blue" data-tab-go="labels">Find a Label</button>`); }
   const code = r && r.friend_code; if (!code) return '';
-  const o = LB.of[code]; if (o === undefined) { LB.of[code] = null; lbLoadOf(code); }
+  // re-check every time the profile opens (after 10s), so joins and leaves show up; keep the last answer on screen meanwhile
+  if (LB.of[code] === undefined) LB.of[code] = null; if (Date.now() - (LB.ofAt[code] || 0) > 10000) lbLoadOf(code);
+  const o = LB.of[code];
   if (!o) return row(null, 'Loading…', '');
   if (o.err) return row(null, "Couldn't load their label", '');
   const mine = lbL(), room = mine && (LB.st.members || []).length < 10;
@@ -4918,7 +4978,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('light', !!nextSheetKey && !DARK_SHEETS.includes(nextSheetKey));
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
   $('sheet').classList.toggle('shopmode', nextSheetKey === 'shop');
-  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
+  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
   $('sheet').classList.toggle('evhub', nextSheetKey === 'evhub' || nextSheetKey === 'evbadges');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -6616,11 +6676,19 @@ function openTab(tab) {
           <span class="bar" style="background:${own ? rc : '#8C86A6'}">${bar}</span></button>`;
       }).join('') + '</div>';
     }
-    openSheet(`<div class="style-stick"><div class="sheet-head"><h2>Style</h2>${closeBtn()}</div>
-      <div class="wardrobe"><div class="slots">${slotCard('top')}${slotCard('hat')}</div><div class="showcase"><div class="namebar"><span>${esc(S.name || 'New Artist')}</span><button data-rename aria-label="Rename your artist"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg></button></div><div class="dresser"><span class="spot"></span>${dressSparks}<span class="wbadge">+${g}% income</span>${bigArtist()}</div></div><div class="slots">${slotCard('neck')}${slotCard('face')}</div></div></div>
-      <div class="stabs">${['top', 'hat', 'neck', 'face', 'colors'].map(k => `<button class="stab ${styleSlot === k ? 'on' : ''}" data-stab="${k}" aria-label="${k === 'colors' ? 'Colors' : SLOTS.find(x => x[0] === k)[1]}">${ic(slotIc[k], 24)}</button>`).join('')}</div>
-      ${grid}
-      <p class="bonusline"><small>Wardrobe bonus: your best item in each slot counts toward your income, so wear whatever you like.</small></p>`);
+    // Build 227: full screen like Labels: blue stage up top (name, artist, slots), folder tabs, purple panel that scrolls
+    const slotBox = sl => { const it = itemById(S.equip[sl]);
+      return `<button class="sty-slot ${it ? '' : 'empty'} ${styleSlot === sl ? 'on' : ''}" data-stab="${sl}" style="--rc:${it ? rarity(it)[1] : 'transparent'}" aria-label="${SLOTS.find(x => x[0] === sl)[1]}">${it ? itemArt(it, 54) : ic(slotIc[sl], 26)}</button>`; };
+    const oldPane = $('sheet').querySelector('.sty-pane'), keepY = sheetKey === 'style' && oldPane && oldPane.dataset.slot === styleSlot ? oldPane.scrollTop : 0;
+    openSheet(`<div class="sty-top">
+        <div class="sty-name"><span>${esc(S.name || 'New Artist')}</span><button class="sty-edit" data-rename aria-label="Rename your artist"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg></button></div>
+        <div class="sty-stage"><div class="sty-col">${slotBox('top')}${slotBox('hat')}</div>
+          <div class="dresser sty-art"><span class="spot"></span>${dressSparks}${bigArtist()}</div>
+          <div class="sty-col">${slotBox('neck')}${slotBox('face')}</div><span class="sty-inc">+${g}% income</span></div>
+        <div class="lb-ftabs sty-tabs">${['top', 'hat', 'neck', 'face', 'colors'].map(k => `<button class="lb-ft ${styleSlot === k ? 'on' : ''}" data-stab="${k}" aria-label="${k === 'colors' ? 'Colors' : SLOTS.find(x => x[0] === k)[1]}">${ic(slotIc[k], 26)}</button>`).join('')}</div></div>
+      <div class="sty-pane" data-slot="${styleSlot}">${grid}
+        <p class="bonusline"><small>Wardrobe bonus: your best item in each slot counts toward your income, so wear whatever you like.</small></p></div>`);
+    { const pn = $('sheet').querySelector('.sty-pane'); if (pn && keepY) pn.scrollTop = keepY; }
   } else if (tab === 'rename-ok') {   // plain confirm for a paid name change: no art, it's not an achievement
     const c = nameCost();
     openSheet(`<div class="sheet-head"><h2>Change name?</h2>${closeBtn()}</div>
