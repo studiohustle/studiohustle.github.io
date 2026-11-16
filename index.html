@@ -3092,7 +3092,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 240, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 241, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3408,7 +3408,7 @@ const DEALS = [
   { id: 'dealOpen', line: 'A quick boost to get rolling', name: 'Opening Act', money: '$0.99', price: 0.99, gems: 180, skipH: 1, frenzyMin: 30, color: '#9BEBB4' },
   { id: 'dealWeekend', line: 'Make the most of your weekend', name: 'Weekend Hustle', money: '$1.99', price: 1.99, gems: 240, skipH: 2, frenzyMin: 30, color: '#8FD8F5' },
   { id: 'dealMixtape', line: 'Gems and a fast-forward', name: 'Mixtape Bundle', money: '$2.99', price: 2.99, gems: 380, skipH: 2, frenzyMin: 60, color: '#C9B3FF' },
-  { id: 'dealWardrobe', line: 'Fresh fit, plus gems', name: 'Wardrobe Drop', money: '$4.99', price: 4.99, gems: 700, skipH: 3, outfit: true, color: '#FF9CC8' },
+  { id: 'dealWardrobe', line: 'Style Boxes, plus gems', name: 'Wardrobe Drop', money: '$4.99', price: 4.99, gems: 700, skipH: 3, outfit: true, color: '#FF9CC8' },
   { id: 'dealTour', line: 'Fuel for the whole tour', name: 'Tour Bus Deal', money: '$4.99', price: 4.99, gems: 660, skipH: 3, frenzyMin: 60, color: '#FFA3A3' },
   { id: 'dealPlat', line: 'A platinum-sized stack', name: 'Platinum Drop', money: '$9.99', price: 9.99, gems: 1400, skipH: 5, frenzyMin: 60, color: '#E4E7F0' },
   { id: 'dealVault', line: 'The biggest deal in the shop', name: 'Headliner Vault', money: '$19.99', price: 19.99, gems: 4200, skipH: 15, frenzyMin: 180, color: '#9DB8FF' },
@@ -3531,10 +3531,10 @@ const valueX = (gemsWorth, price) => Math.floor(gemsWorth / (price * 80) * 10) /
 const valueTag = (gemsWorth, price) => { const x = valueX(gemsWorth, price); return x >= 1.1 ? x.toFixed(1) + 'x value' : ''; };
 // the outfit counts at the real gem price of the one it would give (or the 400 gems paid when every eligible outfit is owned)
 const dealOutfit = () => ITEMS.filter(i => i.gems && !S.owned[i.id] && !topTier(i)).sort((x, y) => (y.oldGems || y.gems) - (x.oldGems || x.gems))[0];
-const dealWorth = d => d.gems + d.skipH * 30 + (d.frenzyMin || 0) / 30 * 20 + (d.outfit ? (S && dealOutfit() ? (dealOutfit().oldGems || dealOutfit().gems) : 400) : 0);
+const dealWorth = d => d.gems + d.skipH * 30 + (d.frenzyMin || 0) / 30 * 20 + (d.outfit ? 400 : 0);
 const dealValue = d => valueX(dealWorth(d), d.price);
 const dealSub = d => [d.gems.toLocaleString('en-US') + ' gems', d.skipH ? `${d.skipH}x Skip 1 hour` : '', d.frenzyMin ? `${d.frenzyMin / 30}x Fan Frenzy` : '',
-  d.outfit ? (S && dealOutfit() ? dealOutfit().name : '+400 gems (you own every outfit it could give)') : ''].filter(Boolean);
+  d.outfit ? '2 Big Style Boxes' : ''].filter(Boolean);
 DEALS.forEach(d => { OFFERS[d.id] = { name: d.name, get sub() { return dealSub(d).join(', '); }, line: d.line, money: d.money, deal: d }; });
 // the one-time packs, exactly as grant() pays them for this player: [label, worth in gems]
 const tvPart = () => { const L = vLv('tv'), n = Math.min(2, 24 - L), c = VAULT.find(v => v.id === 'tv').costs.slice(L, L + n).reduce((a, b) => a + b, 0);
@@ -3548,9 +3548,9 @@ function vGrant(id, toL, fallback) { const v = VAULT.find(x => x.id === id), L =
 function packParts(id) { const lv = hypeLv(), own = (iid, nm, v) => S.owned[iid] ? [`${v} gems (you own the ${nm})`, v] : [nm, v],
     perk = (pid, nm, v) => S.perks[pid] ? [`${v} gems (you own ${nm})`, v] : [nm, v],
     hype = (key, nm, costs) => lv[key] < costs.length ? [nm, costs[lv[key]]] : [`150 gems (${nm.toLowerCase()} maxed)`, 150];
-  return id === 'starter' ? [own('flame', 'Flame Hoodie', 105), ['450 gems', 450], vGrantPart('night', Math.max(9, vLv('night') + 1), 'Night Shift upgrade (8h+ offline)', 200)]
-    : id === 'rising' ? [own('varsity', 'Varsity Jacket', 120), ['750 gems', 750], tvPart(), vGrantPart('cap', vLv('cap') + 1, 'Hype Cap upgrade', 150)]
-    : id === 'headliner' ? [own('puffer', 'Puffer Jacket', 325), ['1,800 gems', 1800]] : []; }
+  return id === 'starter' ? [['2 Small Style Boxes', 80], ['450 gems', 450], vGrantPart('night', Math.max(9, vLv('night') + 1), 'Night Shift upgrade (8h+ offline)', 200)]
+    : id === 'rising' ? [['1 Big Style Box', 200], ['750 gems', 750], tvPart(), vGrantPart('cap', vLv('cap') + 1, 'Hype Cap upgrade', 150)]
+    : id === 'headliner' ? [['2 Big Style Boxes', 400], ['1,800 gems', 1800]] : []; }
 const packTag = id => valueTag(packParts(id).reduce((a, x) => a + x[1], 0), OFFERS[id].price);
 const localDay = (t = Date.now()) => Math.floor((t - new Date(t).getTimezoneOffset() * 60000) / 86400000);
 const dayStartMs = n => { const guess = n * 86400000; return guess + new Date(guess).getTimezoneOffset() * 60000; };
@@ -5255,16 +5255,17 @@ function grant(id) {
   const hypeUp = key => { const lv = hypeLv(), costs = key === 'len' ? HYPE_LEN_COST : HYPE_CAP_COST;
     if (lv[key] < costs.length) { lv[key]++; S.hypeLv = lv; } else S.gems += 150; };
   if (['starter', 'rising', 'headliner'].includes(id)) owe('gems');
-  if (id === 'starter') { item('flame', 105); S.gems += 450; vGrant('night', Math.max(9, vLv('night') + 1), 200); }
-  if (id === 'rising') { item('varsity', 120); S.gems += 750; tvUp(2); vGrant('cap', vLv('cap') + 1, 150); }
-  if (id === 'headliner') { item('puffer', 325); S.gems += 1800; }   // the old Pro Monitors slot is now its 300 gems
+  if (id === 'starter') { boxGive('small', 2);   // Build 241: packs give Style Boxes, never outfits
+    S.gems += 450; vGrant('night', Math.max(9, vLv('night') + 1), 200); }
+  if (id === 'rising') { boxGive('big', 1); S.gems += 750; tvUp(2); vGrant('cap', vLv('cap') + 1, 150); }
+  if (id === 'headliner') { boxGive('big', 2); S.gems += 1800; }   // the old Pro Monitors slot is now its 300 gems
   if (o.deal) {
     const d = o.deal, a = activeDeals().find(x => x.deal.id === id);
     if (a) S.deals = Object.assign({}, S.deals, { [a.key]: true });
     S.gems += d.gems; owe('gems');
     if (d.skipH) addInv('skips', d.skipH, a && 'deal:' + a.key + ':s');
     if (d.frenzyMin) addInv('frenzies', d.frenzyMin / 30, a && 'deal:' + a.key + ':f');
-    if (d.outfit) { const it = dealOutfit(); if (it) { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; } else S.gems += 400; }
+    if (d.outfit) boxGive('big', 2);   // Build 241: the deal's outfit slot is now 2 Big Style Boxes
   }
   if (o.hol) { const a = holLive(o), k = a.key + ':' + o.hol.tier, p = holPack(a.h, o.hol.tier);
     S.hol = Object.assign({}, S.hol, { [k]: true }); S.gems += holGemTotal(p); owe('gems');
@@ -7545,9 +7546,9 @@ const EV_DEFS = {
 const EV_ROT = ['western', 'island', 'galaxy'];   // weekly rotation order
 const EV_BASE = [1, 9, 80, 700, 6000].map(b => b / 2), EV_CYC = [1.5, 3, 5, 8, 12], EV_C0 = [5, 70, 800, 9000, 100000].map(c => c * EV_K), EV_UNL = [0, 250, 4000, 60000, 900000].map(c => c * EV_K);
 // rewards per tier, index = tier. acc / top = that event's cosmetic (100 gems instead if already owned); badge = profile badge (placeholder)
-const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 10 }, { box: 'small', n: 2 }, { frenzy: 1 }, { gems: 15 }, { box: 'small', n: 4 }, { gems: 20 }, { skips: 1 }, { gems: 20 }, { box: 'small', n: 6 }, { gems: 25 }, { skips: 1 }, { box: 'event', n: 1 }, { badge: true }];   // Build 235: boxes where Eatventure puts them: Small Style Boxes at tiers 4, 7 and 11, an Event Box at tier 14   // tier 15: the event's completion badge (no currency)
+const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 15 }, { box: 'small', n: 2 }, { frenzy: 1 }, { gems: 20 }, { box: 'small', n: 4 }, { gems: 25 }, { skips: 1 }, { gems: 30 }, { box: 'small', n: 6 }, { gems: 35 }, { skips: 1 }, { box: 'event', n: 1 }, { badge: true }];   // Build 241: rising gem curve (135); Small Boxes at 4, 7, 11; Event Box at 14; badge at 15
 // 360 gems in the pass lane = 120 gems per dollar, in line with the Backstage Pass VIP (117/$) and the $2.99 Mixtape Bundle (127/$)
-const EV_PASS = [null, { gems: 30 }, { gems: 30 }, { skips: 1 }, { box: 'small', n: 5 }, { gems: 35 }, { frenzy: 1 }, { box: 'small', n: 8 }, { acc: true }, { gems: 45 }, { skips: 1 }, { box: 'small', n: 12 }, { frenzy: 1 }, { gems: 50 }, { box: 'event', n: 3 }, { top: true }];   // Build 235: Mini Pass lane, same tiers with bigger stacks
+const EV_PASS = [null, { gems: 40 }, { skips: 1 }, { gems: 70 }, { box: 'small', n: 5 }, { gems: 100 }, { frenzy: 1 }, { box: 'small', n: 8 }, { acc: true }, { gems: 150 }, { skips: 1 }, { box: 'small', n: 12 }, { frenzy: 1 }, { skips: 1 }, { box: 'event', n: 3 }, { top: true }];   // Build 241: Mini Pass never has less of anything than Free: 360 gems, 3 skips, 2 Frenzies, 25 Small and 3 Event Boxes
 const EV_PRICE = 2.99;
 const EVI = { guitar: '<path d="M14 4l6 6M17 7l-5.5 5.5"/><path d="M11.5 12.5a4 4 0 1 0-1.5 6 3 3 0 0 0 4-4 4 4 0 0 0-2.5-2z"/>', mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/>',
   note: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>', disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>', star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
