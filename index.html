@@ -1801,8 +1801,24 @@ html .lbfull .lb-pane { box-shadow: inset 0 10px 0 #241F45; padding-top: 22px; }
 /* Build 238: the floating card for boxes, buys and payments opened from the Shop */
 .shop-float { position: fixed; inset: 0; z-index: 85; background: rgba(14,12,32,.6); display: grid; place-items: center; padding: calc(env(safe-area-inset-top, 0px) + 64px) max(14px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 20px) max(14px, env(safe-area-inset-left, 0px)); animation: bpfade .16s ease; }
 .shop-float[hidden] { display: none; }
+/* Build 240: compact like the Welcome back card */
+.shop-float > .shopflt { padding: 0 16px 16px; gap: 12px; }
+.shopflt > .sheet-head { position: sticky; top: 0; z-index: 3; margin: 0 -16px; padding: 12px 16px; min-height: 58px; justify-content: center; box-sizing: border-box; }
+.shopflt > .sheet-head h2 { flex: 1; min-width: 0; margin: 0; padding: 0 44px; text-align: center; font-size: 17px; line-height: 1.15; white-space: normal; overflow: visible; text-overflow: clip; text-wrap: balance; }
+.shopflt > .sheet-head > .headbtns { display: contents; }
+.shopflt > .sheet-head .close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; }
+.shopflt > .sheet-head .close.back { right: auto; left: 12px; }   /* back on the left, close on the right, so the title sits dead center */
+.shopflt .buycost { gap: 2px; padding: 12px; } .shopflt .buycost .need { color: #E0307A; font-weight: 700; font-size: 13px; }
+/* box odds card: one fixed size for Small/Big/Event/Label, scrolls inside if needed */
+.shop-float > .shopflt.fk-sbox { height: min(100%, 560px); max-height: min(100%, 560px); }
+.shopflt .buyart { min-height: 112px; } .shopflt .buyart svg, .shopflt .buyart .hype-tile { transform: scale(.8); }
+.shopflt .buywhat { margin: 0; font-size: 14px; }
+.shopflt .buycost { padding: 9px; } .shopflt .buycost b { font-size: 26px; }
+.shopflt .buybtns { gap: 10px; align-items: center; } .shopflt .buybtns .cta, .shopflt .buybtns .ghost { width: 82%; margin: 0; padding-top: 11px; padding-bottom: 11px; font-size: 15px; }
+.shopflt > .cta, .shopflt > .ghost, .shopflt .sb-btns { width: 100%; margin-left: 0; margin-right: 0; }
+.shopflt .welcome { padding: 12px; } .shopflt .fbopts { gap: 8px; }
 html .app.lbopen .shop-float .shopflt .close[data-close] { display: grid; }
-.shop-float > .shopflt { position: relative; width: min(390px, 100%); max-height: min(100%, 76vh); height: auto; overflow-y: auto; border-radius: 22px; box-shadow: 0 18px 44px rgba(0,0,0,.45); animation: bppop .22s cubic-bezier(.3,1.4,.5,1); display: flex; flex-direction: column; gap: 14px; }
+.shop-float > .shopflt { position: relative; width: min(340px, 100%); max-height: min(100%, 76vh); height: auto; overflow-y: auto; border-radius: 22px; box-shadow: 0 18px 44px rgba(0,0,0,.45); animation: bppop .22s cubic-bezier(.3,1.4,.5,1); display: flex; flex-direction: column; gap: 14px; }
 /* Build 238: the top of Shop/Inventory is one solid purple band that never moves; the list scrolls underneath it */
 .sheet.shopfull > .shop-stick { position: sticky; top: -18px; z-index: 6; flex: none; margin: -18px -18px 0; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 12px max(18px, env(safe-area-inset-left, 0px)); background: #3A336F; box-shadow: 0 4px 0 #241F45; }
 .sheet.shopfull > .shop-stick > .segtabs { margin: 0; }
@@ -3076,7 +3092,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 239, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 240, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5176,7 +5192,7 @@ function floatShow(html) {
   let f = $('shopFloat'); if (!f) { f = document.createElement('div'); f.id = 'shopFloat'; f.className = 'shop-float'; $('scrim').appendChild(f); }   // inside the scrim so the Shop's own click handlers work in the card
   const keep = floatKey === nextSheetKey ? (f.querySelector('.shopflt') || {}).scrollTop || 0 : 0;
   floatKey = nextSheetKey; nextSheetKey = null;
-  f.innerHTML = `<div class="sheet light shopflt" role="dialog">${html}</div>`; f.hidden = false; f.querySelector('.shopflt').scrollTop = keep;
+  f.innerHTML = `<div class="sheet light shopflt fk-${floatKey.replace(/[^a-z]/g, '')}" role="dialog">${html}</div>`; f.hidden = false; f.querySelector('.shopflt').scrollTop = keep;
 }
 function floatClose() { const f = $('shopFloat'); if (f) { f.hidden = true; f.innerHTML = ''; } floatKey = null; }
 document.addEventListener('click', e => {
@@ -5402,8 +5418,8 @@ $('scrim').addEventListener('click', e => {
     if (it.album) { sfx('denied'); toast(`Unlocks when you drop album ${it.album}`); return; }
     if (it.cm) { sfx('denied'); toast('Commons come from Style Boxes'); return; }
     if (topTier(it)) { sfx('denied'); toast(it.rar === 'mythic' ? 'Mythics come only from Label Boxes' : 'Ultimates come only from Event Boxes'); return; }
-    if (S.gems < it.gems) { sfx('denied'); toast('Not enough gems'); return; }
-    return askItem(it, 'style'); }
+    if (it.gems) { sfx('denied'); toast(`Find it in Style Boxes (${it.rar === 'legendary' ? 'Big Box' : 'Small or Big Box'})`); return; }
+    sfx('denied'); return; }
   if (e.target.closest('[data-stymx]') || e.target.matches('[data-stymodalbg]')) { pendingName = null; styleModal = null; return openTab('style'); }
   const rn = e.target.closest('[data-rename]');
   if (rn) { renameFrom = rn.dataset.from || 'style'; return nameTab('rename'); }
@@ -5418,8 +5434,7 @@ $('scrim').addEventListener('click', e => {
     S.gems -= c; p.apply(); return nameTab(renameFrom); }
   if (e.target.closest('[data-name-back]')) { pendingName = null; return nameTab('rename'); }
   const bi = e.target.closest('[data-buy-item]');
-  if (bi) { const it = itemById(bi.dataset.buyItem); if (!it || S.owned[it.id]) return openTab(bi.dataset.from || 'style');
-    return askItem(it, bi.dataset.from || 'style'); }
+  if (bi) { return openTab(bi.dataset.from || 'style'); }   // Build 240: outfits can't be bought
   const bo = e.target.closest('[data-buy]');
   if (bo && !bo.disabled) { const id = bo.dataset.buy, o = OFFERS[id]; if (!o) return;
     if (o.money) { payFrom = sheetKey && !sheetKey.startsWith('pay:') ? sheetKey : 'shop'; return openTab('pay:' + id); }
@@ -6865,9 +6880,9 @@ function openTab(tab) {
         return offer(d.id, art, d.color, valueTag(dealWorth(d), d.price), `<span class="dealtime">Ends in ${dd ? dd + 'd ' : ''}${hh}h</span>` + dealSub(d).map(x => `<span>${x}</span>`).join(''));
       }).join('')}
       <div class="banner">Special offers</div>
-      <button class="offer passoffer" data-tab-go="pass" style="background:linear-gradient(135deg,#FFE48A,#FFD93D)" aria-label="Backstage Pass"><span class="wall bubbles"></span><span class="offer-art glow"><svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 1.5l5 7.5 5-7.5" fill="none" stroke="#14122A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="5" y="8.5" width="14" height="13.5" rx="2.5" fill="#FFF3C4" stroke="#14122A" stroke-width="1.8"></rect><rect x="5" y="8.5" width="14" height="4" rx="2" fill="#14122A"></rect><text x="12" y="11.6" text-anchor="middle" font-size="2.8" font-weight="900" fill="#FFD93D" font-family="sans-serif">VIP</text><circle cx="12" cy="16" r="2" fill="#E0307A"></circle><path d="M8.5 19.5h7" stroke="#14122A" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
+      ${pass().owned ? '' : `<button class="offer passoffer" data-buy="goldPass" style="background:linear-gradient(135deg,#FFE48A,#FFD93D)" aria-label="Backstage Pass"><span class="wall bubbles"></span><span class="offer-art glow"><svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 1.5l5 7.5 5-7.5" fill="none" stroke="#14122A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="5" y="8.5" width="14" height="13.5" rx="2.5" fill="#FFF3C4" stroke="#14122A" stroke-width="1.8"></rect><rect x="5" y="8.5" width="14" height="4" rx="2" fill="#14122A"></rect><text x="12" y="11.6" text-anchor="middle" font-size="2.8" font-weight="900" fill="#FFD93D" font-family="sans-serif">VIP</text><circle cx="12" cy="16" r="2" fill="#E0307A"></circle><path d="M8.5 19.5h7" stroke="#14122A" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
         <span class="offer-body"><em class="olabel">${seasonName()} Season</em><b>Backstage Pass</b><span>${pass().owned ? 'VIP active. Claim your rewards' : 'VIP rewards on all 30 tiers, plus the Backstage Jacket'}</span></span>
-        <span class="paybtn">${pass().owned ? 'Open' : OFFERS.goldPass.money}</span></button>
+        <span class="paybtn">${pass().owned ? 'Open' : OFFERS.goldPass.money}</span></button>`}
       ${offer('goldenMic', ART.mic(), '#FFD866', '', '<span>Stacks with Hype</span>', 'Forever')}
       ${(() => { const p = currentPack();
         const chips = id => packParts(id).map(x => `<span>${x[0]}</span>`).join('');
@@ -6913,16 +6928,7 @@ function openTab(tab) {
         ${skipCard('frenzy20', 2, '20 Frenzies', '', 4, 'frenzies')}
         ${skipCard('frenzy50', 3, '50 Frenzies', 'Best value', 5, 'frenzies')}
       </div>
-      <div class="banner">Outfits</div>
-      ${ITEMS.some(i => i.gems && !S.owned[i.id] && !topTier(i)) ? '' : '<p class="testnote">You own every outfit in the shop. Nice collection!</p>'}
-      ${(() => { const all = ITEMS.filter(i => i.gems && !S.owned[i.id] && !topTier(i)).sort((a, b) => order.indexOf(a.slot) - order.indexOf(b.slot) || RAR_ORDER.indexOf(b.rar) - RAR_ORDER.indexOf(a.rar) || b.gems - a.gems);
-        const f = outfitFilter, filters = [['featured', 'Featured'], ['all', 'All'], ['top', 'Tops'], ['hat', 'Hats'], ['neck', 'Necklaces'], ['face', 'Glasses']];
-        // featured: the best piece in each slot, then the next best tops, six in all
-        const featured = (() => { const pick = order.map(sl => all.find(i => i.slot === sl)).filter(Boolean); for (const i of all) { if (pick.length >= 6) break; if (!pick.includes(i)) pick.push(i); } return pick.slice(0, 6); })();
-        const list = f === 'featured' ? featured : f === 'all' ? all : all.filter(i => i.slot === f);
-        return all.length ? `<div class="ofilters">${filters.map(([k, l]) => `<button class="stab ${f === k ? 'on' : ''}" data-ofilter="${k}">${l}${k === 'featured' ? '' : ` <small>${k === 'all' ? all.length : all.filter(i => i.slot === k).length}</small>`}</button>`).join('')}</div>
-          <div class="cards">${list.map(outfit).join('')}</div>${f === 'featured' && all.length > 6 ? `<button class="ghost viewall" data-ofilter="all">View all ${all.length} outfits</button>` : ''}` : ''; })()}
-      <p class="testnote">Album exclusives can't be bought. Drop albums to unlock them.</p>
+      <!-- Build 240: outfits are no longer sold; every outfit comes from albums, events or boxes -->
       <div class="banner">Gems</div>
       <div class="cards gems">
         ${gemCard('gems100', 1, '80', '', '', 4)}
@@ -6936,7 +6942,7 @@ function openTab(tab) {
     const id = tab.slice(4), o = OFFERS[id];
     if (TEST) return openSheet(`<div class="sheet-head"><h2>${o.name}</h2>${closeBtn()}</div>
       <p>${o.sub}.</p><div class="keeps"><div><b>Real game</b>Checkout for ${o.money}</div><div><b>Test mode</b>Free, so you can try it.</div></div>
-      <button class="cta" data-pay="${id}">Get it (test)</button><button class="ghost" data-close>Cancel</button>`);
+      <button class="cta" data-pay="${id}">Get it (test)</button>`);
     if (NATIVE) return openSheet(`<div class="sheet-head"><h2>${o.name}</h2>${headBtns(`data-tab-go="${payFrom}"`)}</div>
       <div class="welcome"><span class="amt">${esc(NATIVE.price(id) || o.money)}</span><p>${o.sub}.</p></div>
       <button class="cta" data-native-buy="${id}">Buy for ${esc(NATIVE.price(id) || o.money)}</button>`);
@@ -6988,7 +6994,7 @@ function openTab(tab) {
       const rank = i => (S.owned[i.id] ? 0 : 100000) + tier(i) * 10000 + within(i);
       grid = '<div class="items">' + ITEMS.filter(i => i.slot === styleSlot && (!i.gift || S.owned[i.id])).sort((a, b) => rank(a) - rank(b)).map(it => {
         const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it);
-        const bar = own ? rn : it.album ? `Album ${it.album}` : it.cm ? 'Style Box' : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : `<i class="g"></i>${it.gems}`;
+        const bar = own ? rn : it.album ? `Album ${it.album}` : it.cm ? 'Style Box' : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : it.gems ? 'Style Box' : (it.perk || 'Locked');
         const tier = topTier(it) ? tierCls(it) : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
         return `<button class="item ${own ? '' : 'locked'} ${tier} ${it.album ? 'album' : ''}" data-item="${it.id}" aria-label="${it.name}${own ? (on ? ', wearing' : '') : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
           ${on ? '<span class="eq">Wearing</span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
@@ -7099,16 +7105,14 @@ function openTab(tab) {
       ${S.fbPrompted && !S.fbSent ? '<button class="ghost" data-close>Maybe later</button>' : ''}`);
   } else if (tab === 'confirm-buy') {
     const pb = pendingBuy; if (!pb) return closeSheet();
-    openSheet(`<div class="sheet-head"><h2>Buy ${esc(pb.name)}?</h2>${closeBtn()}</div>
+    openSheet(`<div class="sheet-head"><h2>Buy ${esc(pb.name)}?</h2>${closeBtn().replace('data-close', 'data-cancel-buy')}</div>
       ${pb.art ? `<div class="buyart ${pb.cls || ''}"><span class="rays"></span>${stageSparks(pb.cls === 'mythic' ? 16 : 7)}${pb.art}</div>` : ''}
       <p class="buywhat">${pb.what}</p>
       ${S.gems >= pb.gems
-        ? `<div class="buycost"><span>Costs</span><b><i class="g"></i>${pb.gems.toLocaleString()}</b><span>You have ${S.gems.toLocaleString()} · ${(S.gems - pb.gems).toLocaleString()} left after</span></div>
-      <div class="buybtns"><button class="cta" data-confirm-buy>Buy for ${pb.gems.toLocaleString()} gems</button>
-      <button class="ghost" data-cancel-buy>Cancel</button></div>`
-        : `<div class="buycost short"><span>Costs</span><b><i class="g"></i>${pb.gems.toLocaleString()}</b><span>You have ${S.gems.toLocaleString()} · <span class="need">need ${(pb.gems - S.gems).toLocaleString()} more</span></span></div>
-      <div class="buybtns"><button class="cta pink" data-get-gems>Get more gems</button>
-      <button class="ghost" data-cancel-buy>Back</button></div>`}`);
+        ? `<div class="buycost"><span>Costs</span><b><i class="g"></i>${pb.gems.toLocaleString()}</b></div>
+      <div class="buybtns"><button class="cta" data-confirm-buy>Buy for ${pb.gems.toLocaleString()} gems</button></div>`
+        : `<div class="buycost short"><span>Costs</span><b><i class="g"></i>${pb.gems.toLocaleString()}</b><span class="need">Need ${(pb.gems - S.gems).toLocaleString()} more gems</span></div>
+      <div class="buybtns"><button class="cta pink" data-get-gems>Get more gems</button></div>`}`);
   } else if (tab === 'test-ask') {
     openSheet(`<div class="sheet-head"><h2>Test mode</h2>${closeBtn()}</div>
       <p>A separate practice career for checking pacing. Speed the game up to 200x and keep Hype on. Your real save, The Charts and play tracking are untouched, and you can switch back any time in Settings.</p>
@@ -7284,7 +7288,7 @@ const BOXES = {
   event: { name: 'Event Box', cost: 250, cost5: 1200, rolls: 3, pity: { rar: 'ultimate', n: 20 }, art: ['#D4231F', '#FF7A6B', '#FFD93D'],
     odds: [['common', 48], ['rare', 30], ['epic', 15], ['legendary', 5], ['ultimate', 2]], top: 'The only box with Ultimates', earn: 'Event track tier 14, or the shop while an event is live' },
   // Build 235: Label Boxes come only from Label Rewards and are the only box with Mythics. Never sold.
-  label: { name: 'Label Box', cost: 0, cost5: 0, rolls: 3, pity: { rar: 'mythic', n: 10 }, noShop: true,
+  label: { name: 'Label Box', cost: 0, cost5: 0, rolls: 3, pity: null, noShop: true,   // Build 240: no guarantee, Label Boxes are free and come every season
     odds: [['rare', 53], ['epic', 33], ['legendary', 12], ['mythic', 2]], top: 'The only box with Mythics (0.5% each)', earn: 'Label Rewards only' }   // odds from Eatventure's Club Box
 };
 const SBOX_TOKENS = { common: 1, rare: 1, epic: 3, legendary: 10, ultimate: 30, mythic: 50 };   // Style Tokens for a duplicate of each rarity
@@ -7332,7 +7336,9 @@ let sboxKind = 'big', sboxLast = [];
 // Event Boxes wear the live event's theme, else the theme of the event they came from.
 const BOX_THEMES = ['western', 'island', 'galaxy'];
 const boxTheme = k => { if (k !== 'event') return k; const L = evLive && evLive(), st = S.sbox || {};
-  const id = (L && L.id) || st.evId || (S.ev && S.ev.id) || 'western'; return BOX_THEMES.includes(id) ? id : 'western'; };
+  // Build 240: live event first; then the event an unopened box came from; otherwise the NEXT event (so between events the box shows what's coming)
+  let id = L && L.id; if (!id && (st.inv || {}).event > 0) id = st.evId; if (!id) { try { const n = evNext(); id = n && n.id; } catch (e) {} }
+  id = id || 'island'; return BOX_THEMES.includes(id) ? id : 'island'; };
 // sparkles that sit on the box itself (Build 234): spread over the middle of the art, not the card around it
 const boxSparks = (n, seed = 1, cls = '') => Array.from({ length: n }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
   return `<i class="spk bspk ${cls}" style="left:${14 + a * .66}%;top:${18 + b * .58}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.55 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
@@ -7359,7 +7365,7 @@ function sboxSheet() {
     <div class="sec"><h3>Chances per outfit</h3>${sboxOdds(k)}<p class="cnote">Each of the ${B.rolls} outfits rolls on its own with these chances.</p></div>
     ${pity}
     ${sboxBtns(k)}
-    ${k === 'event' && !boxBuyable(k) ? '<p class="cnote sb-closed">Event Boxes are sold here only while an event is live. Next long event: Thursday.</p>' : ''}
+    ${k === 'event' && !boxBuyable(k) ? `<p class="cnote sb-closed">Event Boxes are sold here only while an event is live. Next: the ${EV_DEFS[boxTheme('event')] ? EV_DEFS[boxTheme('event')].name : ''} Event on Thursday.</p>` : ''}
     <p class="cnote">Style Tokens: <b>${st.tokens}</b> · trade them for outfits you pick, coming soon.</p>`;
 }
 let sboxBusy = 0;
