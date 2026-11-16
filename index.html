@@ -1863,6 +1863,110 @@ html .sty-mc .ghost { background: #E6E2F1 !important; color: #3F3868 !important;
 /* ad gem note sits midway between the button's ledge and the card's bottom edge */
 html .sheet.float > .adnote { margin: 5px 0 0 !important; line-height: 1.25; }
 html .sheet.float:has(> .adnote:last-child) { padding-bottom: 9px; }
+
+/* ---- Style Box (Build 233) ---- */
+.sboxes { align-items: stretch; } .sboxcard { position: relative; } .sboxcard .sb-name { position: relative; z-index: 2; margin: 8px auto 0; padding: 2px 12px; border-radius: 99px; background: rgba(0,0,0,.12); font: 400 15px var(--display); color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.25); }
+.sboxcard .sb-items { position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font: 800 12.5px var(--body); color: #8A5A00; }
+.sb-i { font-style: normal; display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; border: 2px solid currentColor; font: 800 10px var(--body); }
+.sb-side { display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 10px; border-radius: 16px; background: rgba(255,255,255,.08); color: #fff; font-size: 12.5px; font-weight: 600; }
+.sb-side b { font: 400 15px var(--display); } .sb-side span { color: #D9D4F3; line-height: 1.3; } .sb-side .hire { margin-top: 4px; }
+.sb-hero { display: flex; align-items: center; gap: 12px; } .sb-hero .rt { display: flex; flex-direction: column; gap: 3px; } .sb-hero .rt b { font: 400 18px var(--display); } .sb-hero .rt span { font-size: 13px; color: var(--muted); }
+.sb-art { flex: none; filter: drop-shadow(0 4px 0 rgba(20,18,42,.15)); }
+.sb-odds { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.sb-o { display: flex; flex-direction: column; align-items: center; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: inset 0 0 0 2.5px var(--rc); }
+.sb-o .sb-q { font: 400 26px var(--display); color: var(--rc); line-height: 1; padding: 10px 0 6px; } .sb-o b { width: 100%; text-align: center; background: var(--rc); color: #fff; font: 800 10.5px var(--body); padding: 3px 0; }
+.sb-o em { font-style: normal; font: 400 15px var(--display); color: #14122A; padding: 5px 0 6px; }
+.sb-pity { display: flex; flex-direction: column; gap: 6px; background: #fff; border-radius: 14px; padding: 10px 12px; border: 1px solid #ECE9F5; }
+.sb-pity .rt { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; } .sb-pity .rt > span { color: var(--muted); font-weight: 600; } .sb-pity .rt b { font-weight: 800; }
+.sb-pbar { height: 10px; border-radius: 99px; background: #ECE8F6; overflow: hidden; } .sb-pbar i { display: block; height: 100%; border-radius: 99px; min-width: 6px; }
+.sb-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .sb-btns .cta, .sb-btns .ghost { margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.sb-sum { margin: 0; text-align: center; font: 400 17px var(--display); }
+.sb-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.sb-card { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 4px 0; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 3px var(--rc), 0 3px 0 rgba(20,18,42,.12); overflow: hidden; text-align: center;
+  animation: sbflip .45s cubic-bezier(.2,.9,.3,1.2) both; animation-delay: var(--d); }
+.sb-card b { font-size: 12px; line-height: 1.15; padding: 0 4px; } .sb-card .sb-tag { width: 100%; background: var(--rc); color: #fff; font: 800 10.5px var(--body); padding: 3px 0; margin-top: auto; }
+.sb-card .sb-res { font-size: 10.5px; font-weight: 700; color: #6E6A88; padding-bottom: 2px; } .sb-card.legendary, .sb-card.ultimate { box-shadow: inset 0 0 0 3px var(--rc), 0 0 16px var(--rc); }
+.sboxcard .sb-have { position: absolute; z-index: 3; top: 6px; right: 6px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 99px; background: #EC6351; color: #fff; font: 800 12px/22px var(--body); box-shadow: 0 2px 0 #BC4C40; }
+.sb-odds { grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); }
+.sb-grid { grid-template-columns: repeat(var(--c, 3), minmax(0, 1fr)); }
+.sb-btns.solo { grid-template-columns: 1fr; } .sb-own { font-size: 11px; opacity: .85; }
+.sb-earn { font-size: 12px !important; color: #6B4FD8 !important; font-weight: 700; } .sb-hero .rt .sb-earn b { font: 800 12px var(--body); }
+.sbk-tabs { display: flex; gap: 6px; } .sbk-tabs .stab { flex: 1; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.sbk-n { font-style: normal; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 99px; background: #EC6351; color: #fff; font: 800 11.5px/20px var(--body); }
+.sb-wear { width: 100%; margin: 0; } .sb-note { text-align: center; margin: 2px 0 0; }
+.rchip.sbchip { display: inline-flex; align-items: center; gap: 6px; } .rchip.sbchip svg { flex: none; }
+/* ---- box stack, Open Boxes popup and full-screen reveal (Build 233) ---- */
+.boxstack { position: relative; width: 60px; height: 58px; margin-left: 4px; border: 0; padding: 0; background: none; display: grid; place-items: center; cursor: pointer; }
+.boxstack[hidden] { display: none; }
+.boxstack .bs-art { display: grid; animation: bsbob 2.6s ease-in-out infinite; filter: drop-shadow(0 3px 3px rgba(0,0,0,.35)); }
+img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-user-drag: none; }
+.glow > img.boxart { position: relative; animation: floaty 3s ease-in-out infinite; filter: drop-shadow(0 4px 0 rgba(20,18,42,.18)); }
+.bp-body { gap: 10px; } .bp-row { gap: 8px; }
+.boxstack .bs-n { position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); min-width: 30px; height: 22px; padding: 0 7px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; border: 2px solid #fff; font: 400 13px/18px var(--display); text-align: center; }
+.boxstack:active { transform: scale(.94); }
+@keyframes bsbob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.box-pop { position: fixed; inset: 0; z-index: 96; background: rgba(10,9,24,.55); display: grid; place-items: center; padding: 16px; animation: bpfade .18s ease; }
+.box-pop[hidden] { display: none; }
+@keyframes bpfade { from { opacity: 0; } }
+.bp-card { width: min(360px, 100%); max-height: 78vh; display: flex; flex-direction: column; background: #EEEDF6; border-radius: 22px; overflow: hidden; box-shadow: 0 18px 40px rgba(0,0,0,.4); animation: bppop .26s cubic-bezier(.3,1.5,.5,1); }
+@keyframes bppop { from { transform: scale(.85); opacity: 0; } }
+.bp-head { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 8px; padding: 12px 14px; background: #fff; border-bottom: 4px solid #3A336F; }
+.bp-head h3 { margin: 0; text-align: center; font: 400 20px var(--display); color: #14122A; }
+.bp-i { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #14122A; background: none; font: 800 16px/1 Georgia, serif; color: #14122A; padding: 0; }
+.bp-x { width: 44px; height: 38px; border: 0; border-radius: 9px; background: #EC6351; box-shadow: 0 4px 0 #BC4C40; display: grid; place-items: center; padding: 0; }
+.bp-x:active { transform: translateY(3px); box-shadow: 0 1px 0 #BC4C40; }
+.bp-body { padding: 16px 22px 20px; display: flex; flex-direction: column; gap: 14px; overflow: auto; }
+.bp-row { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.bp-row + .bp-row { border-top: 2px dashed #CFCBE6; padding-top: 14px; }
+.bp-name { font: 800 13px var(--body); color: #5A5480; text-transform: uppercase; letter-spacing: .06em; }
+.bp-art { position: relative; display: grid; margin-bottom: 6px; filter: drop-shadow(0 3px 3px rgba(0,0,0,.2)); }
+.bp-art i { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); min-width: 30px; padding: 0 7px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; font: 400 13px/22px var(--display); font-style: normal; text-align: center; }
+.bp-row .cta { width: 78%; margin: 0; }
+.bp-grid { padding: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: max-content; align-content: start; gap: 9px; overflow: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
+.bp-grid .bx-card { min-height: max-content; }
+.bp-foot { margin: 0; padding: 12px 16px 16px; background: #fff; border-top: 4px solid #3A336F; text-align: center; font: 600 13.5px var(--body); color: #14122A; }
+.bx-card { position: relative; display: flex; flex-direction: column; background: #fff; border: 3px solid var(--rc); border-radius: 12px; overflow: hidden; min-width: 0; }
+.bx-card .bx-c { position: absolute; top: 0; left: 0; z-index: 2; padding: 1px 6px 2px; border-radius: 0 0 9px 0; background: var(--rc); color: #fff; font: 800 10.5px var(--body); }
+.bx-card .bx-c.new { background: #2BB673; }
+.bx-card .bx-art { display: grid; place-items: center; padding: 14px 2px 4px; aspect-ratio: 1; box-sizing: border-box; }
+.bx-card .bx-art svg { width: 100%; height: auto; max-width: 64px; }
+.bx-card .bx-band { background: var(--rc); color: #fff; text-align: center; font: 400 11px/1.9 var(--display); }
+.bx-card.big { width: 168px; border-width: 4px; border-radius: 18px; }
+.bx-card.big .bx-art { padding: 20px 10px 6px; } .bx-card.big .bx-art svg { max-width: 120px; }
+.bx-card.big .bx-band { font-size: 16px; line-height: 2; } .bx-card.big .bx-c { font-size: 13px; padding: 3px 9px 4px; }
+.bx-card .bx-name { display: none; }
+.box-open { position: fixed; inset: 0; z-index: 97; background: radial-gradient(circle at 50% 70%, #1E5D73, #123F50 70%); display: flex; flex-direction: column; align-items: center; color: #fff; user-select: none; -webkit-user-select: none; cursor: pointer;
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 28px) max(16px, env(safe-area-inset-left, 0px)); box-sizing: border-box; }
+.box-open[hidden] { display: none; }
+.bo-skip { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 18px); right: max(18px, env(safe-area-inset-right, 0px)); border: 0; background: none; color: #fff; font: 400 18px var(--display); padding: 8px; }
+.bo-x { position: absolute; top: calc(env(safe-area-inset-top, 0px) + 16px); right: max(16px, env(safe-area-inset-right, 0px)); width: 50px; height: 44px; border: 0; border-radius: 10px; background: #EC6351; box-shadow: 0 5px 0 #BC4C40; display: grid; place-items: center; padding: 0; }
+.bo-mid { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 0; }
+.bo-one { display: flex; flex-direction: column; align-items: center; gap: 12px; animation: boup .38s cubic-bezier(.3,1.5,.5,1); }
+@keyframes boup { from { transform: translateY(170px) scale(.3); opacity: 0; } }
+.bo-name { margin: 0; font: 400 20px var(--display); text-align: center; }
+.bo-res { margin: -6px 0 0; font: 600 14px var(--body); text-align: center; opacity: .9; }
+.bo-all { display: grid; gap: 12px; width: min(100%, 360px); }
+.bo-all.c2 { grid-template-columns: repeat(2, 120px); justify-content: center; } .bo-all.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .bo-all.c1 { grid-template-columns: 140px; justify-content: center; }
+.bo-all .bx-card { animation: boup .32s cubic-bezier(.3,1.5,.5,1) backwards; } .bo-all .bx-card:nth-child(2) { animation-delay: .06s; } .bo-all .bx-card:nth-child(3) { animation-delay: .12s; }
+.bo-all .bx-card .bx-band { font-size: 13px; }
+.bo-tk { margin: 4px 0 0; font: 600 14px var(--body); text-align: center; opacity: .9; }
+.bo-box { position: relative; display: grid; place-items: center; margin: 10px 0 14px; }
+.bo-box::before { content: ""; position: absolute; bottom: -8px; width: 170px; height: 34px; border-radius: 50%; background: rgba(0,0,0,.22); }
+.bo-art { position: relative; display: grid; }
+.box-open:not(.opened) .bo-art { animation: boshake 1.8s ease-in-out infinite; }
+@keyframes boshake { 0%, 70%, 100% { transform: rotate(0); } 75% { transform: rotate(-5deg); } 80% { transform: rotate(5deg); } 85% { transform: rotate(-3deg); } 90% { transform: rotate(2deg); } }
+.box-open.opened .bo-art { animation: bopop .3s ease; }
+@keyframes bopop { 50% { transform: scale(1.12, .9); } }
+.bo-rays { pointer-events: none; position: absolute; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(255,240,170,.75), rgba(255,240,170,0) 62%); opacity: 0; transition: opacity .3s; }
+.box-open.opened .bo-rays { opacity: 1; }
+.bo-left { position: absolute; top: 0; right: -14px; width: 40px; height: 50px; border-radius: 8px; background: #fff; border: 3px solid #D0D0D8; box-shadow: 5px 3px 0 #BDBDC8; display: grid; place-items: center; transform: rotate(6deg); }
+.bo-left b { font: 400 24px var(--display); color: #14122A; }
+.bo-tap { margin: 0; font: 400 22px var(--display); letter-spacing: .01em; }
+.box-open.done { cursor: default; }
+.bo-more { position: relative; z-index: 2; width: min(300px, 100%); margin: 0; } .bo-more small { font-size: 12px; opacity: .85; margin-left: 4px; }
+
+@keyframes sbflip { from { transform: perspective(400px) rotateY(90deg) scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sb-card { animation: none; } }
 </style>
 </head>
 <body>
@@ -1903,6 +2007,7 @@ html .sheet.float:has(> .adnote:last-child) { padding-bottom: 9px; }
 </script>
 <div class="app" id="app">
   <header class="hud">
+<div class="box-pop" id="boxPop" hidden></div><div class="box-open" id="boxOpen" hidden></div>
 <button class="lbx" id="lbX" aria-label="Close"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M4 3h5.2L20 21h-5.2zM14.8 3H20L9.2 21H4z"/></svg></button>
 <button class="shopb" id="shopBtn" aria-label="Shop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg></button>
     <div class="hud-pills">
@@ -1949,6 +2054,7 @@ html .sheet.float:has(> .adnote:last-child) { padding-bottom: 9px; }
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 1.5 Q6 6.5 11 8.6M19.5 1.5 Q18 6.5 13 8.6"></path><circle cx="12" cy="9.3" r="1.3"></circle><rect x="7" y="11" width="10" height="11.5" rx="2"></rect><path d="M10.6 13.5h2.8"></path><path d="M12 15.2 L12.6 16.82 L14.32 16.89 L12.97 17.96 L13.44 19.62 L12 18.66 L10.56 19.62 L11.03 17.96 L9.68 16.89 L11.4 16.82 Z" fill="currentColor" stroke-width="1"></path></svg>
         <span class="cap">Pass</span><span class="stime" id="passTime"></span><span class="bang" id="passDot" hidden>!</span>
       </button>
+      <button class="boxstack" id="boxStack" hidden></button>
     </div>
     <div class="side side-r">
       <button class="sbtn charts" id="chartsBtn" aria-label="The Charts">
@@ -2918,7 +3024,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 232, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 233, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3322,7 +3428,7 @@ const passTier = () => Math.min(PASS_TIERS, Math.floor(pass().stars / PASS_STEP)
 function passStars(kind) { const before = passTier(); pass().stars += PASS_STARS[kind] || 0;
   if (passTier() > before) setTimeout(() => toast('Backstage Pass tier ' + passTier() + ' reached'), 900); }
 const passClaimable = () => { const p = pass(), t = passTier(); for (let i = 1; i <= t; i++) if (!p.free[i] || (p.owned && !p.gold[i])) return true; return false; };
-const rewardLine = r => [r.item ? itemById(r.item).name : '', r.gems ? r.gems + ' gems' : '', r.skips ? r.skips + (r.skips === 1 ? ' skip' : ' skips') : '', r.frenzy ? r.frenzy + 'x Fan Frenzy' : ''].filter(Boolean).join(' + ');
+const rewardLine = r => [r.item ? itemById(r.item).name : '', r.gems ? r.gems + ' gems' : '', r.skips ? r.skips + (r.skips === 1 ? ' skip' : ' skips') : '', r.frenzy ? r.frenzy + 'x Fan Frenzy' : '', r.box ? BOXES[r.box].name : ''].filter(Boolean).join(' + ');
 // ---------- inventory: stored time skips and Fan Frenzies. Whole numbers, never below zero, saved with the career ----------
 const INV = { skips: { name: 'Time Skip', icon: () => '<img src="art/shop/boost-60.svg" width="44" height="45" alt="">', time: '1 hour', what: () => `Instantly earn 1 hour of cash: ${fmt(skipValue(3600))} at your current income.` },
   frenzies: { name: 'Fan Frenzy', icon: () => ART.frenzy().replace('width="78" height="78"', 'width="48" height="48"'), time: '30 minutes', what: () => frenzyOn() ? 'Adds 30 minutes to your active Fan Frenzy.' : 'A crowd of fans shows up to tap for 30 minutes. Fans only come during a Frenzy.' } };
@@ -3342,7 +3448,8 @@ function useInv(k) {
   track('use/' + k); sfx('bling'); save(); render(); return true;
 }
 function payReward(r, id) { bumpRev(); if (r.item && !S.owned[r.item]) { S.owned[r.item] = true; S.newItems = [...(S.newItems || []), r.item]; } if (r.gems) { S.gems += r.gems; owe('gems'); } if (r.skips) addInv('skips', r.skips, id && id + ':s');
-  if (r.frenzy) addInv('frenzies', r.frenzy, id && id + ':f'); }
+  if (r.frenzy) addInv('frenzies', r.frenzy, id && id + ':f');
+  if (r.box) boxGive(r.box, r.n || 1); }
 const PACK_GEMS = [80, 500, 1200, 2500, 6500, 14000];   // the shop's gem packs, smallest to biggest
 const packArtFor = g => { const i = PACK_GEMS.findIndex(x => x >= g); return i < 0 ? 6 : i + 1; };
 // ONE value formula for every ribbon in the shop: what the purchase actually grants, in gems, divided by (price x 80 gems per dollar,
@@ -4449,9 +4556,10 @@ function moveUp() {
   S.stats.lifetime = Math.max(S.stats.lifetime, 0);
   let gems = 0;
   if (firstTime) { gems = MAP_GEMS[cleared] || 0; S.gems += gems; if (gems) owe('gems'); S.mapPaid = next; track(`reach/${LOC().id}/${hrs(S.stats.playSec)}`); }
+  boxGive('small');   // Build 233: a Small Style Box with every move
   applyAutoCrew();
   // the move itself is done and saved here, once; what follows is only presentation and resumes safely after a reload
-  S.arrival = { loc: next, from: cleared, first: firstTime, gems, clears: S.clears[cleared] };
+  S.arrival = { loc: next, from: cleared, first: firstTime, gems, clears: S.clears[cleared], box: 'small' };
   closeSheet();
   buildRoom(); save(); render(); sfx('move'); syncChart(true);
   travelTo(LOC().name, () => { moving = false; showArrival(); });
@@ -4483,6 +4591,7 @@ function showArrival() {
   nextSheetKey = 'arrive';
   openSheet(`<div class="welcome arrive"><h2 class="ar-title"><small>Welcome to the</small><span>${loc.name}</span></h2>
     ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20].includes(a.clears) ? ` Its plaque is now <b style="color:${plaqueTier(a.clears)[2]}">${plaqueTier(a.clears)[1]}</b>!` : ''}</p>`}
+    ${a.box ? `<div class="arew"><span class="rchip sbchip">${boxArt('small', 30)}<b>+1 Small Style Box</b></span></div>` : ''}
     <div class="maya-note"><span class="mfig"><img src="art/maya-celebrating.webp?v=124" alt="" draggable="false"></span><div class="mcard"><span class="mname">Maya \u00b7 Your manager</span><p>${ARRIVE_LINES[loc.id] || 'New space, bigger money. Let\u2019s get to work!'}</p><i class="mtail" aria-hidden="true"></i></div></div></div>
     <button class="cta" data-arrive>${stage ? 'Take the Stage' : 'Open Studio'}</button>`);
 }
@@ -4545,6 +4654,7 @@ function dropAlbum() {
   const it = ITEMS.find(i => i.album === S.albums);
   const albumGems = S.oldAlbumGems === S.albums - 1 ? GEMS_PER_ALBUM * (ev() === 'gems' ? 2 : 1) : 0; S.oldAlbumGems = null; if (albumGems) { S.gems += albumGems; owe('gems'); }
   if (it) { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
+  boxGive('big');   // Build 233: a Big Style Box with every album
   buildRoom(); save(); render(); sfx('move'); syncChart(true);
   // the big moment: your artist on the glowing stage with gold rays and sparkles (wearing the new exclusive if there is one)
   const prev = `<div class="dresser album-stage" style="width:100%"><span class="arays"></span><span class="spot"></span>${stageSparks(14)}${bigArtist(it ? Object.assign({}, S.equip, { [it.slot]: it.id }) : S.equip)}</div>`;
@@ -4552,7 +4662,7 @@ function dropAlbum() {
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
   const mayaNote = mayaLine ? `<div class="maya-note"><span class="mfig"><img src="art/maya-celebrating.webp?v=124" alt="" draggable="false"></span><div class="mcard"><span class="mname">Maya · Your manager</span><p>${mayaLine}</p><i class="mtail" aria-hidden="true"></i></div></div>` : '';
   albumUpload(S.albums, () => (setTimeout(albumTop, 0), setTimeout(albumTop, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span><small class="acap">Permanent All Profit bonus</small>
-    ${it || albumGems + plaqueGems ? `<div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}</div>` : ''}</div>
+    <div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}<span class="rchip sbchip">${boxArt('big', 30)}<b>+1 Big Style Box</b></span></div></div>
     ${mayaNote}
     ${it ? `<button class="cta" data-equip="${it.id}" data-then="close">Wear it</button>` : ''}
     <button class="ghost" data-close>Start the next run</button>`)));
@@ -5204,6 +5314,7 @@ $('scrim').addEventListener('click', e => {
   if (itb) { const it = itemById(itb.dataset.item); if (!it) return;
     if (S.owned[it.id]) { if (S.equip[it.slot] === it.id) { if (it.slot !== 'top') S.equip[it.slot] = null; } else S.equip[it.slot] = it.id; applyLook(); save(); render(); sfx('tap'); return openTab('style'); }
     if (it.album) { sfx('denied'); toast(`Unlocks when you drop album ${it.album}`); return; }
+    if (topTier(it)) { sfx('denied'); toast('Ultimates come only from Event Boxes'); return; }
     if (S.gems < it.gems) { sfx('denied'); toast('Not enough gems'); return; }
     return askItem(it, 'style'); }
   if (e.target.closest('[data-stymx]') || e.target.matches('[data-stymodalbg]')) { pendingName = null; styleModal = null; return openTab('style'); }
@@ -5692,6 +5803,7 @@ function bigArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
 const shopArt = (f, w, h, cls = 'shopart') => `<img class="${cls}" src="art/shop/${f}.svg?v=${BUILD}" width="${w}" height="${h}" alt="" decoding="async" draggable="false">`;
 const gemPath = (x, y, k) => `<g transform="translate(${x},${y}) scale(${k})"><path d="M6 0h12l6 8-12 16L0 8z" fill="#FFD93D" stroke="#14122A" stroke-width="2" stroke-linejoin="round"></path><path d="M0 8h24l-12 16z" fill="#F0A81E"></path><path d="M6 0h12l6 8H0z" fill="#FFE08A"></path><path d="M6 0h12l6 8-12 16L0 8z" fill="none" stroke="#14122A" stroke-width="2" stroke-linejoin="round"></path><path d="M8 2.5h4l-2 4z" fill="#fff" opacity=".85"></path></g>`;
 const ART = {
+  styleBox: (sz = 72, body = '#7C5CFF', lid = '#B18CFF', rib = '#FFD93D') => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 28h48v24a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="${body}" stroke="#14122A" stroke-width="3" stroke-linejoin="round"></path><path d="M6 20a4 4 0 0 1 4-4h44a4 4 0 0 1 4 4v9H6z" fill="${lid}" stroke="#14122A" stroke-width="3" stroke-linejoin="round"></path><rect x="27" y="14" width="10" height="42" fill="${rib}" stroke="#14122A" stroke-width="3"></rect><rect x="24" y="26" width="16" height="10" rx="3" fill="${rib}" stroke="#14122A" stroke-width="3"></rect><path d="M30 33.5v-4l5-1.2v4" fill="none" stroke="#14122A" stroke-width="1.8" stroke-linecap="round"></path><circle cx="29.4" cy="33.6" r="1.4" fill="#14122A"></circle><circle cx="34.4" cy="32.4" r="1.4" fill="#14122A"></circle><path d="M12 32h8M44 32h8" stroke="#fff" stroke-opacity=".35" stroke-width="2.4" stroke-linecap="round"></path></svg>`,
   // gem packs (art made outside the game): one gem → two gems → a pile → a bag → a case → a case with a side case
   // each image is trimmed to its art; --w sets how much of the card it fills so the tiers read as growing
   gems: n => { n = Math.min(6, Math.max(1, n)); const h = [302, 277, 295, 278, 309, 270][n - 1];
@@ -6561,6 +6673,7 @@ function openTab(tab) {
         <div><b>You keep</b><ul><li>Gems &amp; inventory</li><li>Outfits &amp; style</li><li>Plaques &amp; goals</li><li>Perks &amp; Hype</li><li>Pass progress</li></ul></div>
         <div class="lose"><b>Resets</b><ul><li>Back to the Apartment</li><li>Cash to $0</li><li>Levels &amp; crew</li><li>Upgrades</li></ul></div></div>
       <button class="cta pink" data-album>Drop album #${(S.albums || 0) + 1}</button><button class="ghost" data-close>Not yet</button>`);
+  } else if (tab === 'sbox') { openSheet(sboxSheet());
   } else if (tab === 'shop') {
     const owned = id => OFFERS[id].once && S.perks[id];
     // deterministic sparkle positions so they don't jump around on every refresh
@@ -6628,6 +6741,16 @@ function openTab(tab) {
       ${(() => { // one-time perks get their own section and leave the shop once owned (like outfits)
         const perks = [];   // Pro Monitors retired in Build 158
         return perks.length ? `<div class="banner">Permanent upgrades</div><div class="cards two ${perks.length === 1 ? 'solo' : ''}">${perks.map(([id, art, t]) => card(id, art, t, '', 'gold perk').replace('<span class="wall', '<span class="tag qtag">Forever</span><span class="wall')).join('')}</div>` : ''; })()}
+      <div class="banner">Style Boxes</div>
+      ${(() => { const card = k => { const B = BOXES[k];
+          return `<button class="card gold sboxcard sb-${k}" data-sbox-view="${k}" aria-label="${B.name}, ${B.rolls} outfits, ${B.cost} gems, see chances">
+          <span class="sb-name">${B.name.replace(' Style', '')}</span><span class="sb-items">${B.rolls} outfits <i class="sb-i">i</i></span>
+          <span class="wall arrows"></span><span class="art glow">${sparks(4, 9)}${boxArt(k, 84)}</span>
+          <span class="price"><i class="g"></i>${B.cost}</span></button>`; };
+        const live = boxBuyable('event');
+        return `<div class="cards two sboxes">${card('small')}${card('big')}</div>
+        ${live ? `<div class="cards two sboxes">${card('event')}<div class="sb-side"><b>Event Box</b><span>The only box with Ultimates: 2% per outfit</span><span>Ultimate guaranteed within ${pityLeft('event')} boxes</span>${live ? '<span>Sold only while the event is live</span>' : ''}<button class="hire" data-sbox-view="event">See chances</button></div></div>` : ''}
+        <p class="cnote sb-note">Free boxes from map moves, albums and events wait on your studio screen.</p>`; })()}
       <div class="banner">Boosts</div>
       <div class="cards two boosts">
         ${card('skip15', ART.clock(0), 'Skip 15 min', '+' + fmt(skipValue(900)), 'gold spend')}
@@ -6651,8 +6774,8 @@ function openTab(tab) {
         ${skipCard('frenzy50', 3, '50 Frenzies', 'Best value', 5, 'frenzies')}
       </div>
       <div class="banner">Outfits</div>
-      ${ITEMS.some(i => i.gems && !S.owned[i.id]) ? '' : '<p class="testnote">You own every outfit in the shop. Nice collection!</p>'}
-      ${(() => { const all = ITEMS.filter(i => i.gems && !S.owned[i.id]).sort((a, b) => order.indexOf(a.slot) - order.indexOf(b.slot) || RAR_ORDER.indexOf(b.rar) - RAR_ORDER.indexOf(a.rar) || b.gems - a.gems);
+      ${ITEMS.some(i => i.gems && !S.owned[i.id] && !topTier(i)) ? '' : '<p class="testnote">You own every outfit in the shop. Nice collection!</p>'}
+      ${(() => { const all = ITEMS.filter(i => i.gems && !S.owned[i.id] && !topTier(i)).sort((a, b) => order.indexOf(a.slot) - order.indexOf(b.slot) || RAR_ORDER.indexOf(b.rar) - RAR_ORDER.indexOf(a.rar) || b.gems - a.gems);
         const f = outfitFilter, filters = [['featured', 'Featured'], ['all', 'All'], ['top', 'Tops'], ['hat', 'Hats'], ['neck', 'Necklaces'], ['face', 'Glasses']];
         // featured: the best piece in each slot, then the next best tops, six in all
         const featured = (() => { const pick = order.map(sl => all.find(i => i.slot === sl)).filter(Boolean); for (const i of all) { if (pick.length >= 6) break; if (!pick.includes(i)) pick.push(i); } return pick.slice(0, 6); })();
@@ -6725,7 +6848,7 @@ function openTab(tab) {
       const rank = i => (S.owned[i.id] ? 0 : 100000) + tier(i) * 10000 + within(i);
       grid = '<div class="items">' + ITEMS.filter(i => i.slot === styleSlot && (!i.gift || S.owned[i.id])).sort((a, b) => rank(a) - rank(b)).map(it => {
         const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it);
-        const bar = own ? rn : it.album ? `Album ${it.album}` : `<i class="g"></i>${it.gems}`;
+        const bar = own ? rn : it.album ? `Album ${it.album}` : topTier(it) ? 'Event Box' : `<i class="g"></i>${it.gems}`;
         const tier = topTier(it) ? 'mythic' : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
         return `<button class="item ${own ? '' : 'locked'} ${tier} ${it.album ? 'album' : ''}" data-item="${it.id}" aria-label="${it.name}${own ? (on ? ', wearing' : '') : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
           ${on ? '<span class="eq">Wearing</span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
@@ -6944,7 +7067,7 @@ function render() {
   if (S.stats.lastDay !== dayKey()) { S.stats.lastDay = dayKey(); S.stats.days = (S.stats.days || 0) + 1; if (S.stats.days <= 30) track('days-played/' + S.stats.days); }
   $('goalsDot').hidden = !(goalsClaimable() || dailyReady());
   $('chartsDot').hidden = !(FR.inc || []).length;
-  $('passDot').hidden = !passClaimable();
+  $('passDot').hidden = !passClaimable(); try { boxStackUpd(); } catch (e) {}
   $('vaultDot').hidden = !(!S.vaultSeen && vaultAffordable());
   $('crewBang').hidden = !(LOC().stations.some(x => lvl(x.id) && !S.crew[x.id] && S.cash >= crewCostOf(x)) || upgNewAffordable());
   $('styleBang').hidden = !(S.newItems && S.newItems.length);
@@ -7010,6 +7133,171 @@ function askItem(it, back) {
   }, back, topTier(it) ? 'mythic' : '');
 }
 const slotLabel = sl => ({ top: 'top', hat: 'hat', neck: 'necklace', face: 'glasses' })[sl] || '';
+// ---------- Style Boxes (Build 233): Small, Big and Event. Odds shown before opening, pity counters, duplicates become Style Tokens ----------
+// Small: up to Epic, free with every map move. Big: up to Legendary, free with every album. Event: the only place Ultimates come from,
+// sold in the shop only while a long event is live, and free on the event track. Earned boxes wait in S.sbox.inv until opened.
+const BOXES = {
+  small: { name: 'Small Style Box', cost: 40, cost5: 190, rolls: 2, pity: null, art: ['#3D8BFF', '#8FC1FF', '#FFFFFF'],
+    odds: [['common', 80], ['rare', 16], ['epic', 4]], top: 'Common to Epic outfits', earn: 'Free with every map move' },
+  big: { name: 'Big Style Box', cost: 200, cost5: 950, rolls: 3, pity: { rar: 'legendary', n: 15 }, art: ['#7C5CFF', '#B18CFF', '#FFD93D'],
+    odds: [['common', 50], ['rare', 30], ['epic', 15], ['legendary', 5]], top: 'Common to Legendary outfits', earn: 'Free with every album' },
+  event: { name: 'Event Box', cost: 250, cost5: 1200, rolls: 3, pity: { rar: 'ultimate', n: 20 }, art: ['#D4231F', '#FF7A6B', '#FFD93D'],
+    odds: [['common', 48], ['rare', 30], ['epic', 15], ['legendary', 5], ['ultimate', 2]], top: 'The only box with Ultimates', earn: 'Event track tiers 10 and 13, or the shop while an event is live' }
+};
+const SBOX_TOKENS = { common: 1, rare: 1, epic: 3, legendary: 10, ultimate: 30 };   // Style Tokens for a duplicate of each rarity
+const BOX_KINDS = ['small', 'big', 'event'];
+// what can drop: Plain Hoodie for Common (more Commons later); otherwise outfits that were sold for gems (album, Founder, VIP and seasonal stay exclusive)
+const sboxPool = rar => ITEMS.filter(i => i.rar === rar && (rar === 'common' ? i.id === 'basic' : (i.gems > 0 && !i.album && !i.gift)));
+const sboxRank = r => ['common', 'rare', 'epic', 'legendary', 'ultimate'].indexOf(r);
+function sboxState() {
+  if (!S.sbox || !S.sbox.inv) S.sbox = { inv: { small: 0, big: 0, event: 0 }, pity: { big: 0, event: 0 }, opened: { small: 0, big: 0, event: 0 }, tokens: (S.sbox && S.sbox.tokens) || 0 };
+  return S.sbox;
+}
+const boxOwned = k => sboxState().inv[k] || 0;
+const boxesOwned = () => BOX_KINDS.reduce((a, k) => a + boxOwned(k), 0);
+function boxGive(k, n = 1) { const st = sboxState(); st.inv[k] = (st.inv[k] || 0) + n; if (k === 'event') { const L = evLive(); st.evId = (L && L.id) || (S.ev && S.ev.id) || st.evId; } bumpRev(); }
+const boxBuyable = k => k !== 'event' || !!(evLive() && evUnlocked());
+function sboxRoll(odds, rng = Math.random) { let r = rng() * 100; for (const [k, p] of odds) { if ((r -= p) < 0) return k; } return odds[0][0]; }
+// pure: rolls one box from its pity count and returns the rarities plus the new count (used by the game and by the odds test)
+function sboxRollBox(kind, p, rng = Math.random) {
+  const B = BOXES[kind], rars = Array.from({ length: B.rolls }, () => sboxRoll(B.odds, rng));
+  let forced = null;
+  if (B.pity) { const need = sboxRank(B.pity.rar), hit = () => rars.some(r => sboxRank(r) >= need);
+    if (p >= B.pity.n - 1 && !hit()) { const lo = rars.reduce((lo, r, i) => sboxRank(r) < sboxRank(rars[lo]) ? i : lo, 0); rars[lo] = B.pity.rar; forced = lo; }
+    return { rars, forced, p: hit() ? 0 : p + 1 }; }
+  return { rars, forced, p: 0 };
+}
+function sboxOpen(kind, n) {
+  const st = sboxState(), out = [];
+  for (let b = 0; b < n; b++) {
+    const r = sboxRollBox(kind, st.pity[kind] || 0); if (BOXES[kind].pity) st.pity[kind] = r.p; st.opened[kind] = (st.opened[kind] || 0) + 1;
+    r.rars.forEach((rar, k) => { const pool = sboxPool(rar), it = pool[Math.floor(Math.random() * pool.length)];
+      const dup = !!S.owned[it.id], tk = dup ? SBOX_TOKENS[rar] : 0;
+      if (dup) st.tokens += tk; else { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
+      out.push({ it, rar, dup, tk, box: b, pity: r.forced === k }); });
+  }
+  return out;
+}
+let sboxKind = 'big', sboxLast = [];
+// box art (Build 233): files in art/boxes. closed = white-outlined (shop, stack, popups), open and glow = the reveal screen.
+// Event Boxes wear the live event's theme, else the theme of the event they came from.
+const BOX_THEMES = ['western', 'island', 'galaxy'];
+const boxTheme = k => { if (k !== 'event') return k; const L = evLive && evLive(), st = S.sbox || {};
+  const id = (L && L.id) || st.evId || (S.ev && S.ev.id) || 'western'; return BOX_THEMES.includes(id) ? id : 'western'; };
+const boxArt = (k, sz, state = 'closed') => `<img class="boxart" src="art/boxes/${boxTheme(k)}-${state}.webp" width="${sz}" height="${sz}" alt="" draggable="false">`;
+const sboxOdds = k => `<div class="sb-odds" style="--n:${BOXES[k].odds.length}">${BOXES[k].odds.map(([r, p]) => { const [rn, rc] = RARITY[r];
+  return `<div class="sb-o" style="--rc:${rc}"><span class="sb-q">?</span><b>${rn}</b><em>${p}%</em></div>`; }).join('')}</div>`;
+const sboxPityRow = (label, left, total, rc) => `<div class="sb-pity"><span class="rt"><b>${label}</b><span>guaranteed within <b>${left}</b> box${left === 1 ? '' : 'es'}</span></span>
+  <span class="sb-pbar"><i style="width:${Math.round((total - left) / total * 100)}%;background:${rc}"></i></span></div>`;
+const pityLeft = k => BOXES[k].pity ? BOXES[k].pity.n - (sboxState().pity[k] || 0) : 0;
+// the buttons under a box in the shop: buy and open at once (earned boxes open from the stack on the main screen)
+function sboxBtns(k) {
+  const B = BOXES[k]; if (!boxBuyable(k)) return '';
+  return `<div class="sb-btns"><button class="cta gemcta" data-sbox-open="${k}:1" ${S.gems < B.cost ? 'disabled' : ''}>Open 1 <span class="gemprice">${GEM_MINI}${B.cost}</span></button>
+    <button class="cta gemcta" data-sbox-open="${k}:5" ${S.gems < B.cost5 ? 'disabled' : ''}>Open 5 <span class="gemprice">${GEM_MINI}${B.cost5}</span></button></div>`;
+}
+function sboxSheet() {
+  const k = sboxKind, B = BOXES[k], st = sboxState();
+  const pity = B.pity ? `<div class="sec"><h3>Bad-luck protection</h3>${sboxPityRow(B.pity.rar === 'ultimate' ? 'Ultimate' : 'Legendary', pityLeft(k), B.pity.n, RARITY[B.pity.rar][1])}
+      <p class="cnote">Counts ${B.name}es opened in a row without one.</p></div>` : '';
+  return `<div class="sheet-head"><h2>${B.name}</h2>${headBtns('data-tab-go="shop"')}</div>
+    <div class="sbk-tabs">${BOX_KINDS.map(x => `<button class="stab ${x === k ? 'on' : ''}" data-sbox-view="${x}">${BOXES[x].name.replace(' Style Box', '').replace(' Box', '')}</button>`).join('')}</div>
+    <div class="sb-hero"><span class="sb-art">${boxArt(k, 96)}</span><span class="rt"><b>${B.rolls} outfits per box</b><span>${B.top}. Every outfit you get is yours to keep; duplicates turn into Style Tokens.</span>
+      <span class="sb-earn">${B.earn}</span></span></div>
+    <div class="sec"><h3>Chances per outfit</h3>${sboxOdds(k)}<p class="cnote">Each of the ${B.rolls} outfits rolls on its own with these chances.</p></div>
+    ${pity}
+    ${sboxBtns(k)}
+    ${k === 'event' && !boxBuyable(k) ? '<p class="cnote sb-closed">Event Boxes are sold here only while an event is live. Next long event: Thursday.</p>' : ''}
+    <p class="cnote">Style Tokens: <b>${st.tokens}</b> · trade them for outfits you pick, coming soon.</p>`;
+}
+let sboxBusy = 0;
+document.addEventListener('click', e => {
+  const v = e.target.closest('[data-sbox-view]'); if (v) { sfx('tap'); boxPopClose(); if (v.dataset.sboxView) sboxKind = v.dataset.sboxView; sheetKey = null; return openTab('sbox'); }
+  const o = e.target.closest('[data-sbox-open]'); if (!o || o.disabled || Date.now() < sboxBusy) return;
+  const [k, how] = o.dataset.sboxOpen.split(':'), B = BOXES[k]; if (!B) return;
+  const n = how === '5' ? 5 : 1, cost = n === 5 ? B.cost5 : B.cost;
+  if (!boxBuyable(k)) { sfx('denied'); return toast('Event Boxes are sold only while an event is live'); }
+  if (S.gems < cost) { sfx('denied'); return toast('Not enough gems'); }
+  sboxBusy = Date.now() + 700; bumpRev(); S.gems -= cost; sboxKind = k; const res = sboxOpen(k, n); track('sbox/' + k + '/buy' + n);
+  save(); render(); sfx('bling');
+  if (n > 1) boxReceived(res, k); else boxReveal(res, k, 'shop');
+});
+const XSVG = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M4 3h5.2L20 21h-5.2zM14.8 3H20L9.2 21H4z"/></svg>';
+// ---------- Box stack and opening (Build 233) ----------
+// Earned boxes (map moves, albums, event tracks) wait in a stack on the main screen, left side. Tap it: Open all or Open 1.
+// Open 1 is a full-screen reveal, one tap per outfit, then every outfit from that box. Open all is a scrolling "Received Items" popup.
+// Boxes bought in the shop are never stored: they open straight away in the same full-screen reveal.
+try { document.body.append($('boxPop'), $('boxOpen')); } catch (e) {}   // own layer above the HUD and sheets
+const BOXO = { res: [], i: -1, kind: 'small', src: 'stack' };   // the reveal in progress; i = -1 closed box, 0..n-1 showing outfit i, n = all of them
+const boxTopKind = () => ['event', 'big', 'small'].find(k => boxOwned(k)) || null;
+function boxStackUpd() {
+  const b = $('boxStack'); if (!b) return; const k = boxTopKind(), n = boxesOwned();
+  b.hidden = !k || !S.onboarded; if (!k) return;
+  const key = boxTheme(k) + ':' + n; if (b.dataset.k === key) return; b.dataset.k = key;
+  b.innerHTML = `<span class="bs-art">${boxArt(k, 56)}</span><span class="bs-n">${n}</span>`;
+  b.setAttribute('aria-label', `${n} Style Box${n === 1 ? '' : 'es'} to open`);
+}
+const boxCardHtml = (x, big) => { const [rn, rc] = RARITY[x.rar];
+  return `<div class="bx-card ${big ? 'big' : ''}" style="--rc:${rc}">${x.dup ? `<span class="bx-c">+${x.tk}</span>` : '<span class="bx-c new">New</span>'}
+    <span class="bx-art">${itemArt(x.it, big ? 92 : 50)}</span><span class="bx-band">${rn}</span>${big ? `<b class="bx-name">${x.it.name}</b>` : ''}</div>`; };
+const boxSorted = res => [...res].sort((a, b) => sboxRank(b.rar) - sboxRank(a.rar));
+const tokenLine = res => { const t = res.reduce((a, x) => a + x.tk, 0); return t ? `You also received <b>${t} Style Token${t === 1 ? '' : 's'}</b> from duplicates` : ''; };
+// the "Open Boxes" popup: one row per kind you hold
+function boxPop() {
+  const kinds = ['event', 'big', 'small'].filter(k => boxOwned(k));
+  if (!kinds.length) return boxPopClose();
+  $('boxPop').innerHTML = `<div class="bp-card" role="dialog" aria-label="Open boxes">
+    <div class="bp-head"><button class="bp-i" data-sbox-view="${kinds[0]}" aria-label="See chances">i</button><h3>Open Boxes</h3><button class="bp-x" data-boxpop-x aria-label="Close">${XSVG}</button></div>
+    <div class="bp-body">${kinds.map(k => `<div class="bp-row"><span class="bp-name">${BOXES[k].name}</span>
+      <span class="bp-art">${boxArt(k, 64)}<i>${boxOwned(k)}</i></span>
+      ${boxOwned(k) > 1 ? `<button class="cta" data-boxopen="${k}:all">Open all</button>` : ''}<button class="cta" data-boxopen="${k}:1">Open 1</button></div>`).join('')}</div></div>`;
+  $('boxPop').hidden = false;
+}
+function boxPopClose() { $('boxPop').hidden = true; $('boxPop').innerHTML = ''; }
+function boxReceived(res, kind) {
+  $('boxPop').innerHTML = `<div class="bp-card recv" role="dialog" aria-label="Received items">
+    <div class="bp-head"><span></span><h3>Received Items</h3><button class="bp-x" data-boxpop-back aria-label="Close">${XSVG}</button></div>
+    <div class="bp-grid">${boxSorted(res).map(x => boxCardHtml(x)).join('')}</div>
+    <p class="bp-foot">${tokenLine(res) || `${res.length} outfit${res.length === 1 ? '' : 's'} from ${res.length / BOXES[kind].rolls} ${BOXES[kind].name}${res.length / BOXES[kind].rolls === 1 ? '' : 'es'}`}</p></div>`;
+  $('boxPop').hidden = false;
+}
+// full-screen reveal
+function boxReveal(res, kind, src) { ['open', 'glow'].forEach(st => { new Image().src = `art/boxes/${boxTheme(kind)}-${st}.webp`; }); Object.assign(BOXO, { res, kind, src, i: -1 }); boxPopClose(); boxOpenDraw(); $('boxOpen').hidden = false; }
+function boxOpenDraw() {
+  const { res, kind, i, src } = BOXO, n = res.length, done = i >= n, left = Math.max(0, n - Math.max(0, i + 1));
+  const B = BOXES[kind];
+  let mid = '';
+  if (i >= 0 && !done) mid = `<div class="bo-one" key="${i}">${boxCardHtml(res[i], true)}<p class="bo-name">${res[i].it.name}</p><p class="bo-res">${res[i].dup ? `Duplicate · +${res[i].tk} Style Token${res[i].tk === 1 ? '' : 's'}` : 'New outfit!'}${res[i].pity ? ' · guaranteed' : ''}</p></div>`;
+  if (done) mid = `<div class="bo-all c${Math.min(n, 3)}">${res.map(x => boxCardHtml(x)).join('')}</div>${tokenLine(res) ? `<p class="bo-tk">${tokenLine(res)}</p>` : ''}`;
+  const more = done ? (src === 'shop' ? (boxBuyable(kind) ? `<button class="cta gemcta bo-more" data-sbox-open="${kind}:1" ${S.gems < B.cost ? 'disabled' : ''}>Open 1 more <span class="gemprice">${GEM_MINI}${B.cost}</span></button>` : '')
+    : boxOwned(kind) ? `<button class="cta bo-more" data-boxopen="${kind}:1">Open next <small>${boxOwned(kind)} left</small></button>` : '') : '';
+  $('boxOpen').className = 'box-open ' + kind + (i >= 0 ? ' opened' : '') + (done ? ' done' : '');
+  $('boxOpen').innerHTML = `${done ? `<button class="bo-x" data-boxopen-x aria-label="Close">${XSVG}</button>` : `<button class="bo-skip" data-boxopen-skip>Skip</button>`}
+    <div class="bo-mid">${mid}</div>
+    <div class="bo-box"><span class="bo-art">${boxArt(kind, i < 0 ? 170 : 210, i < 0 ? 'closed' : done ? 'open' : 'glow')}</span>${!done ? `<span class="bo-left"><b>${left}</b></span>` : ''}</div>
+    ${done ? more : `<p class="bo-tap">${i < 0 ? 'Tap to open' : 'Tap for the next one'}</p>`}`;
+}
+function boxOpenStep() { if (BOXO.i >= BOXO.res.length) return; BOXO.i++; const x = BOXO.res[BOXO.i];
+  sfx(x && sboxRank(x.rar) >= 3 ? 'bling' : 'pop'); boxOpenDraw(); }
+function boxOpenClose() { $('boxOpen').hidden = true; $('boxOpen').innerHTML = ''; render(); if (BOXO.src === 'stack' && boxesOwned()) boxPop(); }
+// opening boxes from the stack
+function boxOpenOwned(k, all) {
+  const n = all ? boxOwned(k) : Math.min(1, boxOwned(k)); if (!n) return;
+  bumpRev(); sboxState().inv[k] -= n; const res = sboxOpen(k, n); track('sbox/' + k + '/open' + (all ? 'all' : '1'));
+  save(); render(); sfx('bling');
+  if (all && n > 1) boxReceived(res, k); else boxReveal(res, k, 'stack');
+}
+document.addEventListener('click', e => {
+  const t = e.target;
+  if (t.closest('#boxStack')) { sfx('tap'); return boxPop(); }
+  if (t.closest('[data-boxpop-x]') || t === $('boxPop')) { sfx('tap'); return boxPopClose(); }
+  if (t.closest('[data-boxpop-back]')) { sfx('tap'); return boxesOwned() ? boxPop() : boxPopClose(); }
+  const o = t.closest('[data-boxopen]'); if (o) { const [k, how] = o.dataset.boxopen.split(':'); return boxOpenOwned(k, how === 'all'); }
+  if (t.closest('[data-boxopen-x]')) { sfx('tap'); return boxOpenClose(); }
+  if (t.closest('[data-boxopen-skip]')) { sfx('tap'); BOXO.i = BOXO.res.length; return boxOpenDraw(); }
+  if (!$('boxOpen').hidden && t.closest('#boxOpen') && !t.closest('button')) boxOpenStep();
+});
+
 // ---------- loop ----------
 let lastT = performance.now(), acc = 0, saveAcc = 0, chartAcc = 170;
 const floatGate = {};
@@ -7091,9 +7379,9 @@ const EV_DEFS = {
 const EV_ROT = ['western', 'island', 'galaxy'];   // weekly rotation order
 const EV_BASE = [1, 9, 80, 700, 6000].map(b => b / 2), EV_CYC = [1.5, 3, 5, 8, 12], EV_C0 = [5, 70, 800, 9000, 100000].map(c => c * EV_K), EV_UNL = [0, 250, 4000, 60000, 900000].map(c => c * EV_K);
 // rewards per tier, index = tier. acc / top = that event's cosmetic (100 gems instead if already owned); badge = profile badge (placeholder)
-const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 10 }, { gems: 15 }, { frenzy: 1 }, { gems: 15 }, { gems: 15 }, { gems: 20 }, { skips: 1 }, { gems: 20 }, { gems: 20 }, { gems: 25 }, { skips: 1 }, { gems: 25 }, { badge: true }];   // tier 15: the event's completion badge (no currency)
+const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 10 }, { gems: 15 }, { frenzy: 1 }, { gems: 15 }, { gems: 15 }, { gems: 20 }, { skips: 1 }, { box: 'event' }, { gems: 20 }, { gems: 25 }, { skips: 1 }, { gems: 25 }, { badge: true }];   // Build 233: tier 10 is an Event Box (was 20 gems)   // tier 15: the event's completion badge (no currency)
 // 360 gems in the pass lane = 120 gems per dollar, in line with the Backstage Pass VIP (117/$) and the $2.99 Mixtape Bundle (127/$)
-const EV_PASS = [null, { gems: 30 }, { gems: 30 }, { skips: 1 }, { gems: 35 }, { gems: 35 }, { frenzy: 1 }, { gems: 40 }, { acc: true }, { gems: 45 }, { skips: 1 }, { gems: 45 }, { frenzy: 1 }, { gems: 50 }, { gems: 50 }, { top: true }];
+const EV_PASS = [null, { gems: 30 }, { gems: 30 }, { skips: 1 }, { gems: 35 }, { gems: 35 }, { frenzy: 1 }, { gems: 40 }, { acc: true }, { gems: 45 }, { skips: 1 }, { gems: 45 }, { frenzy: 1 }, { box: 'event' }, { gems: 50 }, { top: true }];   // Build 233: tier 13 is an Event Box (was 50 gems)
 const EV_PRICE = 2.99;
 const EVI = { guitar: '<path d="M14 4l6 6M17 7l-5.5 5.5"/><path d="M11.5 12.5a4 4 0 1 0-1.5 6 3 3 0 0 0 4-4 4 4 0 0 0-2.5-2z"/>', mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/>',
   note: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>', disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>', star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
@@ -7420,12 +7708,12 @@ function evClaim(lane, n) {
 }
 const evHas = (lane, n) => !!(lane === 'free' ? EV_FREE : EV_PASS)[n];
 const evRewardTxt = r => !r ? '—' : r.badge ? `${EV_DEFS[S.ev ? S.ev.id : 'western'].badge} badge` : r.acc || r.top ? (() => { const d = EV_DEFS[S.ev.id], it = itemById(r.acc ? d.acc : d.top); return S.owned[it.id] ? `${it.name} (owned: 100 gems)` : it.name + ', look-only'; })()
-  : r.gems ? r.gems + ' gems' : r.skips ? 'Time Skip (1 h)' : r.frenzy ? 'Fan Frenzy' : '';
+  : r.box ? BOXES[r.box].name : r.gems ? r.gems + ' gems' : r.skips ? 'Time Skip (1 h)' : r.frenzy ? 'Fan Frenzy' : '';
 // event over: deliver every earned, unclaimed reward, record a result card, wipe the event. Career gets no offline time for the event period.
 function evFinish() {
   if (!S.ev) return; const wasIn = isEv(); if (wasIn) evSwapOut();
-  const T = evTier(), pts = evPoints(), got = { gems: 0, skips: 0, frenzy: 0, items: [], badge: null };
-  for (let n = 1; n <= T; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
+  const T = evTier(), pts = evPoints(), got = { gems: 0, skips: 0, frenzy: 0, boxes: 0, items: [], badge: null };
+  for (let n = 1; n <= T; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.box) got.boxes++; if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
   S.evResult = { title: EV_DEFS[S.ev.id].title, tier: T, pts, pass: S.ev.pass, got };
   S.evHist = [...(S.evHist || []), { key: S.ev.key, id: S.ev.id, start: S.ev.start, end: S.ev.end, tier: T, badge: !!S.ev.got.free[EV_TIERS] }].slice(-40);
   const carAway = wasIn && S.ev.carAway;
@@ -7547,16 +7835,16 @@ function evTasks() {
 }
 function evRewardsTab() {
   const d = EV_DEFS[S.ev.id], T = evTier();
-  const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0) }), { gems: 0, skips: 0, frenzy: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy;   // the shop's one value formula
+  const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), box: a.box + (r.box ? 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, box: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.event.cost * pt.box;   // the shop's one value formula
   const pass = S.ev.pass ? `<div class="evh-pass on">${evI('check', 20, '#2E9E5B')}<div>Mini Pass active<span>The right-hand lane is unlocked for this event.</span></div></div>`
-    : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.skips} skips + ${pt.frenzy} Frenzies + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
+    : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.skips} skips + ${pt.frenzy} Frenzies${pt.box ? ` + ${pt.box} Event Box` : ''} + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
       ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${EV_DEFS[S.ev.id].name}">$${EV_PRICE}</button>`}</div>`;
   const cell = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], reached = n <= T, ready = reached && !!r && (lane === 'free' || S.ev.pass);
     if (!r) return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>—</span></div>`;
     const right = got ? '<span class="ok">✓</span>' : ready ? `<button data-evclaim="${lane}:${n}">Claim</button>` : lane === 'pass' && !S.ev.pass ? `<span class="lk">${evI('lock', 13, '#9A6A00', 2.6)}</span>` : '';
     return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>${evRewardTxt(r)}</span>${right}</div>`; };
   // laid out like the Backstage Pass: Free | tier node | Mini Pass, with art on every tile
-  const icon = r => r.acc || r.top ? `<span class="pjk">${itemArt(itemById(r.acc ? d.acc : d.top), 44)}</span>` : r.badge ? `<span class="pjk">${evEmblem(S.ev.id, 40)}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
+  const icon = r => r.box ? `<span class="pf">${boxArt(r.box, 36)}</span>` : r.acc || r.top ? `<span class="pjk">${itemArt(itemById(r.acc ? d.acc : d.top), 44)}</span>` : r.badge ? `<span class="pjk">${evEmblem(S.ev.id, 40)}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
   const tile = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], open = n <= T, need = lane === 'pass' && !S.ev.pass, ready = open && !got && !need && !!r;
     const state = got ? '<span class="pst ok">Claimed</span>' : ready ? `<button class="hire" data-evclaim="${lane}:${n}">Claim</button>` : need ? '<span class="pst vip">Mini Pass</span>' : `<span class="pst">Tier ${n} · ${n * EV_TIER_PTS}★</span>`;
     return `<div class="ptile ${lane === 'pass' ? 'gold' : 'free'} ${got ? 'got' : ''} ${ready ? 'ready' : ''} ${need ? 'needvip' : ''} ${!open && !got ? 'locked' : ''} ${r && (r.acc || r.top || r.badge) ? 'big' : ''}">${r ? icon(r) : ''}<b>${evRewardTxt(r)}</b>${state}</div>`; };
@@ -7583,7 +7871,7 @@ function evSheet(tab) {
     <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
   if (tab === 'evresult') { const r = S.evResult; S.evResult = null; save();
-    const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
+    const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', r.got.boxes ? r.got.boxes + ' Event Box' + (r.got.boxes > 1 ? 'es' : '') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
     return `<div class="welcome"><h2>${r.title} is over</h2><span class="amt" style="color:var(--gem)">Tier ${r.tier} of ${EV_TIERS}</span>
       <p>${r.pts} / ${EV_MAX_PTS} points${r.pass ? ' · Mini Pass' : ''}. ${parts.length ? 'Delivered now: ' + parts.join(', ') + '.' : 'Every reward was already claimed.'}</p>
       <p class="evnote">Next long event: Thursday</p></div>${r.got.badge ? '<button class="ghost" data-evbadges="events">See my badges</button>' : ''}<button class="cta" data-close>Back to my career</button>`; }
