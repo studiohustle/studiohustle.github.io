@@ -679,14 +679,14 @@ html .lb-pm-art { flex: 1; min-width: 0; min-height: 0; height: 200px; padding-b
 .lb-kc { text-align: center; } html .lb-kc-h b { padding: 0; } html .lb-mc .lb-kc-q { margin: 4px 0 14px; font-size: 16px; font-weight: 700; color: #4A4566; } html .lb-mc .lb-kc-t { margin: 0 0 8px; font-size: 13.5px; font-weight: 600; color: #6E6A88; line-height: 1.4; }
 .lb-top-pend { display: block; font: 700 11px var(--body); color: #8C88A6; }
 html .sec.lb-psec { gap: 8px; margin-top: 12px; padding-bottom: 14px; } html .lb-psec h3 { margin: 0; }
-.lb-pcard { display: flex; align-items: center; gap: 12px; background: #2E2266; color: #fff; border-radius: 16px; padding: 12px 14px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); }
+.lb-pcard { display: flex; align-items: center; gap: 12px; background: #2A2456; color: #fff; border-radius: 16px; padding: 12px 14px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); }
 .lb-pcard .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; } .lb-pcard .rt b { font: 400 17px var(--display); line-height: 1.15; overflow-wrap: anywhere; } .lb-pcard .rt span { font: 700 12.5px var(--body); color: #C9C2EC; }
 .lb-pnone { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.1); display: grid; place-items: center; color: #C9C2EC; flex: none; }
 .lb-pbtns { display: flex; gap: 8px; margin-top: 0; } .lb-pbtn { flex: 1; height: 42px; border: 0; border-radius: 12px; color: #fff; font: 400 16px var(--display); letter-spacing: .02em; }
 .lb-pbtn.blue { background: #4DB6F7; box-shadow: 0 4px 0 #2E8ACB; } .lb-pbtn.green { background: #3FBF6F; box-shadow: 0 4px 0 #2A8F50; } .lb-pbtn:disabled { background: #6E66A0; color: #D9D4F3; box-shadow: 0 4px 0 #4E4785; }
 .lb-pbtn:not(:disabled):active { transform: translateY(3px); box-shadow: none; }
 .lb-big.green { background: #3FBF6F; box-shadow: 0 5px 0 #2A8F50; }
-.lb-vhead { display: flex; align-items: center; gap: 14px; background: #2E2266; color: #fff; border-radius: 18px; padding: 14px; } .lb-vhead .rt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lb-vhead { display: flex; align-items: center; gap: 14px; background: #3A336F; color: #fff; border-radius: 18px; padding: 14px; } .lb-vhead .rt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .lb-vhead .rt b { font: 400 21px var(--display); line-height: 1.1; overflow-wrap: anywhere; } .lb-vhead .rt span { font: 700 13px var(--body); color: #C9C2EC; } .lb-vhead em { font-style: normal; color: #B9A6FF; font-weight: 800; }
 .lb-vstats { grid-template-columns: repeat(3, 1fr); } .lb-vlh { margin-top: 18px !important; }
 .lb-dec { flex: none; width: 34px; height: 34px; margin-left: 6px; border: 0; border-radius: 9px; background: #ECE9F5; color: #6E6A88; display: grid; place-items: center; }
@@ -1297,7 +1297,7 @@ html .side .sbtn.evtab .evt-ic { display: block; flex: none; }
 /* ---- Patch 2: light UI direction (Crew, Upgrades, Career). Neutral surfaces, purple for brand and headers, pink as a selective accent ---- */
 .sheet.light { --accent: #F7A3C6; --cash: #8BF0A0; --panel: #F6F4FB; --panel-2: #FFFFFF; --line: #E6E2F1; --text: #1E1A33; --muted: #6E6990; --ink: #EFEAFB; background: var(--panel); color: var(--text); }
 .sheet.light > .sheet-head { margin: -18px calc(-1 * max(18px, env(safe-area-inset-right, 0px))) 0 calc(-1 * max(18px, env(safe-area-inset-left, 0px)));
-  padding: 14px max(18px, env(safe-area-inset-right, 0px)) 14px max(18px, env(safe-area-inset-left, 0px)); background: linear-gradient(180deg, #5A47B8, #4A3A9E); border-radius: 24px 24px 0 0; }
+  padding: 14px max(18px, env(safe-area-inset-right, 0px)) 14px max(18px, env(safe-area-inset-left, 0px)); background: #3A336F; border-radius: 24px 24px 0 0; }
 .sheet.light > .sheet-head h2 { color: #FFFFFF; }
 .sheet.light.std, .sheet.light.std.tall { height: min(74%, 620px); }
 .sheet.light > .sheet-head { min-height: 64px; box-sizing: border-box; }
@@ -1738,6 +1738,30 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
 .cash-num, .gem-num { font-size: 21px; }   /* Eatventure-size numbers: they fill more of the bar */
 .gem-pill .hud-ic img { width: 37px; height: 30px; }   /* the gem stands a little above and below the bar, like Eatventure's */
 #settings svg { width: 25px; height: 25px; stroke-width: 2.4; }   /* bolder gear */
+
+/* ---- Labels full screen (Build 225): white top stays put, purple panel scrolls ---- */
+.sheet.lbfull { height: 100%; padding: 0 !important; display: flex; flex-direction: column; overflow: hidden; background: #FFFFFF; border-radius: 0; }
+html .sheet.lbfull { gap: 0 !important; } html .sheet.lbfull > * { margin-top: 0 !important; margin-bottom: 0 !important; } html .lbfull .lb-ftabs { margin-bottom: -1px !important; }
+.lbfull .lb-fix { flex: none; background: #FFFFFF; padding: 22px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); position: relative; }
+.lbfull .lb-fix-s { padding-bottom: 12px; border-bottom: 4px solid #262150; }
+.lbfull .lb-xrow { position: absolute; top: 20px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 2; }
+.lb-close { width: 44px; height: 42px; border: 0; border-radius: 10px; background: #E8584C; color: #fff; display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.2), 0 4px 0 #B23A31; }
+.lb-close:focus { outline: none; }
+.lb-close:active { transform: translateY(3px); box-shadow: none; }
+.lbfull .lb-top { margin: 0 0 12px; padding-right: 0; } .lbfull .lb-top-l { padding-top: 4px; } .lbfull .lb-top-name { padding-right: 0; }
+.lbfull .lb-top-r { padding-top: 52px; }
+.lb-ftitle { display: flex; align-items: center; justify-content: space-between; min-height: 46px; } .lb-ftitle b { font: 400 24px var(--display); color: #14122A; }
+.lb-ftabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: end; margin: 0 -2px; }
+.lb-ft { height: 44px; border: 0; border-radius: 14px 14px 0 0; background: #262150; color: #A9A3D6; display: grid; place-items: center; }
+.lb-ft.on { height: 52px; background: #3A336F; color: #FFFFFF; } .lb-ft svg { width: 26px; height: 26px; }
+.lbfull .lb-pane { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; background: #3A336F; padding: 14px max(14px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(14px, env(safe-area-inset-left, 0px)); margin-top: 0; }
+.lbfull .lb-fix-s + .lb-pane { border-top: 0; }
+html .lbfull .lb-pane .lb-lhead { margin: 0 2px 10px; } html .lbfull .lb-lhead b { color: #FFFFFF; } html .lbfull .lb-lhead span { color: #CFC8F5; }
+html .lbfull .lb-pane .cnote, html .lbfull .lb-pane .sec h3, html .lbfull .lb-pane .sec h3 small { color: #E6E1FF; }
+html .lbfull .lb-open { border-color: rgba(255,255,255,.45); color: #FFFFFF; }
+html .lbfull .lb-hypeline { background: #E3F2FF; } html .lbfull .lb-hypeline.spent { background: #ECE9F5; }
+html .lbfull .lb-pane .sec + .sec { border-top-color: rgba(255,255,255,.18); }
+html .lbfull .lb-pane .welcome { background: #FFFFFF; } html .lbfull .lb-pane .ghost { background: #FFFFFF; }
 </style>
 </head>
 <body>
@@ -2792,7 +2816,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 224, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 225, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4139,12 +4163,7 @@ function toast(msg) {
   const hud = document.querySelector('.hud'), app = $('app');   // pinned just below the dark header bar, clear of cash and gems
   app.appendChild(t);
   const top0 = app.getBoundingClientRect().top, hb = hud ? hud.getBoundingClientRect().bottom : 0, th = t.offsetHeight;
-  let y = hb + 8;
-  if (!$('scrim').hidden && !$('sheet').classList.contains('float')) {   // a panel is open: use the space above it, or else go below its title and tabs (small centred cards leave the top bar spot free)
-    const sh = $('sheet').getBoundingClientRect();
-    if (sh.top - hb >= th + 16) y = sh.top - th - 8;
-    else { const below = [...$('sheet').querySelectorAll('.sheet-head, .segtabs')].map(e => e.getBoundingClientRect().bottom).filter(b => b > sh.top); y = Math.max(hb, below.length ? Math.max(...below) : sh.top) + 8; }
-  }
+  const y = hb + 8;   // Build 225: every notification sits in the same spot, just under the top bar, on top of any screen
   t.style.top = Math.round(y - top0) + 'px'; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 1850);
 }
 
@@ -4566,7 +4585,7 @@ const LB_X = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke
 const lbBadgeOf = l => lbBadge({ color: l.color, glyph: l.glyph }, 34);
 function lbHead() {
   const M = lbL(), me = lbMeRow(), L = lbLevel(M.xp), next = Math.min(LB_MAX, L + 1), a = lbXpAt(L), b = lbXpAt(next), pct = L >= LB_MAX ? 100 : Math.round((M.xp - a) / (b - a) * 100), nr = LB_REWARD(next), cl = LB.st.claim;
-  return `<div class="lb-top">
+  return `<div class="lb-xrow"><button class="lb-close" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="lb-top">
     <div class="lb-top-l">
       <div class="lb-top-name">${lbBadge({ color: M.color, glyph: M.glyph }, 34)}<b>${esc(M.name)}</b>${lbI('info')}</div>
       <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b>${me.xp < 100 ? '<small class="lb-top-pend">after you add 100 XP</small>' : ''}</div>
@@ -4581,7 +4600,7 @@ function lbHead() {
     </div></div>`;
 }
 function lbIconTabs() {
-  return `<div class="segtabs lb-tabs" role="tablist">${[['home', 'Members'], ['feed', 'Activity'], ['charts', 'Charts']].map(([k, l]) => `<button class="stab ${LB.tab === k ? 'on' : ''}" role="tab" aria-selected="${LB.tab === k}" data-lbtab="${k}">${l}</button>`).join('')}</div>`;
+  return `<div class="lb-ftabs" role="tablist">${[['home', 'Members'], ['feed', 'Activity'], ['charts', 'Charts']].map(([k, l]) => `<button class="lb-ft ${LB.tab === k ? 'on' : ''}" role="tab" aria-selected="${LB.tab === k}" data-lbtab="${k}" aria-label="${l}">${LB_IC[k === 'home' ? 'members' : k]}</button>`).join('')}</div>`;
 }
 const lbIsMe = m => m.uid === lbMeRow().uid;
 const lbNm = m => lbIsMe(m) ? cleanName(S.name) + ' (you)' : cleanName(m.name);
@@ -4695,9 +4714,12 @@ function lbOpen(tab) {
   if (tab === 'labels') {
     if (!LB.busy && Date.now() - LB.at > (lbL() ? 15000 : 3000)) lbLoad().then(() => { lbFlush(); lbRefresh(); });
     let body;
-    if (!LB.st) body = LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>';
-    else body = lbL() ? lbHead() + lbIconTabs() + `<div class="lb-pane">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : lbDiscover();
-    return openSheet(`<div class="sheet-head"><h2>${lbL() ? 'Your Label' : 'Labels'}</h2>${closeBtn()}</div>${body}`);
+    // full screen like the Shop: white top that never moves, purple panel below that scrolls on its own
+    const old = $('sheet').querySelector('.lb-pane'), keep = sheetKey === 'labels' && old && old.dataset.tab === (lbL() ? LB.tab : 'find') ? old.scrollTop : 0;
+    const plain = (title, inner) => `<div class="lb-fix lb-fix-s"><div class="lb-ftitle"><b>${title}</b><button class="lb-close" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div><div class="lb-pane" data-tab="find">${inner}</div>`;
+    if (!LB.st) body = plain('Labels', LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>');
+    else body = lbL() ? `<div class="lb-fix">${lbHead()}${lbIconTabs()}</div><div class="lb-pane" data-tab="${LB.tab}">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : plain('Labels', lbDiscover());
+    openSheet(body); const pn = $('sheet').querySelector('.lb-pane'); if (pn && keep) pn.scrollTop = keep; return;
   }
   if (tab === 'label-view') return lbPage();
   if (tab === 'label-create') {
@@ -4871,6 +4893,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('light', !!nextSheetKey && !DARK_SHEETS.includes(nextSheetKey));
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
   $('sheet').classList.toggle('shopmode', nextSheetKey === 'shop');
+  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels');
   $('sheet').classList.toggle('evhub', nextSheetKey === 'evhub' || nextSheetKey === 'evbadges');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -6317,7 +6340,7 @@ function openTab(tab) {
     const lwCard = w => { const d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       return `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
         <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
-        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western, Island and Galaxy take turns each week.</p>'}</div>`; };
+        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday. Western, Island and Galaxy take turns each week.</p>'}</div>`; };
     let detail;
     const holNote = sel.hol ? `<p class="evnote">${sel.e ? `<b>${sel.hol.name}.</b> ` : ''}${sel.hol.gift ? 'A free thank-you gift and seasonal packs are in the Shop.' : 'Seasonal packs are in the Shop.'}</p>` : '';
     if (!sel.e && sel.hol) detail = `<div class="evdet" style="--c:${sel.hol.card}"><div class="evhead"><span class="evbig">${ART.gift(...sel.hol.colors)}</span><span class="t"><small>${new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' })}, a quiet day</small><b>${sel.hol.name}</b><span>No game changes today</span></span></div>${holNote}</div>`;
@@ -6325,7 +6348,7 @@ function openTab(tab) {
     else if (false) { const w = sel.lw, d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       detail = `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
         <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
-        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday at 00:00. Western, Island and Galaxy take turns each week.</p>'}</div>`; }
+        ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday. Western, Island and Galaxy take turns each week.</p>'}</div>`; }
     else if (!sel.e) { const nx = days.find(x => x.k > sel.k && x.e);
       detail = `<div class="evdet quiet"><div class="evhead"><span class="evbig none">${svgIc('star', '#8C86A6', 30)}</span><span class="t"><small>${sel.k ? sel.label + ' ' + sel.date : 'Today'}</small><b>No scheduled event</b><span>${nx ? `Next: ${EVENTS[nx.e].name}, ${nx.k === sel.k + 1 ? 'the day after' : nx.label}` : ''}</span></span></div></div>`; }
     else { const E = EVENTS[sel.e], live = sel.e === e && sel.start <= now && now < sel.end, wkend = sel.w === 6 || sel.w === 0;
@@ -7289,7 +7312,7 @@ function evTick() {
       const tt = evLeft(end).replace(' left', ''); if ($('evTabTime').textContent !== tt) $('evTabTime').textContent = tt;
       t.classList.toggle('warn', end - Date.now() < 12 * 3600e3); } } }
 }
-const evEndTxt = o => o && String(o.key)[0] === 'w' ? 'Sunday 00:00' : new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' (test window)';
+const evEndTxt = o => o && String(o.key)[0] === 'w' ? 'Saturday at midnight' : new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' (test window)';
 const evLeft = end => { const s = Math.max(0, Math.floor((end - Date.now()) / 1000)), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
   return d ? `${d}d ${h}h left` : h ? `${h}h ${m}m left` : `${m}m ${s % 60}s left`; };
 const evClaimable = () => { if (!S.ev) return false; const T = evTier(); for (let n = 1; n <= T; n++) if ((evHas('free', n) && !S.ev.got.free[n]) || (S.ev.pass && evHas('pass', n) && !S.ev.got.pass[n])) return true; return false; };
@@ -7302,7 +7325,7 @@ function evCard() {
     <div><button data-evt="cash">+10 min of event cash</button><button data-evt="pts">+$1T event cash</button></div>
     <div><button data-evt="unlock" ${S.test.evUnlock ? 'class="on"' : ''}>${S.test.evUnlock ? 'Joins before Map 2: on' : 'Let this test profile join before Map 2'}</button></div>
     <div><span>Event Fame:</span><button data-evt="f0" ${S.test.evFame === 0 ? 'class="on"' : ''}>x1.00</button><button data-evt="f8" ${S.test.evFame === 8 ? 'class="on"' : ''}>x2.40</button><button data-evt="f30" ${S.test.evFame === 30 ? 'class="on"' : ''}>x4.40</button><button data-evt="freal" ${S.test.evFame == null ? 'class="on"' : ''}>Real</button></div></div>` : '';
-  if (!w) return `<div class="evlong quiet" style="--c:${nd.color}"><div class="evl-h"><span class="evl-tag">Long event</span><b>${nd.title}</b><span>Starts in ${evLeft(nx.start).replace(' left', '')} · ${String(nx.key)[0] === 'w' ? 'Thursday 00:00 to Sunday 00:00' : 'test window'}</span></div>${test}</div>`;
+  if (!w) return `<div class="evlong quiet" style="--c:${nd.color}"><div class="evl-h"><span class="evl-tag">Long event</span><b>${nd.title}</b><span>Starts in ${evLeft(nx.start).replace(' left', '')} · ${String(nx.key)[0] === 'w' ? 'Thursday through Saturday' : 'test window'}</span></div>${test}</div>`;
   if (w) return TEST ? test : '';   /* the live event is shown once, by the white card under the week strip */
   const here = isEv(), lock = !evUnlocked();
   const btn = lock ? `<p class="evl-lock">Reach Home Studio (map 2) to join long events.</p>` : here ? `<button class="cta" data-evhub>Open event · Exit to career</button>` : `<button class="cta" data-evhub>Open the ${d.name} event</button>`;
@@ -7320,7 +7343,7 @@ const evEmblem = (key, sz = 52) => key === 'galaxy' ? evGalaxyEmblem(sz) : key =
   ? `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#F6A66A"/><path d="M4 44 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#E6BE85"/><path d="M10 44 V32 H20 L23 26 H34 L37 34 H54 V44Z" fill="#B5523B" stroke="#6E2A1E" stroke-width="2"/><circle cx="46" cy="18" r="6" fill="#FFF1C1"/><g transform="translate(18 52)" stroke="#2C4A22" stroke-width="1.6"><rect x="-3" y="-18" width="6" height="20" rx="3" fill="#5E9A43"/><path d="M-3 -8 H-7 V-13 M3 -11 H7 V-16" fill="none"/></g><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`
   : `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#BDEBF5"/><rect x="4" y="26" width="56" height="20" fill="#2DB4C2"/><path d="M4 46 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#F5E6C0"/><path d="M22 26 Q32 14 42 26Z" fill="#3F8F5A"/><circle cx="46" cy="15" r="5" fill="#FFF6C8"/><path d="M14 50 Q16 40 12 32" stroke="#8B5A2B" stroke-width="3" fill="none"/><path d="M12 32 q-8 0 -10 5 M12 32 q8 -2 10 4 M12 32 q-2 -8 4 -10" stroke="#2F8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 const evMoney = n => fmt(n);
-const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday 00:00 to<br>Sunday 00:00' : 'Test window<br>ends ' + new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
+const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday through<br>Saturday' : 'Test window<br>ends ' + new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
 // event badges: one per event, earned by claiming free tier 15. Earning it again never adds a second badge or any currency.
 // symmetric rosette: everything is centred on x = 50 (viewBox 100 x 120); the medal centre is (50, 44)
 const EV_ROSETTE = (() => { const n = 24, pts = []; for (let k = 0; k < 2 * n; k++) { const a = -Math.PI / 2 + k * Math.PI / n, r = k % 2 ? 34 : 39; pts.push((50 + r * Math.cos(a)).toFixed(2) + ' ' + (44 + r * Math.sin(a)).toFixed(2)); } return 'M' + pts.join(' L') + 'Z'; })();
@@ -7405,13 +7428,13 @@ function evSheet(tab) {
   if (tab === 'evhub') return evHub();
   if (tab === 'evbadges') return evBadgesView();
   if (tab === 'evintro') return `<div class="sheet-head"><h2>${d.title}</h2>${closeBtn()}</div><div class="pscroll evsheet">
-    <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Sunday 00:00' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
+    <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
   if (tab === 'evresult') { const r = S.evResult; S.evResult = null; save();
     const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
     return `<div class="welcome"><h2>${r.title} is over</h2><span class="amt" style="color:var(--gem)">Tier ${r.tier} of ${EV_TIERS}</span>
       <p>${r.pts} / ${EV_MAX_PTS} points${r.pass ? ' · Mini Pass' : ''}. ${parts.length ? 'Delivered now: ' + parts.join(', ') + '.' : 'Every reward was already claimed.'}</p>
-      <p class="evnote">Next long event: Thursday 00:00</p></div>${r.got.badge ? '<button class="ghost" data-evbadges="events">See my badges</button>' : ''}<button class="cta" data-close>Back to my career</button>`; }
+      <p class="evnote">Next long event: Thursday</p></div>${r.got.badge ? '<button class="ghost" data-evbadges="events">See my badges</button>' : ''}<button class="cta" data-close>Back to my career</button>`; }
   return evHub();
 }
 document.addEventListener('click', e => {
