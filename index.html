@@ -1843,6 +1843,9 @@ html .sty-pane, html .lbfull .lb-pane { padding-top: 0 !important; }
 .sty-pane::before, .lbfull .lb-pane::before { content: ""; position: sticky; top: 0; z-index: 5; display: block; flex: none; height: 14px; background: #3A336F;
   margin-left: calc(-1 * max(14px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(14px, env(safe-area-inset-right, 0px))); }
 .sty-pane::before { margin-bottom: -14px; }
+
+.lb-hyped { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: #4DB6F7; color: #fff; margin-left: 2px; }
+.lb-hyped svg { width: 12px; height: 12px; }
 </style>
 </head>
 <body>
@@ -1932,7 +1935,7 @@ html .sty-pane, html .lbfull .lb-pane { padding-top: 0 !important; }
     </div>
     <div class="side side-r">
       <button class="sbtn charts" id="chartsBtn" aria-label="The Charts">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"></path></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" style="overflow:visible" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.00 1.15 L12.82 2.97 L14.81 3.19 L13.33 4.53 L13.73 6.49 L12.00 5.50 L10.27 6.49 L10.67 4.53 L9.19 3.19 L11.18 2.97z"></path><path d="M1.6 22v-7.2a1 1 0 0 1 1-1h5.7v-3.4a1 1 0 0 1 1-1h5.4a1 1 0 0 1 1 1v5.8h5.7a1 1 0 0 1 1 1v4.8z"></path><path d="M8.3 13.8V22M15.7 16.2V22"></path></svg>
         <span class="cap">Charts</span>
       </button>
       <button class="sbtn labels" id="labelsBtn" aria-label="Labels">
@@ -2898,7 +2901,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 227, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 228, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4690,13 +4693,12 @@ const lbNm = m => lbIsMe(m) ? cleanName(S.name) + ' (you)' : cleanName(m.name);
 function lbMembers() {
   const ms = LB.st.members || [], sent = lbSent(), left = lbHypesLeft(), M = lbL();
   return `<div class="lb-lhead"><b>Members ${ms.length}/10</b><span>Season XP</span></div>
-    ${ms.length > 1 ? `<div class="lb-hypeline ${left ? '' : 'spent'}">${LB_IC.bolt}<span>${left ? `<b>Hype available today: ${left}/${LB_HYPES}</b> · ${sent.length ? 'Sent to ' + ms.filter(m => sent.includes(m.uid)).map(m => esc(cleanName(m.name))).join(', ') : 'Send to 3 different labelmates'}` : `<b>All ${LB_HYPES} Hypes sent</b> · Available again in ${lbHypeLeft()}`}</span></div>` : ''}
+    ${ms.length > 1 ? `<div class="lb-hypeline ${left ? '' : 'spent'}">${LB_IC.bolt}<span>${left ? `<b>Hype available today: ${left}/${LB_HYPES}</b> · Tap a labelmate to send` : `<b>All ${LB_HYPES} Hypes sent</b> · Available again in ${lbHypeLeft()}`}</span></div>` : ''}
     <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
       return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
-        <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i></b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
-        ${me ? '' : `<button class="lb-hb ${st}" data-lbhype="${esc(m.uid)}" ${st === 'ready' ? '' : 'disabled'} aria-label="${st === 'sent' ? 'Hype sent' : 'Send ' + esc(cleanName(m.name)) + ' Hype'}">${st === 'sent' ? LB_IC.check : LB_IC.bolt}</button>`}
+        <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i>${st === 'sent' && !me ? `<span class="lb-hyped" title="You sent Hype today">${LB_IC.bolt}</span>` : ''}</b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
         <span class="lb-mx">${fmtN(m.xp)} XP</span></div>`; }).join('')}
-      ${ms.length < 10 ? `<div class="lb-open">${10 - ms.length} open spot${ms.length === 9 ? '' : 's'} · share code <b>${M.code}</b></div>` : ''}</div>`;
+</div>`;
 }
 function lbFeed() {
   const ev = LB.st.events || [];
