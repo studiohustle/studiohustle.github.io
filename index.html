@@ -1796,7 +1796,16 @@ html .lbfull .lb-pane { box-shadow: inset 0 10px 0 #241F45; padding-top: 22px; }
 /* Build 234: Shop and Inventory are one full-screen window: no title (like Labels and Style), always full height, the Shop/Inventory tabs stay pinned while the list scrolls */
 .app.lbopen .sheet > .sheet-head.shop-head { height: 34px; min-height: 0; padding: 0; margin: 0; border: 0; background: none; box-shadow: none; } .app.lbopen .sheet > .sheet-head.shop-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .sheet.shopfull { height: 100%; border-radius: 0; }
-.sheet.shopfull > .segtabs { position: sticky; top: 0; z-index: 5; box-shadow: 0 0 0 10px var(--panel), 0 12px 0 10px var(--panel); }   /* full-screen screens: the red X takes the gear's corner until you close them */
+/* Build 238: the floating card for boxes, buys and payments opened from the Shop */
+.shop-float { position: fixed; inset: 0; z-index: 85; background: rgba(14,12,32,.6); display: grid; place-items: center; padding: calc(env(safe-area-inset-top, 0px) + 64px) max(14px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 20px) max(14px, env(safe-area-inset-left, 0px)); animation: bpfade .16s ease; }
+.shop-float[hidden] { display: none; }
+html .app.lbopen .shop-float .shopflt .close[data-close] { display: grid; }
+.shop-float > .shopflt { position: relative; width: min(390px, 100%); max-height: min(100%, 76vh); height: auto; overflow-y: auto; border-radius: 22px; box-shadow: 0 18px 44px rgba(0,0,0,.45); animation: bppop .22s cubic-bezier(.3,1.4,.5,1); display: flex; flex-direction: column; gap: 14px; }
+/* Build 238: the top of Shop/Inventory is one solid purple band that never moves; the list scrolls underneath it */
+.sheet.shopfull > .shop-stick { position: sticky; top: -18px; z-index: 6; flex: none; margin: -18px -18px 0; padding: 18px max(18px, env(safe-area-inset-right, 0px)) 12px max(18px, env(safe-area-inset-left, 0px)); background: #3A336F; box-shadow: 0 4px 0 #241F45; }
+.sheet.shopfull > .shop-stick > .segtabs { margin: 0; }
+.app.lbopen .sheet > .shop-stick > .sheet-head.shop-head { height: 12px; min-height: 0; padding: 0; margin: 0; border: 0; background: none; box-shadow: none; } .app.lbopen .sheet > .shop-stick > .sheet-head.shop-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.app.lbopen .sheet > .shop-stick > .sheet-head .close[data-close] { display: none; }   /* full-screen screens: the red X takes the gear's corner until you close them */
 
 /* ---- Style full screen (Build 227): blue stage, folder tabs, purple panel ---- */
 .sheet.stylefull { height: 100%; padding: 0 !important; display: flex; flex-direction: column; overflow: hidden; border-radius: 0; gap: 0 !important; background: #3A336F; }
@@ -3065,7 +3074,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 237, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 238, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5151,7 +5160,23 @@ window.addEventListener('keydown', e => { if (e.key === 'Tab') document.document
 window.addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'));
 const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad'];   // small centered cards: one ad button, closes after the ad
 const DARK_SHEETS = ['shop', 'style', 'studio', 'profile', 'inv'];   // shop and style keep their dark backgrounds
+// ---------- Build 238: things opened from inside the Shop float over it as a card; the Shop stays underneath, in place ----------
+const SHOP_FLOAT = t => t === 'sbox' || t === 'confirm-buy' || t.startsWith('pay:');
+let floatNext = false, floatKey = null;
+const floatOpen = () => !!floatKey;
+function floatShow(html) {
+  let f = $('shopFloat'); if (!f) { f = document.createElement('div'); f.id = 'shopFloat'; f.className = 'shop-float'; $('scrim').appendChild(f); }   // inside the scrim so the Shop's own click handlers work in the card
+  const keep = floatKey === nextSheetKey ? (f.querySelector('.shopflt') || {}).scrollTop || 0 : 0;
+  floatKey = nextSheetKey; nextSheetKey = null;
+  f.innerHTML = `<div class="sheet light shopflt" role="dialog">${html}</div>`; f.hidden = false; f.querySelector('.shopflt').scrollTop = keep;
+}
+function floatClose() { const f = $('shopFloat'); if (f) { f.hidden = true; f.innerHTML = ''; } floatKey = null; }
+document.addEventListener('click', e => {
+  const f = $('shopFloat'); if (!f || f.hidden) return;
+  if (e.target === f || (f.contains(e.target) && e.target.closest('[data-close]'))) { e.stopImmediatePropagation(); e.preventDefault(); sfx('tap'); floatClose(); }
+}, true);
 function openSheet(html) {
+  if (floatNext) { floatNext = false; return floatShow(html); }
   clearBoost();
   $('scrim').classList.remove('more-below');
   try { setHudH(); } catch (e) {}
@@ -5223,7 +5248,7 @@ function grant(id) {
   sfx(o.gemsOut ? 'gems' : 'bling'); save(); render();
 }
 function closeSheet() {
-  styleModal = null;
+  styleModal = null; floatClose();
   $('app').classList.remove('lbopen');
   flushOwed();
   $('scrim').hidden = true; sheetKey = null;
@@ -5986,7 +6011,7 @@ const LIVE = {
 let liveSig = '';
 function refreshLive() {
   if (!$('scrim').hidden) $('sheet').querySelectorAll('[data-cd]').forEach(el => { const t = hms(Math.max(0, +el.dataset.cd - Date.now())); if (el.textContent !== t) el.textContent = t; });
-  if ($('scrim').hidden || !LIVE[sheetKey]) return;
+  if ($('scrim').hidden || !LIVE[sheetKey] || floatOpen()) return;
   const sig = LIVE[sheetKey]();
   if (sig !== liveSig) openTab(sheetKey);
 }
@@ -6460,6 +6485,9 @@ document.addEventListener('click', async e => {
   if (sheetKey === 'charts' || sheetKey === 'profile') openTab(sheetKey);
 });
 function openTab(tab) {
+  const inShop = !$('scrim').hidden && ['shop', 'inv'].includes(sheetKey);
+  if (inShop && SHOP_FLOAT(tab)) floatNext = true;              // open as a floating card over the Shop
+  else if (floatOpen() && !SHOP_FLOAT(tab)) floatClose();      // going back (or anywhere else) closes the card; the Shop keeps its place
   if (tab === 'career' && isEv()) { tab = 'evhub'; evHubTab = 'rewards'; }
   if (tab === 'evrewards') { evHubTab = 'rewards'; tab = 'evhub'; }
   if (tab === 'evhub' && !evEnsure()) return;
@@ -6643,7 +6671,7 @@ function openTab(tab) {
     const row = k => { const it = INV[k], q = invQty(k);
       return `<div class="invrow ${q ? '' : 'empty'}"><span class="invic">${it.icon()}<b>×${q}</b></span><span class="rt"><b>${it.name} <small>${it.time}</small></b><span>${it.what()}</span></span>
         <button class="hire" data-inv-ask="${k}" ${q ? '' : 'disabled'}>Use</button></div>`; };
-    openSheet(`<div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('inv')}
+    openSheet(`<div class="shop-stick"><div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('inv')}</div>
       ${row('skips')}${row('frenzies')}
       <button class="ghost" data-tab-go="shop">Get more in the Shop</button>`);
   } else if (tab.startsWith('inv-use:')) {
@@ -6806,7 +6834,7 @@ function openTab(tab) {
         <span class="ttl">${it.name}<small>${slotName[it.slot]}${it.perk ? ' · ' + it.perk : ''}</small></span>
         <span class="price">${S.owned[it.id] ? 'Owned' : `<i class="g"></i>${it.gems}`}</span></button>`; };
     const order = ['top', 'hat', 'neck', 'face'];
-    openSheet(`<div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('shop')}
+    openSheet(`<div class="shop-stick"><div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('shop')}</div>
       ${(() => { const live = liveHols(), gift = liveHols(Date.now(), 'gift')[0]; if (!live.length && !gift) return '';
         const ends = t => { const left = Math.max(0, t - Date.now()), dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5); return `Ends in ${dd ? dd + 'd ' : ''}${hh}h`; };
         const g = gift && !(S.hol || {})[gift.key + ':gift'] ? `<button class="offer holgift" data-hol-gift style="background:${gift.h.card}" aria-label="${gift.h.gift.name}, free"><span class="wall bubbles"></span><span class="offer-art glow">${sparks(5, 9)}${ART.gift(...gift.h.colors)}</span>
@@ -7319,7 +7347,7 @@ function sboxSheet() {
 }
 let sboxBusy = 0;
 document.addEventListener('click', e => {
-  const v = e.target.closest('[data-sbox-view]'); if (v) { sfx('tap'); boxPopClose(); if (v.dataset.sboxView) sboxKind = v.dataset.sboxView; sheetKey = null; return openTab('sbox'); }
+  const v = e.target.closest('[data-sbox-view]'); if (v) { sfx('tap'); boxPopClose(); if (v.dataset.sboxView) sboxKind = v.dataset.sboxView; if (!['shop', 'inv'].includes(sheetKey)) sheetKey = null; return openTab('sbox'); }
   const o = e.target.closest('[data-sbox-open]'); if (!o || o.disabled || Date.now() < sboxBusy) return;
   const [k, how] = o.dataset.sboxOpen.split(':'), B = BOXES[k]; if (!B) return;
   const n = how === '5' ? 5 : 1, cost = n === 5 ? B.cost5 : B.cost;
