@@ -652,7 +652,7 @@ html .lb-clist .crow .rt span { color: #6E6A88; }
 .lb-ibtn:active { transform: translateY(3px); box-shadow: 0 1px 0 #3A86C8; } .lb-ibtn:disabled { background: #D3CFE0; color: #9A95B3; box-shadow: 0 4px 0 #ADA8C2; }
 html .lb-mc-row { padding: 10px 0; } .lb-mc-row small { font-size: 11px; font-weight: 700; color: #8C88A6; margin-left: 4px; }
 html .lb-mc-meta { padding: 0 0 10px; border-top: 0; font-size: 12.5px; color: #6E6A88; margin-top: -4px; }
-.lb-leave { display: block; width: 100%; height: 52px; margin-top: 14px; border: 0; border-radius: 12px; background: #E8584C; color: #fff; font: 400 20px var(--display); letter-spacing: .02em; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.2), 0 5px 0 #B23A31; }
+.lb-leave { display: block; width: 100%; height: 52px; margin-top: 14px; border: 0; border-radius: 12px; background: #EB6154; color: #fff; font: 400 20px var(--display); letter-spacing: .02em; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.18), 0 6px 0 #BC4C40; }
 .lb-leave:active { transform: translateY(4px); box-shadow: 0 1px 0 #B23A31; }
 .lb-save { display: block; width: 100%; height: 52px; margin-top: 14px; border: 0; border-radius: 12px; background: #3FBF6F; color: #fff; font: 400 20px var(--display); box-shadow: 0 5px 0 #2A8F50; }
 .lb-set { border-top: 1px solid #E4E0EE; padding: 12px 0; display: flex; flex-direction: column; gap: 8px; } .lb-set > label { font-size: 14px; font-weight: 800; }
@@ -673,7 +673,7 @@ html .lb-pm-art { flex: 1; min-width: 0; min-height: 0; height: 200px; padding-b
 .lb-pm-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 2px; } .lb-pm-stats div { background: #F2F0F7; border-radius: 12px; padding: 8px 10px; text-align: center; display: flex; flex-direction: column; }
 .lb-pm-stats b { font: 400 17px var(--display); color: #14122A; } .lb-pm-stats span { font-size: 11.5px; font-weight: 700; color: #6E6A88; }
 .lb-big { position: relative; display: block; width: 100%; height: 52px; margin-top: 12px; border: 0; border-radius: 12px; color: #fff; font: 400 19px var(--display); letter-spacing: .02em; }
-.lb-big.blue { background: #4DB6F7; box-shadow: 0 5px 0 #2E8ACB; } .lb-big.red { background: #E8584C; box-shadow: 0 5px 0 #B23A31; } .lb-big.wait, .lb-big:disabled { background: #D3CFE0; color: #F7F5FC; box-shadow: 0 5px 0 #ADA8C2; }
+.lb-big.blue { background: #4DB6F7; box-shadow: 0 5px 0 #2E8ACB; } .lb-big.red { background: #EB6154; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.18), 0 6px 0 #BC4C40; } .lb-big.wait, .lb-big:disabled { background: #D3CFE0; color: #F7F5FC; box-shadow: 0 5px 0 #ADA8C2; }
 .lb-big:not(:disabled):active { transform: translateY(4px); box-shadow: none; }
 .lb-cd { position: absolute; right: 14px; top: 50%; width: 30px; height: 30px; margin-top: -15px; border-radius: 50%; border: 3px solid #fff; display: grid; place-items: center; font: 400 15px var(--display); font-style: normal; }
 .lb-kc { text-align: center; } html .lb-kc-h b { padding: 0; } html .lb-mc .lb-kc-q { margin: 4px 0 14px; font-size: 16px; font-weight: 700; color: #4A4566; } html .lb-mc .lb-kc-t { margin: 0 0 8px; font-size: 13.5px; font-weight: 600; color: #6E6A88; line-height: 1.4; }
@@ -1749,7 +1749,7 @@ html .sheet.lbfull { gap: 0 !important; } html .sheet.lbfull > * { margin-top: 0
 .lb-close:focus { outline: none; }
 .lb-close:active { transform: translateY(3px); box-shadow: none; }
 .lbfull .lb-top { margin: 0 0 12px; padding-right: 0; } .lbfull .lb-top-l { padding-top: 4px; } .lbfull .lb-top-name { padding-right: 0; }
-.lbfull .lb-top-r { padding-top: 52px; }
+.lbfull .lb-top-r { padding-top: 0; }
 .lb-ftitle { display: flex; align-items: center; justify-content: space-between; min-height: 46px; } .lb-ftitle b { font: 400 24px var(--display); color: #14122A; }
 .lb-ftabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: end; margin: 0 -2px; }
 .lb-ft { height: 44px; border: 0; border-radius: 14px 14px 0 0; background: #262150; color: #A9A3D6; display: grid; place-items: center; }
@@ -1762,6 +1762,31 @@ html .lbfull .lb-open { border-color: rgba(255,255,255,.45); color: #FFFFFF; }
 html .lbfull .lb-hypeline { background: #E3F2FF; } html .lbfull .lb-hypeline.spent { background: #ECE9F5; }
 html .lbfull .lb-pane .sec + .sec { border-top-color: rgba(255,255,255,.18); }
 html .lbfull .lb-pane .welcome { background: #FFFFFF; } html .lbfull .lb-pane .ghost { background: #FFFFFF; }
+
+/* Labels X: a red tab on the top bar's edge, mirroring the Shop tab (Build 226) */
+.lbx { display: none; position: absolute; right: max(12px, env(safe-area-inset-right, 0px)); bottom: -19px; z-index: 8; width: 47px; height: 38px; place-items: center; border: 0; border-radius: 8px;
+  background: #EC6351; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.25), 0 7px 0 #BC4C40; }
+.lbx svg { filter: drop-shadow(0 2px 0 rgba(150,45,35,.55)); }
+.app.lbopen .lbx { display: grid; } .lbx:active { transform: translateY(5px); box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.25), 0 2px 0 #BC4C40; }
+.lbfull .lb-fix { padding-top: 26px !important; }
+html .lbfull .lb-m .rt { flex: 1; } html .lbfull .lb-mx { min-width: 64px; text-align: right; padding-right: 4px; }
+
+.app.lbopen .sheet > .sheet-head .close[data-close], .app.lbopen .sheet > .style-stick > .sheet-head .close[data-close] { display: none; }
+.lb-pm-colm { width: 236px; max-width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
+html .lb-pm-colm .lb-pm-art { width: 100%; flex: none; height: 214px; }
+html .lb-pm-colm .lb-pm-stats { margin: 10px 0 0; gap: 8px; } html .lb-pm-colm .lb-pm-stats div { padding: 7px 6px; }
+html .lb-pm-colm .lb-big { height: 44px; margin-top: 10px; font-size: 16px; } html .lb-pm-colm .lb-big:first-of-type { margin-top: 14px; }
+
+/* player popup sized like the other floating cards */
+html .lb-mc.lb-pm { width: min(100%, 272px); padding: 14px 14px 16px; }
+html .lb-pm .lb-pm-colm { width: 100%; }
+/* folder tabs with Eatventure's reverse shading: dark top band on the open tab, dark strip along the panel top */
+html .lbfull .lb-fix { z-index: 2; }
+html .lb-ft { background: #241F45; color: #8E88C0; }
+html .lb-ft.on { height: 62px; margin-bottom: -10px; position: relative; z-index: 2; background: #3A336F; color: #FFFFFF; box-shadow: inset 0 9px 0 #241F45; padding-top: 6px; }
+html .lbfull .lb-pane { box-shadow: inset 0 10px 0 #241F45; padding-top: 22px; }
+
+.app.lbopen #settings { visibility: hidden; }   /* full-screen screens: the red X takes the gear's corner until you close them */
 </style>
 </head>
 <body>
@@ -1802,6 +1827,7 @@ html .lbfull .lb-pane .welcome { background: #FFFFFF; } html .lbfull .lb-pane .g
 </script>
 <div class="app" id="app">
   <header class="hud">
+<button class="lbx" id="lbX" aria-label="Close"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M4 3h5.2L20 21h-5.2zM14.8 3H20L9.2 21H4z"/></svg></button>
 <button class="shopb" id="shopBtn" aria-label="Shop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"></path><circle cx="10" cy="20" r="1.4"></circle><circle cx="17" cy="20" r="1.4"></circle></svg></button>
     <div class="hud-pills">
     <div class="pill cash-pill">
@@ -2816,7 +2842,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 225, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 226, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4302,6 +4328,7 @@ $('tutSkip').addEventListener('click', () => { const was = S.tut; S.tut = TUT.le
 $('goalsBtn').addEventListener('click', () => openTab(dailyReady() && !goalsClaimable() ? 'daily' : 'goals'));   // opens on whichever tab has something to claim
 $('passBtn').addEventListener('click', () => openTab('pass'));
 $('shopBtn').addEventListener('click', () => openTab('shop'));
+$('lbX').addEventListener('click', () => closeSheet());
 $('eventsBtn').addEventListener('click', () => { evPick = 0; S.evSeen = dayKey(); save(); openTab('events'); });
 $('crateBtn').addEventListener('click', () => {
   if (Date.now() < S.crateReady) return;
@@ -4585,7 +4612,7 @@ const LB_X = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke
 const lbBadgeOf = l => lbBadge({ color: l.color, glyph: l.glyph }, 34);
 function lbHead() {
   const M = lbL(), me = lbMeRow(), L = lbLevel(M.xp), next = Math.min(LB_MAX, L + 1), a = lbXpAt(L), b = lbXpAt(next), pct = L >= LB_MAX ? 100 : Math.round((M.xp - a) / (b - a) * 100), nr = LB_REWARD(next), cl = LB.st.claim;
-  return `<div class="lb-xrow"><button class="lb-close" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="lb-top">
+  return `<div class="lb-top">
     <div class="lb-top-l">
       <div class="lb-top-name">${lbBadge({ color: M.color, glyph: M.glyph }, 34)}<b>${esc(M.name)}</b>${lbI('info')}</div>
       <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b>${me.xp < 100 ? '<small class="lb-top-pend">after you add 100 XP</small>' : ''}</div>
@@ -4611,8 +4638,8 @@ function lbMembers() {
     <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
       return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
         <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i></b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
-        <span class="lb-mx">${fmtN(m.xp)} XP</span>
-        ${me ? '<span class="lb-hb none"></span>' : `<button class="lb-hb ${st}" data-lbhype="${esc(m.uid)}" ${st === 'ready' ? '' : 'disabled'} aria-label="${st === 'sent' ? 'Hype sent' : 'Send ' + esc(cleanName(m.name)) + ' Hype'}">${st === 'sent' ? LB_IC.check : LB_IC.bolt}</button>`}</div>`; }).join('')}
+        ${me ? '' : `<button class="lb-hb ${st}" data-lbhype="${esc(m.uid)}" ${st === 'ready' ? '' : 'disabled'} aria-label="${st === 'sent' ? 'Hype sent' : 'Send ' + esc(cleanName(m.name)) + ' Hype'}">${st === 'sent' ? LB_IC.check : LB_IC.bolt}</button>`}
+        <span class="lb-mx">${fmtN(m.xp)} XP</span></div>`; }).join('')}
       ${ms.length < 10 ? `<div class="lb-open">${10 - ms.length} open spot${ms.length === 9 ? '' : 's'} · share code <b>${M.code}</b></div>` : ''}</div>`;
 }
 function lbFeed() {
@@ -4642,7 +4669,7 @@ function lbModal() {
     return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-kc" role="alertdialog" aria-label="Leave label"><div class="lb-mc-h lb-kc-h"><b>Leave Label</b></div>
       <p class="lb-kc-q">Leave <b>${esc(M.name)}</b>?</p>
       <p class="lb-kc-t">${last ? 'You\'re the last member, so the label closes.' : 'Your XP stays with the label and the Label All Profit bonus stops.'} Rewards you already collected are yours to keep.</p>
-      <button class="lb-big red" data-lbleavego>Leave</button><button class="lb-big blue" data-lbmodal="info">Cancel</button></div></div>`;
+      <button class="lb-big red" data-lbleavego>Leave</button><button class="lb-big blue" data-lbmodal="${LB.leaveFrom || 'info'}">Cancel</button></div></div>`;
   }
   if (LB.modal === 'settings') {
     const C = LB.set, ro = !lbIsOwner(), renamed = C.name.trim() !== M.name;
@@ -4673,12 +4700,10 @@ function lbModal() {
     const slot = sl => { const it = itemById(eq[sl]); return `<span class="lb-ps" style="--rc:${it ? RARITY[it.rar][1] : '#CFCADF'}">${it ? itemArt(it, 44) : ''}</span>`; };
     return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-pm" role="dialog" aria-label="${esc(lbNm(m))}"><div class="lb-mc-h"><b>${esc(me ? cleanName(S.name) : cleanName(m.name))}</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
       <div class="lb-pm-sub">${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums · #${rank} in the label</div>
-      <div class="lb-pm-body"><div class="lb-pm-col">${slot('neck')}${slot('face')}</div>
-        <div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : p.skin || '#C68B5E'};--phones:${me ? S.phones : (p.ph && p.ph !== 'none' ? p.ph : PHONES[0])}">${bigArtist(eq, me ? S.bt : bt, lk)}</div>
-        <div class="lb-pm-col">${slot('hat')}${slot('top')}</div></div>
+      <div class="lb-pm-colm"><div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : p.skin || '#C68B5E'};--phones:${me ? S.phones : (p.ph && p.ph !== 'none' ? p.ph : PHONES[0])}">${bigArtist(eq, me ? S.bt : bt, lk)}</div>
       <div class="lb-pm-stats"><div><b>${fmtN(m.xp)}</b><span>Label XP</span></div><div><b>${m.today}/${LB_DAILY_CAP}</b><span>XP today</span></div></div>
       ${me ? '' : `<button class="lb-big blue" data-lbhype="${esc(m.uid)}" ${sent || !lbHypesLeft() ? 'disabled' : ''}>${sent ? 'Hype sent' : lbHypesLeft() ? `Send Hype · ${lbHypesLeft()}/${LB_HYPES} left` : 'No Hypes left today'}</button>`}
-      ${canKick ? `<button class="lb-big red" data-lbkick>Kick</button>` : ''}</div></div>`;
+      ${canKick ? `<button class="lb-big red" data-lbkick>Kick</button>` : ''}${me ? `<button class="lb-big red" data-lbleave>Leave Label</button>` : ''}</div></div></div>`;
   }
   if (LB.modal === 'kick') {
     const m = (LB.st.members || []).find(x => x.uid === LB.view); if (!m) return '';
@@ -4716,7 +4741,7 @@ function lbOpen(tab) {
     let body;
     // full screen like the Shop: white top that never moves, purple panel below that scrolls on its own
     const old = $('sheet').querySelector('.lb-pane'), keep = sheetKey === 'labels' && old && old.dataset.tab === (lbL() ? LB.tab : 'find') ? old.scrollTop : 0;
-    const plain = (title, inner) => `<div class="lb-fix lb-fix-s"><div class="lb-ftitle"><b>${title}</b><button class="lb-close" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></div><div class="lb-pane" data-tab="find">${inner}</div>`;
+    const plain = (title, inner) => `<div class="lb-fix lb-fix-s"><div class="lb-ftitle"><b>${title}</b></div></div><div class="lb-pane" data-tab="find">${inner}</div>`;
     if (!LB.st) body = plain('Labels', LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>');
     else body = lbL() ? `<div class="lb-fix">${lbHead()}${lbIconTabs()}</div><div class="lb-pane" data-tab="${LB.tab}">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : plain('Labels', lbDiscover());
     openSheet(body); const pn = $('sheet').querySelector('.lb-pane'); if (pn && keep) pn.scrollTop = keep; return;
@@ -4796,7 +4821,7 @@ document.addEventListener('click', async e => {
   if (D.lbkickno !== undefined) { LB.modal = 'member'; return openTab('labels'); }
   if (D.lbkickgo !== undefined) { if (t.disabled || Date.now() < LB.kickAt) return; const m = (LB.st.members || []).find(x => x.uid === LB.view);
     return lbAct('lb_kick', { who: LB.view }, () => { LB.modal = null; toast(`Kicked ${cleanName(m ? m.name : 'player')}`); }); }
-  if (D.lbleave !== undefined) { LB.modal = 'leave'; return openTab('labels'); }
+  if (D.lbleave !== undefined) { LB.leaveFrom = LB.modal === 'member' ? 'member' : 'info'; LB.modal = 'leave'; return openTab('labels'); }
   if (D.lbleavego !== undefined) return lbAct('lb_leave', {}, () => { LB.modal = null; LB.tab = 'home'; S.lbx = null; S.lbIn = false; S.lbq = {}; toast('You left the label'); });
   if (D.lbcreate !== undefined) return openTab('label-create');
   if (D.lbinvite !== undefined) { LB.find = { code: '', res: null, err: '' }; return openTab('label-invite'); }
@@ -4893,7 +4918,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('light', !!nextSheetKey && !DARK_SHEETS.includes(nextSheetKey));
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
   $('sheet').classList.toggle('shopmode', nextSheetKey === 'shop');
-  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels');
+  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
   $('sheet').classList.toggle('evhub', nextSheetKey === 'evhub' || nextSheetKey === 'evbadges');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -4956,6 +4981,7 @@ function grant(id) {
   sfx(o.gemsOut ? 'gems' : 'bling'); save(); render();
 }
 function closeSheet() {
+  $('app').classList.remove('lbopen');
   flushOwed();
   $('scrim').hidden = true; sheetKey = null;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === 'studio'));
@@ -6171,7 +6197,6 @@ function openTab(tab) {
     const row = ([u, i], bought) => `<div class="row upg ${bought ? 'got' : ''}"><span class="ric">${svgIc(u[2] === 'profit' || u[2] === 'all' ? 'star' : u[2] === 'speed' || u[2] === 'crew' ? 'sliders' : 'phone', bought ? '#8BF0A0' : '#FFD93D', 20)}</span>
       <span class="rt"><b>${u[0]}</b><span>${upgText(u)}</span></span>${bought ? '<span class="hired">Owned</span>' : `<button class="hire${S.cash < upgCost(i) ? ' short' : ''}" data-upg="${i}" ${S.cash < upgCost(i) ? 'disabled' : ''}>${fmt(upgCost(i))}</button>`}</div>`;
     openSheet(`<div class="sheet-head"><h2>Crew</h2>${closeBtn()}</div>${crewTabs('upgrades')}<div class="pscroll" id="upgScroll">
-      <p class="cnote">${isEv() ? 'Resets when the event ends.' : 'Resets when you move up or drop an album.'}</p>
       ${open.map(x => row(x, false)).join('')}
       <details class="upg-done" ${done.length ? '' : 'hidden'}><summary>Owned (<span>${done.length}</span>)</summary><div class="upg-owned">${done.map(x => row(x, true)).join('')}</div></details></div>`);
   } else if (tab === 'career') {
