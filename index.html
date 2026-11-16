@@ -647,6 +647,107 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .row.goal .gtier { font-style: normal; font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 1px 6px; border-radius: 999px; background: rgba(255,255,255,.1); margin-right: 2px; }
 .row.goal.t3 .gtier { background: rgba(255,201,74,.2); color: #FFD93D; } .row.goal.t2 .gtier { background: rgba(111,211,255,.18); color: #9FE6FF; }
 .row.goal .xrw { color: #FFD93D; }
+.lb-rr-l { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; } .lb-rr-l .lb-rr-x { display: inline-flex; align-items: center; gap: 3px; font: 700 11px var(--body); color: #8D88A6; } .lb-rr.got .lb-rr-x { color: #3FBF6F; } .lb-rr.next .lb-rr-x { color: #2D6FA8; font-weight: 800; }
+html .lb-rr { padding: 9px 10px; gap: 8px; } html .lb-rl { gap: 8px; } html .lb-rr > .lb-rr-l > b { font: 400 14px var(--display); color: #4F95D2; white-space: nowrap; }
+html .lb-rr.next { background: #E3F2FF; box-shadow: inset 0 0 0 2.5px #6CBCF8; } html .lb-rr.got { opacity: .55; }
+.lb-hypeline span b { font-weight: 800; }
+.lb-more { margin-top: 4px; } .lb-more summary { cursor: pointer; text-align: center; font: 800 12.5px var(--body); color: #4F95D2; list-style: none; padding: 4px; } .lb-more summary::-webkit-details-marker { display: none; } .lb-more summary::after { content: " ▾"; } .lb-more[open] summary::after { content: " ▴"; }
+.lb-top { display: flex; gap: 12px; align-items: stretch; margin-bottom: 12px; }
+.lb-top-l { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.lb-top-name { display: flex; align-items: center; gap: 8px; } .lb-top-name b { font: 400 19px/1.1 var(--display); min-width: 0; overflow-wrap: anywhere; }
+.lb-top-mult { font-size: 13px; font-weight: 700; color: var(--muted); } .lb-top-mult b { color: #7C5CFF; font: 400 15px var(--display); }
+.lb-top-lv { margin-top: 6px; font: 400 14px var(--display); color: #4F95D2; }
+.lb-top-bar { position: relative; height: 26px; border-radius: 99px; background: #D3CFE0; overflow: hidden; }
+.lb-top-bar i { position: absolute; inset: 0 auto 0 0; background: #6CBCF8; border-radius: 99px; } .lb-top-bar span { position: relative; display: block; text-align: center; font: 800 13px/26px var(--body); color: #fff; text-shadow: 0 1px 2px rgba(20,18,42,.35); }
+.lb-top-season { font-size: 12px; font-weight: 700; color: var(--muted); text-align: center; } .lb-top-season b { color: #3FBF6F; }
+.lb-top-r { width: 104px; flex: none; display: flex; flex-direction: column; gap: 8px; }
+.lb-top-rw { position: relative; flex: 1; background: #fff; border-radius: 14px; box-shadow: 0 2px 8px rgba(30,26,51,.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px 6px 8px; } .lb-top-rw small { font: 800 11px var(--body); color: var(--muted); } .lb-top-rw.ready { box-shadow: 0 0 0 2.5px #FFD93D, 0 2px 8px rgba(30,26,51,.12); } .lb-top-rw.ready small { color: #B07F00; }
+.lb-top-rw .lb-i { position: absolute; top: 5px; right: 5px; }
+html .lb-claim { height: 40px; min-height: 0; padding: 0; font-size: 15px; width: 100%; }
+html .lb-claim:disabled { background: #D3CFE0 !important; color: #7C7799 !important; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.22), 0 7px 0 #ADA8C2 !important; }
+.lb-i { width: 22px; height: 22px; flex: none; border-radius: 50%; border: 2px solid #14122A; background: #fff; color: #14122A; display: grid; place-items: center; padding: 0; } .lb-i span { font: 800 13px/1 Georgia, serif; } .lb-i.sm { width: 20px; height: 20px; }
+.lb-itabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: #DDD7EE; border-radius: 14px; margin-bottom: 10px; }
+.lb-itab { height: 40px; border-radius: 10px; background: transparent; color: #3F3868; display: grid; place-items: center; border: 0; } .lb-itab.on { background: #fff; color: #4A3A9E; box-shadow: 0 1px 4px rgba(30,26,51,.12); }
+.lb-lhead { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 2px 8px; } .lb-lhead b { font-size: 15px; } .lb-lhead span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.lb-hypeline { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: #2D6FA8; background: #E3F2FF; border-radius: 10px; padding: 6px 10px; margin-bottom: 8px; } .lb-hypeline.spent { color: #7C7799; background: #ECE9F5; }
+.lb-m { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 14px; padding: 8px 8px 8px 10px; box-shadow: 0 1px 3px rgba(30,26,51,.08); } .lb-m.me { background: #E7F8EE; }
+.lb-mr { width: 22px; text-align: center; font: 400 17px var(--display); }
+.lb-m .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0; } .lb-m .rt b { display: flex; align-items: center; gap: 5px; font-size: 14.5px; } .lb-m .rt .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .lb-m .rt em { font-style: normal; font-size: 11.5px; font-weight: 800; color: #4F95D2; } .lb-m .rt > span { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+.lb-mx { font: 800 13.5px var(--body); white-space: nowrap; }
+.lb-hb { width: 36px; height: 36px; flex: none; border-radius: 10px; border: 0; display: grid; place-items: center; }
+.lb-hb.ready { background: #6CBCF8; color: #fff; box-shadow: 0 3px 0 #4F95D2; } .lb-hb.sent { background: #3FBF6F; color: #fff; box-shadow: 0 3px 0 #2A8F50; } .lb-hb.used { background: #E4E0EE; color: #B3AEC6; } .lb-hb.none { visibility: hidden; }
+.lb-feed { display: flex; flex-direction: column; gap: 6px; }
+.lb-f { display: flex; align-items: flex-start; gap: 8px; border-radius: 12px; padding: 9px 12px; background: #fff; } .lb-f .rt { flex: 1; display: flex; flex-direction: column; gap: 1px; } .lb-f .rt b { font-size: 13.5px; } .lb-f .rt span { font-size: 12px; font-weight: 700; color: #7C5CFF; } .lb-f small { font: 700 11px var(--body); color: var(--muted); }
+.lb-f.season { background: #E3F2FF; } .lb-f.join, .lb-f.leave { background: #ECE7FF; } .lb-f.lv { background: #FFF4CC; } .lb-f.hype { background: #E7F8EE; }
+.lb-modal { position: fixed; inset: 0; z-index: 80; background: rgba(20,18,42,.55); display: grid; place-items: center; padding: 16px; }
+.lb-mc { width: min(360px, 100%); max-height: calc(100% - 40px); overflow: auto; background: #fff; border-radius: 20px; padding: 14px 16px 16px; color: #14122A; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+.lb-mc-h { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 8px; } .lb-mc-h b { font: 400 19px var(--display); } .lb-mc-h .close { position: absolute; right: -4px; top: -4px; font-size: 22px; line-height: 1; }
+.lb-mc-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 0; border-top: 1px solid #E4E0EE; font-size: 14px; font-weight: 700; } .lb-mc-row b { color: #4F95D2; letter-spacing: .06em; } .lb-mc-btns { display: flex; gap: 6px; } .lb-mc-btns .hire { height: 32px; padding: 0 12px; font-size: 12px; }
+.lb-mc-txt { border-top: 1px solid #E4E0EE; padding-top: 6px; } .lb-mc-txt p { margin: 6px 0; font-size: 12.5px; line-height: 1.4; color: #5C5675; text-align: center; font-weight: 600; } .lb-mc-txt b { color: #14122A; }
+.lb-mc-sub { margin: 0 0 8px; text-align: center; font-size: 12.5px; color: #5C5675; font-weight: 600; }
+.lb-rl { display: flex; flex-direction: column; gap: 6px; max-height: 52vh; overflow: auto; padding: 2px; }
+.lb-rr { display: flex; align-items: center; gap: 6px; background: #F2F0F7; border-radius: 12px; padding: 6px 8px; } .lb-rr > b { font: 400 13px var(--display); color: #4F95D2; width: 66px; white-space: nowrap; } .lb-rr.got { opacity: .6; } .lb-rr.next { box-shadow: inset 0 0 0 2px #6CBCF8; background: #fff; }
+.lb-rr-x { flex: 1; font: 800 11.5px var(--body); color: #3FBF6F; } .lb-rr.next .lb-rr-x { color: #14122A; }
+.lb-chip { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 66px; background: #fff; border-radius: 10px; padding: 4px 6px; box-shadow: 0 1px 3px rgba(30,26,51,.12); } .lb-chip small { font: 800 9.5px var(--body); color: #5C5675; text-align: center; max-width: 70px; } .lb-chip.lb-mc2 b { font: 400 15px var(--display); color: #E2A21C; } .lb-chip.lb-mc2 { justify-content: center; display: flex !important; }
+.lb-mc-foot { margin-top: 10px; text-align: center; font-size: 14px; font-weight: 800; } .lb-mc-foot b { color: #3FBF6F; }
+.lb-multnote { text-align: left; margin: 8px 2px 0; }
+.lb-hypebar { margin-top: 10px; display: flex; align-items: center; gap: 10px; border-radius: 16px; padding: 10px 12px; }
+.lb-hypebar.ready { background: #E3F2FF; box-shadow: inset 0 0 0 2px #6CBCF8; } .lb-hypebar.spent { background: #ECE9F5; }
+.lb-hb-ic { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; flex: none; } .lb-hypebar.ready .lb-hb-ic { background: #6CBCF8; color: #fff; } .lb-hypebar.spent .lb-hb-ic { background: #CFCADF; color: #fff; }
+.lb-hypebar .rt { display: flex; flex-direction: column; gap: 1px; } .lb-hypebar .rt b { font-size: 14px; } .lb-hypebar .rt span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.lb-hypein { margin-top: 6px; font-size: 12.5px; font-weight: 600; padding: 7px 12px; border-radius: 12px; background: #E7F8EE; color: #22663E; }
+html .lb-hype.used, html .lb-hype:disabled:not(.sent) { background: #D3CFE0 !important; color: #7C7799 !important; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.22), 0 4px 0 #ADA8C2 !important; }
+html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #3FBF6F !important; color: #fff !important; box-shadow: 0 4px 0 #2A8F50 !important; }
+.lb-foot { display: flex; gap: 8px; margin-top: 12px; } .lb-foot .ghost { flex: 1; font-size: 13px; } .lb-danger { color: #D33A2C !important; }
+.lb-democtl { margin-top: 14px; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; border: 2px dashed #E8C766; background: #FFF8DD; font: 800 11px var(--body); color: #6B4E00; text-transform: uppercase; letter-spacing: .05em; } .lb-democtl span { flex: 1; } .lb-democtl .hire { font-size: 11px; height: 30px; padding: 0 10px; }
+.lb-rules { display: flex; flex-direction: column; gap: 6px; } .lb-rules div { background: var(--panel-2); border-radius: 12px; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; } .lb-rules b { font-size: 13.5px; } .lb-rules span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.lb-reasons { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; } .lb-reasons input { accent-color: #7C5CFF; width: 18px; height: 18px; }
+.lb-mini { font-size: 12px !important; margin-top: 4px; }
+.lb-demo { display: inline-block; margin: -4px 0 10px; padding: 3px 9px; border-radius: 99px; background: #FFE9A8; color: #6B4E00; font: 800 11px var(--body); letter-spacing: .06em; text-transform: uppercase; }
+.lb-badge { flex: none; display: block; }
+.lb-tabs { margin-bottom: 12px; } html body .segtabs.lb-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; display: grid !important; }
+.lb-hero { display: flex; align-items: center; gap: 12px; background: #2E2266; color: #fff; border-radius: 18px; padding: 14px; }
+.lb-hero-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: #DAD4F2; font-weight: 600; }
+.lb-hero-t > b { font: 400 18px/1.1 var(--display); color: #fff; overflow-wrap: anywhere; } .lb-hero-t span b { color: #fff; }
+.lb-hero-m { display: flex; flex-direction: column; align-items: center; gap: 3px; } .lb-hero-m small { font: 700 9.5px/1.15 var(--body); color: #DAD4F2; text-align: center; text-transform: uppercase; letter-spacing: .04em; }
+.lb-mult { font: 400 20px var(--display); color: #14122A; background: #FFD93D; border-radius: 12px; padding: 5px 9px; box-shadow: 0 3px 0 #C9A21C; }
+.lb-prog { margin-top: 10px; background: var(--panel-2); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.lb-prog-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; } .lb-prog-top span { color: var(--muted); font-weight: 600; font-size: 12px; }
+.lb-bar { height: 12px; border-radius: 99px; overflow: hidden; } .lb-bar i { display: block; height: 100%; background: #7C5CFF; border-radius: 99px; }
+.lb-next { display: flex; align-items: center; gap: 10px; } .lb-next .rt { display: flex; flex-direction: column; gap: 1px; min-width: 0; } .lb-next .rt b { font-size: 13.5px; } .lb-next .rt span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.lb-nic, .lb-ric-w { width: 36px; height: 36px; flex: none; display: grid; place-items: center; }
+.lb-ric { display: grid; place-items: center; border-radius: 10px; border: 2px solid #14122A; } .lb-ric.hype { background: #6CBCF8; } .lb-ric.cos { background: #FFD93D; }
+.lb-today { margin-top: 10px; display: flex; align-items: center; gap: 10px; background: var(--panel-2); border-radius: 16px; padding: 10px 12px; }
+.lb-today .rt { flex: 1; display: flex; flex-direction: column; gap: 1px; } .lb-today .rt b { font-size: 14px; } .lb-today .rt span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.lb-cap { font: 600 13px var(--body); color: var(--muted); } .lb-cap b { font: 400 18px var(--display); color: inherit; }
+.lb-mlist { display: flex; flex-direction: column; gap: 6px; }
+.lb-av { width: 34px; height: 34px; flex: none; border-radius: 50%; background: var(--skin); color: #fff; display: grid; place-items: center; font: 400 15px var(--display); border: 2px solid #14122A; }
+.lb-hype { display: inline-flex; align-items: center; gap: 4px; padding: 0 12px; min-width: 0; height: 34px; font-size: 13px; }
+.lb-hype.sent { background: #3FBF6F !important; color: #fff !important; box-shadow: 0 4px 0 #2A8F50 !important; }
+.lb-open { border: 2px dashed rgba(124,92,255,.45); border-radius: 14px; padding: 10px; text-align: center; font-size: 13px; font-weight: 700; color: #7C5CFF; }
+.lb-src { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; } .lb-src div { background: var(--panel-2); border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; font-size: 12px; font-weight: 600; } .lb-src b { font: 400 15px var(--display); color: #7C5CFF; }
+.lb-rws { display: flex; flex-direction: column; gap: 6px; }
+.lb-rw { display: flex; align-items: center; gap: 10px; background: var(--panel-2); border-radius: 14px; padding: 7px 12px 7px 8px; opacity: .78; }
+.lb-rw.got { opacity: 1; } .lb-rw.next { opacity: 1; box-shadow: inset 0 0 0 2px #7C5CFF; } .lb-rw.cos { background: #FFF4CC; }
+.lb-rw .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; } .lb-rw .rt b { font-size: 13.5px; } .lb-rw .rt span { font-size: 11.5px; color: var(--muted); font-weight: 600; } .lb-rw em { font-style: normal; color: #7C5CFF; font-weight: 800; }
+.lb-lv { width: 28px; text-align: center; font: 400 15px var(--display); color: #7C5CFF; }
+.lb-st { font: 800 12px var(--body); color: #3FBF6F; min-width: 34px; text-align: right; } .lb-rw.next .lb-st { color: #7C5CFF; }
+.lb-prize { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; } .lb-prize div { background: #2E2266; color: #fff; border-radius: 12px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.lb-prize b { font: 400 13px var(--display); } .lb-prize span { display: inline-flex; align-items: center; gap: 3px; font: 400 15px var(--display); color: #FFD93D; } .lb-prize img { width: 18px !important; height: auto !important; }
+.lb-prize-note { margin-top: 6px; }
+.lb-why { margin-bottom: 10px; } .lb-actions { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.cta .gemprice, .lb-actions .gemprice { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
+.lb-drow .hire { min-width: 76px; }
+.lb-preview { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 4px 0 12px; } .lb-preview b { font: 400 18px var(--display); }
+.lb-pick { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.lb-pk { padding: 3px; border-radius: 50%; background: none; border: 3px solid transparent; } .lb-pk.on { border-color: #7C5CFF; }
+.lb-sw { width: 36px; height: 36px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px rgba(20,18,42,.2); } .lb-sw.on { box-shadow: 0 0 0 3px #14122A; }
+.lb-invite { margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--panel-2); border-radius: 18px; padding: 16px; text-align: center; }
+.lb-invite > b { font: 400 19px var(--display); } .lb-invite > span { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.lb-inv-stats { display: flex; gap: 8px; width: 100%; margin: 6px 0; } .lb-inv-stats div { flex: 1; background: #2E2266; color: #fff; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 2px; } .lb-inv-stats b { font: 400 18px var(--display); color: #FFD93D; } .lb-inv-stats span { font-size: 11px; color: #DAD4F2; font-weight: 600; }
+.lb-invite .cta { width: 100%; }
+.lb-idcard { display: flex; align-items: center; gap: 12px; background: #2E2266; color: #fff; border-radius: 16px; padding: 12px; } .lb-idcard .rt { display: flex; flex-direction: column; gap: 2px; } .lb-idcard .rt b { font: 400 17px var(--display); } .lb-idcard .rt span { font-size: 12px; color: #DAD4F2; font-weight: 600; }
+.lb-ptag { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px 2px 3px; border-radius: 99px; background: #2E2266; color: #fff; font: 700 12px var(--body); cursor: pointer; }
 .founder-pill.grind { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; gap: 4px; }
 .founder-pill.grind svg { flex: none; }
 .founder-pill.grind::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.8) 48%, transparent 61%); transform: translateX(-130%); animation: pillshine 4.8s ease-in-out infinite; }
@@ -1673,6 +1774,10 @@ html .shopb { bottom: -19px; width: 47px; height: 36px; }   /* still a tab on th
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"></path></svg>
         <span class="cap">Charts</span>
       </button>
+      <button class="sbtn labels" id="labelsBtn" aria-label="Labels">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M6.5 9.2a6 6 0 0 1 2.7-2.7M17.5 14.8a6 6 0 0 1-2.7 2.7"></path></svg>
+        <span class="cap">Labels</span>
+      </button>
       <button class="sbtn events" id="eventsBtn" aria-label="Events">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.4 21.6 8.1 6.7l9.2 9.2z" fill="currentColor"></path><path d="M5.5 16.75l1.7 1.7M7.4 12.5l4.1 4.1" stroke="#FFFDF7" stroke-width="1.3"></path><ellipse cx="12.9" cy="11.1" rx="6.4" ry="2.4" transform="rotate(45 12.9 11.1)" fill="#FFFDF7" stroke-width="2.3"></ellipse><path d="M14.3 5.4c.1-2.3 2.2-3.2 3.2-1.9.8 1.1-.4 2.3.7 3 1 .6 2.1-.2 2.4-1.5"></path><path d="M18.9 11.9c1.4-.5 2.2.4 3.3 0"></path><circle cx="21.9" cy="2.4" r="1" fill="currentColor" stroke="none"></circle><circle cx="21.3" cy="16.4" r="1" fill="currentColor" stroke="none"></circle><path d="M10.6 1.9l.6 1.5"></path></svg>
         <span class="cap">Events</span><span class="bang evdot" id="eventsBang" hidden>!</span>
@@ -2632,7 +2737,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 219, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 220, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4144,6 +4249,7 @@ document.addEventListener('click', e => { if (e.target.closest('.close.back')) {
 document.addEventListener('click', e => { if (e.target.closest('.tab, .tab-hype, .close, .sbtn, .shopb, #mult, #chartsBtn, #settings, #buyGems, .ghost, #tutSkip, .sw, .stab, .slot, #popClose')) sfx('click'); }, true);
 $('buyGems').addEventListener('click', () => openTab('shop'));
 $('chartsBtn').addEventListener('click', () => { openTab('charts'); refreshCharts(); });
+$('labelsBtn').addEventListener('click', () => openTab('labels'));
 $('mult').addEventListener('click', () => openTab('boosts'));
 $('settings').addEventListener('click', () => openTab('settings'));
 
@@ -4275,6 +4381,295 @@ function dropAlbum() {
 }
 
 // ---------- sheets ----------
+// ===================== LABELS (clubs) — VISUAL DEMO, sample data only (Build 220 demo) =====================
+// Nothing here is online yet: every label, member and number below is made-up demo data so the design can be reviewed.
+const LB_COLORS = ['#7C5CFF', '#FF6FAE', '#2FB5A5', '#FF9F43', '#3D8BFF', '#E24B4B'];
+const LB_GLYPHS = ['bolt', 'star', 'note', 'crown', 'flame', 'wave'];
+const LB_GLYPH = {
+  bolt: '<path d="M13.5 3 6 13.5h5L10 21l8-11h-5.2z" fill="#fff"/>',
+  star: '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8-4.3-4.1 5.9-.8z" fill="#fff"/>',
+  note: '<path d="M9 17.5V6.5l9-2v11" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="2.6" fill="#fff"/><circle cx="16" cy="15.5" r="2.6" fill="#fff"/>',
+  crown: '<path d="M4 17.5 3.5 7.5l4.8 3.6L12 5l3.7 6.1 4.8-3.6-.5 10z" fill="#fff"/><rect x="4.5" y="18.3" width="15" height="2.4" rx="1.2" fill="#fff"/>',
+  flame: '<path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.4 2.4-5 3.6-8.4.9 1.7 1.7 2.7 2.9 3.2.2-2.6 1.3-4.7 3.2-6.7.3 3.4 3.3 6 3.3 10.4 0 4.3-2.7 7.6-6.5 7.6z" fill="#fff"/>',
+  wave: '<path d="M3 12h2.2M7.5 7v10M11 4v16M14.5 8v8M18 10v4M20.8 12H21" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>'
+};
+// badge: a coloured record with the glyph on its label
+const lbBadge = (b, sz = 44) => `<svg class="lb-badge" width="${sz}" height="${sz}" viewBox="0 0 48 48" aria-hidden="true">
+  <circle cx="24" cy="24" r="22.5" fill="#14122A"/><circle cx="24" cy="24" r="19" fill="none" stroke="#3B3560" stroke-width="1.2"/><circle cx="24" cy="24" r="15.5" fill="none" stroke="#3B3560" stroke-width="1.2"/>
+  <circle cx="24" cy="24" r="12" fill="${b.color}"/><g transform="translate(14.4 14.4) scale(.8)">${LB_GLYPH[b.glyph] || LB_GLYPH.star}</g>
+  <path d="M9 15a17 17 0 0 1 9-7" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`;
+
+// ---- progression: 30 levels per season (the Backstage Pass month); the multiplier steps up at set levels ----
+const LB_MAX = 30;
+const lbXpAt = L => L <= 1 ? 0 : Math.round(48000 * Math.pow((L - 1) / (LB_MAX - 1), 1.6) / 50) * 50;   // total XP to reach level L
+const LB_MULT = [[1, 1.0], [2, 1.1], [5, 1.2], [10, 1.4], [15, 1.6], [20, 1.75], [25, 1.9], [30, 2.0]];
+const lbMult = L => LB_MULT.filter(([l]) => L >= l).pop()[1];
+// season rewards sit below the free Backstage Pass track in gems and skips; the multiplier is the label's main draw
+const LB_REWARD = L => {
+  if (L === 30) return { k: 'cos', t: 'Label Chain (look-only, this season)', ic: 'chain' };
+  if (L === 5 || L === 15 || L === 25) return { k: 'hype', t: 'Hype Hour: 1 hour of Hype', ic: 'hype' };
+  if (L === 10 || L === 20) return { k: 'frenzy', t: 'Fan Frenzy', ic: 'frenzy' };
+  if ([6, 12, 18, 24, 28].includes(L)) return { k: 'skip', t: 'Time Skip', ic: 'skip' };
+  return { k: 'gems', t: (L < 10 ? 10 : L < 20 ? 15 : 20) + ' gems', ic: 'gems' };
+};
+const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Earn an event star', '+2 XP'], ['Send a labelmate Hype', '+10 XP']];
+const LB_DAILY_CAP = 400;   // per member per day, so one very active player can't carry a whole label
+
+// ---- demo data ----
+const LBD = {
+  joined: true, owner: false, modal: null, unclaimed: 1, tab: 'home', view: null, hypeSent: null, hypeIn: 'Kaylo', join: 'Invite code', firstFree: true, seasonEnd: (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth() + 1, 1).getTime(); })(),
+  mine: { name: 'Midnight Static', badge: { color: '#7C5CFF', glyph: 'bolt' }, code: 'MS7K2Q', open: 'Invite only', xp: 14650, weekXp: 3880, rank: 7 },
+  members: [
+    { n: 'Kaylo', role: 'Owner', xp: 3420, today: 400, al: 61, on: true, sk: '#8D5A3B' },
+    { n: 'Nova Ray', role: 'Member', xp: 2780, today: 260, al: 44, on: true, sk: '#F2C9A0' },
+    { n: '@me', role: 'Member', xp: 2310, today: 180, al: 0, on: true, sk: '' },
+    { n: 'DJ Mango', role: 'Member', xp: 2040, today: 90, al: 38, on: false, sk: '#C68B5E' },
+    { n: 'Remi Waves', role: 'Member', xp: 1650, today: 0, al: 27, on: false, sk: '#5C3A28' },
+    { n: 'Saint Echo', role: 'Member', xp: 1290, today: 130, al: 19, on: false, sk: '#E8B48A' },
+    { n: 'Juno', role: 'Member', xp: 760, today: 0, al: 9, on: false, sk: '#A86B45' },
+    { n: 'Lil Static', role: 'Member', xp: 400, today: 30, al: 4, on: false, sk: '#F2C9A0' }
+  ],
+  discover: [
+    { name: 'Velvet Underground Co', badge: { color: '#FF6FAE', glyph: 'note' }, m: 9, lv: 18, open: true, wk: 1 },
+    { name: 'Bassline Kings', badge: { color: '#3D8BFF', glyph: 'crown' }, m: 7, lv: 11, open: true, wk: 4 },
+    { name: 'Sunset Sessions', badge: { color: '#FF9F43', glyph: 'wave' }, m: 4, lv: 5, open: true, wk: 22 },
+    { name: 'Neon Tape', badge: { color: '#2FB5A5', glyph: 'star' }, m: 10, lv: 24, open: false, wk: 2 },
+    { name: 'Garage Gold', badge: { color: '#E24B4B', glyph: 'flame' }, m: 2, lv: 1, open: true, wk: 0 }
+  ],
+  chart: [['Velvet Underground Co', '#FF6FAE', 'note', 6420], ['Neon Tape', '#2FB5A5', 'star', 6105], ['Afterhours', '#3D8BFF', 'wave', 5230], ['Bassline Kings', '#3D8BFF', 'crown', 4870],
+    ['Loud Pack', '#E24B4B', 'flame', 4410], ['Tape Deck Heroes', '#FF9F43', 'note', 4020], ['Midnight Static', '#7C5CFF', 'bolt', 3880], ['Pocket Choir', '#FF6FAE', 'star', 3510],
+    ['Basement Tapes', '#2FB5A5', 'wave', 3120], ['First Take', '#FF9F43', 'crown', 2890]],
+  create: { name: '', color: '#7C5CFF', glyph: 'star', open: true }
+};
+const lbLevel = xp => { let L = 1; while (L < LB_MAX && xp >= lbXpAt(L + 1)) L++; return L; };
+const lbMe = () => LBD.members.find(m => m.n === '@me');
+const lbName = m => m.n === '@me' ? cleanName(S.name) + ' (you)' : m.n;
+const lbDays = () => Math.max(0, Math.ceil((LBD.seasonEnd - Date.now()) / 864e5));
+const lbHypeLeft = () => { const d = new Date(), m = Math.max(1, Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1) - d) / 6e4)); return Math.floor(m / 60) + 'h ' + (m % 60) + 'm'; };   // resets at local midnight
+const lbDemoTag = '<span class="lb-demo">Demo data</span>';
+const lbRewardIc = (ic, sz = 30) => ic === 'gems' ? `<img src="art/gem.webp" width="${sz}" height="${Math.round(sz * .82)}" alt="">`
+  : ic === 'skip' ? `<img src="art/shop/boost-60.svg" width="${sz}" height="${sz}" alt="">`
+  : ic === 'frenzy' ? ART.frenzy().replace('width="78" height="78"', `width="${sz}" height="${sz}"`)
+  : ic === 'hype' ? `<span class="lb-ric hype" style="width:${sz}px;height:${sz}px"><svg viewBox="0 0 24 24" width="${sz * .6}" height="${sz * .6}" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>`
+  : `<span class="lb-ric cos" style="width:${sz}px;height:${sz}px">${ic === 'chain' ? '<svg viewBox="0 0 24 24" width="62%" height="62%" fill="none" stroke="#14122A" stroke-width="2.2"><path d="M6 4c0 7 3 10 6 10s6-3 6-10"/><circle cx="12" cy="17" r="3.2" fill="#FFD93D"/></svg>' : '<svg viewBox="0 0 24 24" width="66%" height="66%" fill="#7C5CFF" stroke="#14122A" stroke-width="1.6" stroke-linejoin="round"><path d="M8 3 4 5.5 2.5 12 5 13l1-3v11h12V10l1 3 2.5-1L20 5.5 16 3c-.5 1.6-2 2.6-4 2.6S8.5 4.6 8 3z"/></svg>'}</span>`;
+const lbMultPill = L => `<span class="lb-mult" title="Label All Profit">x${lbMult(L).toFixed(lbMult(L) % 1 && (lbMult(L) * 100) % 10 ? 2 : 1)}</span>`;
+
+const LB_IC = {
+  members: '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><circle cx="12" cy="7.5" r="3.6"/><circle cx="5.2" cy="9.2" r="2.6"/><circle cx="18.8" cy="9.2" r="2.6"/><path d="M5.5 20.5v-2.6A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 5.9v2.6zM.8 19.8v-1.6A4.4 4.4 0 0 1 5.2 13.5c.6 0 1.2.1 1.7.3a8 8 0 0 0-2.4 5.6v.4zM23.2 19.8h-3.7v-.4a8 8 0 0 0-2.4-5.6c.5-.2 1.1-.3 1.7-.3a4.4 4.4 0 0 1 4.4 4.7z"/></svg>',
+  feed: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
+  charts: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 14v7M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
+  bolt: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+  check: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>'
+};
+const lbI = (what, cls = '') => `<button class="lb-i ${cls}" data-lbmodal="${what}" aria-label="More info"><span>i</span></button>`;
+const LB_FEED = [['xp', 'Nova Ray dropped an album', '+100 XP', '12m'], ['hype', 'Kaylo sent you Hype', '+10 min Hype', '1h'], ['lv', 'Midnight Static reached Level 14', 'Everyone: 15 gems', '3h'],
+  ['xp', 'DJ Mango finished daily tasks', '+30 XP', '5h'], ['join', 'Lil Static joined the label', '', '2d'], ['xp', 'Saint Echo earned 40 event stars', '+80 XP', '3d'],
+  ['leave', 'Stefan left the label', '', '6d'], ['season', 'A new season started', 'Runs until the end of the month', '14d']];
+function lbHead() {
+  const M = LBD.mine, L = lbLevel(M.xp), next = Math.min(LB_MAX, L + 1), a = lbXpAt(L), b = lbXpAt(next), pct = L >= LB_MAX ? 100 : Math.round((M.xp - a) / (b - a) * 100), nr = LB_REWARD(next);
+  return `<div class="lb-top">
+    <div class="lb-top-l">
+      <div class="lb-top-name">${lbBadge(M.badge, 34)}<b>${esc(M.name)}</b>${lbI('info')}</div>
+      <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b></div>
+      <div class="lb-top-lv">Level ${L}</div>
+      <div class="lb-top-bar"><i style="width:${Math.max(8, pct)}%"></i><span>${fmtN(M.xp - a)}/${fmtN(b - a)} XP</span></div>
+      <div class="lb-top-season">Season ends in <b>${lbDays()}d</b></div>
+    </div>
+    <div class="lb-top-r">
+      ${LBD.unclaimed ? `<div class="lb-top-rw ready">${lbI('rewards', 'sm')}${lbRewardIc(LB_REWARD(L).ic, 34)}<small>Level ${L} · ready</small></div>`
+        : `<div class="lb-top-rw">${lbI('rewards', 'sm')}${lbRewardIc(nr.ic, 34)}<small>Next: Level ${next}</small></div>`}
+      <button class="cta lb-claim" data-lbclaim ${LBD.unclaimed ? '' : 'disabled'}>Claim</button>
+    </div></div>`;
+}
+function lbIconTabs() {
+  return `<div class="lb-itabs" role="tablist">${[['home', 'members', 'Members'], ['feed', 'feed', 'Activity'], ['charts', 'charts', 'Label Charts']].map(([k, ic, l]) => `<button class="lb-itab ${LBD.tab === k ? 'on' : ''}" role="tab" data-lbtab="${k}" aria-label="${l}">${LB_IC[ic]}</button>`).join('')}</div>`;
+}
+function lbMembers() {
+  const members = LBD.members.slice().sort((x, y) => y.xp - x.xp);
+  return `<div class="lb-lhead"><b>Members ${LBD.members.length}/10</b><span>Season XP</span></div>
+    <div class="lb-hypeline ${LBD.hypeSent ? 'spent' : ''}">${LB_IC.bolt}<span>${LBD.hypeSent ? `<b>Hype sent to ${esc(LBD.hypeSent)}</b> · Available again in ${lbHypeLeft()}` : '<b>Hype available today: 1/1</b> · Send it to one labelmate'}</span></div>
+    <div class="lb-mlist">${members.map((m, i) => { const me = m.n === '@me', st = LBD.hypeSent === m.n ? 'sent' : LBD.hypeSent ? 'used' : 'ready';
+      return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${LBD.members.indexOf(m)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
+        <span class="rt"><b><span class="nm">${esc(lbName(m))}</span>${m.on ? '<i class="ondot on"></i>' : ''}</b>${m.role === 'Owner' ? '<em>Owner</em>' : ''}<span>${me ? 'You' : m.n === LBD.hypeIn ? 'Sent you Hype today' : m.al + ' albums'}</span></span>
+        <span class="lb-mx">${fmtN(m.xp)} XP</span>
+        ${me ? '<span class="lb-hb none"></span>' : `<button class="lb-hb ${st}" data-lbhype="${esc(m.n)}" ${st === 'ready' ? '' : 'disabled'} aria-label="${st === 'sent' ? 'Hype sent' : 'Send ' + esc(m.n) + ' Hype'}">${st === 'sent' ? LB_IC.check : LB_IC.bolt}</button>`}</div>`; }).join('')}
+      ${LBD.members.length < 10 ? `<div class="lb-open">${10 - LBD.members.length} open spots · share code <b>${LBD.mine.code}</b></div>` : ''}</div>
+    <div class="lb-democtl"><span>Demo controls</span><button class="hire" data-lbowner>${LBD.owner ? 'View as member' : 'View as owner'}</button><button class="hire" data-lbreset>Reset Hype</button></div>`;
+}
+function lbFeed() {
+  return `<div class="lb-lhead"><b>Activity</b><span>No chat in v1</span></div><div class="lb-feed">${LB_FEED.map(([k, t, s, w]) => `<div class="lb-f ${k}"><span class="rt"><b>${esc(t)}</b>${s ? `<span>${esc(s)}</span>` : ''}</span><small>${w}</small></div>`).join('')}</div>`;
+}
+function lbModal() {
+  if (LBD.modal === 'info') {
+    const M = LBD.mine;
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc" role="dialog" aria-label="Label info"><div class="lb-mc-h"><b>Label Info</b><button class="close" data-lbmodalx aria-label="Close">${'×'}</button></div>
+      ${LBD.owner ? `<div class="lb-mc-row"><span>Who can join</span></div><div class="segtabs lb-tabs">${['Anyone', 'Invite code', 'Closed'].map(v => `<button class="stab ${LBD.join === v ? 'on' : ''}" data-lbjoinset="${v}">${v}</button>`).join('')}</div>` : ''}
+      <div class="lb-mc-row"><span>Label code: <b>${M.code}</b></span><span class="lb-mc-btns">${LBD.owner ? '<button class="hire" data-lbnewcode>New</button>' : ''}<button class="hire" data-lbcopy>Copy</button></span></div>
+      <div class="lb-mc-txt">
+        <p>Everything you already do earns Label XP: albums <b>+100</b>, daily tasks <b>+30</b>, event stars <b>+2</b>, Hype <b>+10</b>.</p>
+        <p>Every level pays every member who was in the label when it was reached.</p>
+        <p>Level and Label All Profit reset each season. Rewards you collected are yours to keep.</p>
+        <details class="lb-more"><summary>More rules</summary>
+          <p>Up to ${LB_DAILY_CAP} XP per member per day. Each level pays you once per season, even if you switch labels.</p>
+          <p>New members get Label All Profit after adding 100 XP.</p>
+          <p>Up to 10 members. If the owner leaves, the top contributor becomes owner. Removed members can't rejoin until next season.</p></details></div>
+      <div class="lb-foot"><button class="ghost" data-lbreport="label">Report name</button><button class="ghost lb-danger" data-lbleave>Leave Label</button></div></div></div>`;
+  }
+  if (LBD.modal === 'rewards') {
+    const L = lbLevel(LBD.mine.xp);
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc" role="dialog" aria-label="Label rewards"><div class="lb-mc-h"><b>Label Rewards</b><button class="close" data-lbmodalx aria-label="Close">×</button></div>
+      <p class="lb-mc-sub">Everything you already do levels up your label. Every level pays every member.</p>
+      <div class="lb-rl">${Array.from({ length: LB_MAX - 1 }, (_, i) => i + 2).map(l => { const r = LB_REWARD(l), step = LB_MULT.find(([x]) => x === l), st = l <= L ? 'got' : l === L + 1 ? 'next' : '';
+        return `<div class="lb-rr ${st}"><span class="lb-rr-l"><b>Level ${l}</b><span class="lb-rr-x">${st === 'next' ? `Next · ${fmtN(LBD.mine.xp - lbXpAt(L))}/${fmtN(lbXpAt(l) - lbXpAt(L))} XP` : st === 'got' ? `${LB_IC.check} Reached` : fmtN(lbXpAt(l)) + ' XP'}</span></span>
+          ${step ? `<span class="lb-chip lb-mc2"><b>x${step[1]}</b><small>All Profit</small></span>` : ''}<span class="lb-chip">${lbRewardIc(r.ic, 26)}<small>${esc(r.t.replace(' (look-only, this season)', '').replace('Hype Hour: 1 hour of Hype', '1h Hype'))}</small></span></div>`; }).join('')}</div>
+      <div class="lb-mc-foot">Season ends in <b>${lbDays()}d</b></div></div></div>`;
+  }
+  return '';
+}
+function lbTabs() {
+  return `<div class="segtabs lb-tabs" role="tablist">${[['home', 'Label'], ['rewards', 'Rewards'], ['charts', 'Charts']].map(([k, l]) => `<button class="stab ${LBD.tab === k ? 'on' : ''}" role="tab" data-lbtab="${k}">${l}</button>`).join('')}</div>`;
+}
+function lbHome() {
+  const M = LBD.mine, L = lbLevel(M.xp), next = Math.min(LB_MAX, L + 1), a = lbXpAt(L), b = lbXpAt(next), pct = L >= LB_MAX ? 100 : Math.round((M.xp - a) / (b - a) * 100);
+  const nr = LB_REWARD(next), nextMult = LB_MULT.find(([l]) => l > L), me = lbMe();
+  const members = LBD.members.slice().sort((x, y) => y.xp - x.xp);
+  return `<div class="lb-hero">
+      ${lbBadge(M.badge, 64)}
+      <span class="lb-hero-t"><b>${esc(M.name)}</b><span>Level ${L} · ${LBD.members.length}/10 members</span><span>Season ends in <b>${lbDays()}d</b></span></span>
+      <span class="lb-hero-m">${lbMultPill(L)}<small>Label<br>All Profit</small></span>
+    </div>
+    <p class="cnote lb-multnote"><b>Label All Profit</b> multiplies all your income (stations, crew, away earnings and events) on top of your other bonuses. It grows as the label levels up and resets each season.</p>
+    <div class="lb-prog">
+      <div class="lb-prog-top"><b>Level ${L} → ${next}</b><span>${fmtN(M.xp - a)} / ${fmtN(b - a)} XP</span></div>
+      <div class="bar lb-bar"><i style="width:${pct}%"></i></div>
+      <div class="lb-next"><span class="lb-nic">${lbRewardIc(nr.ic, 28)}</span><span class="rt"><b>Next for everyone: ${esc(nr.t)}</b><span>${nextMult ? `x${nextMult[1]} Label All Profit at level ${nextMult[0]}` : 'Max multiplier reached'}</span></span></div>
+    </div>
+    <div class="lb-today"><span class="rt"><b>Your XP today</b><span>Counts up to ${LB_DAILY_CAP} XP a day from normal play</span></span><span class="lb-cap"><b>${me.today}</b>/${LB_DAILY_CAP}</span></div>
+    <div class="lb-hypebar ${LBD.hypeSent ? 'spent' : 'ready'}"><span class="lb-hb-ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+      <span class="rt"><b>${LBD.hypeSent ? `Hype sent to ${esc(LBD.hypeSent)}` : 'Your daily Hype is ready'}</b><span>${LBD.hypeSent ? 'Next one in 6h 12m' : 'Pick one labelmate: they get 10 min of Hype, you both get +10 XP'}</span></span></div>
+    ${LBD.hypeIn ? `<div class="lb-hypein"><b>${esc(LBD.hypeIn)}</b> sent you Hype today: +10 min of Hype</div>` : ''}
+    <div class="sec"><h3>Members <small class="h3note">${LBD.members.length} of 10</small></h3>
+      <div class="lb-mlist">${members.map((m, i) => `<div class="crow lb-mrow ${m.n === '@me' ? 'me' : ''}" data-lbmember="${LBD.members.indexOf(m)}" role="button" tabindex="0"><span class="cr">${i + 1}</span>
+        <span class="lb-av" style="--skin:${m.n === '@me' ? (S.skin || '#C68B5E') : m.sk}">${esc(lbName(m)).slice(0, 1)}</span>
+        <span class="rt"><b><span class="nm">${esc(lbName(m))}</span>${m.on ? '<i class="ondot on"></i>' : ''}</b><span>${m.role === 'Owner' ? 'Owner · ' : ''}${fmtN(m.xp)} XP this season</span></span>
+        ${m.n === '@me' ? '' : `<button class="hire lb-hype ${LBD.hypeSent ? (LBD.hypeSent === m.n ? 'sent' : 'used') : ''}" data-lbhype="${esc(m.n)}" ${LBD.hypeSent ? 'disabled' : ''} aria-label="Send ${esc(m.n)} Hype">${LBD.hypeSent === m.n ? '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>Sent' : LBD.hypeSent ? 'Tomorrow' : `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Hype`}</button>`}</div>`).join('')}
+      ${LBD.members.length < 10 ? `<div class="lb-open">${10 - LBD.members.length} open spots</div>` : ''}</div>
+    </div>
+    <div class="sec"><h3>Invite</h3>
+      <div class="row"><span class="rt"><b>Label code</b><span>Friends join with this code</span></span><span class="fcode">${M.code}</span><button class="hire" data-lbcopy>Copy</button></div></div>
+    ${LBD.owner ? `<div class="sec"><h3>Manage <small class="h3note">owner</small></h3>
+      <div class="segtabs lb-tabs">${['Anyone', 'Invite code', 'Closed'].map(v => `<button class="stab ${LBD.join === v ? 'on' : ''}" data-lbjoinset="${v}">${v}</button>`).join('')}</div>
+      <div class="row"><span class="rt"><b>New invite code</b><span>The old code stops working</span></span><button class="hire" data-lbnewcode>Reset</button></div>
+      <p class="cnote">Tap a member to remove them. Removed members can't rejoin this label until next season. If you leave, the top contributor becomes owner.</p></div>` : ''}
+    <div class="lb-foot"><button class="ghost" data-lbreport="label">Report label name</button><button class="ghost" data-lbleave>Leave Label</button></div>
+    <div class="lb-democtl"><span>Demo controls</span><button class="hire" data-lbowner>${LBD.owner ? 'View as member' : 'View as owner'}</button><button class="hire" data-lbreset>Reset Hype</button></div>`;
+}
+function lbRewards() {
+  const L = lbLevel(LBD.mine.xp);
+  const rows = Array.from({ length: LB_MAX - 1 }, (_, i) => i + 2).map(l => { const r = LB_REWARD(l), step = LB_MULT.find(([x]) => x === l), st = l <= L ? 'got' : l === L + 1 ? 'next' : '';
+    return `<div class="lb-rw ${st} ${r.k === 'cos' ? 'cos' : ''}"><span class="lb-lv">${l}</span><span class="lb-ric-w">${lbRewardIc(r.ic, 30)}</span>
+      <span class="rt"><b>${esc(r.t)}</b><span>${fmtN(lbXpAt(l))} XP${step ? ` · <em>Label All Profit x${step[1]}</em>` : ''}</span></span>
+      <span class="lb-st">${st === 'got' ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>' : st === 'next' ? 'Next' : ''}</span></div>`; }).join('');
+  return `<div class="sec"><h3>How your label levels up</h3>
+      <div class="lb-src">${LB_XP_SOURCES.map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('')}</div>
+      <p class="cnote">Everything you already do counts. Each member adds up to ${LB_DAILY_CAP} XP a day.</p></div>
+    <div class="sec"><h3>Who gets rewards</h3><div class="lb-rules">
+      <div><b>Levels reached while you're in the label</b><span>Join late and you collect from the next level on, not the ones already passed.</span></div>
+      <div><b>Each level once per season</b><span>Switching labels can't pay out the same level twice.</span></div>
+      <div><b>The bonus starts after 100 XP</b><span>New members get Label All Profit once they've added 100 XP.</span></div>
+      <div><b>Leaving keeps what you earned</b><span>Rewards stay yours; the bonus stops and your XP stays with the label.</span></div></div></div>
+    <div class="sec"><h3>Season rewards <small class="h3note">resets in ${lbDays()}d</small></h3><div class="lb-rws">${rows}</div>
+      <p class="cnote">At the end of the season the level and the Label All Profit bonus go back to the start. Everything you've collected, including the season's Label Chain and Jacket, is yours to keep.</p></div>`;
+}
+function lbCharts() {
+  const rows = LBD.chart.map(([n, c, g, xp], i) => `<div class="crow ${n === LBD.mine.name ? 'me' : ''}"><span class="cr">${i + 1}</span>${lbBadge({ color: c, glyph: g }, 34)}
+      <span class="rt"><b><span class="nm">${esc(n)}</span></b><span>Level ${[24, 18, 16, 11, 13, 10, 12, 9, 8, 7][i]}</span></span><span class="ca">${fmtN(xp)}<small>XP this week</small></span></div>`).join('');
+  return `<p class="cnote">New week in <b>${(() => { const d = new Date(), dd = (8 - d.getDay()) % 7 || 7; return dd + 'd'; })()}</b>. Ranked by Label XP earned this week.</p>
+    <p class="cnote lb-prize-note">Bragging rights for now: weekly prizes come in a later update.</p>
+    <div class="clist">${rows}</div>`;
+}
+function lbDiscover() {
+  return `<div class="welcome lb-why"><p><b>Team up with up to 10 artists.</b> Everything you already do levels up your label, and every level pays out to every member, plus a Label All Profit bonus up to x2.</p></div>
+    <div class="lb-actions"><button class="cta" data-lbcreate>${LBD.firstFree ? 'Create a Label · free' : `Create a Label <span class="gemprice">${GEM_MINI}500</span>`}</button><button class="ghost" data-lbinvite>Have an invite code?</button></div>
+    <div class="sec"><h3>Labels looking for artists</h3><div class="clist">${LBD.discover.map((d, i) => `<div class="crow lb-drow">${lbBadge(d.badge, 40)}
+      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>Level ${d.lv} · ${d.m}/10 · ${d.open ? 'Open' : 'Invite only'}</span></span>
+      <button class="hire" data-lbjoin="${i}" ${d.m >= 10 || !d.open ? 'disabled' : ''}>${d.m >= 10 ? 'Full' : d.open ? 'Join' : 'Invite'}</button></div>`).join('')}</div>
+      <p class="cnote">Labels unlock at Map 3. You can be in one label at a time; after leaving, wait 12 hours to join another.</p></div>`;
+}
+function lbOpen(tab) {
+  if (tab === 'labels') {
+    const body = LBD.joined ? lbHead() + lbIconTabs() + `<div class="lb-pane">${LBD.tab === 'feed' ? lbFeed() : LBD.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : lbDiscover();
+    return openSheet(`<div class="sheet-head"><h2>${LBD.joined ? 'Your Label' : 'Labels'}</h2>${closeBtn()}</div>${lbDemoTag}${body}`);
+  }
+  if (tab === 'label-create') {
+    const C = LBD.create;
+    return openSheet(`<div class="sheet-head"><h2>New Label</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
+      <div class="lb-preview">${lbBadge({ color: C.color, glyph: C.glyph }, 72)}<b>${esc(C.name || 'Your Label')}</b></div>
+      <label class="lbl" for="lbName">Label name</label><input id="lbName" class="nameinput" maxlength="18" value="${esc(C.name)}" placeholder="Midnight Static" autocomplete="off">
+      <div class="sec"><h3>Badge</h3><div class="lb-pick">${LB_GLYPHS.map(g => `<button class="lb-pk ${C.glyph === g ? 'on' : ''}" data-lbglyph="${g}" aria-label="${g}">${lbBadge({ color: C.color, glyph: g }, 40)}</button>`).join('')}</div>
+        <div class="lb-pick">${LB_COLORS.map(c => `<button class="lb-sw ${C.color === c ? 'on' : ''}" data-lbcolor="${c}" style="background:${c}" aria-label="Colour"></button>`).join('')}</div></div>
+      <div class="sec"><h3>Who can join</h3><div class="segtabs">${[[true, 'Anyone'], [false, 'Invite code only']].map(([v, l]) => `<button class="stab ${C.open === v ? 'on' : ''}" data-lbopen="${v}">${l}</button>`).join('')}</div></div>
+      <button class="cta" data-lbmake>${LBD.firstFree ? 'Create for free' : `Create for <span class="gemprice">${GEM_MINI}500</span>`}</button>
+      <p class="cnote">Your first label is free; after that a new label costs 500 gems. Demo: nothing goes online.</p>`);
+  }
+  if (tab === 'label-invite') {
+    const d = LBD.discover[1];
+    return openSheet(`<div class="sheet-head"><h2>Invite</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
+      <label class="lbl" for="lbCode">Label code</label><div class="addrow"><input id="lbCode" class="nameinput" maxlength="6" value="BK4N8D" autocomplete="off" autocapitalize="characters"><button class="hire">Find</button></div>
+      <div class="lb-invite">${lbBadge(d.badge, 72)}<b>${esc(d.name)}</b><span>Kaylo invited you · Level ${d.lv} · ${d.m}/10 members</span>
+        <div class="lb-inv-stats"><div><b>x${lbMult(d.lv)}</b><span>Label All Profit</span></div><div><b>#${d.wk}</b><span>This week</span></div></div>
+        <button class="cta" data-lbjoin="1">Join ${esc(d.name)}</button><button class="ghost lb-mini" data-lbreport="label">Report this label's name</button></div>`);
+  }
+  if (tab === 'label-report') {
+    return openSheet(`<div class="sheet-head"><h2>Report</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
+      <p class="cnote" style="text-align:left">What's wrong with ${LBD.reportWhat === 'player' ? 'this player name' : `the label name <b>${esc(LBD.mine.name)}</b>`}?</p>
+      <div class="lb-reasons">${['Offensive or hateful', 'Sexual or inappropriate', 'Impersonation', 'Spam or advertising'].map((r, i) => `<label class="row"><input type="radio" name="lbr" ${i ? '' : 'checked'}><span class="rt"><b>${r}</b></span></label>`).join('')}</div>
+      <button class="cta" data-lbsendreport>Send report</button>
+      <p class="cnote">Reports go to the Studio Hustle team. Names that break the rules are reset; labels can be closed.</p>`);
+  }
+  if (tab === 'label-member') {
+    const m = LBD.members[LBD.view] || lbMe(), me = m.n === '@me', M = LBD.mine;
+    return openSheet(`<div class="sheet-head"><h2>${esc(me ? cleanName(S.name) : m.n)}${me ? ' <small class="h3note">you</small>' : ''}</h2>${headBtns('data-lbback')}</div>${lbDemoTag}
+      <div class="lb-idcard">${lbBadge(M.badge, 48)}<span class="rt"><b>${esc(M.name)}</b><span>${m.role} · joined 12 days ago</span></span></div>
+      <div class="sec"><h3>This season</h3><div class="statgrid">
+        <div><b>${fmtN(m.xp)}</b><span>Label XP</span></div><div><b>${m.today}/${LB_DAILY_CAP}</b><span>XP today</span></div>
+        <div><b>${me ? S.albums || 0 : m.al}</b><span>Albums dropped</span></div><div><b>#${LBD.members.slice().sort((x, y) => y.xp - x.xp).indexOf(m) + 1}</b><span>In the label</span></div></div></div>
+      ${me ? '' : `<button class="cta" data-lbhype="${esc(m.n)}" ${LBD.hypeSent ? 'disabled' : ''}>${LBD.hypeSent === m.n ? 'Hype sent today' : LBD.hypeSent ? 'Hype already sent today' : 'Send Hype'}</button>
+        <div class="lb-foot">${LBD.owner && m.role !== 'Owner' ? `<button class="ghost lb-danger" data-lbremove="${LBD.view}">Remove from label</button>` : ''}<button class="ghost" data-lbreport="player">Report name</button></div>`}`);
+  }
+}
+const fmtN = n => Math.round(n).toLocaleString('en-US');
+document.addEventListener('click', e => {
+  const mb = e.target.closest('[data-lbmodal],[data-lbmodalx],[data-lbclaim]');
+  if (mb) { if (mb.dataset.lbclaim !== undefined) { if (!LBD.unclaimed) return; LBD.unclaimed = 0; toast(`Claimed Level ${lbLevel(LBD.mine.xp)}: ${LB_REWARD(lbLevel(LBD.mine.xp)).t} (demo)`); sfx('reward'); return openTab('labels'); }
+    LBD.modal = mb.dataset.lbmodal || null; openTab('labels'); if (LBD.modal === 'rewards') { const n = document.querySelector('.lb-rr.next'); if (n) n.parentNode.scrollTop = n.offsetTop - n.parentNode.offsetTop - 60; } return; }
+  if (e.target.matches('[data-lbmodalbg]')) { LBD.modal = null; return openTab('labels'); }
+  const t = e.target.closest('[data-lbowner],[data-lbreset],[data-lbjoinset],[data-lbnewcode],[data-lbremove],[data-lbreport],[data-lbsendreport],[data-lbtab],[data-lbmember],[data-lbhype],[data-lbcopy],[data-lbleave],[data-lbcreate],[data-lbinvite],[data-lbjoin],[data-lbglyph],[data-lbcolor],[data-lbopen],[data-lbmake],[data-lbback]');
+  if (!t) return;
+  const nm = $('lbName'); if (nm) LBD.create.name = nm.value.trim().slice(0, 18);
+  if (t.dataset.lbowner !== undefined) { LBD.owner = !LBD.owner; const me = lbMe(), k = LBD.members.find(m => m.n === 'Kaylo'); me.role = LBD.owner ? 'Owner' : 'Member'; k.role = LBD.owner ? 'Member' : 'Owner'; return openTab('labels'); }
+  if (t.dataset.lbreset !== undefined) { LBD.hypeSent = null; return openTab('labels'); }
+  if (t.dataset.lbjoinset) { LBD.join = t.dataset.lbjoinset; return openTab('labels'); }
+  if (t.dataset.lbnewcode !== undefined) { LBD.mine.code = 'NEW' + Math.random().toString(36).slice(2, 5).toUpperCase(); toast('New invite code made (demo)'); return openTab('labels'); }
+  if (t.dataset.lbremove) { const m = LBD.members[+t.dataset.lbremove]; LBD.members.splice(+t.dataset.lbremove, 1); toast(`Removed ${m.n} (demo)`); return openTab('labels'); }
+  if (t.dataset.lbreport) { LBD.modal = null; LBD.reportWhat = t.dataset.lbreport; return openTab('label-report'); }
+  if (t.dataset.lbsendreport !== undefined) { toast('Report sent. Thanks for keeping Labels friendly (demo)'); return openTab('labels'); }
+  if (t.dataset.lbtab) { LBD.tab = t.dataset.lbtab; return openTab('labels'); }
+  if (t.dataset.lbmember) { LBD.view = +t.dataset.lbmember; return openTab('label-member'); }
+  if (t.dataset.lbhype && !t.disabled) { LBD.hypeSent = t.dataset.lbhype; lbMe().today = Math.min(LB_DAILY_CAP, lbMe().today + 10); toast(`Sent ${t.dataset.lbhype} 10 minutes of Hype`); sfx('reward'); return openTab(sheetKey); }
+  if (t.dataset.lbcopy !== undefined) return toast('Label code copied (demo)');
+  if (t.dataset.lbleave !== undefined) { LBD.modal = null; LBD.joined = false; return openTab('labels'); }
+  if (t.dataset.lbcreate !== undefined) return openTab('label-create');
+  if (t.dataset.lbinvite !== undefined) return openTab('label-invite');
+  if (t.dataset.lbjoin) { const d = LBD.discover[+t.dataset.lbjoin]; toast(`Joined ${d.name} (demo). Showing the demo label`); LBD.joined = true; LBD.tab = 'home'; return openTab('labels'); }
+  if (t.dataset.lbglyph) { LBD.create.glyph = t.dataset.lbglyph; return openTab('label-create'); }
+  if (t.dataset.lbcolor) { LBD.create.color = t.dataset.lbcolor; return openTab('label-create'); }
+  if (t.dataset.lbopen) { LBD.create.open = t.dataset.lbopen === 'true'; return openTab('label-create'); }
+  if (t.dataset.lbmake !== undefined) { LBD.firstFree = false; LBD.owner = true; lbMe().role = 'Owner'; LBD.members.find(m => m.n === 'Kaylo').role = 'Member'; LBD.mine.name = LBD.create.name || 'Your Label'; LBD.mine.badge = { color: LBD.create.color, glyph: LBD.create.glyph }; LBD.joined = true; LBD.tab = 'home'; toast('Label created (demo)'); return openTab('labels'); }
+  if (t.dataset.lbback !== undefined) return openTab('labels');
+});
+// ===================== end LABELS demo =====================
+
 const closeBtn = () => '<button class="close" data-close aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>';
 // a back arrow that sits beside the X on screens opened from another screen
 const backBtn = attr => `<button class="close back" ${attr} aria-label="Back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>`;
@@ -5677,6 +6072,7 @@ function openTab(tab) {
         <div class="row"><span class="rt"><label for="countrySel"><b>Country</b></label><span>Shown on the charts</span></span>
           <select id="countrySel" class="csel"><option value="">Other / prefer not to say</option>${COUNTRIES.map(([k, n]) => `<option value="${k}" ${S.country === k ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
         <p class="cnote">Tap any artist to see their profile. Your name, country, outfit and career stats are public. This week ranks albums dropped since Monday; All time ranks every album you've dropped.</p></div>`);
+  } else if (tab === 'labels' || tab.startsWith('label-')) { lbOpen(tab);
   } else if (tab === 'profile') {
     const me = Charts.view === 'me', r = me ? null : Charts.view;
     const p = me ? cleanProfile(myProfile()) : r.profile;
@@ -5684,7 +6080,7 @@ function openTab(tab) {
     const maps = [...LOCATIONS.map(l => l.name), ...FUTURE], loc = p ? p.loc : 0, best = p && itemById(p.best);
     const t = titleOf(albums, loc), pcl = p && p.clears ? p.clears : maps.map((_, i) => i < loc ? 1 : 0);
     openSheet(`<div class="sheet-head"><h2>${esc(name)}${me ? ' <small class="h3note">you</small>' : ''}</h2>${headBtns('data-back-charts')}</div>
-      <div class="prof-top"><span class="ptags"><span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
+      <div class="prof-top"><span class="ptags">${me && LBD.joined ? `<span class="lb-ptag" data-tab-go="labels" role="button">${lbBadge(LBD.mine.badge, 20)}${esc(LBD.mine.name)}</span>` : ''}<span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
       ${p ? `<div class="dresser prof-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><span class="spot"></span>${stageSparks()}${country ? `<span class="pcountry">${esc(countryName(country))}</span>` : ''}${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>` : `<p class="cnote">This artist hasn't opened the latest version yet, so their outfit, plaques and stats will show up after they do.</p>`}
       ${p ? `<div class="sec"><h3>Plaques <small class="h3note">${pcl.filter(Boolean).length} of ${maps.length} maps cleared</small></h3>${plaqueRow(pcl)}</div>` : ''}
       <div class="sec"><h3>Career</h3><div class="statgrid">
