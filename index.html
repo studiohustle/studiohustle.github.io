@@ -678,6 +678,18 @@ html .lb-pm-art { flex: 1; min-width: 0; min-height: 0; height: 200px; padding-b
 .lb-cd { position: absolute; right: 14px; top: 50%; width: 30px; height: 30px; margin-top: -15px; border-radius: 50%; border: 3px solid #fff; display: grid; place-items: center; font: 400 15px var(--display); font-style: normal; }
 .lb-kc { text-align: center; } html .lb-kc-h b { padding: 0; } html .lb-mc .lb-kc-q { margin: 4px 0 14px; font-size: 16px; font-weight: 700; color: #4A4566; } html .lb-mc .lb-kc-t { margin: 0 0 8px; font-size: 13.5px; font-weight: 600; color: #6E6A88; line-height: 1.4; }
 .lb-top-pend { display: block; font: 700 11px var(--body); color: #8C88A6; }
+html .sec.lb-psec { gap: 8px; margin-top: 12px; padding-bottom: 14px; } html .lb-psec h3 { margin: 0; }
+.lb-pcard { display: flex; align-items: center; gap: 12px; background: #2E2266; color: #fff; border-radius: 16px; padding: 12px 14px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); }
+.lb-pcard .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; } .lb-pcard .rt b { font: 400 17px var(--display); line-height: 1.15; overflow-wrap: anywhere; } .lb-pcard .rt span { font: 700 12.5px var(--body); color: #C9C2EC; }
+.lb-pnone { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.1); display: grid; place-items: center; color: #C9C2EC; flex: none; }
+.lb-pbtns { display: flex; gap: 8px; margin-top: 0; } .lb-pbtn { flex: 1; height: 42px; border: 0; border-radius: 12px; color: #fff; font: 400 16px var(--display); letter-spacing: .02em; }
+.lb-pbtn.blue { background: #4DB6F7; box-shadow: 0 4px 0 #2E8ACB; } .lb-pbtn.green { background: #3FBF6F; box-shadow: 0 4px 0 #2A8F50; } .lb-pbtn:disabled { background: #6E66A0; color: #D9D4F3; box-shadow: 0 4px 0 #4E4785; }
+.lb-pbtn:not(:disabled):active { transform: translateY(3px); box-shadow: none; }
+.lb-big.green { background: #3FBF6F; box-shadow: 0 5px 0 #2A8F50; }
+.lb-vhead { display: flex; align-items: center; gap: 14px; background: #2E2266; color: #fff; border-radius: 18px; padding: 14px; } .lb-vhead .rt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lb-vhead .rt b { font: 400 21px var(--display); line-height: 1.1; overflow-wrap: anywhere; } .lb-vhead .rt span { font: 700 13px var(--body); color: #C9C2EC; } .lb-vhead em { font-style: normal; color: #B9A6FF; font-weight: 800; }
+.lb-vstats { grid-template-columns: repeat(3, 1fr); } .lb-vlh { margin-top: 18px !important; }
+.lb-dec { flex: none; width: 34px; height: 34px; margin-left: 6px; border: 0; border-radius: 9px; background: #ECE9F5; color: #6E6A88; display: grid; place-items: center; }
 .lb-btn2 { flex: 1; height: 44px; border: 0; border-radius: 10px; font: 800 14px var(--body); background: #E6E2F1; color: #3F3868; box-shadow: inset 0 0 0 1.5px rgba(70,62,110,.18), 0 5px 0 #C3BDD6; }
 .lb-btn2.red { background: #E2554A; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(120,20,20,.25), 0 5px 0 #B23A31; }
 .lb-btn2:active { transform: translateY(3px); box-shadow: 0 2px 0 #C3BDD6; }
@@ -2780,7 +2792,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 223, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 224, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4499,7 +4511,7 @@ async function lbLoad(quiet) {
   const hin = r.data.hype_in || [];
   if (hin.length) { hin.forEach(() => lbAddHype(10)); const who = [...new Set(hin)];
     toast(`${who.slice(0, 2).map(cleanName).join(' and ')}${who.length > 2 ? ' and others' : ''} sent you Hype: +${hin.length * 10} min`); sfx('hype'); }
-  if (!L) { const l = await lbCall('lb_list'); if (l.ok) LB.list = l.data || []; }
+  if (!L) { const [l, iv] = await Promise.all([lbCall('lb_list'), lbCall('lb_invites')]); if (l.ok) LB.list = l.data || []; if (iv.ok) LB.invites = iv.data || []; }
   save(); return true;
 }
 async function lbLoadChart() { const r = await lbCall('lb_chart'); if (r.ok) LB.chart = r.data || []; }
@@ -4602,6 +4614,7 @@ function lbModal() {
         <details class="lb-more"><summary>More rules</summary>
           <p>Up to ${LB_DAILY_CAP} XP per member per day. Each level pays you once per season, even if you switch labels.</p>
           <p>New members get Label All Profit after adding 100 XP.</p>
+          <p>Anyone can invite players to an open label; only the owner can invite to a private one. Invited players still need the album minimum.</p>
           <p>Up to 10 members. If the owner leaves, the top contributor becomes owner. Kicked members can't rejoin until next season, and the Label XP they added is removed.</p></details></div>
       <button class="lb-leave" data-lbleave>Leave Label</button></div></div>`;
   }
@@ -4669,20 +4682,24 @@ function lbDiscover() {
   const free = !(LB.st && LB.st.created > 0), list = LB.list || [];
   return `<div class="welcome lb-why"><p><b>Team up with up to 10 artists.</b> Everything you already do levels up your label, and every level pays out to every member, plus a Label All Profit bonus up to x2.</p></div>
     <div class="lb-actions"><button class="cta" data-lbcreate>${free ? 'Create a Label · free' : `Create a Label <span class="gemprice">${GEM_MINI}500</span>`}</button><button class="ghost" data-lbinvite>Have a label code?</button></div>
+    ${(LB.invites || []).length ? `<div class="sec"><h3>Invites</h3><div class="clist">${LB.invites.map(d => `<div class="crow lb-drow lb-inv" data-lbview="${esc(d.id)}" role="button">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
+      <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>${esc(cleanName(d.from || 'A member'))} invited you · Level ${d.level} · ${d.members}/10</span></span>
+      <button class="hire" data-lbjoin="${esc(d.id)}" ${d.members >= 10 ? 'disabled' : ''}>${d.members >= 10 ? 'Full' : 'Join'}</button><button class="lb-dec" data-lbdecline="${esc(d.id)}" aria-label="Decline">${LB_X}</button></div>`).join('')}</div></div>` : ''}
     <div class="sec"><h3>Labels looking for artists</h3><div class="clist">${list.length ? list.map(d => { const short = (S.albums || 0) < d.min_albums;
-      return `<div class="crow lb-drow">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
+      return `<div class="crow lb-drow" data-lbview="${esc(d.id)}" role="button">${lbBadge({ color: d.color, glyph: d.glyph }, 40)}
       <span class="rt"><b><span class="nm">${esc(d.name)}</span></b><span>Level ${d.level} · ${d.members}/10${d.min_albums ? ` · ${d.min_albums}+ albums` : ''}</span></span>
       <button class="hire" data-lbjoin="${esc(d.id)}" ${short ? 'disabled' : ''}>${short ? d.min_albums + ' albums' : 'Join'}</button></div>`; }).join('') : '<p class="cnote">No open labels right now. Start one and share its code!</p>'}</div>
       <p class="cnote">You can be in one label at a time.</p></div>`;
 }
 function lbOpen(tab) {
   if (tab === 'labels') {
-    if (!LB.busy && Date.now() - LB.at > 15000) lbLoad().then(() => { lbFlush(); lbRefresh(); });
+    if (!LB.busy && Date.now() - LB.at > (lbL() ? 15000 : 3000)) lbLoad().then(() => { lbFlush(); lbRefresh(); });
     let body;
     if (!LB.st) body = LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>';
     else body = lbL() ? lbHead() + lbIconTabs() + `<div class="lb-pane">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : lbDiscover();
     return openSheet(`<div class="sheet-head"><h2>${lbL() ? 'Your Label' : 'Labels'}</h2>${closeBtn()}</div>${body}`);
   }
+  if (tab === 'label-view') return lbPage();
   if (tab === 'label-create') {
     const C = LB.create, free = !(LB.st && LB.st.created > 0);
     return openSheet(`<div class="sheet-head"><h2>New Label</h2>${headBtns('data-lbback')}</div>
@@ -4777,6 +4794,50 @@ document.addEventListener('click', async e => {
   if (D.lbsendreport !== undefined) { const v = (document.querySelector('input[name=lbr]:checked') || {}).value || '';
     await lbCall('lb_report', { label: LB.find.res && LB.find.res.id, reason: v }); toast('Report sent. Thanks for keeping Labels friendly'); return openTab('label-invite'); }
   if (D.lbback !== undefined) return openTab('labels');
+});
+// ---- Labels on profiles (Clash-style: View Label / Invite) and a label's public page ----
+LB.of = {}; LB.page = null; LB.invites = []; LB.from = 'labels';
+async function lbLoadOf(code) { const r = await lbCall('lb_of', { code }); LB.of[code] = r.ok ? (r.data || { none: true }) : { err: lbErr(r) }; if (sheetKey === 'profile' && !$('scrim').hidden) openTab('profile'); }
+function lbProfCard(me, r) {
+  const row = (l, sub, btns) => `<div class="sec lb-psec"><h3>Label</h3><div class="lb-pcard">${l ? lbBadge({ color: l.color, glyph: l.glyph }, 46) : '<span class="lb-pnone">' + LB_IC.members + '</span>'}
+    <span class="rt"><b>${l ? esc(l.name) : 'Not in a label'}</b><span>${sub}</span></span></div>${btns ? `<div class="lb-pbtns">${btns}</div>` : ''}</div>`;
+  if (me) { const l = lbL();
+    if (l) return row(l, `Level ${lbLevel(l.xp)} · ${(LB.st.members || []).length}/10 · ${lbIsOwner() ? 'Owner' : 'Member'}`, `<button class="lb-pbtn blue" data-tab-go="labels">View Label</button>`);
+    return row(null, 'Team up with up to 10 artists', `<button class="lb-pbtn blue" data-tab-go="labels">Find a Label</button>`); }
+  const code = r && r.friend_code; if (!code) return '';
+  const o = LB.of[code]; if (o === undefined) { LB.of[code] = null; lbLoadOf(code); }
+  if (!o) return row(null, 'Loading…', '');
+  if (o.err) return row(null, "Couldn't load their label", '');
+  const mine = lbL(), room = mine && (LB.st.members || []).length < 10;
+  const short = mine && (r.albums || 0) < mine.min_albums, ownerOnly = mine && !mine.open && !lbIsOwner();
+  const inv = mine && room && o.none && !ownerOnly ? `<button class="lb-pbtn green" data-lbinv="${esc(code)}" ${o.invited || short ? 'disabled' : ''}>${o.invited ? 'Invited' : short ? `Needs ${mine.min_albums} albums` : 'Invite'}</button>` : '';
+  if (o.none) return row(null, mine ? (!room ? 'Your label is full' : ownerOnly ? 'Only the owner can invite to a private label' : short ? `Your label needs ${mine.min_albums}+ albums` : `Invite them to ${esc(mine.name)}`) : 'They haven\'t joined one yet', inv);
+  return row(o, `Level ${o.level} · ${o.members}/10 · ${o.role === 'owner' ? 'Owner' : 'Member'}`, `<button class="lb-pbtn blue" data-lbview="${esc(o.id)}">View Label</button>`);
+}
+async function lbOpenPage(id, from) { LB.from = from || 'labels'; LB.page = { id, d: null }; openTab('label-view');
+  const r = await lbCall('lb_view', { label: id }); if (!LB.page || LB.page.id !== id) return; LB.page.d = r.ok ? r.data : { err: lbErr(r) }; if (sheetKey === 'label-view') openTab('label-view'); }
+function lbPage() {
+  const P = LB.page, d = P && P.d, back = headBtns('data-lbpageback');
+  if (!d) return openSheet(`<div class="sheet-head"><h2>Label</h2>${back}</div><p class="cnote">Loading…</p>`);
+  if (d.err || !d.id) return openSheet(`<div class="sheet-head"><h2>Label</h2>${back}</div><p class="cnote">${esc(d.err || 'This label no longer exists.')}</p>`);
+  const inLabel = !!lbL(), short = (S.albums || 0) < d.min_albums, canJoin = !d.mine && !inLabel && d.members < 10 && (d.open || d.invited) && !short;
+  const why = d.mine ? '' : inLabel ? 'Leave your label to join another' : d.members >= 10 ? 'This label is full' : !d.open && !d.invited ? 'Private: join with the label code or an invite' : short ? `Needs ${d.min_albums} albums` : '';
+  return openSheet(`<div class="sheet-head"><h2>Label</h2>${back}</div>
+    <div class="lb-vhead">${lbBadge({ color: d.color, glyph: d.glyph }, 64)}<span class="rt"><b>${esc(d.name)}</b><span>Level ${d.level} · Label All Profit <em>x${lbMult(d.level)}</em></span></span></div>
+    <div class="lb-pm-stats lb-vstats"><div><b>${d.members}/10</b><span>Members</span></div><div><b>${lbXpShort(d.week_xp)}</b><span>XP this week</span></div><div><b>${d.open ? 'Open' : 'Private'}</b><span>${d.min_albums ? d.min_albums + '+ albums' : 'No minimum'}</span></div></div>
+    ${d.mine ? `<button class="lb-big blue" data-tab-go="labels">Open your label</button>` : `<button class="lb-big green" data-lbjoin="${esc(d.id)}" ${canJoin ? '' : 'disabled'}>${d.invited && canJoin ? 'Accept invite' : 'Join'}</button>${why ? `<p class="cnote">${why}</p>` : ''}`}
+    <div class="lb-lhead lb-vlh"><b>Members</b><span>Season XP</span></div>
+    <div class="lb-mlist">${(d.roster || []).map((m, i) => `<div class="lb-m"><span class="lb-mr">${i + 1}</span>
+      <span class="rt"><b><span class="nm">${esc(cleanName(m.name))}</span><i class="ondot ${isOnline(m) ? 'on' : ''}"></i></b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${m.albums} albums</span></span>
+      <span class="lb-mx">${fmtN(m.xp)} XP</span></div>`).join('')}</div>`);
+}
+document.addEventListener('click', async e => {
+  let t = e.target.closest('[data-lbinv],[data-lbjoin],[data-lbdecline],[data-lbview],[data-lbpageback]'); if (!t || t.matches('[data-lbjoin]')) return; const D = t.dataset;
+  if (D.lbinv) { if (t.disabled) return; t.disabled = true; const r = await lbCall('lb_invite', { code: D.lbinv });
+    if (!r.ok) { t.disabled = false; return toast(lbErr(r)); } LB.of[D.lbinv] = Object.assign({}, LB.of[D.lbinv], { invited: true }); toast('Invite sent! They\'ll see it on their Labels screen'); sfx('reward'); return openTab('profile'); }
+  if (D.lbview) return lbOpenPage(D.lbview, sheetKey === 'profile' ? 'profile' : 'labels');
+  if (D.lbpageback !== undefined) return openTab(LB.from === 'profile' ? 'profile' : 'labels');
+  if (D.lbdecline) { await lbCall('lb_decline', { label: D.lbdecline }); LB.invites = LB.invites.filter(x => x.id !== D.lbdecline); return openTab('labels'); }
 });
 // ===================== end LABELS =====================
 
@@ -6190,8 +6251,9 @@ function openTab(tab) {
     const maps = [...LOCATIONS.map(l => l.name), ...FUTURE], loc = p ? p.loc : 0, best = p && itemById(p.best);
     const t = titleOf(albums, loc), pcl = p && p.clears ? p.clears : maps.map((_, i) => i < loc ? 1 : 0);
     openSheet(`<div class="sheet-head"><h2>${esc(name)}${me ? ' <small class="h3note">you</small>' : ''}</h2>${headBtns('data-back-charts')}</div>
-      <div class="prof-top"><span class="ptags">${me && lbL() ? `<span class="lb-ptag" data-tab-go="labels" role="button">${lbBadge({ color: lbL().color, glyph: lbL().glyph }, 20)}${esc(lbL().name)}</span>` : ''}<span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
+      <div class="prof-top"><span class="ptags"><span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
       ${p ? `<div class="dresser prof-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><span class="spot"></span>${stageSparks()}${country ? `<span class="pcountry">${esc(countryName(country))}</span>` : ''}${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>` : `<p class="cnote">This artist hasn't opened the latest version yet, so their outfit, plaques and stats will show up after they do.</p>`}
+      ${lbProfCard(me, r)}
       ${p ? `<div class="sec"><h3>Plaques <small class="h3note">${pcl.filter(Boolean).length} of ${maps.length} maps cleared</small></h3>${plaqueRow(pcl)}</div>` : ''}
       <div class="sec"><h3>Career</h3><div class="statgrid">
         <div><b>${albums}</b><span>Albums dropped</span></div>
