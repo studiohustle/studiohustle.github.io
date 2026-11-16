@@ -1786,7 +1786,11 @@ html .lb-ft { background: #241F45; color: #8E88C0; }
 html .lb-ft.on { height: 62px; margin-bottom: -10px; position: relative; z-index: 2; background: #3A336F; color: #FFFFFF; box-shadow: inset 0 9px 0 #241F45; padding-top: 6px; }
 html .lbfull .lb-pane { box-shadow: inset 0 10px 0 #241F45; padding-top: 22px; }
 
-.app.lbopen #settings { visibility: hidden; }   /* full-screen screens: the red X takes the gear's corner until you close them */
+.app.lbopen #settings { visibility: hidden; }
+/* Build 234: Shop and Inventory are one full-screen window: no title (like Labels and Style), always full height, the Shop/Inventory tabs stay pinned while the list scrolls */
+.app.lbopen .sheet > .sheet-head.shop-head { height: 34px; min-height: 0; padding: 0; margin: 0; border: 0; background: none; box-shadow: none; } .app.lbopen .sheet > .sheet-head.shop-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.sheet.shopfull { height: 100%; border-radius: 0; }
+.sheet.shopfull > .segtabs { position: sticky; top: 0; z-index: 5; box-shadow: 0 0 0 10px var(--panel), 0 12px 0 10px var(--panel); }   /* full-screen screens: the red X takes the gear's corner until you close them */
 
 /* ---- Style full screen (Build 227): blue stage, folder tabs, purple panel ---- */
 .sheet.stylefull { height: 100%; padding: 0 !important; display: flex; flex-direction: column; overflow: hidden; border-radius: 0; gap: 0 !important; background: #3A336F; }
@@ -1900,7 +1904,15 @@ html .sheet.float:has(> .adnote:last-child) { padding-bottom: 9px; }
 .boxstack[hidden] { display: none; }
 .boxstack .bs-art { display: grid; animation: bsbob 2.6s ease-in-out infinite; filter: drop-shadow(0 3px 3px rgba(0,0,0,.35)); }
 img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-user-drag: none; }
-.glow > img.boxart { position: relative; animation: floaty 3s ease-in-out infinite; filter: drop-shadow(0 4px 0 rgba(20,18,42,.18)); }
+.glow > .bx-wrap { position: relative; display: grid; animation: floaty 3s ease-in-out infinite; } .glow > .bx-wrap img.boxart { filter: drop-shadow(0 4px 0 rgba(20,18,42,.18)); }
+.spk.bspk { z-index: 3; width: 14px; height: 14px; background: #FFFBE0; filter: drop-shadow(0 0 3px rgba(255,236,150,.9)); }
+.spk.bspk.sm { width: 10px; height: 10px; }
+.bo-art .spk.bspk { width: 20px; height: 20px; } .bo-art .spk.bspk.hot { width: 28px; height: 28px; background: #FFF6C8; filter: drop-shadow(0 0 6px rgba(255,220,120,1)); animation-duration: 1.6s; }
+.bs-art { position: relative; } .bo-art { position: relative; }
+.box-open.opened:not(.done) .bo-box::after { content: ""; position: absolute; z-index: -1; left: 50%; top: 45%; width: 264px; height: 264px; margin: -132px 0 0 -132px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255,236,160,.55), rgba(255,236,160,0) 65%); animation: boglow 1.6s ease-in-out infinite; }
+@keyframes boglow { 50% { transform: scale(1.12); opacity: .75; } }
+.bo-box { z-index: 0; }
 .bp-body { gap: 10px; } .bp-row { gap: 8px; }
 .boxstack .bs-n { position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); min-width: 30px; height: 22px; padding: 0 7px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; border: 2px solid #fff; font: 400 13px/18px var(--display); text-align: center; }
 .boxstack:active { transform: scale(.94); }
@@ -1931,9 +1943,9 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .bx-card .bx-art { display: grid; place-items: center; padding: 14px 2px 4px; aspect-ratio: 1; box-sizing: border-box; }
 .bx-card .bx-art svg { width: 100%; height: auto; max-width: 64px; }
 .bx-card .bx-band { background: var(--rc); color: #fff; text-align: center; font: 400 11px/1.9 var(--display); }
-.bx-card.big { width: 168px; border-width: 4px; border-radius: 18px; }
-.bx-card.big .bx-art { padding: 20px 10px 6px; } .bx-card.big .bx-art svg { max-width: 120px; }
-.bx-card.big .bx-band { font-size: 16px; line-height: 2; } .bx-card.big .bx-c { font-size: 13px; padding: 3px 9px 4px; }
+.bx-card.big { width: 148px; border-width: 4px; border-radius: 18px; }
+.bx-card.big .bx-art { padding: 20px 10px 6px; } .bx-card.big .bx-art svg { max-width: 104px; }
+.bx-card.big .bx-band { font-size: 14.5px; line-height: 2; } .bx-card.big .bx-c { font-size: 13px; padding: 3px 9px 4px; }
 .bx-card .bx-name { display: none; }
 .box-open { position: fixed; inset: 0; z-index: 97; background: radial-gradient(circle at 50% 70%, #1E5D73, #123F50 70%); display: flex; flex-direction: column; align-items: center; color: #fff; user-select: none; -webkit-user-select: none; cursor: pointer;
   padding: calc(env(safe-area-inset-top, 0px) + 20px) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 28px) max(16px, env(safe-area-inset-left, 0px)); box-sizing: border-box; }
@@ -1951,7 +1963,7 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .bo-all .bx-card .bx-band { font-size: 13px; }
 .bo-tk { margin: 4px 0 0; font: 600 14px var(--body); text-align: center; opacity: .9; }
 .bo-box { position: relative; display: grid; place-items: center; margin: 10px 0 14px; }
-.bo-box::before { content: ""; position: absolute; bottom: -8px; width: 170px; height: 34px; border-radius: 50%; background: rgba(0,0,0,.22); }
+.bo-box::before { content: ""; position: absolute; bottom: -8px; width: 150px; height: 34px; border-radius: 50%; background: rgba(0,0,0,.22); }
 .bo-art { position: relative; display: grid; }
 .box-open:not(.opened) .bo-art { animation: boshake 1.8s ease-in-out infinite; }
 @keyframes boshake { 0%, 70%, 100% { transform: rotate(0); } 75% { transform: rotate(-5deg); } 80% { transform: rotate(5deg); } 85% { transform: rotate(-3deg); } 90% { transform: rotate(2deg); } }
@@ -3024,7 +3036,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 233, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 234, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5099,7 +5111,7 @@ const MAIN_SHEETS = ['vault', 'career', 'crew', 'upgrades', 'goals', 'daily', 'p
 window.addEventListener('keydown', e => { if (e.key === 'Tab') document.documentElement.classList.add('kbd'); });
 window.addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'));
 const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad'];   // small centered cards: one ad button, closes after the ad
-const DARK_SHEETS = ['shop', 'style', 'studio', 'profile'];   // shop and style keep their dark backgrounds
+const DARK_SHEETS = ['shop', 'style', 'studio', 'profile', 'inv'];   // shop and style keep their dark backgrounds
 function openSheet(html) {
   clearBoost();
   $('scrim').classList.remove('more-below');
@@ -5108,8 +5120,8 @@ function openSheet(html) {
   $('sheet').classList.toggle('pinned', nextSheetKey === 'crew' || nextSheetKey === 'upgrades');
   $('sheet').classList.toggle('light', !!nextSheetKey && !DARK_SHEETS.includes(nextSheetKey));
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
-  $('sheet').classList.toggle('shopmode', nextSheetKey === 'shop');
-  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
+  $('sheet').classList.toggle('shopmode', ['shop', 'inv'].includes(nextSheetKey));
+  $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('sheet').classList.toggle('shopfull', ['shop', 'inv'].includes(nextSheetKey)); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
   $('sheet').classList.toggle('evhub', nextSheetKey === 'evhub' || nextSheetKey === 'evbadges');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -6546,8 +6558,7 @@ function openTab(tab) {
     const row = k => { const it = INV[k], q = invQty(k);
       return `<div class="invrow ${q ? '' : 'empty'}"><span class="invic">${it.icon()}<b>×${q}</b></span><span class="rt"><b>${it.name} <small>${it.time}</small></b><span>${it.what()}</span></span>
         <button class="hire" data-inv-ask="${k}" ${q ? '' : 'disabled'}>Use</button></div>`; };
-    openSheet(`<div class="sheet-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('inv')}
-      <p class="cnote">Items you own: from the shop, deals and the Backstage Pass wait here until you use them.</p>
+    openSheet(`<div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('inv')}
       ${row('skips')}${row('frenzies')}
       <button class="ghost" data-tab-go="shop">Get more in the Shop</button>`);
   } else if (tab.startsWith('inv-use:')) {
@@ -6710,8 +6721,7 @@ function openTab(tab) {
         <span class="ttl">${it.name}<small>${slotName[it.slot]}${it.perk ? ' · ' + it.perk : ''}</small></span>
         <span class="price">${S.owned[it.id] ? 'Owned' : `<i class="g"></i>${it.gems}`}</span></button>`; };
     const order = ['top', 'hat', 'neck', 'face'];
-    openSheet(`<div class="sheet-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('shop')}
-      <p class="testnote">${TEST ? 'Test mode: real-money items are free.' : "Playtest: real-money items aren't for sale yet. Tap one to say if you'd buy it."}</p>
+    openSheet(`<div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('shop')}
       ${(() => { const live = liveHols(), gift = liveHols(Date.now(), 'gift')[0]; if (!live.length && !gift) return '';
         const ends = t => { const left = Math.max(0, t - Date.now()), dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5); return `Ends in ${dd ? dd + 'd ' : ''}${hh}h`; };
         const g = gift && !(S.hol || {})[gift.key + ':gift'] ? `<button class="offer holgift" data-hol-gift style="background:${gift.h.card}" aria-label="${gift.h.gift.name}, free"><span class="wall bubbles"></span><span class="offer-art glow">${sparks(5, 9)}${ART.gift(...gift.h.colors)}</span>
@@ -6745,7 +6755,7 @@ function openTab(tab) {
       ${(() => { const card = k => { const B = BOXES[k];
           return `<button class="card gold sboxcard sb-${k}" data-sbox-view="${k}" aria-label="${B.name}, ${B.rolls} outfits, ${B.cost} gems, see chances">
           <span class="sb-name">${B.name.replace(' Style', '')}</span><span class="sb-items">${B.rolls} outfits <i class="sb-i">i</i></span>
-          <span class="wall arrows"></span><span class="art glow">${sparks(4, 9)}${boxArt(k, 84)}</span>
+          <span class="wall arrows"></span><span class="art glow"><span class="bx-wrap">${boxArt(k, 84)}${boxSparks(5, k.length + 3)}</span></span>
           <span class="price"><i class="g"></i>${B.cost}</span></button>`; };
         const live = boxBuyable('event');
         return `<div class="cards two sboxes">${card('small')}${card('big')}</div>
@@ -7184,6 +7194,9 @@ let sboxKind = 'big', sboxLast = [];
 const BOX_THEMES = ['western', 'island', 'galaxy'];
 const boxTheme = k => { if (k !== 'event') return k; const L = evLive && evLive(), st = S.sbox || {};
   const id = (L && L.id) || st.evId || (S.ev && S.ev.id) || 'western'; return BOX_THEMES.includes(id) ? id : 'western'; };
+// sparkles that sit on the box itself (Build 234): spread over the middle of the art, not the card around it
+const boxSparks = (n, seed = 1, cls = '') => Array.from({ length: n }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
+  return `<i class="spk bspk ${cls}" style="left:${14 + a * .66}%;top:${18 + b * .58}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.55 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
 const boxArt = (k, sz, state = 'closed') => `<img class="boxart" src="art/boxes/${boxTheme(k)}-${state}.webp" width="${sz}" height="${sz}" alt="" draggable="false">`;
 const sboxOdds = k => `<div class="sb-odds" style="--n:${BOXES[k].odds.length}">${BOXES[k].odds.map(([r, p]) => { const [rn, rc] = RARITY[r];
   return `<div class="sb-o" style="--rc:${rc}"><span class="sb-q">?</span><b>${rn}</b><em>${p}%</em></div>`; }).join('')}</div>`;
@@ -7234,7 +7247,7 @@ function boxStackUpd() {
   const b = $('boxStack'); if (!b) return; const k = boxTopKind(), n = boxesOwned();
   b.hidden = !k || !S.onboarded; if (!k) return;
   const key = boxTheme(k) + ':' + n; if (b.dataset.k === key) return; b.dataset.k = key;
-  b.innerHTML = `<span class="bs-art">${boxArt(k, 56)}</span><span class="bs-n">${n}</span>`;
+  b.innerHTML = `<span class="bs-art">${boxArt(k, 56)}${boxSparks(2, 5, 'sm')}</span><span class="bs-n">${n}</span>`;
   b.setAttribute('aria-label', `${n} Style Box${n === 1 ? '' : 'es'} to open`);
 }
 const boxCardHtml = (x, big) => { const [rn, rc] = RARITY[x.rar];
@@ -7274,7 +7287,7 @@ function boxOpenDraw() {
   $('boxOpen').className = 'box-open ' + kind + (i >= 0 ? ' opened' : '') + (done ? ' done' : '');
   $('boxOpen').innerHTML = `${done ? `<button class="bo-x" data-boxopen-x aria-label="Close">${XSVG}</button>` : `<button class="bo-skip" data-boxopen-skip>Skip</button>`}
     <div class="bo-mid">${mid}</div>
-    <div class="bo-box"><span class="bo-art">${boxArt(kind, i < 0 ? 170 : 210, i < 0 ? 'closed' : done ? 'open' : 'glow')}</span>${!done ? `<span class="bo-left"><b>${left}</b></span>` : ''}</div>
+    <div class="bo-box"><span class="bo-art">${boxArt(kind, i < 0 ? 150 : 185, i < 0 ? 'closed' : done ? 'open' : 'glow')}${boxSparks(i < 0 ? 4 : done ? 5 : 8, i + 7, i >= 0 && !done ? 'hot' : '')}</span>${!done ? `<span class="bo-left"><b>${left}</b></span>` : ''}</div>
     ${done ? more : `<p class="bo-tap">${i < 0 ? 'Tap to open' : 'Tap for the next one'}</p>`}`;
 }
 function boxOpenStep() { if (BOXO.i >= BOXO.res.length) return; BOXO.i++; const x = BOXO.res[BOXO.i];
