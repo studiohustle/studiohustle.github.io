@@ -2983,6 +2983,17 @@ const GEAR_PRICE_TOP = { rare: 200, epic: 900, legendary: 4000, ultimate: 14000 
 const GEAR_SLOT_W = { top: 1, hat: 0.75, neck: 0.6, face: 0.5 };
 const ITEMS = (() => { const list = [
   { id: 'basic', rar: 'common', slot: 'top', name: 'Plain Hoodie', bonus: 0, look: { body: '#E8E2F4', trim: '#B9B3CF', style: 'hoodie' } },
+  // Build 237: everyday Commons. cm: drops from Style Boxes only (never sold), Common tier bonus (3% on a top, by slot weight)
+  { id: 'cspecs', rar: 'common', cm: true, slot: 'face', name: 'Soundcheck Specs', bonus: 0.01, look: { style: 'specs', color: '#24212E', dot: '#1FB5A8' } },
+  { id: 'camber', rar: 'common', cm: true, slot: 'face', name: 'Amber Aviators', bonus: 0.01, look: { style: 'aviator', color: '#2A2733', lens: '#E8A23A' } },
+  { id: 'cpractice', rar: 'common', cm: true, slot: 'face', name: 'Practice Frames', bonus: 0.01, look: { style: 'tinted', color: '#7FC6E6', lens: '#CFEFFF' } },
+  { id: 'cfirstgig', rar: 'common', cm: true, slot: 'top', name: 'First Gig Tee', bonus: 0.01, look: { style: 'tee', body: '#3A3845', trim: '#6E6B7D', graphic: 'wave', mark: '#9FE6FF' } },
+  { id: 'cstripe', rar: 'common', cm: true, slot: 'top', name: 'Tour Stripe Tee', bonus: 0.01, look: { style: 'tee', body: '#F4EEDF', trim: '#D8CFB8', graphic: 'stripes', s1: '#1FB5A8', s2: '#FF7A5A' } },
+  { id: 'cpolo', rar: 'common', cm: true, slot: 'top', name: 'Soundcheck Polo', bonus: 0.01, look: { style: 'polo', body: '#4E9A90', trim: '#E9F2EE' } },
+  { id: 'cpick', rar: 'common', cm: true, slot: 'neck', name: 'Guitar Pick Cord', bonus: 0.01, look: { style: 'pick', color: '#2A2733', pend: '#E8A23A' } },
+  { id: 'cbeads', rar: 'common', cm: true, slot: 'neck', name: 'Wooden Bead Necklace', bonus: 0.01, look: { style: 'beads', color: '#5A3E2B', pend: '#D4A848' } },
+  { id: 'cbeanie', rar: 'common', cm: true, slot: 'hat', name: 'Backstage Beanie', bonus: 0.01, look: { style: 'beanie', color: '#2A3570', cuff: '#1FB5A8' } },
+  { id: 'crehearsal', rar: 'common', cm: true, slot: 'hat', name: 'Rehearsal Cap', bonus: 0.01, look: { style: 'capstar', color: '#4F6FA3', brim: '#3D5A8A', star: '#E9E4D4' } },
   // album exclusives: free for finishing runs, so they match or beat the shop item of the same slot
   { id: 'debut', rar: 'epic', slot: 'top', name: 'Debut Hoodie', album: 1, bonus: 0.08, look: { body: '#2A2733', trim: '#FF6FAE', style: 'hoodie' } },
   { id: 'goldchain', rar: 'epic', slot: 'neck', name: 'Gold Chain', album: 3, bonus: 0.08, look: { color: '#FFD93D' } },
@@ -3054,7 +3065,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 236, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 237, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5354,6 +5365,7 @@ $('scrim').addEventListener('click', e => {
   if (itb) { const it = itemById(itb.dataset.item); if (!it) return;
     if (S.owned[it.id]) { if (S.equip[it.slot] === it.id) { if (it.slot !== 'top') S.equip[it.slot] = null; } else S.equip[it.slot] = it.id; applyLook(); save(); render(); sfx('tap'); return openTab('style'); }
     if (it.album) { sfx('denied'); toast(`Unlocks when you drop album ${it.album}`); return; }
+    if (it.cm) { sfx('denied'); toast('Commons come from Style Boxes'); return; }
     if (topTier(it)) { sfx('denied'); toast(it.rar === 'mythic' ? 'Mythics come only from Label Boxes' : 'Ultimates come only from Event Boxes'); return; }
     if (S.gems < it.gems) { sfx('denied'); toast('Not enough gems'); return; }
     return askItem(it, 'style'); }
@@ -5455,16 +5467,21 @@ const FONT = 'font-family="Arial Black, Arial, sans-serif" font-weight="900" tex
 function armPair(t, ln, sk, xl, xr, w, h, y) {
   const one = (x, rot) => { const tf = `transform="rotate(${rot} ${x + w / 2} ${y})"`;
     if (t.style === 'jersey') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" ${sk} ${ln} ${tf}></rect>`;
-    if (t.style === 'tee' || t.style === 'aloha') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" ${sk} ${ln} ${tf}></rect><rect x="${x - 1}" y="${y - 2}" width="${w + 2}" height="${h * (t.style === 'aloha' ? .5 : .42)}" rx="${w / 2}" fill="${t.body}" ${ln} ${tf}></rect>${t.style === 'aloha' ? `<rect x="${x - 1}" y="${y + h * .5 - 7}" width="${w + 2}" height="5" fill="${t.trim}" ${tf}></rect>` : ''}`;
+    if (t.style === 'tee' || t.style === 'aloha' || t.style === 'polo') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" ${sk} ${ln} ${tf}></rect><rect x="${x - 1}" y="${y - 2}" width="${w + 2}" height="${h * (t.style === 'aloha' || t.style === 'polo' ? .5 : .42)}" rx="${w / 2}" fill="${t.body}" ${ln} ${tf}></rect>${t.style === 'aloha' ? `<rect x="${x + 2}" y="${y + h * .5 - 7.5}" width="${w - 4}" height="4.5" fill="${t.trim}" ${tf}></rect>` : ''}`;
     return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" fill="${t.sleeve || t.body}" ${ln} ${tf}></rect>`; };
   return one(xl, 9) + one(xr, -9);
 }
 // details drawn over the body; null means the figure's own hoodie/jacket/puffer drawing is used
 function topExtra(t, ln, sk, big) {
   const K = '#1B1830';
+  // Build 237: prints are clipped to the inside of the shirt outline so nothing bleeds over the border
+  const cid = big ? 'shirtInB' : 'shirtInS', cp = big ? 'M59 113 Q59 102 80 102 Q101 102 101 113 L100 154.5 Q80 159.5 60 154.5 Z' : 'M58 113 Q58 101 80 101 Q102 101 102 113 L101 155.5 Q80 160.5 59 155.5 Z';
+  const inside = g => `<defs><clipPath id="${cid}"><path d="${cp}"></path></clipPath></defs><g clip-path="url(#${cid})">${g}</g>`;
   if (t.style === 'tee') return `<path d="M68 100 Q80 110 92 100" fill="none" stroke="${t.trim}" stroke-width="${big ? 4 : 6}" stroke-linecap="round"></path>` + (t.graphic === 'cassette'
     ? `<rect x="63" y="118" width="34" height="22" rx="3" fill="#FF6FAE" stroke="${K}" stroke-width="2.5"></rect><rect x="68" y="122" width="24" height="7" rx="2" fill="#F4F1EA"></rect><circle cx="72" cy="134" r="3" fill="${K}"></circle><circle cx="88" cy="134" r="3" fill="${K}"></circle><path d="M75 134 H85" stroke="${K}" stroke-width="2"></path>`
     : t.graphic === 'founder' ? `<circle cx="80" cy="130" r="15" fill="#14122A"></circle><polygon points="${starPts(80, 130, 11)}" fill="#FFD93D" stroke="#14122A" stroke-width="1.5"></polygon><path d="M66 151 H94" stroke="#FFD93D" stroke-width="3" stroke-linecap="round"></path>`
+    : t.graphic === 'wave' ? inside(`<path d="M64 130 H69 L72 122 L76 138 L80 118 L84 140 L88 124 L91 130 H96" fill="none" stroke="${t.mark}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>`)
+    : t.graphic === 'stripes' ? inside(`<rect x="50" y="122" width="60" height="6" fill="${t.s1}"></rect><rect x="50" y="133" width="60" height="6" fill="${t.s2}"></rect><rect x="50" y="144" width="60" height="6" fill="${t.s1}"></rect>`)
     : t.graphic !== 'tour' ? '' : `<g opacity=".8"><circle cx="80" cy="129" r="14" fill="none" stroke="${t.trim}" stroke-width="3"></circle><polygon points="${starPts(80, 129, 8)}" fill="${t.trim}"></polygon><rect x="65" y="146" width="30" height="4" rx="2" fill="${t.trim}"></rect></g>`);
   if (t.style === 'jersey') return `<path d="M69 99 L80 113 L91 99 Z" ${sk} stroke="${t.trim}" stroke-width="3" stroke-linejoin="round"></path>
     <path d="M57 104 Q64 117 58 130 M103 104 Q96 117 102 130" fill="none" stroke="${t.trim}" stroke-width="3" stroke-linecap="round"></path>`
@@ -5481,10 +5498,12 @@ function topExtra(t, ln, sk, big) {
     ${[51, 58, 65, 95, 102, 109].map(x => `<circle cx="${x}" cy="102.5" r="2.2" fill="${t.trim}"></circle>`).join('')}
     ${[118, 130, 142].map(y => `<circle cx="71" cy="${y}" r="2" fill="${t.trim}"></circle><circle cx="89" cy="${y}" r="2" fill="${t.trim}"></circle>`).join('')}
     <path d="M80 110 V152" stroke="${t.trim}" stroke-width="2.5"></path><path d="M58 150 Q80 155 102 150" fill="none" stroke="${t.trim}" stroke-width="3"></path>`;
+  if (t.style === 'polo') return `<path d="M64 99 L80 108 L96 99 L93 108 L80 113 L67 108 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
+    <path d="M80 108 V126" stroke="${K}" stroke-opacity=".35" stroke-width="2"></path><circle cx="80" cy="116" r="1.8" fill="${t.trim}" stroke="${K}" stroke-width="1"></circle><circle cx="80" cy="123" r="1.8" fill="${t.trim}" stroke="${K}" stroke-width="1"></circle>`;
   if (t.style === 'aloha') { const fl = (x, y, r) => `<g transform="translate(${x} ${y})">${[0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="${-r * .62}" rx="${r * .5}" ry="${r * .62}" fill="${t.flower}" stroke="${K}" stroke-width="1.3" transform="rotate(${a})"></ellipse>`).join('')}<circle r="${r * .3}" fill="${t.bud}"></circle></g>`;
     const lf = (x, y, rot) => `<path d="M${x} ${y} q6 -8 14 -6 q-5 8 -14 6 z" fill="${t.leaf}" stroke="${K}" stroke-width="1.2" stroke-linejoin="round" transform="rotate(${rot} ${x} ${y})"></path>`;
     // Build 236: chest left clear for the necklace; one leaf and one hibiscus low on each side
-    return `${lf(58, 142, -25)}${lf(96, 150, 200)}${fl(65, 150, 6.5)}${fl(97, 137, 6)}
+    return `${inside(`${lf(58, 142, -25)}${lf(96, 150, 200)}${fl(65, 150, 6.5)}${fl(97, 137, 6)}`)}
     <path d="M67 99 L80 120 L93 99 Z" ${sk} stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
     <path d="M62 99 L71 99 L80 120 L67 113 Z M98 99 L89 99 L80 120 L93 113 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
     <path d="M80 120 V157" stroke="${K}" stroke-opacity=".3" stroke-width="2"></path>${[130, 143].map(y => `<circle cx="80" cy="${y}" r="1.9" fill="${t.trim}" stroke="${K}" stroke-width="1"></circle>`).join('')}`; }
@@ -5508,6 +5527,10 @@ function neckExtra(n, big) {
   if (n.style === 'heart') { const hy = py - 1; return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.5" stroke-linecap="round"></path>
     <path d="M80 ${hy + 9} L70 ${hy} Q66 ${hy - 6} 71 ${hy - 9} Q76 ${hy - 11} 80 ${hy - 5} Q84 ${hy - 11} 89 ${hy - 9} Q94 ${hy - 6} 90 ${hy} Z" fill="${n.pend}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
     <path d="M80 ${hy - 5} L77 ${hy - 1} L82 ${hy + 2} L79 ${hy + 6}" fill="none" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path><path d="M72 ${hy - 6} Q74 ${hy - 8} 76 ${hy - 7}" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".7"></path>`; }
+  if (n.style === 'pick') return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.4" stroke-linecap="round"></path><path d="M73 ${py - 4} Q80 ${py - 7} 87 ${py - 4} Q87 ${py + 2} 80 ${py + 9} Q73 ${py + 2} 73 ${py - 4} Z" fill="${n.pend}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path><path d="M76 ${py - 3} Q78 ${py - 4.5} 80 ${py - 4.5}" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".7"></path>`;
+  if (n.style === 'beads') { const [x0, y0, cx, cy, x1, y1] = big ? [68, 99, 80, 120, 92, 99] : [66, 99, 80, 122, 94, 99];
+    const at = u => [(1 - u) * (1 - u) * x0 + 2 * (1 - u) * u * cx + u * u * x1, (1 - u) * (1 - u) * y0 + 2 * (1 - u) * u * cy + u * u * y1];
+    return Array.from({ length: 9 }, (_, i) => at(i / 8)).map(([x, y], i) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i === 4 ? 3.4 : 2.8}" fill="${i === 4 ? n.pend : n.color}" stroke="${K}" stroke-width="1.3"></circle>`).join(''); }
   if (n.style === 'puka') { const [x0, y0, cx, cy, x1, y1] = big ? [68, 99, 80, 120, 92, 99] : [66, 99, 80, 122, 94, 99];
     const at = u => [(1 - u) * (1 - u) * x0 + 2 * (1 - u) * u * cx + u * u * x1, (1 - u) * (1 - u) * y0 + 2 * (1 - u) * u * cy + u * u * y1];
     const beads = [.16, .33, .67, .84].map(at).map(([x, y]) => `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="2.9" ry="2.4" fill="${n.bead}" stroke="${K}" stroke-width="1.3"></ellipse>`).join('');
@@ -5525,9 +5548,10 @@ const haloHat = (h, ln, big) => `<path d="M44 52 Q44 15 80 15 Q116 15 116 52 Z" 
   <path d="M46 47 Q80 39 114 47 Q118 48 118 52 Q118 56 114 56 Q80 49 46 56 Q42 56 42 52 Q42 48 46 47 Z" fill="${h.brim}" ${ln}></path><path d="M50 47 Q80 41 110 47" fill="none" stroke="${PRISM.pink}" stroke-width="2.5" stroke-linecap="round"></path>
   <path d="M80 24 L86 31 L80 38 L74 31 Z" fill="#fff" stroke="${PRISM.deep}" stroke-width="2" stroke-linejoin="round"></path>
   <ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="#1B1830" stroke-width="${big ? 6 : 8}"></ellipse><ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="${PRISM.cyan}" stroke-width="${big ? 3.5 : 5}"></ellipse><path d="M62 6.5 Q69 4 77 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>`;
-const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw'];
+const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar'];
 const HATS = {
   cap: (h, ln) => capHat(h, ln),
+  capstar: (h, ln) => capHat(h, ln) + `<polygon points="${starPts(80, 31, 8.5)}" fill="${h.star}" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round" stroke-linejoin="round"></polygon><path d="M52 38 Q60 30 66 33" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".18"></path>`,
   // sunset straw hat (Build 236): round crown that sits around the whole head and over the headphone band, wide brim,
   // a couple of soft weave lines (kept inside the hat), teal band with a coral stripe, small hibiscus at the band's end
   straw: (h, ln) => { const brim = 'M22 44 A58 11 0 0 1 138 44 A58 11 0 0 1 22 44 Z', crown = 'M43 44 Q42 7 80 6 Q118 7 117 44 Z';
@@ -5570,6 +5594,7 @@ function faceExtra(fc, eyes) {
   // diamond frames: clear rimless lenses, iced bridge and corner stones
   if (fc.style === 'diamond') { const g = (x, y) => `<path d="M${x} ${y - 4} L${x + 4} ${y} L${x} ${y + 4} L${x - 4} ${y} Z" fill="#fff" stroke="#2E9CD6" stroke-width="1.4" stroke-linejoin="round"></path>`;
     return eyes + [55, 81].map(x => `<rect x="${x}" y="57" width="24" height="19" rx="4" fill="#CFF2FF" fill-opacity=".35" stroke="${fc.color}" stroke-width="2"></rect>`).join('') + `<path d="M79 62 H81" stroke="${fc.color}" stroke-width="3"></path>` + g(55, 57) + g(105, 57) + g(80, 61); }
+  if (fc.style === 'specs') return eyes + [56, 81].map(x => `<rect x="${x}" y="58" width="23" height="17" rx="4" fill="#fff" fill-opacity=".12" stroke="${fc.color}" stroke-width="3"></rect>`).join('') + `<path d="M79 63 H81" stroke="${fc.color}" stroke-width="3"></path><rect x="57.5" y="59.5" width="4" height="2.4" rx="1" fill="${fc.dot}"></rect><rect x="98.5" y="59.5" width="4" height="2.4" rx="1" fill="${fc.dot}"></rect>`;
   if (fc.style === 'sunset') { const L = (x, m) => `M${x} 58 H${x + 23} Q${x + 23 + m} 58 ${x + 22 + m * .5} 66 Q${x + 20} 76 ${x + 11.5} 76 Q${x + 3} 76 ${x + 1} 66 Q${x - m * .5} 58 ${x} 58 Z`;
     const lens = [L(56, 0), L(81, 0)];
     return `<defs><linearGradient id="lagoonLens" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B4F57"></stop><stop offset="1" stop-color="#1E9C97"></stop></linearGradient></defs>
@@ -5661,11 +5686,11 @@ function miniFigure(f, w, h, vb = '0 0 160 214') {
     ${MINI_HEAD(faceDetail(f.fd, f.hair || '#231A17') + hairTop(f.hs || (f.long ? 'long' : 'buzz'), f.hair || '#231A17', ln, !!(f.hat || f.beanie)))}`;
   if (f.neck && neckExtra(f.neck, false) !== null) o += neckExtra(f.neck, false);
   else if (f.neck) o += `<path d="M66 99 Q80 124 94 99" fill="none" stroke="${f.neck.color}" stroke-width="6" stroke-linecap="round"></path>` + (f.neck.charm ? `<circle cx="80" cy="124" r="8" fill="${f.neck.charm}" ${ln}></circle>` : '');
-  const beanie = c => `<path d="M41 53 Q41 9 80 9 Q119 9 119 53 Z" fill="${c}" ${ln}></path><rect x="38" y="41" width="84" height="15" rx="7.5" fill="${c}" ${ln}></rect>
+  const beanie = (c, cuff) => `<path d="M41 53 Q41 9 80 9 Q119 9 119 53 Z" fill="${c}" ${ln}></path><rect x="38" y="41" width="84" height="15" rx="7.5" fill="${cuff || c}" ${ln}></rect>
     <path d="M52 44 V53 M64 44 V53 M76 44 V53 M88 44 V53 M100 44 V53 M110 44 V53" stroke="#000" stroke-opacity=".18" stroke-width="3"></path><circle cx="80" cy="11" r="7.5" fill="${c}" ${ln}></circle>`;
   if (f.beanie) o += beanie(f.beanie);
   const hat = f.hat;
-  if (hat && hat.style === 'beanie') o += beanie(hat.color);
+  if (hat && hat.style === 'beanie') o += beanie(hat.color, hat.cuff);
   if (hat && hat.style === 'bucket') o += `<ellipse cx="80" cy="42" rx="44" ry="10" fill="${hat.color}" ${ln}></ellipse><path d="M54 41 Q55 16 80 16 Q105 16 106 41 Z" fill="${hat.color}" ${ln}></path>`;
   if (hat && hat.style === 'crown') o += `<polygon points="54,34 59,8 70,24 80,3 90,24 101,8 106,34" fill="${hat.color}" ${ln}></polygon>`;
   const tuck = hat && TUCK.includes(hat.style);
@@ -5850,7 +5875,7 @@ function bigArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
   else if (neck) o += `<path d="M68 99 Q80 122 92 99" fill="none" stroke="${neck.color}" stroke-width="3.5" stroke-linecap="round"></path>` + (neck.charm
     ? `<g transform="translate(80 121)">${[[-4, -4], [4, -4], [-4, 4], [4, 4]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.6" fill="${neck.charm}" stroke="#1B1830" stroke-width="2"></circle>`).join('')}<circle r="2" fill="#2E8B45"></circle></g>`
     : `<circle cx="80" cy="119" r="5" fill="${neck.color}" ${ln}></circle>`);
-  if (hat && hat.style === 'beanie') o += `<path d="M48 50 Q48 20 80 20 Q112 20 112 50 Z" fill="${hat.color}" ${ln}></path><rect x="46" y="43" width="68" height="12" rx="6" fill="${hat.color}" ${ln}></rect><path d="M56 46 V52 M64 46 V52 M72 46 V52 M80 46 V52 M88 46 V52 M96 46 V52 M104 46 V52" stroke="#000" stroke-opacity=".15" stroke-width="2"></path><circle cx="80" cy="16" r="8" fill="${hat.color}" ${ln}></circle>`;
+  if (hat && hat.style === 'beanie') o += `<path d="M48 50 Q48 20 80 20 Q112 20 112 50 Z" fill="${hat.color}" ${ln}></path><rect x="46" y="43" width="68" height="12" rx="6" fill="${hat.cuff || hat.color}" ${ln}></rect><path d="M56 46 V52 M64 46 V52 M72 46 V52 M80 46 V52 M88 46 V52 M96 46 V52 M104 46 V52" stroke="#000" stroke-opacity=".15" stroke-width="2"></path><circle cx="80" cy="16" r="8" fill="${hat.color}" ${ln}></circle>`;
   if (hat && hat.style === 'bucket') o += `<ellipse cx="80" cy="42" rx="41" ry="8" fill="${hat.color}" ${ln}></ellipse><path d="M55 41 Q56 18 80 18 Q104 18 105 41 Z" fill="${hat.color}" ${ln}></path><path d="M57 34 H103" stroke="#000" stroke-opacity=".15" stroke-width="4"></path>`;
   if (hat && hat.style === 'crown') o += `<polygon points="55,34 60,10 70,25 80,5 90,25 100,10 105,34" fill="${hat.color}" ${ln}></polygon><circle cx="80" cy="22" r="4" fill="#6FD3FF" ${ln}></circle><circle cx="64" cy="27" r="3" fill="#FF6FAE"></circle><circle cx="96" cy="27" r="3" fill="#FF6FAE"></circle>`;
   const tuck = hat && TUCK.includes(hat.style), phOn = lk.ph !== false;
@@ -6918,7 +6943,7 @@ function openTab(tab) {
       const rank = i => (S.owned[i.id] ? 0 : 100000) + tier(i) * 10000 + within(i);
       grid = '<div class="items">' + ITEMS.filter(i => i.slot === styleSlot && (!i.gift || S.owned[i.id])).sort((a, b) => rank(a) - rank(b)).map(it => {
         const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it);
-        const bar = own ? rn : it.album ? `Album ${it.album}` : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : `<i class="g"></i>${it.gems}`;
+        const bar = own ? rn : it.album ? `Album ${it.album}` : it.cm ? 'Style Box' : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : `<i class="g"></i>${it.gems}`;
         const tier = topTier(it) ? tierCls(it) : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
         return `<button class="item ${own ? '' : 'locked'} ${tier} ${it.album ? 'album' : ''}" data-item="${it.id}" aria-label="${it.name}${own ? (on ? ', wearing' : '') : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
           ${on ? '<span class="eq">Wearing</span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
@@ -7221,7 +7246,7 @@ const SBOX_TOKENS = { common: 1, rare: 1, epic: 3, legendary: 10, ultimate: 30, 
 const BOX_KINDS = ['small', 'big', 'event', 'label'];
 const boxCountTxt = (k, n) => n > 1 ? `${n} ${BOXES[k].name.replace(/ Style Box| Box/, '')} Boxes` : BOXES[k].name.replace(' Style Box', ' Box');
 // what can drop: Plain Hoodie for Common (more Commons later); otherwise outfits that were sold for gems (album, Founder, VIP and seasonal stay exclusive)
-const sboxPool = rar => ITEMS.filter(i => i.rar === rar && (rar === 'common' ? i.id === 'basic' : (i.gems > 0 && !i.album && !i.gift)) && (rar !== 'ultimate' || i.ev === boxTheme('event')));
+const sboxPool = rar => ITEMS.filter(i => i.rar === rar && (rar === 'common' ? (i.id === 'basic' || i.cm) : (i.gems > 0 && !i.album && !i.gift)) && (rar !== 'ultimate' || i.ev === boxTheme('event')));
 const sboxRank = r => ['common', 'rare', 'epic', 'legendary', 'ultimate', 'mythic'].indexOf(r);
 // the odds a box really rolls with: a rarity with nothing in it yet (the new Event Ultimates) folds into the next one down, so the shown odds are always the true odds
 function boxOdds(k) { const out = [];
