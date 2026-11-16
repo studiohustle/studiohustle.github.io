@@ -588,11 +588,11 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .item .glow::before { width: 70px; height: 70px; margin: -35px 0 0 -35px; }
 .item.epic:not(.locked) { border-color: #B79CFF; }
 .item.legendary:not(.locked) { border-color: #FF9A4A; box-shadow: 0 0 12px rgba(255,122,47,.5); }
-.item.mythic:not(.locked), .card.mythic { border-color: #FF4F9A; animation: mythicglow 2.6s ease-in-out infinite; }
-@keyframes mythicglow { 0%, 100% { box-shadow: 0 0 14px rgba(255,79,154,.65); border-color: #FF4F9A; } 50% { box-shadow: 0 0 22px rgba(159,230,255,.85); border-color: #9FE6FF; } }
+.item.mythic:not(.locked), .card.mythic { border-color: #21B4EC; animation: mythicglow 2.6s ease-in-out infinite; }
+@keyframes mythicglow { 0%, 100% { box-shadow: 0 0 14px rgba(33,180,236,.65); border-color: #21B4EC; } 50% { box-shadow: 0 0 22px rgba(159,230,255,.9); border-color: #9FE6FF; } }   /* Build 235: Mythic is light blue again; red belongs to Ultimate */
 .item .bestb { position: absolute; top: 4px; right: 4px; z-index: 1; background: var(--cash); color: var(--deep); font-size: 10px; font-weight: 800; border-radius: 999px; padding: 2px 7px; }
 .bonusline small { display: block; font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
-.artist.mythic::before { content: ""; position: absolute; left: 50%; top: 52%; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; background: radial-gradient(circle, rgba(255,79,154,.45) 0%, rgba(159,230,255,.25) 45%, rgba(159,230,255,0) 70%); animation: pulseglow 2.4s ease-in-out infinite; pointer-events: none; z-index: -1; }
+.artist.mythic::before { content: ""; position: absolute; left: 50%; top: 52%; width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%; background: radial-gradient(circle, rgba(33,180,236,.45) 0%, rgba(159,230,255,.25) 45%, rgba(159,230,255,0) 70%); animation: pulseglow 2.4s ease-in-out infinite; pointer-events: none; z-index: -1; }
 .item.album:not(.locked) { isolation: isolate; }
 .item.album.epic:not(.locked), .item.album:not(.locked):not(.legendary):not(.mythic) { border-color: #FFD93D; box-shadow: 0 0 14px rgba(255,201,74,.55); }
 .item.album:not(.locked)::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.8) 48%, transparent 60%) no-repeat; background-size: 250% 100%; animation: sheen 4s ease-in-out infinite; }
@@ -834,9 +834,9 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .buyart { position: relative; overflow: hidden; display: grid; place-items: center; min-height: 160px; border-radius: 18px; background: #EEF7FC; }
 .buyart::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.7) 48%, transparent 60%) no-repeat; background-size: 250% 100%; animation: sheen 7s ease-in-out infinite; }
 .buyart .spk { background: #C9B3FF; z-index: 1; }
-.buyart.mythic { background: radial-gradient(circle at 50% 55%, #FFE3F1 0%, #EAF6FF 55%, #DCEBFF 100%); box-shadow: inset 0 0 0 3px #FF8FC8, 0 0 18px rgba(255,79,154,.45); animation: mythicglow 2.6s ease-in-out infinite; }
-.buyart.mythic .rays { background: repeating-conic-gradient(rgba(255,79,154,.2) 0 9deg, rgba(159,230,255,0) 9deg 30deg); }
-.buyart.mythic .spk:nth-of-type(odd) { background: #FF8FC8; } .buyart.mythic .spk:nth-of-type(even) { background: #6FD3FF; }
+.buyart.mythic { background: radial-gradient(circle at 50% 55%, #E8F8FF 0%, #EAF6FF 55%, #D6EEFF 100%); box-shadow: inset 0 0 0 3px #6FD3FF, 0 0 18px rgba(33,180,236,.45); animation: mythicglow 2.6s ease-in-out infinite; }
+.buyart.mythic .rays { background: repeating-conic-gradient(rgba(33,180,236,.2) 0 9deg, rgba(159,230,255,0) 9deg 30deg); }
+.buyart.mythic .spk:nth-of-type(odd) { background: #FFFFFF; } .buyart.mythic .spk:nth-of-type(even) { background: #6FD3FF; }
 .buyart .rays { width: 220px; height: 220px; margin: -110px 0 0 -110px; opacity: .9; background: repeating-conic-gradient(rgba(124,79,224,.16) 0 9deg, rgba(124,79,224,0) 9deg 30deg); }
 .buycost .need { color: var(--accent); }
 /* buy buttons: same height, same little shadow, same gap, so the stack reads evenly */
@@ -1909,6 +1909,7 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .spk.bspk.sm { width: 10px; height: 10px; }
 .bo-art .spk.bspk { width: 20px; height: 20px; } .bo-art .spk.bspk.hot { width: 28px; height: 28px; background: #FFF6C8; filter: drop-shadow(0 0 6px rgba(255,220,120,1)); animation-duration: 1.6s; }
 .bs-art { position: relative; } .bo-art { position: relative; }
+.pf.pbox { position: relative; } .pbn { position: absolute; right: -8px; bottom: -4px; min-width: 20px; padding: 0 5px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; font: 400 11px/18px var(--display); font-style: normal; text-align: center; border: 1.5px solid #fff; }
 .box-open.opened:not(.done) .bo-box::after { content: ""; position: absolute; z-index: -1; left: 50%; top: 45%; width: 264px; height: 264px; margin: -132px 0 0 -132px; border-radius: 50%; pointer-events: none;
   background: radial-gradient(circle, rgba(255,236,160,.55), rgba(255,236,160,0) 65%); animation: boglow 1.6s ease-in-out infinite; }
 @keyframes boglow { 50% { transform: scale(1.12); opacity: .75; } }
@@ -1934,6 +1935,12 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .bp-art { position: relative; display: grid; margin-bottom: 6px; filter: drop-shadow(0 3px 3px rgba(0,0,0,.2)); }
 .bp-art i { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); min-width: 30px; padding: 0 7px; box-sizing: border-box; border-radius: 99px; background: #14122A; color: #fff; font: 400 13px/22px var(--display); font-style: normal; text-align: center; }
 .bp-row .cta { width: 78%; margin: 0; }
+.bp-body { align-items: center; }
+.bp-kinds { display: grid; gap: 10px 14px; justify-content: center; } .bp-kinds.c1 { grid-template-columns: 76px; } .bp-kinds.c2 { grid-template-columns: repeat(2, 76px); } .bp-kinds.c3 { grid-template-columns: repeat(3, 76px); }
+.bp-kind { border: 0; background: none; padding: 0; display: grid; place-items: center; }
+.bp-kind .bp-art i { left: auto; right: -4px; transform: none; bottom: -2px; }
+.bp-body > .cta { width: 82%; margin: 0; } .bp-all { margin-top: 4px !important; }
+.bp-one { margin: 6px 0 -2px; filter: drop-shadow(0 3px 3px rgba(0,0,0,.2)); }
 .bp-grid { padding: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: max-content; align-content: start; gap: 9px; overflow: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
 .bp-grid .bx-card { min-height: max-content; }
 .bp-foot { margin: 0; padding: 12px 16px 16px; background: #fff; border-top: 4px solid #3A336F; text-align: center; font: 600 13.5px var(--body); color: #14122A; }
@@ -3013,7 +3020,7 @@ const ITEMS = (() => { const list = [
   { id: 'varsity', rar: 'epic', slot: 'top', name: 'Varsity Jacket', gems: 120, bonus: 0.08, look: { style: 'varsity', body: '#2E6B45', sleeve: '#F1E6CC', trim: '#F1E6CC' } },
   { id: 'biker', rar: 'epic', slot: 'top', name: 'Leather Biker', gems: 135, bonus: 0.09, look: { style: 'biker', body: '#1E1B26', trim: '#2E2B38', zip: '#D9DCE6' } },
   { id: 'cuban', rar: 'legendary', slot: 'neck', name: 'Diamond Cuban', gems: 270, bonus: 0.15, look: { style: 'cuban', color: '#E8F7FF' } },
-  { id: 'nameplate', rar: 'ultimate', slot: 'neck', name: 'Artist Nameplate', gems: 500, bonus: 0.25, look: { style: 'nameplate', color: '#E8F7FF' } },
+  { id: 'nameplate', rar: 'mythic', pw: 'ultimate', slot: 'neck', name: 'Artist Nameplate', gems: 500, bonus: 0.25, look: { style: 'nameplate', color: '#E8F7FF' } },
   // batch 2: evening out the slots (hats, glasses, necklaces)
   { id: 'trucker', rar: 'rare', slot: 'hat', name: 'Trucker Cap', gems: 60, bonus: 0.05, look: { style: 'trucker', color: '#F4F1EA', mesh: '#2F6FDE', patch: '#FF6FAE', brim: '#2F6FDE' } },
   { id: 'bandana', rar: 'rare', slot: 'hat', name: 'Tour Bandana', gems: 50, bonus: 0.04, look: { style: 'bandana', color: '#D6453D' } },
@@ -3024,19 +3031,19 @@ const ITEMS = (() => { const list = [
   { id: 'silverrope', rar: 'rare', slot: 'neck', name: 'Silver Rope', gems: 35, bonus: 0.03, look: { style: 'rope', color: '#D9DCE6' } },
   { id: 'brokenheart', rar: 'epic', slot: 'neck', name: 'Broken Heart Pendant', gems: 105, bonus: 0.07, look: { style: 'heart', color: '#D9DCE6', pend: '#FF4F6A' } },
   // the Mythic set: worn together they make one outfit (pearl white with prism pink/cyan, like the Nameplate's diamonds)
-  { id: 'spotlight', rar: 'ultimate', slot: 'top', name: 'Spotlight Jacket', gems: 600, bonus: 0.3, look: { style: 'spotlight', puffy: true, body: '#F6F3FC', trim: '#9FE6FF' } },
-  { id: 'halo', rar: 'ultimate', slot: 'hat', name: 'Halo Snapback', gems: 400, bonus: 0.2, look: { style: 'halo', color: '#F6F3FC', brim: '#9FE6FF' } },
-  { id: 'prism', rar: 'ultimate', slot: 'face', name: 'Prism Visors', gems: 300, bonus: 0.15, look: { style: 'visor' } },
+  { id: 'spotlight', rar: 'mythic', pw: 'ultimate', slot: 'top', name: 'Spotlight Jacket', gems: 600, bonus: 0.3, look: { style: 'spotlight', puffy: true, body: '#F6F3FC', trim: '#9FE6FF' } },
+  { id: 'halo', rar: 'mythic', pw: 'ultimate', slot: 'hat', name: 'Halo Snapback', gems: 400, bonus: 0.2, look: { style: 'halo', color: '#F6F3FC', brim: '#9FE6FF' } },
+  { id: 'prism', rar: 'mythic', pw: 'ultimate', slot: 'face', name: 'Prism Visors', gems: 300, bonus: 0.15, look: { style: 'visor' } },
   { id: 'lucky', rar: 'legendary', slot: 'neck', name: 'Lucky Necklace', gems: 250, bonus: 0.12, perk: 'Crates pay 2x', look: { color: '#FFD93D', charm: '#3DBE5A' } },
 ];
   // Build 159 gear: every bonus-giving item adds to one All Profit pool (best item per slot, whatever you wear).
   // Bonus = rarity value x slot weight (top 1, hat 0.75, necklace 0.6, glasses 0.5). Gem price = the tier's top price x slot weight, to the nearest 10.
-  list.forEach(it => { if (!it.bonus || !GEAR_RAR[it.rar]) return;
-    it.bonus = GEAR_RAR[it.rar] * GEAR_SLOT_W[it.slot] / 100;
-    if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
+  list.forEach(it => { const pw = it.pw || it.rar; if (!it.bonus || !GEAR_RAR[pw]) return;   // pw: the tier an item's power and price come from (Build 235: the four Mythics keep their old Ultimate power)
+    it.bonus = GEAR_RAR[pw] * GEAR_SLOT_W[it.slot] / 100;
+    if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 234, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 235, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3414,10 +3421,12 @@ let PASS_STEP = 40;
 const passStepFor = (days = monthDays()) => days;
 const PASS_STARS = { task: 10, taskSet: 10, goal: 10, album: 30, wed: 20, encore: 20 };
 const PASS_JACKET = 'backstage';
-const passFree = t => t === 30 ? { gems: 50, skips: 1 } : t % 5 === 0 ? { skips: 1 } : { gems: 10 };
-const passGold = t => t === 30 ? { item: PASS_JACKET, gems: 200 } : t % 5 === 0 ? { skips: 3 } : t % 7 === 0 ? { frenzy: 2 } : { gems: 25 };
+// Build 235: Style Boxes on the pass. Small Boxes are the steady ones (tiers 4, 9, 14, 19, 24, 29); Big Boxes are rare (Free: tier 30 only; VIP: tiers 12 and 26)
+const PASS_SMALL = [4, 9, 14, 19, 24, 29];
+const passFree = t => t === 30 ? { gems: 50, box: 'big', n: 1 } : PASS_SMALL.includes(t) ? { box: 'small', n: 1 } : t % 5 === 0 ? { skips: 1 } : { gems: 10 };
+const passGold = t => t === 30 ? { item: PASS_JACKET, gems: 200 } : PASS_SMALL.includes(t) ? { box: 'small', n: 2 } : t === 12 || t === 26 ? { box: 'big', n: 1 } : t % 5 === 0 ? { skips: 3 } : t % 7 === 0 ? { frenzy: 2 } : { gems: 25 };
 // season totals, worked out from the table above
-const passTotals = side => { const o = { gems: 0, skips: 0, frenzy: 0 }; for (let t = 1; t <= PASS_TIERS; t++) { const r = side === 'free' ? passFree(t) : passGold(t); o.gems += r.gems || 0; o.skips += r.skips || 0; o.frenzy += r.frenzy || 0; } return o; };
+const passTotals = side => { const o = { gems: 0, skips: 0, frenzy: 0, small: 0, big: 0 }; for (let t = 1; t <= PASS_TIERS; t++) { const r = side === 'free' ? passFree(t) : passGold(t); o.gems += r.gems || 0; o.skips += r.skips || 0; o.frenzy += r.frenzy || 0; if (r.box) o[r.box] += r.n || 1; } return o; };
 const seasonId = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); };
 const seasonEnds = () => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth() + 1, 1).getTime(); };
 const seasonName = () => new Date().toLocaleString('en-US', { month: 'long' });
@@ -3426,10 +3435,10 @@ const seasonRollover = () => new Date(seasonEnds()).toLocaleString('en-US', { we
 function pass() {   // the current season's progress; a new month delivers anything earned but unclaimed, then starts fresh
   if (!S.pass || S.pass.season !== seasonId()) {
     if (S.pass && S.pass.season) PASS_STEP = S.pass.step || 40;   // last season's tiers, worked out with last season's step
-    if (S.pass && S.pass.season) { const old = S.pass, T = Math.min(PASS_TIERS, Math.floor(old.stars / PASS_STEP)), sum = { gems: 0, skips: 0, frenzy: 0 }; let item = null;
+    if (S.pass && S.pass.season) { const old = S.pass, T = Math.min(PASS_TIERS, Math.floor(old.stars / PASS_STEP)), sum = { gems: 0, skips: 0, frenzy: 0, bx: {} }; let item = null;
       for (let n = 1; n <= T; n++) for (const side of ['free', 'gold']) if (!old[side][n] && (side === 'free' || old.owned)) { const r = side === 'free' ? passFree(n) : passGold(n); payReward(r, `pass:${old.season}:${side}:${n}`);
-        sum.gems += r.gems || 0; sum.skips += r.skips || 0; sum.frenzy += r.frenzy || 0; if (r.item) item = r.item; }
-      if (sum.gems || sum.skips || sum.frenzy || item) S.passRecap = { gems: sum.gems, skips: sum.skips, frenzy: sum.frenzy, item }; }
+        sum.gems += r.gems || 0; sum.skips += r.skips || 0; sum.frenzy += r.frenzy || 0; if (r.item) item = r.item; if (r.box) sum.bx[r.box] = (sum.bx[r.box] || 0) + (r.n || 1); }
+      if (sum.gems || sum.skips || sum.frenzy || item || Object.keys(sum.bx).length) S.passRecap = { gems: sum.gems, skips: sum.skips, frenzy: sum.frenzy, item, bx: sum.bx }; }
     S.pass = { season: seasonId(), stars: 0, free: {}, gold: {}, owned: false, step: passStepFor() };
   }
   if (!S.pass.step) S.pass.step = passStepFor();
@@ -3440,7 +3449,7 @@ const passTier = () => Math.min(PASS_TIERS, Math.floor(pass().stars / PASS_STEP)
 function passStars(kind) { const before = passTier(); pass().stars += PASS_STARS[kind] || 0;
   if (passTier() > before) setTimeout(() => toast('Backstage Pass tier ' + passTier() + ' reached'), 900); }
 const passClaimable = () => { const p = pass(), t = passTier(); for (let i = 1; i <= t; i++) if (!p.free[i] || (p.owned && !p.gold[i])) return true; return false; };
-const rewardLine = r => [r.item ? itemById(r.item).name : '', r.gems ? r.gems + ' gems' : '', r.skips ? r.skips + (r.skips === 1 ? ' skip' : ' skips') : '', r.frenzy ? r.frenzy + 'x Fan Frenzy' : '', r.box ? BOXES[r.box].name : ''].filter(Boolean).join(' + ');
+const rewardLine = r => [r.item ? itemById(r.item).name : '', r.gems ? r.gems + ' gems' : '', r.skips ? r.skips + (r.skips === 1 ? ' skip' : ' skips') : '', r.frenzy ? r.frenzy + 'x Fan Frenzy' : '', r.box ? boxCountTxt(r.box, r.n || 1) : '', ...Object.entries(r.bx || {}).map(([k, n]) => boxCountTxt(k, n))].filter(Boolean).join(' + ');
 // ---------- inventory: stored time skips and Fan Frenzies. Whole numbers, never below zero, saved with the career ----------
 const INV = { skips: { name: 'Time Skip', icon: () => '<img src="art/shop/boost-60.svg" width="44" height="45" alt="">', time: '1 hour', what: () => `Instantly earn 1 hour of cash: ${fmt(skipValue(3600))} at your current income.` },
   frenzies: { name: 'Fan Frenzy', icon: () => ART.frenzy().replace('width="78" height="78"', 'width="48" height="48"'), time: '30 minutes', what: () => frenzyOn() ? 'Adds 30 minutes to your active Fan Frenzy.' : 'A crowd of fans shows up to tap for 30 minutes. Fans only come during a Frenzy.' } };
@@ -4705,12 +4714,18 @@ const lbXpAt = L => L <= 1 ? 0 : Math.round(48000 * Math.pow((L - 1) / (LB_MAX -
 const LB_MULT = [[1, 1.0], [2, 1.1], [5, 1.2], [10, 1.4], [15, 1.6], [20, 1.75], [25, 1.9], [30, 2.0]];
 const lbMult = L => LB_MULT.filter(([l]) => L >= l).pop()[1];
 // season rewards sit below the free Backstage Pass track in gems and skips; the multiplier is the label's main draw
-const LB_REWARD = L => {
-  if (L === 30) return { k: 'gems', n: 50, t: '50 gems', ic: 'gems' };
-  if (L === 5 || L === 15 || L === 25) return { k: 'hype', t: 'Hype Hour: 1 hour of Hype', ic: 'hype' };
-  if (L === 10 || L === 20) return { k: 'frenzy', t: 'Fan Frenzy', ic: 'frenzy' };
-  if ([6, 12, 18, 24, 28].includes(L)) return { k: 'skip', t: 'Time Skip', ic: 'skip' };
-  const n = L < 10 ? 10 : L < 20 ? 15 : 20; return { k: 'gems', n, t: n + ' gems', ic: 'gems' };
+// Build 235: label rewards modeled on Eatventure's club track (their 50 levels squeezed into our 30): box stacks that grow,
+// Label Boxes (the only Mythics) every 6 levels, Big Box stacks between them, and gems that climb the higher a label gets
+const LB_TABLE = { 2: ['small', 2], 3: 50, 4: ['small', 12], 5: 'hype', 6: ['label', 2], 7: ['big', 6], 8: 150, 9: 'frenzy', 10: ['big', 9],
+  11: 300, 12: ['label', 3], 13: 'skip', 14: 450, 15: ['big', 12], 16: 'hype', 17: 600, 18: ['label', 4], 19: 'frenzy', 20: ['big', 15],
+  21: 750, 22: 'skip', 23: 900, 24: ['label', 6], 25: ['big', 18], 26: 'hype', 27: 1000, 28: ['big', 20], 29: 1200, 30: ['label', 8] };
+const LB_REWARD = L => { const v = LB_TABLE[L];
+  if (Array.isArray(v)) { const [box, n] = v; return { k: 'box', box, n, t: boxCountTxt(box, n), ic: 'box:' + box + ':' + n }; }
+  if (typeof v === 'number') return { k: 'gems', n: v, t: v.toLocaleString('en-US') + ' gems', ic: 'gems' };
+  if (v === 'hype') return { k: 'hype', t: 'Hype Hour: 1 hour of Hype', ic: 'hype' };
+  if (v === 'frenzy') return { k: 'frenzy', t: 'Fan Frenzy', ic: 'frenzy' };
+  if (v === 'skip') return { k: 'skip', t: 'Time Skip', ic: 'skip' };
+  return { k: 'gems', n: 10, t: '10 gems', ic: 'gems' };
 };
 const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Earn an event star', '+2 XP'], ['Send a labelmate Hype', '+10 XP']];
 const LB_DAILY_CAP = 400;   // per member per day, so one very active player can't carry a whole label
@@ -4786,12 +4801,13 @@ function lbPay(season, level) {
   const id = 'lb:' + season + ':' + level, r = LB_REWARD(level); S.lbPaid = S.lbPaid || {};
   if (S.lbPaid[id]) return r; S.lbPaid[id] = 1; bumpRev();
   if (r.k === 'gems') { S.gems += r.n; owe('gems'); }
+  if (r.k === 'box') boxGive(r.box, r.n);
   if (r.k === 'skip') addInv('skips', 1, id);
   if (r.k === 'frenzy') addInv('frenzies', 1, id);
   if (r.k === 'hype') S.hypeUntil = Math.max(Date.now(), S.hypeUntil || 0) + 3600000;
   save(); render(); return r;
 }
-const lbRewardIc = (ic, sz = 30) => ic === 'gems' ? `<img src="art/gem.webp" width="${sz}" height="${Math.round(sz * .82)}" alt="">`
+const lbRewardIc = (ic, sz = 30) => ic.startsWith('box:') ? (([, b, n]) => `<span class="pf pbox lbbox">${boxArt(b, Math.round(sz * 1.2))}${+n > 1 ? `<i class="pbn">${n}</i>` : ''}</span>`)(ic.split(':')) : ic === 'gems' ? `<img src="art/gem.webp" width="${sz}" height="${Math.round(sz * .82)}" alt="">`
   : ic === 'skip' ? `<img src="art/shop/boost-60.svg" width="${sz}" height="${sz}" alt="">`
   : ic === 'frenzy' ? ART.frenzy().replace('width="78" height="78"', `width="${sz}" height="${sz}"`)
   : ic === 'hype' ? `<span class="lb-ric hype" style="width:${sz}px;height:${sz}px"><svg viewBox="0 0 24 24" width="${sz * .6}" height="${sz * .6}" fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>`
@@ -5326,7 +5342,7 @@ $('scrim').addEventListener('click', e => {
   if (itb) { const it = itemById(itb.dataset.item); if (!it) return;
     if (S.owned[it.id]) { if (S.equip[it.slot] === it.id) { if (it.slot !== 'top') S.equip[it.slot] = null; } else S.equip[it.slot] = it.id; applyLook(); save(); render(); sfx('tap'); return openTab('style'); }
     if (it.album) { sfx('denied'); toast(`Unlocks when you drop album ${it.album}`); return; }
-    if (topTier(it)) { sfx('denied'); toast('Ultimates come only from Event Boxes'); return; }
+    if (topTier(it)) { sfx('denied'); toast(it.rar === 'mythic' ? 'Mythics come only from Label Boxes' : 'Ultimates come only from Event Boxes'); return; }
     if (S.gems < it.gems) { sfx('denied'); toast('Not enough gems'); return; }
     return askItem(it, 'style'); }
   if (e.target.closest('[data-stymx]') || e.target.matches('[data-stymodalbg]')) { pendingName = null; styleModal = null; return openTab('style'); }
@@ -5857,7 +5873,7 @@ function plaqueRow(cl) {
 }
 const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // Common ~+2% · Rare +3–5% · Epic +6–10% · Legendary +12–18% · Mythic +25% and up
-const RARITY = { vip: ['VIP', '#C99A00'], seasonal: ['Seasonal', '#B5562F'], founder: ['Founder', '#C9871A'], common: ['Common', '#7F7A99'], rare: ['Rare', '#2F7FE8'], epic: ['Epic', '#7C4FE0'], legendary: ['Legendary', '#E5650F'], ultimate: ['Ultimate', '#D4231F'], mythic: ['Mythic', '#E0307A'] };
+const RARITY = { vip: ['VIP', '#C99A00'], seasonal: ['Seasonal', '#B5562F'], founder: ['Founder', '#C9871A'], common: ['Common', '#7F7A99'], rare: ['Rare', '#2F7FE8'], epic: ['Epic', '#7C4FE0'], legendary: ['Legendary', '#E5650F'], ultimate: ['Ultimate', '#D4231F'], mythic: ['Mythic', '#21B4EC'] };
 const topTier = it => it && (it.rar === 'ultimate' || it.rar === 'mythic');   // the shop's top tier gets the special glow
 const rarity = it => RARITY[it.rar] || RARITY.common;
 const RAR_ORDER = ['common', 'rare', 'epic', 'legendary', 'ultimate', 'mythic'];
@@ -6570,7 +6586,7 @@ function openTab(tab) {
   } else if (tab === 'pass') {
     const p = pass(), T = passTier(), into = p.stars - T * PASS_STEP, maxed = T >= PASS_TIERS, any = passClaimable(), vt = passTotals('gold'), jacket = itemById(PASS_JACKET);
     const freshOpen = !(!$('scrim').hidden && sheetKey === 'pass') && !backNav;
-    const icon = r => r.item ? `<span class="pjk">${itemArt(jacket, 44)}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
+    const icon = r => r.item ? `<span class="pjk">${itemArt(jacket, 44)}</span>` : r.box ? `<span class="pf pbox">${boxArt(r.box, 48)}${(r.n || 1) > 1 ? `<i class="pbn">${r.n}</i>` : ''}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
     const tile = (side, n) => { const r = side === 'free' ? passFree(n) : passGold(n), got = p[side][n], open = n <= T, vip = side === 'gold' && !p.owned, ready = open && !got && !vip;
       const state = got ? '<span class="pst ok">Claimed</span>' : ready ? `<button class="hire" data-pclaim="${side}:${n}">Claim</button>` : vip ? '<span class="pst vip">Requires VIP</span>' : `<span class="pst">Locked · tier ${n}</span>`;
       return `<div class="ptile ${side} ${got ? 'got' : ''} ${ready ? 'ready' : ''} ${vip ? 'needvip' : ''} ${!open && !got ? 'locked' : ''} ${r.item ? 'big' : ''}">${icon(r)}<b>${rewardLine(r)}</b>${state}</div>`; };
@@ -6759,7 +6775,7 @@ function openTab(tab) {
           <span class="price"><i class="g"></i>${B.cost}</span></button>`; };
         const live = boxBuyable('event');
         return `<div class="cards two sboxes">${card('small')}${card('big')}</div>
-        ${live ? `<div class="cards two sboxes">${card('event')}<div class="sb-side"><b>Event Box</b><span>The only box with Ultimates: 2% per outfit</span><span>Ultimate guaranteed within ${pityLeft('event')} boxes</span>${live ? '<span>Sold only while the event is live</span>' : ''}<button class="hire" data-sbox-view="event">See chances</button></div></div>` : ''}
+        ${live ? `<div class="cards two sboxes">${card('event')}<div class="sb-side"><b>Event Box</b>${boxPity('event') ? `<span>The only box with Ultimates: 2% per outfit</span><span>Ultimate guaranteed within ${pityLeft('event')} boxes</span>` : '<span>Up to Legendary for now</span><span>Brand-new Ultimates are on the way</span>'}${live ? '<span>Sold only while the event is live</span>' : ''}<button class="hire" data-sbox-view="event">See chances</button></div></div>` : ''}
         <p class="cnote sb-note">Free boxes from map moves, albums and events wait on your studio screen.</p>`; })()}
       <div class="banner">Boosts</div>
       <div class="cards two boosts">
@@ -6858,7 +6874,7 @@ function openTab(tab) {
       const rank = i => (S.owned[i.id] ? 0 : 100000) + tier(i) * 10000 + within(i);
       grid = '<div class="items">' + ITEMS.filter(i => i.slot === styleSlot && (!i.gift || S.owned[i.id])).sort((a, b) => rank(a) - rank(b)).map(it => {
         const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it);
-        const bar = own ? rn : it.album ? `Album ${it.album}` : topTier(it) ? 'Event Box' : `<i class="g"></i>${it.gems}`;
+        const bar = own ? rn : it.album ? `Album ${it.album}` : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : `<i class="g"></i>${it.gems}`;
         const tier = topTier(it) ? 'mythic' : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
         return `<button class="item ${own ? '' : 'locked'} ${tier} ${it.album ? 'album' : ''}" data-item="${it.id}" aria-label="${it.name}${own ? (on ? ', wearing' : '') : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
           ${on ? '<span class="eq">Wearing</span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
@@ -7152,13 +7168,22 @@ const BOXES = {
   big: { name: 'Big Style Box', cost: 200, cost5: 950, rolls: 3, pity: { rar: 'legendary', n: 15 }, art: ['#7C5CFF', '#B18CFF', '#FFD93D'],
     odds: [['common', 50], ['rare', 30], ['epic', 15], ['legendary', 5]], top: 'Common to Legendary outfits', earn: 'Free with every album' },
   event: { name: 'Event Box', cost: 250, cost5: 1200, rolls: 3, pity: { rar: 'ultimate', n: 20 }, art: ['#D4231F', '#FF7A6B', '#FFD93D'],
-    odds: [['common', 48], ['rare', 30], ['epic', 15], ['legendary', 5], ['ultimate', 2]], top: 'The only box with Ultimates', earn: 'Event track tiers 10 and 13, or the shop while an event is live' }
+    odds: [['common', 48], ['rare', 30], ['epic', 15], ['legendary', 5], ['ultimate', 2]], top: 'The only box with Ultimates', earn: 'Event track tier 14, or the shop while an event is live' },
+  // Build 235: Label Boxes come only from Label Rewards and are the only box with Mythics. Never sold.
+  label: { name: 'Label Box', cost: 0, cost5: 0, rolls: 3, pity: { rar: 'mythic', n: 10 }, noShop: true,
+    odds: [['rare', 53], ['epic', 33], ['legendary', 12], ['mythic', 2]], top: 'The only box with Mythics (0.5% each)', earn: 'Label Rewards only' }   // odds from Eatventure's Club Box
 };
-const SBOX_TOKENS = { common: 1, rare: 1, epic: 3, legendary: 10, ultimate: 30 };   // Style Tokens for a duplicate of each rarity
-const BOX_KINDS = ['small', 'big', 'event'];
+const SBOX_TOKENS = { common: 1, rare: 1, epic: 3, legendary: 10, ultimate: 30, mythic: 50 };   // Style Tokens for a duplicate of each rarity
+const BOX_KINDS = ['small', 'big', 'event', 'label'];
+const boxCountTxt = (k, n) => n > 1 ? `${n} ${BOXES[k].name.replace(/ Style Box| Box/, '')} Boxes` : BOXES[k].name.replace(' Style Box', ' Box');
 // what can drop: Plain Hoodie for Common (more Commons later); otherwise outfits that were sold for gems (album, Founder, VIP and seasonal stay exclusive)
 const sboxPool = rar => ITEMS.filter(i => i.rar === rar && (rar === 'common' ? i.id === 'basic' : (i.gems > 0 && !i.album && !i.gift)));
-const sboxRank = r => ['common', 'rare', 'epic', 'legendary', 'ultimate'].indexOf(r);
+const sboxRank = r => ['common', 'rare', 'epic', 'legendary', 'ultimate', 'mythic'].indexOf(r);
+// the odds a box really rolls with: a rarity with nothing in it yet (the new Event Ultimates) folds into the next one down, so the shown odds are always the true odds
+function boxOdds(k) { const out = [];
+  for (const [r, p] of BOXES[k].odds) { if (sboxPool(r).length || !out.length) out.push([r, p]); else out[out.length - 1] = [out[out.length - 1][0], out[out.length - 1][1] + p]; }
+  return out; }
+const boxPity = k => { const P = BOXES[k].pity; return P && sboxPool(P.rar).length ? P : null; };
 function sboxState() {
   if (!S.sbox || !S.sbox.inv) S.sbox = { inv: { small: 0, big: 0, event: 0 }, pity: { big: 0, event: 0 }, opened: { small: 0, big: 0, event: 0 }, tokens: (S.sbox && S.sbox.tokens) || 0 };
   return S.sbox;
@@ -7166,21 +7191,21 @@ function sboxState() {
 const boxOwned = k => sboxState().inv[k] || 0;
 const boxesOwned = () => BOX_KINDS.reduce((a, k) => a + boxOwned(k), 0);
 function boxGive(k, n = 1) { const st = sboxState(); st.inv[k] = (st.inv[k] || 0) + n; if (k === 'event') { const L = evLive(); st.evId = (L && L.id) || (S.ev && S.ev.id) || st.evId; } bumpRev(); }
-const boxBuyable = k => k !== 'event' || !!(evLive() && evUnlocked());
+const boxBuyable = k => !BOXES[k].noShop && (k !== 'event' || !!(evLive() && evUnlocked()));
 function sboxRoll(odds, rng = Math.random) { let r = rng() * 100; for (const [k, p] of odds) { if ((r -= p) < 0) return k; } return odds[0][0]; }
 // pure: rolls one box from its pity count and returns the rarities plus the new count (used by the game and by the odds test)
 function sboxRollBox(kind, p, rng = Math.random) {
-  const B = BOXES[kind], rars = Array.from({ length: B.rolls }, () => sboxRoll(B.odds, rng));
+  const B = BOXES[kind], odds = boxOdds(kind), P = boxPity(kind), rars = Array.from({ length: B.rolls }, () => sboxRoll(odds, rng));
   let forced = null;
-  if (B.pity) { const need = sboxRank(B.pity.rar), hit = () => rars.some(r => sboxRank(r) >= need);
-    if (p >= B.pity.n - 1 && !hit()) { const lo = rars.reduce((lo, r, i) => sboxRank(r) < sboxRank(rars[lo]) ? i : lo, 0); rars[lo] = B.pity.rar; forced = lo; }
+  if (P) { const need = sboxRank(P.rar), hit = () => rars.some(r => sboxRank(r) >= need);
+    if (p >= P.n - 1 && !hit()) { const lo = rars.reduce((lo, r, i) => sboxRank(r) < sboxRank(rars[lo]) ? i : lo, 0); rars[lo] = P.rar; forced = lo; }
     return { rars, forced, p: hit() ? 0 : p + 1 }; }
   return { rars, forced, p: 0 };
 }
 function sboxOpen(kind, n) {
   const st = sboxState(), out = [];
   for (let b = 0; b < n; b++) {
-    const r = sboxRollBox(kind, st.pity[kind] || 0); if (BOXES[kind].pity) st.pity[kind] = r.p; st.opened[kind] = (st.opened[kind] || 0) + 1;
+    const r = sboxRollBox(kind, st.pity[kind] || 0); if (boxPity(kind)) st.pity[kind] = r.p; st.opened[kind] = (st.opened[kind] || 0) + 1;
     r.rars.forEach((rar, k) => { const pool = sboxPool(rar), it = pool[Math.floor(Math.random() * pool.length)];
       const dup = !!S.owned[it.id], tk = dup ? SBOX_TOKENS[rar] : 0;
       if (dup) st.tokens += tk; else { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
@@ -7198,11 +7223,11 @@ const boxTheme = k => { if (k !== 'event') return k; const L = evLive && evLive(
 const boxSparks = (n, seed = 1, cls = '') => Array.from({ length: n }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
   return `<i class="spk bspk ${cls}" style="left:${14 + a * .66}%;top:${18 + b * .58}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.55 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
 const boxArt = (k, sz, state = 'closed') => `<img class="boxart" src="art/boxes/${boxTheme(k)}-${state}.webp" width="${sz}" height="${sz}" alt="" draggable="false">`;
-const sboxOdds = k => `<div class="sb-odds" style="--n:${BOXES[k].odds.length}">${BOXES[k].odds.map(([r, p]) => { const [rn, rc] = RARITY[r];
+const sboxOdds = k => `<div class="sb-odds" style="--n:${boxOdds(k).length}">${boxOdds(k).map(([r, p]) => { const [rn, rc] = RARITY[r];
   return `<div class="sb-o" style="--rc:${rc}"><span class="sb-q">?</span><b>${rn}</b><em>${p}%</em></div>`; }).join('')}</div>`;
 const sboxPityRow = (label, left, total, rc) => `<div class="sb-pity"><span class="rt"><b>${label}</b><span>guaranteed within <b>${left}</b> box${left === 1 ? '' : 'es'}</span></span>
   <span class="sb-pbar"><i style="width:${Math.round((total - left) / total * 100)}%;background:${rc}"></i></span></div>`;
-const pityLeft = k => BOXES[k].pity ? BOXES[k].pity.n - (sboxState().pity[k] || 0) : 0;
+const pityLeft = k => boxPity(k) ? boxPity(k).n - (sboxState().pity[k] || 0) : 0;
 // the buttons under a box in the shop: buy and open at once (earned boxes open from the stack on the main screen)
 function sboxBtns(k) {
   const B = BOXES[k]; if (!boxBuyable(k)) return '';
@@ -7210,12 +7235,12 @@ function sboxBtns(k) {
     <button class="cta gemcta" data-sbox-open="${k}:5" ${S.gems < B.cost5 ? 'disabled' : ''}>Open 5 <span class="gemprice">${GEM_MINI}${B.cost5}</span></button></div>`;
 }
 function sboxSheet() {
-  const k = sboxKind, B = BOXES[k], st = sboxState();
-  const pity = B.pity ? `<div class="sec"><h3>Bad-luck protection</h3>${sboxPityRow(B.pity.rar === 'ultimate' ? 'Ultimate' : 'Legendary', pityLeft(k), B.pity.n, RARITY[B.pity.rar][1])}
+  const k = sboxKind, B = BOXES[k], st = sboxState(), P = boxPity(k), noUlt = k === 'event' && !sboxPool('ultimate').length;
+  const pity = P ? `<div class="sec"><h3>Bad-luck protection</h3>${sboxPityRow(RARITY[P.rar][0], pityLeft(k), P.n, RARITY[P.rar][1])}
       <p class="cnote">Counts ${B.name}es opened in a row without one.</p></div>` : '';
   return `<div class="sheet-head"><h2>${B.name}</h2>${headBtns('data-tab-go="shop"')}</div>
     <div class="sbk-tabs">${BOX_KINDS.map(x => `<button class="stab ${x === k ? 'on' : ''}" data-sbox-view="${x}">${BOXES[x].name.replace(' Style Box', '').replace(' Box', '')}</button>`).join('')}</div>
-    <div class="sb-hero"><span class="sb-art">${boxArt(k, 96)}</span><span class="rt"><b>${B.rolls} outfits per box</b><span>${B.top}. Every outfit you get is yours to keep; duplicates turn into Style Tokens.</span>
+    <div class="sb-hero"><span class="sb-art">${boxArt(k, 96)}</span><span class="rt"><b>${B.rolls} outfits per box</b><span>${noUlt ? 'Up to Legendary for now; brand-new Ultimates are on the way' : B.top}. Every outfit you get is yours to keep; duplicates turn into Style Tokens.</span>
       <span class="sb-earn">${B.earn}</span></span></div>
     <div class="sec"><h3>Chances per outfit</h3>${sboxOdds(k)}<p class="cnote">Each of the ${B.rolls} outfits rolls on its own with these chances.</p></div>
     ${pity}
@@ -7242,7 +7267,7 @@ const XSVG = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"
 // Boxes bought in the shop are never stored: they open straight away in the same full-screen reveal.
 try { document.body.append($('boxPop'), $('boxOpen')); } catch (e) {}   // own layer above the HUD and sheets
 const BOXO = { res: [], i: -1, kind: 'small', src: 'stack' };   // the reveal in progress; i = -1 closed box, 0..n-1 showing outfit i, n = all of them
-const boxTopKind = () => ['event', 'big', 'small'].find(k => boxOwned(k)) || null;
+const boxTopKind = () => ['event', 'label', 'big', 'small'].find(k => boxOwned(k)) || null;
 function boxStackUpd() {
   const b = $('boxStack'); if (!b) return; const k = boxTopKind(), n = boxesOwned();
   b.hidden = !k || !S.onboarded; if (!k) return;
@@ -7256,14 +7281,19 @@ const boxCardHtml = (x, big) => { const [rn, rc] = RARITY[x.rar];
 const boxSorted = res => [...res].sort((a, b) => sboxRank(b.rar) - sboxRank(a.rar));
 const tokenLine = res => { const t = res.reduce((a, x) => a + x.tk, 0); return t ? `You also received <b>${t} Style Token${t === 1 ? '' : 's'}</b> from duplicates` : ''; };
 // the "Open Boxes" popup: one row per kind you hold
+// the "Open Boxes" popup (Build 235, like Eatventure): every box you hold in one grid, Open all of them, or Open 1 of the best one
+const BOX_ORDER = ['event', 'label', 'big', 'small'];
 function boxPop() {
-  const kinds = ['event', 'big', 'small'].filter(k => boxOwned(k));
+  const kinds = BOX_ORDER.filter(k => boxOwned(k)), n = boxesOwned();
   if (!kinds.length) return boxPopClose();
+  const top = kinds[0];
   $('boxPop').innerHTML = `<div class="bp-card" role="dialog" aria-label="Open boxes">
-    <div class="bp-head"><button class="bp-i" data-sbox-view="${kinds[0]}" aria-label="See chances">i</button><h3>Open Boxes</h3><button class="bp-x" data-boxpop-x aria-label="Close">${XSVG}</button></div>
-    <div class="bp-body">${kinds.map(k => `<div class="bp-row"><span class="bp-name">${BOXES[k].name}</span>
-      <span class="bp-art">${boxArt(k, 64)}<i>${boxOwned(k)}</i></span>
-      ${boxOwned(k) > 1 ? `<button class="cta" data-boxopen="${k}:all">Open all</button>` : ''}<button class="cta" data-boxopen="${k}:1">Open 1</button></div>`).join('')}</div></div>`;
+    <div class="bp-head"><button class="bp-i" data-sbox-view="${top}" aria-label="See chances">i</button><h3>Open Boxes</h3><button class="bp-x" data-boxpop-x aria-label="Close">${XSVG}</button></div>
+    <div class="bp-body">
+      <div class="bp-kinds c${Math.min(kinds.length, 3)}">${kinds.map(k => `<button class="bp-kind" data-sbox-view="${k}" aria-label="${BOXES[k].name}: ${boxOwned(k)}, see chances"><span class="bp-art">${boxArt(k, 64)}<i>${boxOwned(k)}</i></span></button>`).join('')}</div>
+      ${n > 1 ? `<button class="cta bp-all" data-boxopen="all:all">Open ${n}</button>` : ''}
+      <span class="bp-art bp-one">${boxArt(top, 84)}</span>
+      <button class="cta" data-boxopen="${top}:1">Open 1</button></div></div>`;
   $('boxPop').hidden = false;
 }
 function boxPopClose() { $('boxPop').hidden = true; $('boxPop').innerHTML = ''; }
@@ -7271,7 +7301,7 @@ function boxReceived(res, kind) {
   $('boxPop').innerHTML = `<div class="bp-card recv" role="dialog" aria-label="Received items">
     <div class="bp-head"><span></span><h3>Received Items</h3><button class="bp-x" data-boxpop-back aria-label="Close">${XSVG}</button></div>
     <div class="bp-grid">${boxSorted(res).map(x => boxCardHtml(x)).join('')}</div>
-    <p class="bp-foot">${tokenLine(res) || `${res.length} outfit${res.length === 1 ? '' : 's'} from ${res.length / BOXES[kind].rolls} ${BOXES[kind].name}${res.length / BOXES[kind].rolls === 1 ? '' : 'es'}`}</p></div>`;
+    <p class="bp-foot">${tokenLine(res) || `${res.length} outfit${res.length === 1 ? '' : 's'}`}</p></div>`;
   $('boxPop').hidden = false;
 }
 // full-screen reveal
@@ -7295,6 +7325,9 @@ function boxOpenStep() { if (BOXO.i >= BOXO.res.length) return; BOXO.i++; const 
 function boxOpenClose() { $('boxOpen').hidden = true; $('boxOpen').innerHTML = ''; render(); if (BOXO.src === 'stack' && boxesOwned()) boxPop(); }
 // opening boxes from the stack
 function boxOpenOwned(k, all) {
+  if (k === 'all') { const kinds = BOX_ORDER.filter(x => boxOwned(x)); if (!kinds.length) return; bumpRev(); let res = [];
+    kinds.forEach(x => { const n = boxOwned(x); sboxState().inv[x] -= n; res = res.concat(sboxOpen(x, n)); }); track('sbox/openall');
+    save(); render(); sfx('bling'); return res.length > BOXES[kinds[0]].rolls ? boxReceived(res, kinds[0]) : boxReveal(res, kinds[0], 'stack'); }
   const n = all ? boxOwned(k) : Math.min(1, boxOwned(k)); if (!n) return;
   bumpRev(); sboxState().inv[k] -= n; const res = sboxOpen(k, n); track('sbox/' + k + '/open' + (all ? 'all' : '1'));
   save(); render(); sfx('bling');
@@ -7392,9 +7425,9 @@ const EV_DEFS = {
 const EV_ROT = ['western', 'island', 'galaxy'];   // weekly rotation order
 const EV_BASE = [1, 9, 80, 700, 6000].map(b => b / 2), EV_CYC = [1.5, 3, 5, 8, 12], EV_C0 = [5, 70, 800, 9000, 100000].map(c => c * EV_K), EV_UNL = [0, 250, 4000, 60000, 900000].map(c => c * EV_K);
 // rewards per tier, index = tier. acc / top = that event's cosmetic (100 gems instead if already owned); badge = profile badge (placeholder)
-const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 10 }, { gems: 15 }, { frenzy: 1 }, { gems: 15 }, { gems: 15 }, { gems: 20 }, { skips: 1 }, { box: 'event' }, { gems: 20 }, { gems: 25 }, { skips: 1 }, { gems: 25 }, { badge: true }];   // Build 233: tier 10 is an Event Box (was 20 gems)   // tier 15: the event's completion badge (no currency)
+const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 10 }, { box: 'small', n: 2 }, { frenzy: 1 }, { gems: 15 }, { box: 'small', n: 4 }, { gems: 20 }, { skips: 1 }, { gems: 20 }, { box: 'small', n: 6 }, { gems: 25 }, { skips: 1 }, { box: 'event', n: 1 }, { badge: true }];   // Build 235: boxes where Eatventure puts them: Small Style Boxes at tiers 4, 7 and 11, an Event Box at tier 14   // tier 15: the event's completion badge (no currency)
 // 360 gems in the pass lane = 120 gems per dollar, in line with the Backstage Pass VIP (117/$) and the $2.99 Mixtape Bundle (127/$)
-const EV_PASS = [null, { gems: 30 }, { gems: 30 }, { skips: 1 }, { gems: 35 }, { gems: 35 }, { frenzy: 1 }, { gems: 40 }, { acc: true }, { gems: 45 }, { skips: 1 }, { gems: 45 }, { frenzy: 1 }, { box: 'event' }, { gems: 50 }, { top: true }];   // Build 233: tier 13 is an Event Box (was 50 gems)
+const EV_PASS = [null, { gems: 30 }, { gems: 30 }, { skips: 1 }, { box: 'small', n: 5 }, { gems: 35 }, { frenzy: 1 }, { box: 'small', n: 8 }, { acc: true }, { gems: 45 }, { skips: 1 }, { box: 'small', n: 12 }, { frenzy: 1 }, { gems: 50 }, { box: 'event', n: 3 }, { top: true }];   // Build 235: Mini Pass lane, same tiers with bigger stacks
 const EV_PRICE = 2.99;
 const EVI = { guitar: '<path d="M14 4l6 6M17 7l-5.5 5.5"/><path d="M11.5 12.5a4 4 0 1 0-1.5 6 3 3 0 0 0 4-4 4 4 0 0 0-2.5-2z"/>', mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/>',
   note: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>', disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>', star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
@@ -7721,12 +7754,12 @@ function evClaim(lane, n) {
 }
 const evHas = (lane, n) => !!(lane === 'free' ? EV_FREE : EV_PASS)[n];
 const evRewardTxt = r => !r ? '—' : r.badge ? `${EV_DEFS[S.ev ? S.ev.id : 'western'].badge} badge` : r.acc || r.top ? (() => { const d = EV_DEFS[S.ev.id], it = itemById(r.acc ? d.acc : d.top); return S.owned[it.id] ? `${it.name} (owned: 100 gems)` : it.name + ', look-only'; })()
-  : r.box ? BOXES[r.box].name : r.gems ? r.gems + ' gems' : r.skips ? 'Time Skip (1 h)' : r.frenzy ? 'Fan Frenzy' : '';
+  : r.box ? boxCountTxt(r.box, r.n || 1) : r.gems ? r.gems + ' gems' : r.skips ? 'Time Skip (1 h)' : r.frenzy ? 'Fan Frenzy' : '';
 // event over: deliver every earned, unclaimed reward, record a result card, wipe the event. Career gets no offline time for the event period.
 function evFinish() {
   if (!S.ev) return; const wasIn = isEv(); if (wasIn) evSwapOut();
   const T = evTier(), pts = evPoints(), got = { gems: 0, skips: 0, frenzy: 0, boxes: 0, items: [], badge: null };
-  for (let n = 1; n <= T; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.box) got.boxes++; if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
+  for (let n = 1; n <= T; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.box) { got.boxes += r.n || 1; got.bk = got.bk || {}; got.bk[r.box] = (got.bk[r.box] || 0) + (r.n || 1); } if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
   S.evResult = { title: EV_DEFS[S.ev.id].title, tier: T, pts, pass: S.ev.pass, got };
   S.evHist = [...(S.evHist || []), { key: S.ev.key, id: S.ev.id, start: S.ev.start, end: S.ev.end, tier: T, badge: !!S.ev.got.free[EV_TIERS] }].slice(-40);
   const carAway = wasIn && S.ev.carAway;
@@ -7848,16 +7881,16 @@ function evTasks() {
 }
 function evRewardsTab() {
   const d = EV_DEFS[S.ev.id], T = evTier();
-  const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), box: a.box + (r.box ? 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, box: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.event.cost * pt.box;   // the shop's one value formula
+  const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), box: a.box + (r.box ? 1 : 0), small: a.small + (r.box === 'small' ? r.n || 1 : 0), ev: a.ev + (r.box === 'event' ? r.n || 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, box: 0, small: 0, ev: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.small.cost * pt.small + BOXES.event.cost * pt.ev;   // the shop's one value formula
   const pass = S.ev.pass ? `<div class="evh-pass on">${evI('check', 20, '#2E9E5B')}<div>Mini Pass active<span>The right-hand lane is unlocked for this event.</span></div></div>`
-    : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.skips} skips + ${pt.frenzy} Frenzies${pt.box ? ` + ${pt.box} Event Box` : ''} + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
+    : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.small} Small Boxes + ${pt.ev} Event Boxes + ${pt.skips} skips + ${pt.frenzy} Frenzies + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
       ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${EV_DEFS[S.ev.id].name}">$${EV_PRICE}</button>`}</div>`;
   const cell = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], reached = n <= T, ready = reached && !!r && (lane === 'free' || S.ev.pass);
     if (!r) return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>—</span></div>`;
     const right = got ? '<span class="ok">✓</span>' : ready ? `<button data-evclaim="${lane}:${n}">Claim</button>` : lane === 'pass' && !S.ev.pass ? `<span class="lk">${evI('lock', 13, '#9A6A00', 2.6)}</span>` : '';
     return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>${evRewardTxt(r)}</span>${right}</div>`; };
   // laid out like the Backstage Pass: Free | tier node | Mini Pass, with art on every tile
-  const icon = r => r.box ? `<span class="pf">${boxArt(r.box, 36)}</span>` : r.acc || r.top ? `<span class="pjk">${itemArt(itemById(r.acc ? d.acc : d.top), 44)}</span>` : r.badge ? `<span class="pjk">${evEmblem(S.ev.id, 40)}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
+  const icon = r => r.box ? `<span class="pf pbox">${boxArt(r.box, 48)}${(r.n || 1) > 1 ? `<i class="pbn">${r.n}</i>` : ''}</span>` : r.acc || r.top ? `<span class="pjk">${itemArt(itemById(r.acc ? d.acc : d.top), 44)}</span>` : r.badge ? `<span class="pjk">${evEmblem(S.ev.id, 40)}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
   const tile = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], open = n <= T, need = lane === 'pass' && !S.ev.pass, ready = open && !got && !need && !!r;
     const state = got ? '<span class="pst ok">Claimed</span>' : ready ? `<button class="hire" data-evclaim="${lane}:${n}">Claim</button>` : need ? '<span class="pst vip">Mini Pass</span>' : `<span class="pst">Tier ${n} · ${n * EV_TIER_PTS}★</span>`;
     return `<div class="ptile ${lane === 'pass' ? 'gold' : 'free'} ${got ? 'got' : ''} ${ready ? 'ready' : ''} ${need ? 'needvip' : ''} ${!open && !got ? 'locked' : ''} ${r && (r.acc || r.top || r.badge) ? 'big' : ''}">${r ? icon(r) : ''}<b>${evRewardTxt(r)}</b>${state}</div>`; };
@@ -7884,7 +7917,7 @@ function evSheet(tab) {
     <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
   if (tab === 'evresult') { const r = S.evResult; S.evResult = null; save();
-    const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', r.got.boxes ? r.got.boxes + ' Event Box' + (r.got.boxes > 1 ? 'es' : '') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
+    const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', r.got.bk ? Object.entries(r.got.bk).map(([k, n]) => boxCountTxt(k, n)).join(', ') : r.got.boxes ? r.got.boxes + ' Event Box' + (r.got.boxes > 1 ? 'es' : '') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
     return `<div class="welcome"><h2>${r.title} is over</h2><span class="amt" style="color:var(--gem)">Tier ${r.tier} of ${EV_TIERS}</span>
       <p>${r.pts} / ${EV_MAX_PTS} points${r.pass ? ' · Mini Pass' : ''}. ${parts.length ? 'Delivered now: ' + parts.join(', ') + '.' : 'Every reward was already claimed.'}</p>
       <p class="evnote">Next long event: Thursday</p></div>${r.got.badge ? '<button class="ghost" data-evbadges="events">See my badges</button>' : ''}<button class="cta" data-close>Back to my career</button>`; }
