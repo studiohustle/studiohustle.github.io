@@ -2901,7 +2901,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[it.rar] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 228, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 229, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4596,7 +4596,7 @@ const lbWeekLeft = () => { const d = new Date(), t = Date.UTC(d.getUTCFullYear()
 const lbHypeLeft = () => { const d = new Date(); return lbTwo(new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1) - d); };   // local midnight
 const lbAgo = at => { const s = Math.max(0, (Date.now() - Date.parse(at)) / 1000); return s < 3600 ? Math.max(1, Math.floor(s / 60)) + 'm' : s < 86400 ? Math.floor(s / 3600) + 'h' : Math.floor(s / 86400) + 'd'; };
 const lbErr = r => (r && r.data && (r.data.message || r.data.hint)) || (r && r.status ? 'Something went wrong (' + r.status + ')' : 'No connection');
-// the Label All Profit bonus this player gets now: the label's level multiplier once they've added 100 XP this season.
+// the Label All Profit bonus this player gets now: the label's level multiplier, from the moment they join (Build 229).
 // Kept in the save so income stays right offline; it only counts during the season it was read in.
 async function lbCall(fn, body) {
   if (PREVIEW_LOCK || PLAYTEST) return { ok: false, status: 0, data: { message: 'Labels are off in this build' } };
@@ -4612,7 +4612,7 @@ async function lbLoad(quiet) {
   if (!r.ok || !r.data) { LB.status = 'error'; LB.err = lbErr(r); return false; }
   LB.st = r.data; LB.status = 'ok'; LB.err = '';
   const L = lbL(), me = lbMeRow();
-  S.lbIn = !!L; S.lbx = { season: r.data.season || lbSeason(), x: L && me && me.xp >= 100 ? lbMult(lbLevel(L.xp)) : 1 };
+  S.lbIn = !!L; S.lbx = { season: r.data.season || lbSeason(), x: L ? lbMult(lbLevel(L.xp)) : 1 };
   const hin = r.data.hype_in || [];
   if (hin.length) { hin.forEach(() => lbAddHype(10)); const who = [...new Set(hin)];
     toast(`${who.slice(0, 2).map(cleanName).join(' and ')}${who.length > 2 ? ' and others' : ''} sent you Hype: +${hin.length * 10} min`); sfx('hype'); }
@@ -4674,7 +4674,7 @@ function lbHead() {
   return `<div class="lb-top">
     <div class="lb-top-l">
       <div class="lb-top-name">${lbBadge({ color: M.color, glyph: M.glyph }, 34)}<b>${esc(M.name)}</b>${lbI('info')}</div>
-      <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b>${me.xp < 100 ? '<small class="lb-top-pend">after you add 100 XP</small>' : ''}</div>
+      <div class="lb-top-mult">Label All Profit <b>x${lbMult(L)}</b></div>
       <div class="lb-top-lv">Level ${L}</div>
       <div class="lb-top-bar"><i style="width:${Math.max(8, pct)}%"></i><span>${L >= LB_MAX ? 'Max level' : `${fmtN(M.xp - a)}/${fmtN(b - a)} XP`}</span></div>
       <div class="lb-top-season">Season ends in <b>${lbLeft()}</b></div>
@@ -4717,7 +4717,6 @@ function lbModal() {
         <p>Level and Label All Profit reset each season. Rewards you collected are yours to keep.</p>
         <details class="lb-more"><summary>More rules</summary>
           <p>Up to ${LB_DAILY_CAP} XP per member per day. Each level pays you once per season, even if you switch labels.</p>
-          <p>New members get Label All Profit after adding 100 XP.</p>
           <p>Anyone can invite players to an open label; only the owner can invite to a private one. Invited players still need the album minimum.</p>
           <p>Up to 10 members. If the owner leaves, the top contributor becomes owner. Kicked members can't rejoin until next season, and the Label XP they added is removed.</p></details></div>
       <button class="lb-leave" data-lbleave>Leave Label</button></div></div>`;
@@ -6484,12 +6483,13 @@ function openTab(tab) {
       <div class="welcome"><span class="amt mgold">x${fmtX(totalMult())}</span><p>Every station earns this much more than its base pay. Hype, the Golden Mic and All Profit multiply each other.</p>${perSec() > 0 ? `<p>Your crew earns <b class="mcash">+${fmt(perSec() * mult())} / sec</b> right now.</p>` : ''}</div>
       ${row(h, bolt, hypeTxt() + ' Hype', h ? hypeX() : 1, h ? hms(S.hypeUntil - Date.now()) + ' left' : 'Off · tap the Hype button to start it')}
             ${row(micBought(), svgIc('mic', '#FFD93D', 20), 'Golden Mic', micX(), micBought() ? 'Owned · forever' : 'Available in the Shop')}
-      ${row(cp > 1.0001, svgIc('star', '#FFD93D', 20), 'All Profit', cp, 'Fame and outfits added together')}
+      ${row(cp > 1.0001, svgIc('star', '#FFD93D', 20), 'All Profit', cp, labelProfitX() > 1 ? 'Fame, outfits and your label' : 'Fame and outfits added together')}
       <p class="mathline">${[h ? hypeX() : 1, micX(), cp].map(fmtX).join(' × ')} = <b>x${fmtX(totalMult())}</b></p>
       <h3 style="margin-top:14px">All Profit</h3>
       <div class="row mrow ${fb > 0 ? '' : 'off'}"><span class="ric">${svgIc('note', '#FFD93D', 20)}</span><span class="rt"><b>Fame</b><span>${S.albums || 0} album${S.albums === 1 ? '' : 's'} dropped · Fame ×${fame().toFixed(2)} → +${pctTxt(fb)}</span><span>Fame's bonus counts 1.5× here · up to +${pctTxt(fameBonusAt(1e9))}</span></span><span class="xv">+${pctTxt(fb)}</span></div>
       <div class="row mrow ${g > 1 ? '' : 'off'}"><span class="ric">${svgIc('shirt', '#B18CFF', 20)}</span><span class="rt"><b>Wardrobe</b><span>${g > 1 ? `Your best item in each slot${S.owned.lucky ? ' · crates pay 2x' : ''}` : 'Collect items in Style for a bonus'}</span></span><span class="xv">+${Math.round((g - 1) * 100)}%</span></div>
-      <p class="cnote">All Profit = 1 + Fame bonus + outfit bonus = x${fmtX(cp)}. Events use the same multiplier.</p>`);
+      <div class="row mrow ${labelProfitX() > 1 ? '' : 'off'}"><span class="ric">${LB_IC.members.replace('width="24" height="24"', 'width="20" height="20" style="color:#8BC8FF"')}</span><span class="rt"><b>Label</b><span>${labelProfitX() > 1 ? `${esc((lbL() || {}).name || 'Your label')} · Label All Profit` : 'Join a label to earn up to x2'}</span></span><span class="xv">x${fmtX(labelProfitX())}</span></div>
+      <p class="cnote">All Profit = (1 + Fame bonus + outfit bonus)${labelProfitX() > 1 ? ' × Label' : ''} = x${fmtX(cp)}. Events use the same multiplier.</p>`);
   } else if (tab === 'move-confirm') {
     const firstTime = (S.mapPaid || 0) <= S.loc, gemsNext = MAP_GEMS[S.loc] || 0;
     openSheet(`<div class="sheet-head"><h2>Your next chapter</h2>${closeBtn()}</div>
