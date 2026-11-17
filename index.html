@@ -2199,7 +2199,7 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .rw-items { position: relative; z-index: 2; display: flex; gap: 18px; align-items: flex-end; }
 .rw-it { display: flex; flex-direction: column; align-items: center; animation: bppop .35s cubic-bezier(.3,1.5,.5,1) both; } .rw-it + .rw-it { animation-delay: .08s; }
 .rw-ic { display: grid; place-items: center; width: 78px; height: 78px; } .rw-ic img { max-width: 76px; max-height: 76px; object-fit: contain; filter: drop-shadow(0 4px 3px rgba(20,18,42,.2)); }
-.rw-it i { margin-top: -10px; font: 400 15px/24px var(--display); font-style: normal; color: #fff; background: #14122A; border-radius: 99px; padding: 0 11px; white-space: nowrap; }
+.rw-it i { position: relative; z-index: 2; margin-top: -10px; font: 400 15px/24px var(--display); font-style: normal; color: #fff; background: #14122A; border-radius: 99px; padding: 0 11px; white-space: nowrap; }
 .rw-note { margin: 0; text-align: center; font: 600 14px var(--body); color: #5A5480; }
 .rwpop .cta { width: 100%; margin: 0; }
 
@@ -2207,6 +2207,12 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .looktabs { display: flex; gap: 6px; margin-bottom: 4px; } .looktabs .stab { flex: 1; }
 
 /* Build 261 prototype: Style Token donations */
+.lb-acts { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 8px; margin: 0 0 10px; }
+.lb-act { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 9px 10px; border: 0; border-radius: 14px; background: #fff; box-shadow: 0 4px 0 rgba(30,60,100,.16); text-align: left; }
+.lb-act > span:last-child { min-width: 0; display: flex; flex-direction: column; gap: 1px; font: 600 11.5px var(--body); color: #6E6A88; white-space: nowrap; }
+.lb-act b { font: 800 13.5px var(--body); color: #14122A; }
+.lb-act-ic { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #E3F2FF; color: #2D6FA8; } .lb-act-ic svg { width: 17px; height: 17px; }
+.lb-act.hype.spent { opacity: .75; } .lb-act.hype.spent .lb-act-ic { background: #ECE9F5; color: #7C7799; }
 .lb-donline { display: flex; align-items: center; gap: 10px; width: 100%; margin: 0 0 10px; padding: 10px 12px; border: 0; border-radius: 14px; background: #fff; box-shadow: 0 4px 0 rgba(30,60,100,.16); text-align: left; color: #14122A; }
 .lb-donline > span { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; font: 600 12px var(--body); color: #6E6A88; } .lb-donline b { font: 800 13.5px var(--body); color: #14122A; }
 .lb-donline.spent { opacity: .7; } .lb-donchev { font-style: normal; font: 800 22px var(--body); color: #8C86A6; }
@@ -3294,7 +3300,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 262, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 263, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5132,9 +5138,11 @@ const lbNm = m => lbIsMe(m) ? cleanName(S.name) + ' (you)' : cleanName(m.name);
 function lbMembers() {
   const ms = LB.st.members || [], sent = lbSent(), left = lbHypesLeft(), M = lbL();
   return `<div class="lb-lhead"><b>Members ${ms.length}/10</b><span>Season XP</span></div>
-    ${!SRV_BOX ? '' : (() => { const tk = sboxState().tokens;
-      return `<button class="lb-donline" data-lbmodal="donate">${TK_IC(30)}<span><b>Donate Style Tokens</b>You have ${fmtN(tk)} token${tk === 1 ? '' : 's'} · 1 token = 1 Label XP</span><i class="lb-donchev">›</i></button>`; })()}
-    ${ms.length > 1 ? `<div class="lb-hypeline ${left ? '' : 'spent'}">${LB_IC.bolt}<span>${left ? `<b>Hype available today: ${left}/${LB_HYPES}</b> · Tap a labelmate to send` : `<b>All ${LB_HYPES} Hypes sent</b> · Available again in ${lbHypeLeft()}`}</span></div>` : ''}
+    ${(() => {   // Build 263: Donate and Hype sit side by side in one row above the list (either one alone takes the full row)
+      const tiles = [];
+      if (SRV_BOX) { const tk = sboxState().tokens; tiles.push(`<button class="lb-act don" data-lbmodal="donate">${TK_IC(30)}<span><b>Donate</b>${fmtN(tk)} token${tk === 1 ? '' : 's'}</span></button>`); }
+      if (ms.length > 1) tiles.push(`<button class="lb-act hype ${left ? '' : 'spent'}" data-lbhypehint><span class="lb-act-ic">${LB_IC.bolt}</span><span><b>Send Hype</b>${left ? `${left}/${LB_HYPES} left today` : `Back in ${lbHypeLeft()}`}</span></button>`);
+      return tiles.length ? `<div class="lb-acts">${tiles.join('')}</div>` : ''; })()}
     <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
       return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
         <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i>${st === 'sent' && !me ? `<span class="lb-hyped" title="You sent Hype today">${LB_IC.bolt}</span>` : ''}</b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
@@ -5299,7 +5307,7 @@ async function lbAct(fn, body, done) {
   await lbLoad(true); lbRefresh(); return r;
 }
 document.addEventListener('click', async e => {
-  const t = e.target.closest('[data-lbretry],[data-lbkick],[data-lbkickgo],[data-lbkickno],[data-lbmodal],[data-lbmodalx],[data-lbdongo],[data-lbdoninfo],[data-lbclaim],[data-lbsettings],[data-lbstep],[data-lbsetopen],[data-lbsave],[data-lbnewcode],[data-lbtab],[data-lbmember],[data-lbhype],[data-lbcopy],[data-lbleave],[data-lbleavego],[data-lbcreate],[data-lbinvite],[data-lbfind],[data-lbjoin],[data-lbglyph],[data-lbcolor],[data-lbopen],[data-lbmake],[data-lbback],[data-lbreport],[data-lbsendreport]');
+  const t = e.target.closest('[data-lbretry],[data-lbkick],[data-lbkickgo],[data-lbkickno],[data-lbmodal],[data-lbmodalx],[data-lbdongo],[data-lbdoninfo],[data-lbhypehint],[data-lbclaim],[data-lbsettings],[data-lbstep],[data-lbsetopen],[data-lbsave],[data-lbnewcode],[data-lbtab],[data-lbmember],[data-lbhype],[data-lbcopy],[data-lbleave],[data-lbleavego],[data-lbcreate],[data-lbinvite],[data-lbfind],[data-lbjoin],[data-lbglyph],[data-lbcolor],[data-lbopen],[data-lbmake],[data-lbback],[data-lbreport],[data-lbsendreport]');
   if (!t) { if (e.target.matches('[data-lbmodalbg]')) { LB.modal = null; openTab('labels'); } return; }
   const D = t.dataset, sn = $('lbSetName'); if (sn && LB.set) LB.set.name = sn.value.slice(0, 18);
   const nm = $('lbName'); if (nm) LB.create.name = nm.value.trim().slice(0, 18);
@@ -5312,6 +5320,7 @@ document.addEventListener('click', async e => {
     return lbAct('lb_donate', { amount: n }, d => { bumpRev(); sboxState().tokens = d.tokens; save();
       LB.modal = null; toast(d.xp ? `Donated ${fmtN(d.xp)} token${d.xp === 1 ? '' : 's'} · +${fmtN(d.xp)} Label XP` : 'No tokens to donate'); sfx('reward'); }); }
   if (D.lbmodal !== undefined) { LB.modal = D.lbmodal || null; openTab('labels'); if (LB.modal === 'rewards') { const n = document.querySelector('.lb-rr.next'); if (n) n.parentNode.scrollTop = n.offsetTop - n.parentNode.offsetTop - 60; } return; }
+  if (t.hasAttribute('data-lbhypehint')) { sfx('tap'); return toast(lbHypesLeft() ? 'Tap a labelmate to send Hype' : 'All Hypes sent. Back in ' + lbHypeLeft()); }
   if (D.lbmember) { if (e.target.closest('[data-lbhype]')) return; LB.view = D.lbmember; LB.modal = 'member'; return openTab('labels'); }
   if (D.lbhype) { if (t.disabled) return; const m = (LB.st.members || []).find(x => x.uid === D.lbhype);
     return lbAct('lb_hype', { who: D.lbhype, tz: lbTz() }, () => { toast(`Sent ${cleanName(m ? m.name : 'them')} 10 minutes of Hype`); sfx('reward'); }); }
@@ -5539,7 +5548,8 @@ function closeSheet() {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === 'studio'));
   if (pendingArrive) { pendingArrive = false; return showArrival(); }
   if (pendingWelcome) { pendingWelcome = false; return openTab('welcome'); }
-  if (pendingDaily) { pendingDaily = false; if (dailyReady()) openTab('daily'); }
+  if (pendingDaily) { pendingDaily = false; if (dailyReady()) return openTab('daily'); }
+  if (giftReady() && $('boxPop').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) giftPop(); }, 350);
 }
 // Build 256: reward claimed screens use the floating card (title + X, reward art with count pills, one short line), like Open Boxes
 function rewardPop(title, items, note) {
@@ -5550,6 +5560,25 @@ function rewardPop(title, items, note) {
       <span class="rw-items">${items.filter(Boolean).map(([k, n]) => `<span class="rw-it"><span class="rw-ic">${ic[k]}</span><i>+${n}</i></span>`).join('')}</span></div>
       <p class="rw-note">${note}</p><button class="cta" data-boxpop-x>Collect</button></div></div>`;
   $('boxPop').hidden = false;
+}
+// Build 263: one-time thank-you gift (3 Small + 1 Big Box), once per save, while the window is open
+const GIFT = { id: 'thanks263', until: Date.parse('2026-11-25T08:00:00Z'), title: 'Thank you!', note: 'Thanks for playing. Enjoy some boxes!', boxes: [['small', 3], ['big', 1]] };
+const giftReady = () => S.onboarded && !tutActive() && Date.now() < GIFT.until && !(S.gifts || {})[GIFT.id];
+function giftPop() {
+  if (!giftReady()) return;
+  $('boxPop').innerHTML = `<div class="bp-card rwpop" role="dialog" aria-label="${GIFT.title}">
+    <div class="bp-head"><span></span><h3>${GIFT.title}</h3><button class="bp-x" data-boxpop-x aria-label="Close">${XSVG}</button></div>
+    <div class="bp-body"><div class="rw-art"><span class="bx-rays"></span><span class="sbp-sun"></span>
+      <span class="rw-items">${GIFT.boxes.map(([k, n]) => `<span class="rw-it"><span class="rw-ic">${boxArt(k, 76)}</span><i>x${n}</i></span>`).join('')}</span></div>
+      <p class="rw-note">${GIFT.note}</p><button class="cta" data-gift-claim>Claim</button></div></div>`;
+  $('boxPop').hidden = false; sfx('bling');
+}
+function giftClaim() {
+  if (!giftReady()) return boxPopClose();
+  S.gifts = Object.assign({}, S.gifts, { [GIFT.id]: Date.now() });
+  GIFT.boxes.forEach(([k, n]) => boxGive(k, n, 'gift'));
+  sfx('claim'); save(); render(); boxPopClose();
+  toast(GIFT.boxes.reduce((a, [, n]) => a + n, 0) + ' boxes added');
 }
 function claimDaily() {
   if (!dailyReady()) return;
@@ -6669,6 +6698,7 @@ function mergeCareer(keep, other) {
     kp.owned = kp.owned || op.owned; kp.stars = Math.max(kp.stars, op.stars);
   }
   keep.deals = Object.assign({}, other.deals || {}, keep.deals || {});
+  keep.gifts = Object.assign({}, other.gifts || {}, keep.gifts || {});   // a gift claimed on either device stays claimed
   keep.hol = keep.hol || {}; for (const k of Object.keys(other.hol || {})) if (!keep.hol[k]) { keep.hol[k] = true; keep.gems += holGems(k); }
   if (keep.encore && other.encore && keep.encore.wk === other.encore.wk && other.encore.got) keep.encore.got = true;
   { const a = keep.freeHype, b = other.freeHype; if (b && typeof b === 'object' && (!a || typeof a !== 'object' || b.wk > a.wk || (b.wk === a.wk && b.left < a.left))) keep.freeHype = b; }
@@ -7860,6 +7890,7 @@ function boxOpenOwned(k, all) {
 document.addEventListener('click', e => {
   const t = e.target;
   if (t.closest('#boxStack')) { sfx('tap'); return boxPop(); }
+  if (t.closest('[data-gift-claim]')) return giftClaim();
   if (t.closest('[data-boxpop-x]') || t === $('boxPop')) { sfx('tap'); return boxPopClose(); }
   if (t.closest('[data-boxpop-back]')) { sfx('tap'); return boxesOwned() ? boxPop() : boxPopClose(); }
   const o = t.closest('[data-boxopen]'); if (o) { const [k, how] = o.dataset.boxopen.split(':'); return boxOpenOwned(k, how === 'all'); }
@@ -8574,6 +8605,7 @@ function start(data) {
     if (!S.onboarded && S.name && S.name !== 'New Artist') S.onboarded = true;
     if (!S.onboarded) { if (dailyReady()) pendingDaily = true; if ($('scrim').hidden) openTab('welcome'); else pendingWelcome = true; }
     else if (dailyReady()) { if ($('scrim').hidden) openTab('daily'); else pendingDaily = true; }
+    else if (giftReady() && $('scrim').hidden) giftPop();
     if (S.onboarded) setTimeout(() => syncChart(true), 1500);
   }
   { const c = cloud(); if (!c.friendsOld) c.friendsOld = (c.friends || []).slice(); }   // friends added before requests existed stay on the list
