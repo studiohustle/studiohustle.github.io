@@ -2085,6 +2085,8 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .bp-one { margin: 6px 0 -2px; filter: drop-shadow(0 3px 3px rgba(0,0,0,.2)); }
 .bp-grid { padding: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: max-content; align-content: start; gap: 9px; overflow: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
 .bp-grid .bx-card { min-height: max-content; }
+.bp-card.recv { width: min(275px, 100%); }   /* Build 266: 3 columns of standard-size cards (same card size and spacing as the 4-across grid), so the window is narrower */
+.recv .bp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .recv .bp-head { grid-template-columns: 1fr 44px; } .recv .bp-head > span:first-child { display: none; } .recv .bp-head h3 { font-size: 18px; text-align: left; padding-left: 4px; white-space: nowrap; }   /* slim pop-up header: title left, X right */
 .bp-foot { margin: 0; padding: 12px 16px 16px; background: #fff; border-top: 4px solid #3A336F; text-align: center; font: 600 13.5px var(--body); color: #14122A; }
 .bx-card { position: relative; display: flex; flex-direction: column; background: #fff; border: 3px solid var(--rc); border-radius: 12px; overflow: hidden; min-width: 0; }
 .bx-card .bx-c { position: absolute; top: 0; left: 0; z-index: 2; padding: 1px 6px 2px; border-radius: 0 0 9px 0; background: var(--rc); color: #fff; font: 800 10.5px var(--body); }
@@ -3300,7 +3302,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 265, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 266, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7855,7 +7857,7 @@ const boxCardHtml = (x, big) => { const [rn, rc] = RARITY[x.rar];
   return `<div class="bx-card ${big ? 'big' : ''}" style="--rc:${rc}">${x.dup ? `<span class="bx-c">+${x.tk}</span>` : '<span class="bx-c new">New</span>'}
     <span class="bx-art">${itemArt(x.it, big ? 92 : 50)}</span><span class="bx-band">${rn}</span>${big ? `<b class="bx-name">${x.it.name}</b>` : ''}</div>`; };
 const boxSorted = res => [...res].sort((a, b) => sboxRank(b.rar) - sboxRank(a.rar));
-const tokenLine = res => { const t = res.reduce((a, x) => a + x.tk, 0); return t ? `+<b>${fmtN(t)} Style Token${t === 1 ? '' : 's'}</b> from duplicates · you have <b>${fmtN(sboxState().tokens)}</b>` : ''; };   // Build 261: every box kind
+const tokenLine = (res, short) => { const t = res.reduce((a, x) => a + x.tk, 0); return t ? `+<b>${fmtN(t)} Style Token${t === 1 ? '' : 's'}</b>${short ? '' : ' from duplicates'} · you have <b>${fmtN(sboxState().tokens)}</b>` : ''; };   // short: the narrow Received Items window (Build 266)   // Build 261: every box kind
 // the "Open Boxes" popup: one row per kind you hold
 // the "Open Boxes" popup (Build 235, like Eatventure): every box you hold in one grid, Open all of them, or Open 1 of the best one
 const BOX_ORDER = ['event', 'label', 'big', 'small'];
@@ -7877,11 +7879,11 @@ function boxReceived(res, kind) {
   $('boxPop').innerHTML = `<div class="bp-card recv" role="dialog" aria-label="Received items">
     <div class="bp-head"><span></span><h3>Received Items</h3><button class="bp-x" data-boxpop-back aria-label="Close">${XSVG}</button></div>
     <div class="bp-grid">${boxSorted(res).map(x => boxCardHtml(x)).join('')}</div>
-    <p class="bp-foot">${tokenLine(res) || `${res.length} outfit${res.length === 1 ? '' : 's'}`}</p></div>`;
+    <p class="bp-foot">${tokenLine(res, true) || `${res.length} outfit${res.length === 1 ? '' : 's'}`}</p></div>`;
   $('boxPop').hidden = false;
   // Build 265: show about 3 rows, with a peek of the next so it's clear the list scrolls
   const g = $('boxPop').querySelector('.bp-grid'), c = g && g.querySelector('.bx-card');
-  if (c && res.length > 12) g.style.maxHeight = Math.round(c.offsetHeight * 3.35 + 9 * 3 + 14) + 'px';
+  if (c && res.length > 6) g.style.maxHeight = Math.round(c.offsetHeight * 2.5 + 9 * 2 + 14) + 'px';
 }
 // full-screen reveal
 function boxReveal(res, kind, src) { ['open', 'glow'].forEach(st => { new Image().src = `art/boxes/${boxTheme(kind)}-${st}.webp`; }); Object.assign(BOXO, { res, kind, src, i: -1 }); boxPopClose(); boxOpenDraw(); $('boxOpen').hidden = false; }
