@@ -2152,6 +2152,7 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .spk.bspk { background: #fff; filter: drop-shadow(0 0 3px rgba(255,255,255,.9)); }
 
 /* Build 252: shop sparkles always sit on the top layer, over the art */
+#sheet .spk { width: 10px; height: 10px; } #sheet .gemcard.green .spk, #sheet .frcard .spk { width: 9px; height: 9px; } #sheet .spk.bspk, #shopFloat .spk.bspk { width: 11px; height: 11px; }
 #sheet .spk, #shopFloat .spk { z-index: 8 !important; }
 </style>
 </head>
@@ -3226,7 +3227,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 252, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 253, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7003,7 +7004,7 @@ function openTab(tab) {
   } else if (tab === 'shop') {
     const owned = id => OFFERS[id].once && S.perks[id];
     // deterministic sparkle positions so they don't jump around on every refresh
-    const sparks = (n, seed = 1) => Array.from({ length: n }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
+    const sparks = (n, seed = 1) => Array.from({ length: Math.min(n, SPARK_MAX) }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
       return `<i class="spk" style="left:${24 + a * .52}%;top:${12 + b * .5}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.6 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
     const offer = (id, art, color, ribbon, perks, label) => { const o = OFFERS[id], own = o.deal ? dealOwned(id) : o.hol ? holBought(o) : owned(id);
       return `<button class="offer" data-buy="${id}" ${own ? 'disabled' : ''} style="background:${color}" aria-label="${o.name}, ${own ? 'owned' : o.money}">${ribbon ? `<span class="rib">${ribbon}</span>` : ''}
@@ -7020,7 +7021,7 @@ function openTab(tab) {
       return `<button class="card green gemcard" data-buy="${id}" aria-label="${amount} gems${bonus ? ', ' + bonus + ' bonus' : ''}, ${o.money}">
         ${ribbon ? `<span class="rib small${ribbon.length > 10 ? ' long' : ''}">${ribbon}</span>` : ''}
         <span class="wall stars"></span>${bonus ? `<span class="burst"><span class="burst-in">${bonus}<small>bonus</small></span></span>` : ''}
-        <span class="gbody">${sparks(sp, n * 7)}<span class="art">${ART.gems(n)}</span><span class="amount"><b><span>${amount}</span></b></span></span>
+        <span class="gbody">${sparks(n > 3 ? 3 : 2, n * 7)}<span class="art">${ART.gems(n)}</span><span class="amount"><b><span>${amount}</span></b></span></span>
         <span class="price">${o.money}</span></button>`; };
     const boostCard = (id, art, amount, label, ribbon) => { const o = OFFERS[id];   // Build 243: framed like the skip packs, Eatventure style
       return `<button class="card gemcard boostcard" data-buy="${id}" aria-label="${label}, ${amount}, ${o.gems} gems">
@@ -7032,7 +7033,7 @@ function openTab(tab) {
       return `<button class="card gemcard ${kind === 'skips' ? 'skipcard' : 'skipcard frcard'}" data-buy="${id}" aria-label="${amount}, ${o.money}">
         ${ribbon ? `<span class="rib small${ribbon.length > 10 ? ' long' : ''}">${ribbon}</span>` : ''}
         <span class="wall stars"></span>
-        <span class="gbody">${sparks(sp, n * 11)}<span class="art">${ART[kind](n)}</span><span class="amount"><b><span>${amount}</span></b></span></span>
+        <span class="gbody">${sparks(kind === 'frenzies' ? (n > 2 ? 3 : 2) : sp, n * 11)}<span class="art">${ART[kind](n)}</span><span class="amount"><b><span>${amount}</span></b></span></span>
         <span class="price">${o.money}</span></button>`; };
     const slotName = { top: 'Top', hat: 'Hat', neck: 'Necklace', face: 'Glasses' };
     const outfit = it => { const [rn, rc] = rarity(it);
@@ -7545,7 +7546,9 @@ const boxTheme = k => { if (k !== 'event') return k; const L = evLive && evLive(
   let id = L && L.id; if (!id && (st.inv || {}).event > 0) id = st.evId; if (!id) { try { const n = evNext(); id = n && n.id; } catch (e) {} }
   id = id || 'island'; return BOX_THEMES.includes(id) ? id : 'island'; };
 // sparkles that sit on the box itself (Build 234): spread over the middle of the art, not the card around it
-const boxSparks = (n, seed = 1, cls = '') => Array.from({ length: n }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
+// Build 253 sparkle standard: never more than 3 extra sparkles on one piece of art, white, small (9-11px), kept close around the art and on the top layer
+const SPARK_MAX = 3;
+const boxSparks = (n, seed = 1, cls = '') => Array.from({ length: Math.min(n, SPARK_MAX) }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
   return `<i class="spk bspk ${cls}" style="left:${14 + a * .66}%;top:${18 + b * .58}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.55 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
 const boxArt = (k, sz, state = 'closed') => `<img class="boxart" src="art/boxes/${boxTheme(k)}-${state}.webp" width="${sz}" height="${sz}" alt="" draggable="false">`;
 const sboxOdds = k => `<div class="sb-odds" style="--n:${boxOdds(k).length}">${boxOdds(k).map(([r, p]) => { const [rn, rc] = RARITY[r];
