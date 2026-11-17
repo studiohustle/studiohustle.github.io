@@ -3300,7 +3300,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 263, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 264, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5017,7 +5017,11 @@ const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tas
 // The server keeps the token balance (SRV_BOX): it rolls boxes, credits duplicates and deducts donations, so an edited save can't mint tokens.
 const TK_IC = (sz = 22) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#B18CFF" stroke="#1B1830" stroke-width="2"/><circle cx="12" cy="12" r="6.2" fill="#8F66F5"/><path d="M12 7.6 l1.3 2.9 3.1.3 -2.4 2 .8 3 -2.8-1.6 -2.8 1.6 .8-3 -2.4-2 3.1-.3z" fill="#fff"/></svg>`;
 const LB_DON_RATE = 1;   // Style Tokens per Label XP
-const SRV_BOX = (() => { try { return localStorage.getItem('sh-srvbox') === '1'; } catch (e) { return false; } })();   // prototype switch
+// Build 264 (test push): the server keeps boxes and Style Tokens only in test mode (Test Artist) until Eli has tested the live connection.
+// Everyone else keeps today's local boxes. To turn it on for everyone later: drop the TEST condition.
+const SRV_BOX = !PREVIEW_LOCK && !PLAYTEST && TEST && (() => { try { return localStorage.getItem('sh-srvbox') !== '0'; } catch (e) { return true; } })();
+const BOX_OFFLINE = "You're offline. Connect to the internet to open boxes";
+const lbNet = r => !r || !r.status;   // no answer from the server at all
 const LB_DAILY_CAP = 400;   // per member per day, so one very active player can't carry a whole label
 
 // ---- live state: everything below comes from the server (lb_* functions); nothing about a label lives in the save ----
@@ -5325,7 +5329,7 @@ document.addEventListener('click', async e => {
   if (D.lbhype) { if (t.disabled) return; const m = (LB.st.members || []).find(x => x.uid === D.lbhype);
     return lbAct('lb_hype', { who: D.lbhype, tz: lbTz() }, () => { toast(`Sent ${cleanName(m ? m.name : 'them')} 10 minutes of Hype`); sfx('reward'); }); }
   if (D.lbclaim !== undefined) { if (t.disabled) return;
-    return lbAct('lb_claim', {}, d => { const r = lbPay(d.season, d.level); toast(`Level ${d.level} reward: ${r.t}`); sfx('reward'); }); }
+    return lbAct('lb_claim', {}, d => { const r = lbPay(d.season, d.level); if (SRV_BOX && d.inv && sboxState().synced) sboxState().inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, d.inv); toast(`Level ${d.level} reward: ${r.t}`); sfx('reward'); }); }
   if (D.lbcopy !== undefined) { const c = (lbL() || {}).code || ''; try { await navigator.clipboard.writeText(c); toast('Label code ' + c + ' copied'); } catch (er) { toast('Label code: ' + c); } return; }
   if (D.lbsettings !== undefined) { const M = lbL(); LB.set = { name: M.name, min: M.min_albums, open: M.open }; LB.modal = 'settings'; return openTab('labels'); }
   if (D.lbstep) { if (t.disabled) return; const i = Math.max(0, LB_MINS.findIndex(v => v >= LB.set.min)); LB.set.min = LB_MINS[Math.max(0, Math.min(LB_MINS.length - 1, i + +D.lbstep))]; return openTab('labels'); }
@@ -7717,7 +7721,7 @@ const boxOwned = k => sboxState().inv[k] || 0;
 const boxesOwned = () => BOX_KINDS.reduce((a, k) => a + boxOwned(k), 0);
 function boxGive(k, n = 1, src = 'play') { const st = sboxState(); st.inv[k] = (st.inv[k] || 0) + n;
   // not synced yet: the first sync carries this box with the rest of your saved boxes; otherwise tell the server about the new box
-  if (SRV_BOX) (st.synced ? lbCall('sbox_grant', { kind: k, n, src }) : sboxSyncing ? sboxSyncing.then(() => lbCall('sbox_grant', { kind: k, n, src })) : sboxSync().then(() => ({ ok: false }))).then(r => { if (r.ok && r.data && r.data.inv) { st.inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, r.data.inv); if (r.data.held) toast('Some boxes unlock tomorrow'); save(); render(); } }); if (k === 'event') { const L = evLive(); st.evId = (L && L.id) || (S.ev && S.ev.id) || st.evId; } bumpRev(); }
+  if (SRV_BOX && src !== 'label') (st.synced ? sboxGrantSrv(k, n, src) : sboxSyncing ? sboxSyncing.then(() => st.synced ? sboxGrantSrv(k, n, src) : sboxQueue(k, n, src)) : sboxSync().then(() => { if (!st.synced) sboxQueue(k, n, src); })); if (k === 'event') { const L = evLive(); st.evId = (L && L.id) || (S.ev && S.ev.id) || st.evId; } bumpRev(); }
 const boxBuyable = k => !BOXES[k].noShop && (k !== 'event' || !!(evLive() && evUnlocked()));
 function sboxRoll(odds, rng = Math.random) { let r = rng() * 100; for (const [k, p] of odds) { if ((r -= p) < 0) return k; } return odds[0][0]; }
 // pure: rolls one box from its pity count and returns the rarities plus the new count (used by the game and by the odds test)
@@ -7732,15 +7736,36 @@ function sboxRollBox(kind, p, rng = Math.random) {
 // prototype: the server rolls the box, records new outfits, credits duplicate tokens and returns the result (same shape as sboxOpen)
 // one-time: hand the server the outfits and saved boxes you had before it kept score
 let sboxSyncing = null;
+// Build 264: a box earned while offline waits in the save (st.pend) and goes to the server the next time the game is online
+function sboxQueue(k, n, src) { const st = sboxState(); st.pend = [...(st.pend || []), [k, n, src]]; save(); }
+function sboxGrantSrv(k, n, src) { const st = sboxState();
+  return lbCall('sbox_grant', { kind: k, n, src }).then(r => {
+    if (r.ok && r.data && r.data.inv) { st.inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, r.data.inv); if (r.data.held) toast('Some boxes unlock tomorrow'); save(); render(); }
+    else if (lbNet(r)) sboxQueue(k, n, src);
+    return r; }); }
+async function sboxFlush() { const st = sboxState(); if (!st.synced || !(st.pend || []).length) return true;
+  while ((st.pend || []).length) { const [k, n, src] = st.pend[0]; st.pend = st.pend.slice(1); save(); const r = await sboxGrantSrv(k, n, src); if (lbNet(r)) return false; }
+  return true; }
 function sboxSync() { if (sboxState().synced) return Promise.resolve();
-  return sboxSyncing = sboxSyncing || lbCall('sbox_sync', { owned: Object.keys(S.owned).filter(k => S.owned[k]), inv: sboxState().inv }).then(y => { if (y.ok) { sboxState().synced = 1; save(); } sboxSyncing = null; }); }
+  return sboxSyncing = sboxSyncing || lbCall('sbox_sync', { owned: Object.keys(S.owned).filter(k => S.owned[k]), inv: sboxState().inv }).then(y => { if (y.ok) { const st = sboxState(); st.synced = 1; st.pend = [];   // the sync carried every box in the save
+    if (y.data) { st.tokens = y.data.tokens || 0; if (y.data.inv) st.inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, y.data.inv);
+      const h = y.data.held || {}, hn = Object.values(h).reduce((a, v) => a + (v || 0), 0); if (hn) toast(`${hn} more saved box${hn === 1 ? "" : "es"} on the way`); } save(); render(); } sboxSyncing = null; }); }
 async function sboxOpenSrv(kind, n, src) {
-  await sboxSync();
-  const r = await lbCall('sbox_open', { kind, n, src, ev: sboxState().evId || null });
-  if (!r.ok) { toast(lbErr(r)); return null; }
-  const st = sboxState(), d = r.data; st.tokens = d.tokens; if (d.inv) st.inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, d.inv); if (d.pity) st.pity = Object.assign(st.pity || {}, d.pity);
-  return d.items.map(x => { const it = itemById(x.id); if (!x.dup && !S.owned[it.id]) { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
-    st.opened[kind] = (st.opened[kind] || 0) + (x.k === 0 ? 1 : 0); return { it, rar: x.rar, dup: x.dup, tk: x.tk, box: x.box, pity: x.pity }; });
+  const st = sboxState();
+  // first time: the caller already took these boxes off the stack, so put them back while the saved boxes go to the server
+  if (!st.synced) { if (src === 'stack') st.inv[kind] = (st.inv[kind] || 0) + n; await sboxSync(); if (src === 'stack') st.inv[kind] = Math.max(0, (st.inv[kind] || 0) - n); if (!st.synced) { sfx('denied'); toast(BOX_OFFLINE); return null; } }
+  if (!(await sboxFlush())) { sfx('denied'); toast(BOX_OFFLINE); return null; }
+  const out = []; let left = n, b0 = 0;
+  while (left > 0) {   // the server opens up to 50 at a time
+    const c = Math.min(50, left);
+    const r = await lbCall('sbox_open', { kind, n: c, src, ev: st.evId || null });
+    if (!r.ok) { if (!out.length) { sfx('denied'); toast(lbNet(r) ? BOX_OFFLINE : lbErr(r)); return null; } break; }
+    const d = r.data; st.tokens = d.tokens; if (d.inv) st.inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, d.inv); if (d.pity) st.pity = Object.assign(st.pity || {}, d.pity);
+    d.items.forEach(x => { const it = itemById(x.id); if (!x.dup && !S.owned[it.id]) { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
+      st.opened[kind] = (st.opened[kind] || 0) + (x.k === 0 ? 1 : 0); out.push({ it, rar: x.rar, dup: x.dup, tk: x.tk, box: b0 + x.box, pity: x.pity }); });
+    left -= c; b0 += c;
+  }
+  return out;
 }
 function sboxOpen(kind, n) {
   const st = sboxState(), out = [];
@@ -8612,7 +8637,8 @@ function start(data) {
   pass();   // a new month delivers last season's unclaimed rewards
   setTimeout(loadTestAccess, 2500);
   setTimeout(startHeartbeat, 4000);
-  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); frLoad(); }), 5000);
+  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); frLoad(); if (SRV_BOX) sboxSync().then(sboxFlush); }), 5000);
+  window.addEventListener('online', () => { if (SRV_BOX && S.onboarded) sboxSync().then(sboxFlush); });
   setInterval(() => { if (!document.hidden && S.onboarded) frLoad(); }, 300000);   // Labels: Hype from labelmates, queued XP
   if (S.passRecap) { const r = S.passRecap; S.passRecap = null; setTimeout(() => toast('Backstage Pass season ended. Delivered: ' + rewardLine(r)), 3200); }
   render(); save(); startTracking();
