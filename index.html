@@ -3302,7 +3302,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 266, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 267, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7704,7 +7704,7 @@ const BOXES = {
   label: { name: 'Label Box', cost: 0, cost5: 0, rolls: 6, pity: null, noShop: true,   // Build 240: no guarantee, Label Boxes are free and come every season
     odds: [['rare', 53], ['epic', 33], ['legendary', 12], ['mythic', 2]], top: 'The only box with Mythics (0.5% each)', earn: 'Label Rewards only' }   // odds from Eatventure's Club Box
 };
-const SBOX_TOKENS = { common: 1, rare: 1, epic: 3, legendary: 10, ultimate: 30, mythic: 50 };   // Style Tokens for a duplicate of each rarity
+const SBOX_TOKENS = { common: 1, rare: 2, epic: 5, legendary: 10, ultimate: 30, mythic: 50 };   // Build 267: Rare 2, Epic 5   // Style Tokens for a duplicate of each rarity
 const BOX_KINDS = ['small', 'big', 'event', 'label'];
 const boxCountTxt = (k, n) => n > 1 ? `${n} ${BOXES[k].name.replace(/ Style Box| Box/, '')} Boxes` : BOXES[k].name.replace(' Style Box', ' Box');
 // what can drop: Plain Hoodie for Common (more Commons later); otherwise outfits that were sold for gems (album, Founder, VIP and seasonal stay exclusive)
