@@ -512,6 +512,9 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .station { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; }
 .lookpick { display: flex; gap: 12px; }
 .picks { display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); gap: 6px; }
+/* Build 259 demo: style pickers are one swipeable row, 6 visible with the next one peeking */
+.picks.swipe { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -14px; padding: 2px 14px; scroll-padding: 0 14px; } .picks.swipe::-webkit-scrollbar { display: none; }
+.picks.swipe .pk { flex: 0 0 calc((100% - 30px) / 6.4); scroll-snap-align: start; }
 .picks .pk { display: grid; place-items: center; aspect-ratio: 1; border-radius: 14px; background: var(--panel-2); border: 3px solid transparent; overflow: hidden; }
 .picks .pk.on { border-color: var(--gem); background: #4E4590; }
 .picks .pk svg { width: 100%; height: auto; display: block; }
@@ -2199,6 +2202,9 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .rw-it i { margin-top: -10px; font: 400 15px/24px var(--display); font-style: normal; color: #fff; background: #14122A; border-radius: 99px; padding: 0 11px; white-space: nowrap; }
 .rw-note { margin: 0; text-align: center; font: 600 14px var(--body); color: #5A5480; }
 .rwpop .cta { width: 100%; margin: 0; }
+
+/* Build 258 demo: Look sub-tabs */
+.looktabs { display: flex; gap: 6px; margin-bottom: 4px; } .looktabs .stab { flex: 1; }
 </style>
 </head>
 <body>
@@ -3272,7 +3278,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 257, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 258, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5674,9 +5680,12 @@ $('scrim').addEventListener('click', e => {
   if (e.target.closest('[data-native-restore]') && NATIVE) { NATIVE.restore().then(ids => { const got = (ids || []).filter(id => OFFERS[id] && OFFERS[id].once && !S.perks[id]); got.forEach(grant); save(); toast(got.length ? 'Restored ' + got.map(id => OFFERS[id].name).join(', ') : 'Nothing to restore'); }).catch(() => toast("Couldn't reach the store")); return; }
   const pay = e.target.closest('[data-pay]');
   if (pay) { grant(pay.dataset.pay); return openTab('shop'); }
-  const hp = e.target.closest('[data-hs],[data-hc],[data-fd]');
+  const lt = e.target.closest('[data-looktab]'); if (lt) { sfx('tap'); lookTab = lt.dataset.looktab; return openTab('style'); }
+  const hp = e.target.closest('[data-hs],[data-hc],[data-fd],[data-fm],[data-br]');
   if (hp) { if (hp.dataset.hs && HAIRS.includes(hp.dataset.hs)) S.hs = hp.dataset.hs; if (hp.dataset.hc && HAIR_COLORS.includes(hp.dataset.hc)) S.hc = hp.dataset.hc;
-    if ('fd' in hp.dataset) S.fd = FACES.includes(hp.dataset.fd) ? hp.dataset.fd : null;
+    if ('fd' in hp.dataset) { if (FACE_MARKS.includes(S.fd)) S.fm = S.fm || S.fd; S.fd = FACE_HAIR.includes(hp.dataset.fd) ? hp.dataset.fd : null; }
+    if ('fm' in hp.dataset) { S.fm = FACE_MARKS.includes(hp.dataset.fm) ? hp.dataset.fm : null; if (FACE_MARKS.includes(S.fd)) S.fd = null; }
+    if ('br' in hp.dataset) S.br = BROWS.includes(hp.dataset.br) ? hp.dataset.br : null;
     applyLook(); save(); sfx('tap'); if (S.onboarded) syncChart(true); return openTab('style'); }
   const lp = e.target.closest('[data-bt]');
   // switching look also switches the hair, unless you'd already picked a different style
@@ -5877,16 +5886,35 @@ function faceExtra(fc, eyes) {
 // Simple front-facing figure shared by the in-room artist and the crew.
 // f: { body, trim, style, skin (color or null for the player's tone), hair, phones, hat, neck, face, cap }
 // ---------- hair and face details (drawn in the big figure's coordinates; the small figure scales them to its head) ----------
-const HAIRS = ['buzz', 'curly', 'dreads', 'long', 'bun', 'braids'];      // first three lead for look 1, last three for look 2; anyone can pick any
-const HAIR_COLORS = ['#231A17', '#6E4A2E', '#E6C36A', '#A8442A', '#FF8FC0', '#6FD3FF', '#B18CFF', '#E8E2F4'];
-const FACES = ['stubble', 'beard', 'mustache', 'freckles', 'mark', 'blush'];
+const HAIRS = ['buzz', 'curly', 'dreads', 'long', 'bun', 'braids', 'afro', 'flattop', 'mohawk', 'curtains', 'shaggy', 'spacebuns', 'bob', 'wavy', 'halfup'];   // Build 258: 6 originals + 9 new (Look 1 leads with the first 3 and its 5 new, Look 2 with its 3 and its 4 new)
+const HAIR_NAMES = { buzz: 'Buzz', curly: 'Curly', dreads: 'Dreads', long: 'Long', bun: 'Bun', braids: 'Braids', afro: 'Afro', flattop: 'Flat Top', mohawk: 'Mohawk', curtains: 'Curtains', shaggy: 'Shaggy', spacebuns: 'Space Buns', bob: 'Bob', wavy: 'Long Waves', halfup: 'Half-Up Bun' };
+const HAIR_COLORS = ['#231A17', '#6E4A2E', '#E6C36A', '#A8442A', '#FF8FC0', '#6FD3FF', '#B18CFF', '#E8E2F4', '#F6E7A6', '#D9692B', '#9EA3B5', '#2BB6A8', '#4CBF5A'];
+const FACES = ['stubble', 'beard', 'mustache', 'freckles', 'mark', 'blush', 'handlebar', 'scar', 'bandage', 'star'];
+const FACE_HAIR = ['stubble', 'mustache', 'beard', 'handlebar'], FACE_MARKS = ['freckles', 'mark', 'blush', 'scar', 'bandage', 'star'];   // Build 258: confirmed lists   // Build 258: facial hair and a detail can be worn together
+const BROWS = ['soft', 'bold', 'arched', 'flat'];
+const brows = (br, c) => { if (!br) return ''; const d = { soft: ['M60 55 Q67 51 75 54', 'M85 54 Q93 51 100 55', 2.8], bold: ['M60 55 Q67 50.5 75 53.5', 'M85 53.5 Q93 50.5 100 55', 4.6],
+  arched: ['M60 56 Q65 49 75 53', 'M85 53 Q95 49 100 56', 3.2], flat: ['M61 53.5 L75 53', 'M85 53 L99 53.5', 3.6] }[br]; if (!d) return '';
+  return `<path d="${d[0]} M${d[1].slice(1)}" fill="none" stroke="#1B1830" stroke-width="${d[2] + 2}" stroke-linecap="round"></path><path d="${d[0]} M${d[1].slice(1)}" fill="none" stroke="${c}" stroke-width="${d[2]}" stroke-linecap="round"></path>`; };
 const defaultHair = bt => bt === 'b' ? 'long' : 'buzz';
 const shine = `<path d="M62 33 Q72 28 84 29" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
 // one loc: a dark outline pass, then the hair color, both with round ends
 const loc = (d, c, big) => `<path d="${d}" fill="none" stroke="#1B1830" stroke-width="10" stroke-linecap="round"></path><path d="${d}" fill="none" stroke="${c}" stroke-width="6.5" stroke-linecap="round"></path>`;
 const LOCS_L = ['M53 52 Q49 70 50 86', 'M59 50 Q56 70 58 90', 'M48 58 Q44 70 45 82'];
 const LOCS_R = LOCS_L.map(d => d.replace(/(\d+(?:\.\d+)?) (\d+(?:\.\d+)?)/g, (m, x, y) => (160 - +x) + ' ' + y));
+const scallop = (cx, cy, rx, ry, n, bump, t0 = Math.PI, t1 = 2 * Math.PI) => { const pt = t => [cx + rx * Math.cos(t), cy + ry * Math.sin(t)];
+  let [x0, y0] = pt(t0), d = `M${x0.toFixed(1)} ${y0.toFixed(1)}`;
+  for (let i = 1; i <= n; i++) { const a = t0 + (t1 - t0) * (i - 1) / n, b = t0 + (t1 - t0) * i / n, m = (a + b) / 2, [x1, y1] = pt(b);
+    d += ` Q${(cx + (rx + bump) * Math.cos(m)).toFixed(1)} ${(cy + (ry + bump) * Math.sin(m)).toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`; } return d; };
 function hairBack(hs, c, ln) {
+  if (hs === 'afro') return `<path d="${scallop(80, 53, 49, 45, 15, 6, Math.PI * .72, Math.PI * 2.28)} Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'shaggy') return `<path d="M45 54 Q38 74 42 92 L47 86 L49 97 L55 89 L58 98 L62 90 L98 90 L102 98 L105 89 L111 97 L113 86 L118 92 Q122 74 115 54 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'bob') return `<path d="M45 56 Q38 92 50 99 L110 99 Q122 92 115 56 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'sidebraid') return [[54, 74], [52, 84], [51, 94], [52, 104], [54, 114]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="7.5" ry="6.2" fill="${c}" ${ln}></ellipse>`).join('') + `<rect x="49" y="119" width="10" height="5" rx="2.5" fill="#FF6FAE" ${ln}></rect><path d="M51 124 L54 132 L57 124 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'highpony') return `<path d="M88 22 Q124 14 126 50 Q127 80 116 100 Q118 72 108 52 Q102 34 88 30 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'wavy') return `<path d="M46 56 Q36 72 42 86 Q36 100 46 112 Q44 124 58 126 L102 126 Q116 124 114 112 Q124 100 118 86 Q124 72 114 56 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'halfup') return `<path d="M47 56 Q40 100 52 118 Q80 124 108 118 Q120 100 113 56 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'pigtails') return [[48, -1], [112, 1]].map(([x, k]) => `<path d="M${x} 62 Q${x + k * 16} 74 ${x + k * 12} 104 Q${x + k * 8} 114 ${x + k * 2} 110 Q${x + k * 6} 90 ${x - k * 2} 70 Z" fill="${c}" ${ln}></path><rect x="${x + k * 3 - 5}" y="64" width="10" height="7" rx="3" fill="#FF6FAE" ${ln}></rect>`).join('');
+  if (hs === 'ponytail') return `<path d="M104 52 Q128 58 124 92 Q122 108 112 116 Q116 96 110 78 Z" fill="${c}" ${ln}></path><rect x="103" y="49" width="9" height="9" rx="3" fill="#FF6FAE" ${ln} transform="rotate(20 107 53)"></rect>`;
   if (hs === 'dreads') return [...LOCS_L, ...LOCS_R].map(d => loc(d, c)).join('')
     + `<rect x="53.5" y="78" width="7" height="5" rx="1.5" fill="#FFD93D" stroke="#1B1830" stroke-width="1.6"></rect><rect x="106.5" y="74" width="7" height="5" rx="1.5" fill="#FFD93D" stroke="#1B1830" stroke-width="1.6"></rect>`;
   if (hs === 'long') return `<path d="M47 56 Q40 100 52 118 Q80 124 108 118 Q120 100 113 56 Z" fill="${c}" ${ln}></path>`;
@@ -5903,6 +5931,30 @@ const CURLY_D = (() => { const cx = 80, cy = 58, rx = 35, ry = 37, n = 7, bump =
     d += ` Q${qx.toFixed(1)} ${qy.toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`; }
   return d + ' Q104 45 80 44 Q56 45 45 58 Z'; })();
 function hairTop(hs, c, ln, hat) {
+  if (hs === 'bald') return `<path d="M64 32 Q74 27 86 28" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'afro') return `<path d="${scallop(80, 55, 41, 42, 10, 5)} Q104 45 80 44 Q56 45 39 55 Z" fill="${c}" ${ln}></path>`
+    + `<path d="M58 36 q3 -5 7 -2 M74 28 q3 -5 7 -2 M90 30 q3 -5 7 -2" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2.2" stroke-linecap="round"></path>`;
+  if (hs === 'flattop') return `<path d="M48 59 L48 22 Q80 16 112 22 L112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path><path d="M56 26 Q80 22 104 26" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'mohawk') return `<path d="M48 59 Q46 27 80 26 Q114 27 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" opacity=".35"></path>`
+    + `<path d="M68 45 Q64 30 66 18 L72 22 L74 6 L80 15 L86 6 L88 22 L94 18 Q96 30 92 45 Q80 41 68 45 Z" fill="${c}" ${ln}></path><path d="M76 14 L77 38 M84 14 L83 38" stroke="#fff" stroke-opacity=".18" stroke-width="2" stroke-linecap="round"></path>`;
+  if (hs === 'ponytail') return `<path d="M47 60 Q43 24 80 23 Q117 24 113 60 Q104 45 80 44 Q56 45 47 60 Z" fill="${c}" ${ln}></path><path d="M62 30 Q80 24 98 30" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'spacebuns') return (hat ? '' : `<circle cx="54" cy="24" r="13.5" fill="${c}" ${ln}></circle><circle cx="106" cy="24" r="13.5" fill="${c}" ${ln}></circle>`)
+    + `<path d="M48 59 Q45 24 80 23 Q115 24 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path><path d="M80 24 V44" stroke="#000" stroke-opacity=".18" stroke-width="2"></path>`;
+  if (hs === 'sidepart') return `<path d="M48 60 Q44 25 76 23 Q114 22 113 60 Q109 44 98 39 Q86 31 72 37 Q58 43 48 60 Z" fill="${c}" ${ln}></path><path d="M70 25 Q68 31 72 37" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"></path><path d="M80 29 Q94 28 104 36" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'bob') return `<path d="M46 64 Q41 22 80 22 Q119 22 114 64 Q112 54 106 51 L54 51 Q48 54 46 64 Z" fill="${c}" ${ln}></path><path d="M62 29 Q80 25 98 29" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'sidebraid') return `<path d="M47 62 Q43 24 80 23 Q117 24 113 60 Q108 44 96 41 Q84 47 70 44 Q56 46 47 62 Z" fill="${c}" ${ln}></path>` + shine;
+  if (hs === 'highpony') return `<path d="M48 59 Q45 24 80 23 Q115 24 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path><rect x="84" y="19" width="10" height="9" rx="3" fill="#FF6FAE" ${ln} transform="rotate(25 89 23)"></rect><path d="M62 33 Q72 28 82 28" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'wavy' || hs === 'halfup') return (hs === 'halfup' && !hat ? `<circle cx="80" cy="19" r="9" fill="${c}" ${ln}></circle>` : '') + `<path d="M47 64 Q43 24 80 23 Q117 24 113 64 Q109 46 94 41 Q85 39 80 47 Q75 39 66 41 Q51 46 47 64 Z" fill="${c}" ${ln}></path><path d="M66 30 Q73 27 78 28 M82 28 Q87 27 94 30" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2.6" stroke-linecap="round"></path>`;
+  if (hs === 'waves') return `<path d="M48 59 Q46 27 80 26 Q114 27 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path>` + [32, 37, 42].map(y => `<path d="M${58 + (y - 32)} ${y} q5 -3 10 0 t10 0 t10 0 t${10 - (y - 32) * .6} 0" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"></path>`).join('');
+  if (hs === 'twists') return `<path d="M48 59 Q46 30 80 29 Q114 30 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path>` + [[56, 34], [64, 27], [73, 23], [83, 22], [92, 24], [100, 29], [106, 36]].map(([x, y]) => `<path d="M${x} ${y + 9} Q${x - 4} ${y + 2} ${x} ${y - 5} Q${x + 4} ${y + 2} ${x} ${y + 9} Z" fill="${c}" ${ln}></path>`).join('');
+  if (hs === 'manbun') return (hat ? '' : `<ellipse cx="80" cy="17" rx="10" ry="8" fill="${c}" ${ln}></ellipse><path d="M73 23 Q80 26 87 23" fill="none" stroke="#1B1830" stroke-width="2.5" stroke-linecap="round"></path>`)
+    + `<path d="M48 59 Q45 24 80 23 Q115 24 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path><path d="M64 30 Q70 40 66 46 M96 30 Q90 40 94 46" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="2" stroke-linecap="round"></path>`;
+  if (hs === 'curtains') return `<path d="M47 62 Q43 24 80 23 Q117 24 113 62 Q110 48 98 46 Q88 44 82 52 L80 40 L78 52 Q72 44 62 46 Q50 48 47 62 Z" fill="${c}" ${ln}></path><path d="M64 30 Q72 27 78 28 M82 28 Q88 27 96 30" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2.6" stroke-linecap="round"></path>`;
+  if (hs === 'shaggy') return `<path d="M45 66 Q40 22 80 21 Q120 22 115 66 L111 56 L108 63 L104 50 Q96 46 88 49 L84 56 L80 47 Q70 50 64 46 L58 56 L55 49 L51 61 L48 54 Z" fill="${c}" ${ln}></path>`
+    + `<path d="M58 30 Q70 24 84 25 M88 27 Q98 28 104 34" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2.6" stroke-linecap="round"></path><path d="M66 36 Q70 42 68 47 M92 36 Q96 42 96 48" fill="none" stroke="#000" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"></path>`;
+  if (hs === 'spiky') return `<path d="M48 59 Q44 40 50 30 L54 16 L62 26 L68 10 L76 22 L82 8 L88 22 L96 12 L100 26 L108 18 L110 32 Q116 44 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path>`;
+  if (hs === 'pixie') return `<path d="M48 60 Q44 24 80 22 Q116 24 112 58 Q110 47 100 45 Q88 50 72 48 Q62 54 52 52 Q49 55 48 60 Z" fill="${c}" ${ln}></path><path d="M60 32 Q70 26 82 27" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
+  if (hs === 'pigtails') return `<path d="M48 59 Q45 24 80 23 Q115 24 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path><path d="M80 24 V44" stroke="#000" stroke-opacity=".18" stroke-width="2"></path>`;
   if (hs === 'curly') return `<path d="${CURLY_D}" fill="${c}" ${ln}></path>`
     + `<path d="M60 37 q3 -5 7 -2 M73 30 q3 -5 7 -2 M87 30 q3 -5 7 -2 M96 37 q3 -5 7 -2" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2.2" stroke-linecap="round"></path>`;
   if (hs === 'dreads') return `<path d="M47 60 Q45 24 80 23 Q115 24 113 60 Q104 45 80 44 Q56 45 47 60 Z" fill="${c}" ${ln}></path>`
@@ -5915,11 +5967,27 @@ function hairTop(hs, c, ln, hat) {
   if (hs === 'braids') return `<path d="M48 59 Q44 24 80 23 Q116 24 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path>` + shine;
   return `<path d="M47 60 Q43 24 80 23 Q117 24 113 60 Q108 44 96 41 Q90 49 78 45 Q62 42 47 60 Z" fill="${c}" ${ln}></path>` + shine;   // short and long share the side-swept top
 }
+// Build 258 standard: facial hair is drawn after (on top of) necklaces, so a beard always sits over a chain, never under it
 function faceDetail(fd, c) {
   if (fd === 'stubble') return `<path d="M50 72 Q52 96 80 97 Q108 96 110 72 Q104 86 80 88 Q56 86 50 72 Z" fill="${c}" opacity=".28"></path>`;
   if (fd === 'beard') return `<path d="M49 70 Q50 98 80 99 Q110 98 111 70 Q105 84 92 86 Q86 82 80 84 Q74 82 68 86 Q55 84 49 70 Z" fill="${c}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>`;
   if (fd === 'mustache') return `<path d="M68.5 85.2 Q73 81 80 82.6 Q87 81 91.5 85.2 Q86.5 87.6 80 86.4 Q73.5 87.6 68.5 85.2 Z" fill="${c}" stroke="#1B1830" stroke-width="1.4" stroke-linejoin="round"></path>`;
   if (fd === 'freckles') return [[58.6, 76.2], [61.4, 74.6], [64, 77], [65.6, 75.2], [101.4, 76.2], [98.6, 74.6], [96, 77], [94.4, 75.2]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.05" fill="#9A5233" opacity=".42"></circle>`).join('');
+  // Build 259 demo: more facial hair
+  if (fd === 'fullbeard') return `<path d="M47 62 Q46 104 80 106 Q114 104 113 62 Q108 80 96 86 Q88 81 80 83 Q72 81 64 86 Q52 80 47 62 Z" fill="${c}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path><path d="M68.5 85.2 Q73 81 80 82.6 Q87 81 91.5 85.2" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"></path>`;
+  if (fd === 'chinstrap') return `<path d="M48 62 Q48 98 80 99 Q112 98 112 62 L109 62 Q107 92 80 93 Q53 92 51 62 Z" fill="${c}" stroke="#1B1830" stroke-width="2" stroke-linejoin="round"></path>`;
+  if (fd === 'soulpatch') return `<path d="M77 90.5 Q80 89.5 83 90.5 L81.5 95 Q80 96 78.5 95 Z" fill="${c}" stroke="#1B1830" stroke-width="1.4" stroke-linejoin="round"></path>`;
+  if (fd === 'handlebar') return `<path d="M80 83 Q73 80 67 84 Q63 87 61 83 Q62 89 68 88 Q74 87 80 85.5 Q86 87 92 88 Q98 89 99 83 Q97 87 93 84 Q87 80 80 83 Z" fill="${c}" stroke="#1B1830" stroke-width="1.4" stroke-linejoin="round"></path>`;
+  if (fd === 'sideburns') return `<path d="M47.5 58 L52 58 L53 78 Q50 79 48.5 76 Z M112.5 58 L108 58 L107 78 Q110 79 111.5 76 Z" fill="${c}" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round"></path>`;
+  if (fd === 'circle') return `<path d="M68.5 85.2 Q73 81 80 82.6 Q87 81 91.5 85.2 Q90 92 86 96 Q80 100 74 96 Q70 92 68.5 85.2 Z M74 88.5 Q80 92 86 88.5 Q84 93 80 93.5 Q76 93 74 88.5 Z" fill="${c}" fill-rule="evenodd" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round"></path>`;
+  // more details
+  if (fd === 'dimples') return `<path d="M66 84 q1.5 2 0 4 M94 84 q-1.5 2 0 4" fill="none" stroke="#9A5233" stroke-opacity=".55" stroke-width="1.6" stroke-linecap="round"></path>`;
+  if (fd === 'scar') return `<path d="M94 58 L100 70 M95 63 L99 62 M97 67 L101 66" fill="none" stroke="#C9776A" stroke-width="1.8" stroke-linecap="round"></path>`;
+  if (fd === 'bandage') return `<g transform="rotate(-25 98 78)"><rect x="90" y="75" width="16" height="6.5" rx="3" fill="#F6D7B0" stroke="#1B1830" stroke-width="1.5"></rect><circle cx="96" cy="78.2" r=".7" fill="#C9A27A"></circle><circle cx="100" cy="78.2" r=".7" fill="#C9A27A"></circle></g>`;
+  if (fd === 'star') return `<polygon points="${starPts(99, 79, 4.5)}" fill="#FFD93D" stroke="#1B1830" stroke-width="1.2"></polygon>`;
+  if (fd === 'nosestud') return `<circle cx="84" cy="79.5" r="1.6" fill="#E8ECF4" stroke="#1B1830" stroke-width="1"></circle>`;
+  if (fd === 'undereye') return `<circle cx="95" cy="75" r="1.4" fill="#1B1830"></circle>`;
+  if (fd === 'goatee') return `<path d="M72 92 Q80 100 88 92 Q86 99 80 100 Q74 99 72 92 Z" fill="${c}" stroke="#1B1830" stroke-width="2" stroke-linejoin="round"></path><path d="M70 85.6 Q75 83 80 84.4 Q85 83 90 85.6" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"></path>`;
   if (fd === 'mark') return `<circle cx="97" cy="83" r="1.7" fill="#1B1830"></circle>`;
   if (fd === 'blush') return `<ellipse cx="62" cy="76.5" rx="7" ry="4" fill="#FF8AA0" opacity=".5"></ellipse><ellipse cx="98" cy="76.5" rx="7" ry="4" fill="#FF8AA0" opacity=".5"></ellipse>`;
   return '';
@@ -5952,9 +6020,10 @@ function miniFigure(f, w, h, vb = '0 0 160 214') {
     : `<path d="M62 103 Q80 91 98 103" fill="none" stroke="${f.trim}" stroke-width="9" stroke-linecap="round"></path>`;
   o += topEmblem(f);
   o += `${f.phones ? '' : ears(sk, ln, false)}<ellipse ${sk} cx="80" cy="60" rx="35" ry="36" ${ln}></ellipse>
-    ${MINI_HEAD(faceDetail(f.fd, f.hair || '#231A17') + hairTop(f.hs || (f.long ? 'long' : 'buzz'), f.hair || '#231A17', ln, !!(f.hat || f.beanie)))}`;
+    ${MINI_HEAD(faceDetail(f.fm, f.hair || '#231A17') + hairTop(f.hs || (f.long ? 'long' : 'buzz'), f.hair || '#231A17', ln, !!(f.hat || f.beanie)))}`;
   if (f.neck && neckExtra(f.neck, false) !== null) o += neckExtra(f.neck, false);
   else if (f.neck) o += `<path d="M66 99 Q80 124 94 99" fill="none" stroke="${f.neck.color}" stroke-width="6" stroke-linecap="round"></path>` + (f.neck.charm ? `<circle cx="80" cy="124" r="8" fill="${f.neck.charm}" ${ln}></circle>` : '');
+  o += MINI_HEAD(faceDetail(f.fd, f.hair || '#231A17'));   // facial hair over the necklace
   const beanie = (c, cuff) => `<path d="M41 53 Q41 9 80 9 Q119 9 119 53 Z" fill="${c}" ${ln}></path><rect x="38" y="41" width="84" height="15" rx="7.5" fill="${cuff || c}" ${ln}></rect>
     <path d="M52 44 V53 M64 44 V53 M76 44 V53 M88 44 V53 M100 44 V53 M110 44 V53" stroke="#000" stroke-opacity=".18" stroke-width="3"></path><circle cx="80" cy="11" r="7.5" fill="${c}" ${ln}></circle>`;
   if (f.beanie) o += beanie(f.beanie);
@@ -5976,7 +6045,7 @@ function miniFigure(f, w, h, vb = '0 0 160 214') {
 }
 function smallArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
   const t = lookOf(eq, 'top') || itemById('basic').look;
-  return miniFigure({ ...t, phones: lk.ph !== false, long: bt === 'b', hs: lk.hs, hair: lk.hc, fd: lk.fd, hat: lookOf(eq, 'hat'), neck: lookOf(eq, 'neck'), face: lookOf(eq, 'face') }, 70, 94);
+  return miniFigure({ ...t, phones: lk.ph !== false, long: bt === 'b', hs: lk.hs, hair: lk.hc, fd: lk.fd, fm: lk.fm, hat: lookOf(eq, 'hat'), neck: lookOf(eq, 'neck'), face: lookOf(eq, 'face') }, 70, 94);
 }
 // crew look is random per station but stable (seeded by the station id)
 const CREW_SHIRTS = ['#6FD3FF', '#FFD93D', '#8BF0A0', '#B18CFF', '#FF9E57', '#F4F1EA', '#FF6FAE', '#4F7CFF'];
@@ -6108,7 +6177,7 @@ function payBacker() {
   backerLeave(); closeSheet(); save(); render();
   toast(o.gems ? `+${o.gems * k} gems from the Backer` : `+${fmt(o.cash * k)} from the Backer`);
 }
-const myLook = (bt = S.bt) => ({ hs: S.hs || defaultHair(bt), hc: S.hc || HAIR_COLORS[0], fd: S.fd || null, ph: S.phones !== 'none' });
+const myLook = (bt = S.bt) => ({ hs: S.hs || defaultHair(bt), hc: S.hc || HAIR_COLORS[0], fd: S.fd || null, fm: S.fm || null, ph: S.phones !== 'none' });
 // ears only show when the headphones are off (the cups normally sit right where they are)
 const ears = (sk, ln, big) => big ? `<ellipse ${sk} cx="47" cy="68" rx="6" ry="8.5" ${ln}></ellipse><ellipse ${sk} cx="113" cy="68" rx="6" ry="8.5" ${ln}></ellipse>`
   : `<ellipse ${sk} cx="45" cy="68" rx="7.5" ry="10" ${ln}></ellipse><ellipse ${sk} cx="115" cy="68" rx="7.5" ry="10" ${ln}></ellipse>`;
@@ -6140,11 +6209,12 @@ function bigArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
   o += `<rect class="skin" x="73" y="84" width="14" height="16" ${ln}></rect>
     ${lk.ph === false ? ears('class="skin"', ln, true) : ''}<ellipse class="skin" cx="80" cy="60" rx="33" ry="34" ${ln}></ellipse>
     <ellipse cx="62" cy="76" rx="6" ry="3.5" fill="#FF8FA3" opacity="0.35"></ellipse><ellipse cx="98" cy="76" rx="6" ry="3.5" fill="#FF8FA3" opacity="0.35"></ellipse>
-    ${faceDetail(lk.fd, lk.hc)}${hairTop(lk.hs, lk.hc, ln, !!hat)}`;
+    ${faceDetail(lk.fm, lk.hc)}${hairTop(lk.hs, lk.hc, ln, !!hat)}`;
   if (neck && neckExtra(neck, true) !== null) o += neckExtra(neck, true);
   else if (neck) o += `<path d="M68 99 Q80 122 92 99" fill="none" stroke="${neck.color}" stroke-width="3.5" stroke-linecap="round"></path>` + (neck.charm
     ? `<g transform="translate(80 121)">${[[-4, -4], [4, -4], [-4, 4], [4, 4]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4.6" fill="${neck.charm}" stroke="#1B1830" stroke-width="2"></circle>`).join('')}<circle r="2" fill="#2E8B45"></circle></g>`
     : `<circle cx="80" cy="119" r="5" fill="${neck.color}" ${ln}></circle>`);
+  o += faceDetail(lk.fd, lk.hc);   // facial hair over the necklace
   if (hat && hat.style === 'beanie') o += `<path d="M48 50 Q48 20 80 20 Q112 20 112 50 Z" fill="${hat.color}" ${ln}></path><rect x="46" y="43" width="68" height="12" rx="6" fill="${hat.cuff || hat.color}" ${ln}></rect><path d="M56 46 V52 M64 46 V52 M72 46 V52 M80 46 V52 M88 46 V52 M96 46 V52 M104 46 V52" stroke="#000" stroke-opacity=".15" stroke-width="2"></path><circle cx="80" cy="16" r="8" fill="${hat.color}" ${ln}></circle>`;
   if (hat && hat.style === 'bucket') o += `<ellipse cx="80" cy="42" rx="41" ry="8" fill="${hat.color}" ${ln}></ellipse><path d="M55 41 Q56 18 80 18 Q104 18 105 41 Z" fill="${hat.color}" ${ln}></path><path d="M57 34 H103" stroke="#000" stroke-opacity=".15" stroke-width="4"></path>`;
   if (hat && hat.style === 'crown') o += `<polygon points="55,34 60,10 70,25 80,5 90,25 100,10 105,34" fill="${hat.color}" ${ln}></polygon><circle cx="80" cy="22" r="4" fill="#6FD3FF" ${ln}></circle><circle cx="64" cy="27" r="3" fill="#FF6FAE"></circle><circle cx="96" cy="27" r="3" fill="#FF6FAE"></circle>`;
@@ -7240,10 +7310,12 @@ function openTab(tab) {
       return `<button class="slot ${it ? '' : 'empty'} ${styleSlot === sl ? 'on' : ''}" data-stab="${sl}" aria-label="${SLOTS.find(x => x[0] === sl)[1]}">${it ? itemArt(it, 50) : ic(slotIc[sl])}</button>`; };
     let grid;
     if (styleSlot === 'colors') {
+      // Build 258: Hair, Face and Body in one vertical scroll; each picker row swipes sideways
       grid = `<div class="sec"><h3>Look</h3>${lookPick()}</div>
-        <div class="sec"><h3>Hair</h3>${hairPick()}</div>
+        <div class="sec"><h3>Hairstyle</h3>${hairPick()}</div>
         <div class="sec"><h3>Hair color</h3><div class="swatches">${HAIR_COLORS.map(c => `<button class="sw ${(S.hc || HAIR_COLORS[0]) === c ? 'on' : ''}" style="background:${c}" data-hc="${c}" aria-label="Hair color ${c}"></button>`).join('')}</div></div>
-        <div class="sec"><h3>Face</h3>${facePick()}</div>
+        <div class="sec"><h3>Facial hair</h3>${facePick()}</div>
+        <div class="sec"><h3>Details</h3>${markPick()}</div>
         <div class="sec"><h3>Skin tone</h3><div class="swatches">${SKINS.map(c => `<button class="sw ${S.skin === c ? 'on' : ''}" style="background:${c}" data-skin="${c}" aria-label="Skin tone ${c}"></button>`).join('')}</div></div>
         <div class="sec"><h3>Headphones</h3><div class="swatches"><button class="sw none ${S.phones === 'none' ? 'on' : ''}" data-phones="none" aria-label="No headphones"></button>${PHONES.map(c => `<button class="sw ${S.phones === c ? 'on' : ''}" style="background:${c}" data-phones="${c}" aria-label="Headphone color ${c}"></button>`).join('')}</div></div>
         ${Object.keys(PHONES_X).some(k => (S.phonesX || {})[k]) ? `<div class="sec"><h3>Earned colors <small class="h3note">from long-term goals</small></h3><div class="swatches earned">${Object.entries(PHONES_X).filter(([k]) => (S.phonesX || {})[k]).map(([k, [n, c]]) => `<button class="sw ${S.phones === c ? 'on' : ''}" style="background:${c}" data-phones="${c}" aria-label="${n} headphones"></button>`).join('')}</div></div>` : ''}`;
@@ -7385,10 +7457,14 @@ const _unusedSwatch = it => { const c = it.look.body || it.look.color; const tr 
   return `<span style="width:24px;height:24px;border-radius:50%;background:${c};box-shadow:inset 0 0 0 4px ${tr};outline:2px solid rgba(255,255,255,.15)"></span>`; };
 const hms = ms => { if (ms >= 864e5) { const d = Math.floor(ms / 864e5), hh = Math.floor(ms % 864e5 / 36e5); return `${d}d ${hh}h`; } const s = Math.ceil(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s % 60).padStart(2, '0'); };
 // the two looks, shown as head icons only (no labels): 'a' short hair, 'b' long hair with lashes
-const headIcon = (o, size = 52) => miniFigure({ ...itemById('basic').look, phones: S.phones !== 'none', long: S.bt === 'b', hs: (S.hs || defaultHair(S.bt)), hair: S.hc || HAIR_COLORS[0], fd: S.fd || null, ...o }, size, size, '26 4 108 108');
-const hairPick = () => { const mine = S.bt === 'b' ? ['long', 'bun', 'braids', 'buzz', 'curly', 'dreads'] : HAIRS, cur = S.hs || defaultHair(S.bt);
-  return `<div class="picks" style="--n:6">${mine.map(h => `<button class="pk ${cur === h ? 'on' : ''}" data-hs="${h}" aria-label="Hair ${h}">${headIcon({ hs: h })}</button>`).join('')}</div>`; };
-const facePick = () => `<div class="picks" style="--n:7">${[null, ...FACES].map(fd => `<button class="pk ${(S.fd || null) === fd ? 'on' : ''}" data-fd="${fd || ''}" aria-label="Face ${fd || 'none'}">${headIcon({ fd })}</button>`).join('')}</div>`;
+const headIcon = (o, size = 52) => miniFigure({ ...itemById('basic').look, phones: S.phones !== 'none', long: S.bt === 'b', hs: (S.hs || defaultHair(S.bt)), hair: S.hc || HAIR_COLORS[0], fd: S.fd || null, fm: S.fm || null, ...o }, size, size, '26 4 108 108');
+const hairPick = () => { const mine = S.bt === 'b' ? ['long', 'bun', 'braids', 'spacebuns', 'bob', 'wavy', 'halfup', 'shaggy', 'buzz', 'curly', 'dreads', 'afro', 'flattop', 'mohawk', 'curtains'] : ['buzz', 'curly', 'dreads', 'afro', 'flattop', 'mohawk', 'curtains', 'shaggy', 'long', 'bun', 'braids', 'spacebuns', 'bob', 'wavy', 'halfup'], cur = S.hs || defaultHair(S.bt);
+  return `<div class="picks swipe">${mine.map(h => `<button class="pk ${cur === h ? 'on' : ''}" data-hs="${h}" aria-label="Hair ${HAIR_NAMES[h] || h}">${headIcon({ hs: h })}</button>`).join('')}</div>`; };
+const facePick = () => `<div class="picks swipe">${[null, ...FACE_HAIR].map(fd => `<button class="pk ${(FACE_HAIR.includes(S.fd) ? S.fd : null) === fd ? 'on' : ''}" data-fd="${fd || ''}" aria-label="Facial hair ${fd || 'none'}">${headIcon({ fd, fm: null })}</button>`).join('')}</div>`;
+const markPick = () => { const cur = S.fm || (FACE_MARKS.includes(S.fd) ? S.fd : null);
+  return `<div class="picks swipe">${[null, ...FACE_MARKS].map(fm => `<button class="pk ${cur === fm ? 'on' : ''}" data-fm="${fm || ''}" aria-label="Detail ${fm || 'none'}">${headIcon({ fm, fd: FACE_HAIR.includes(S.fd) ? S.fd : null })}</button>`).join('')}</div>`; };
+const browPick = () => `<div class="picks" style="--n:5">${[null, ...BROWS].map(br => `<button class="pk ${(S.br || null) === br ? 'on' : ''}" data-br="${br || ''}" aria-label="Brows ${br || 'none'}">${headIcon({ br })}</button>`).join('')}</div>`;
+let lookTab = 'hair';
 const lookPick = () => `<div class="lookpick">${['a', 'b'].map(bt => `<button class="lp ${(S.bt || 'a') === bt ? 'on' : ''}" data-bt="${bt}" aria-label="Look ${bt === 'a' ? 1 : 2}">${headIcon({ long: bt === 'b', hs: defaultHair(bt), fd: null }, 80)}</button>`).join('')}</div>`;
 const stageSparks = (n = 7) => Array.from({ length: n }, (_, i) => `<i class="spk" style="left:${10 + (i * 37) % 80}%;top:${8 + (i * 53) % 60}%;animation-delay:-${(i * .55).toFixed(2)}s;--k:${(.6 + (i % 3) * .25).toFixed(2)}"></i>`).join('');
 function applyLook() {
