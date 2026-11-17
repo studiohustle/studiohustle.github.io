@@ -424,9 +424,12 @@ button.pcd { border: 0; color: inherit; cursor: pointer; }
 .cards.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .card.gemcard.boostcard { background: radial-gradient(ellipse at 50% 36%, #F1ECFF 0%, #DDD3FF 58%, #CBBEFA 100%); }
 .card.gemcard.boostcard .price { background: #6A44C9; gap: 5px; } .card.boostcard .price i.g { width: 18px; height: 18px; }
-.boostcard .art { align-items: center; animation: floaty 3s ease-in-out infinite; }   /* bobs with the skip and Frenzy packs */ .boostcard .art > svg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); width: auto; height: 104%; max-width: 92%; animation: none; }
-.boostcard .art > .hype-tile { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); width: 60px; height: 60px; border-radius: 17px; } .boostcard .art > .hype-tile svg { width: 30px; height: 30px; }
-.boostcard .gbody { padding-top: 12px; }
+.boostcard .art { align-items: center; animation: floaty 3s ease-in-out infinite; }   /* bobs with the skip and Frenzy packs */ .boostcard .art { display: block; }   /* every icon is centered on the same point, 35px above the pill line, whatever its own padding */
+.boostcard .art > img.shopart { position: absolute; left: 50%; transform: translateX(-50%); bottom: -2px; width: 74px; height: 74px; max-width: none; margin: 0; object-fit: contain; object-position: 50% 50%; animation: none; }
+.boostcard .art > svg, .boostcard .art > .hype-tile { position: absolute; left: 50%; transform: translateX(-50%); bottom: -2px; width: 74px; height: 74px; margin: 0; animation: none; }
+.boostcard[data-buy="fanFrenzy"] .art > svg { width: 84px; height: 84px; bottom: -3px; }   /* the flash burst is extra art around the camera; size it so the camera lines up */
+.boostcard .art > .hype-tile { width: 62px; height: 62px; bottom: 4px; border-radius: 17px; } .boostcard .art > .hype-tile svg { width: 30px; height: 30px; }
+.boostcard .gbody { padding-top: 8px; } .boostcard .amount { z-index: 3; }
 .cards.two.solo { grid-template-columns: minmax(0, 1fr); max-width: calc(50% - 5px); margin-inline: auto; width: 100%; }
 .cards.two .card.gold .art { height: 112px; }
 .card { position: relative; display: flex; flex-direction: column; border-radius: 16px; overflow: visible; box-shadow: 0 4px 0 rgba(20,18,42,.35); }
@@ -1913,6 +1916,10 @@ html .sheet.float > .adnote { margin: 5px 0 0 !important; line-height: 1.25; }
 html .sheet.float:has(> .adnote:last-child) { padding-bottom: 9px; }
 
 /* ---- Style Box (Build 233) ---- */
+.card.gold.sboxcard { background: repeating-conic-gradient(from 0deg at 50% 62%, #8FD3F7 0deg 9deg, #7CC8F2 9deg 18deg); }
+.card.gold.sboxcard::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, rgba(225,246,255,.8) 0%, rgba(225,246,255,0) 55%); pointer-events: none; }
+.card.gold.sboxcard .wall { display: none; } .card.gold.sboxcard .price { background: #2466B8; box-shadow: inset 0 -4px 0 #1C5299; color: #fff; }
+.card.gold.sboxcard .sb-name { background: #3D86D6; color: #fff; } .card.gold.sboxcard .sb-items { color: #1F5FA8; }
 .sboxes { align-items: stretch; } .sboxcard { position: relative; } .sboxcard .sb-name { position: relative; z-index: 2; margin: 8px auto 0; padding: 2px 12px; border-radius: 99px; background: rgba(0,0,0,.12); font: 400 15px var(--display); color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.25); }
 .sboxcard .sb-items { position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font: 800 12.5px var(--body); color: #8A5A00; }
 .sb-i { font-style: normal; display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; border: 2px solid currentColor; font: 800 10px var(--body); }
@@ -3103,7 +3110,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 244, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 245, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
