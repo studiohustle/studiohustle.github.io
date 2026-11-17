@@ -1827,7 +1827,7 @@ html .shop-float > .shopflt > .sheet-head { margin: 0 -16px 14px !important; } h
 /* Build 246: the box window is compact; the odds open in their own card from the "i" */
 .sbp { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .sbp-n { font: 800 14px var(--body); color: #5A5480; }
-.sbp-art { position: relative; display: grid; place-items: center; width: 100%; height: 190px; border-radius: 16px; overflow: hidden; background: #7CC8F2; }
+.sbp-art { position: relative; display: grid; place-items: center; width: 100%; height: 166px; border-radius: 16px; overflow: hidden; background: #7CC8F2; }
 .sbp-sun { position: absolute; inset: 0; background: radial-gradient(circle at 50% 55%, rgba(225,246,255,.85) 0%, rgba(225,246,255,0) 58%); pointer-events: none; }
 .sbp-art .bx-wrap { position: relative; display: grid; filter: drop-shadow(0 5px 6px rgba(0,0,0,.25)); }
 .sbp-i { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid #1F5FA8; background: none; font: 800 16px/1 var(--body); color: #1F5FA8; padding: 0; }
@@ -2154,6 +2154,30 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 /* Build 252: shop sparkles always sit on the top layer, over the art */
 #sheet .spk { width: 10px; height: 10px; } #sheet .gemcard.green .spk, #sheet .frcard .spk { width: 9px; height: 9px; } #sheet .spk.bspk, #shopFloat .spk.bspk { width: 11px; height: 11px; }
 #sheet .spk, #shopFloat .spk { z-index: 8 !important; }
+
+/* Build 254: slimmer floating purchase windows */
+.shop-float > .shopflt { width: min(300px, 100%) !important; }
+.shop-float > .shopflt .sheet-head h2 { font-size: 18px; }
+html .buyart { height: 120px; min-height: 0; margin-top: 0; }
+/* Build 254 art standard for floating purchase windows: one panel (light, rays), every item art 102px */
+html .buyart, html .sbp-art { height: 140px !important; min-height: 0 !important; margin: 0; border-radius: 16px; background: #EEF7FC !important; }
+html .buyart > svg, html .buyart > img, html .buyart > .hype-tile { width: 102px !important; height: 102px !important; transform: none !important; }
+html .buyart > .hype-tile { width: 88px !important; height: 88px !important; border-radius: 24px; } html .buyart > .hype-tile svg { width: 44px; height: 44px; transform: none; }
+html .buyart.art-frenzy > svg { width: 128px !important; height: 128px !important; }   /* the burst around the camera is extra; the camera itself lands at the standard size */
+html .buyart > .rays { display: none; }
+html .buyart > .bx-rays { top: 50%; }
+html .buyart > .sbp-sun { position: absolute; inset: 0; pointer-events: none; }
+html .buyart > :not(.bx-rays):not(.sbp-sun):not(.rays):not(.spk) { position: relative; z-index: 2; }
+html .buyart.art-clock > img { width: 86px !important; height: 86px !important; object-fit: contain; }   /* the clock art fills its frame edge to edge; 86px reads the same as the 102px coins and boxes */
+html .buyart .bx-rays, html .sbp-art .bx-rays { background: repeating-conic-gradient(rgba(124,92,255,.10) 0deg 9deg, rgba(124,92,255,0) 9deg 18deg); }
+html .buyart .sbp-sun, html .sbp-art .sbp-sun { background: radial-gradient(circle at 50% 55%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 58%); }
+html .sbp-i { border-color: #6B66A0; color: #6B66A0; }
+html .buywhat { margin: 0; font-size: 14px; line-height: 1.35; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shop-float > .shopflt .buybtns { margin: 0; } .shop-float > .shopflt .buybtns .cta { width: 100%; margin: 0; }
+.cta.buyone { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.buyneed { margin: 0; text-align: center; font: 600 14px var(--body); color: #C2410C; } .buyneed b { font-weight: 800; }
+.sbp .sb-btns .cta { white-space: nowrap; font-size: 14px; padding: 0 8px; gap: 5px; } .sbp .sb-btns .gemprice { display: inline-flex; align-items: center; gap: 3px; } .sbp .sb-btns .gemprice img { width: 18px; height: 15px; }
+.shop-float > .shopflt .sb-odds { gap: 4px; } .shop-float > .shopflt .sb-o b { font-size: 9.5px; }
 </style>
 </head>
 <body>
@@ -3227,7 +3251,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 253, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 254, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3515,10 +3539,10 @@ const OFFERS = {
   monitors: { name: 'Pro Monitors', sub: 'Permanent +25% income', gems: 300, once: true },
   skip15: { name: 'Time Skip · 15 min', sub: 'Instant cash', gems: 10, skip: 900 },
   skip1: { name: 'Time Skip · 1 hour', sub: 'Instant cash', gems: 30, skip: 3600 },
-  boost2: { name: 'Income x2 · 20 min', sub: 'Double all income for 20 minutes. Stacks with Hype', gems: 25, boost: 2, dur: 1200 },   // Build 239
-  boost5: { name: 'Income x5 · 5 min', sub: '5x all income for 5 minutes. Stacks with Hype', gems: 40, boost: 5, dur: 300 },
-  hypeRefill: { name: 'Hype Refill', sub: 'Fill your Hype all the way to its cap, no ads', gems: 25 },
-  fanFrenzy: { name: 'Fan Frenzy', sub: 'Brings a crowd of fans to tap for 30 minutes', gems: 20 },
+  boost2: { name: 'Income x2 · 20 min', sub: 'Double income for 20 minutes', gems: 25, boost: 2, dur: 1200 },   // Build 239
+  boost5: { name: 'Income x5 · 5 min', sub: '5x income for 5 minutes', gems: 40, boost: 5, dur: 300 },
+  hypeRefill: { name: 'Hype Refill', sub: 'Fill your Hype to the max', gems: 25 },
+  fanFrenzy: { name: 'Fan Frenzy', sub: 'Fans to tap for 30 minutes', gems: 20 },
   gems100: { name: 'Handful of Gems', sub: '80 gems', money: '$0.99', gemsOut: 80 },
   gems550: { name: 'Bag of Gems', get sub() { return gemPackSub(500, 4.99); }, money: '$4.99', gemsOut: 500 },
   gems1200: { name: 'Chest of Gems', get sub() { return gemPackSub(1200, 9.99); }, money: '$9.99', gemsOut: 1200 },
@@ -5521,7 +5545,7 @@ $('scrim').addEventListener('click', e => {
   if (hu) { const key = hu.dataset.hup, lv = hypeLv(), costs = key === 'len' ? HYPE_LEN_COST : HYPE_CAP_COST, c = costs[lv[key]];
     if (c == null) return;
     if (S.gems < c) { sfx('denied'); toast('Not enough gems'); return; }
-    return askBuy(key === 'len' ? 'Longer Hype' : 'Bigger Hype cap', key === 'len' ? `Each ad gives ${HYPE_LEN[lv.len + 1]} minutes instead of ${HYPE_LEN[lv.len]}` : `Hype stacks up to ${HYPE_CAPS[lv.cap + 1]} hours instead of ${HYPE_CAPS[lv.cap]}`, c, svgIc(key === 'len' ? 'star' : 'monitor', '#FF6FAE', 56),
+    return askBuy(key === 'len' ? 'Longer Hype' : 'Bigger Hype cap', key === 'len' ? `${HYPE_LEN[lv.len + 1]} minutes per ad` : `Hype stacks to ${HYPE_CAPS[lv.cap + 1]} hours`, c, svgIc(key === 'len' ? 'star' : 'monitor', '#FF6FAE', 56),
       () => { const l2 = hypeLv(); if (S.gems < c || l2[key] !== lv[key]) return; S.gems -= c; l2[key]++; S.hypeLv = l2; sfx('unlock'); toast(key === 'len' ? `Each ad now gives ${HYPE_LEN[l2.len]} minutes` : `Hype now stacks up to ${capText()}`); save(); render(); }, 'hype'); }
   if (e.target.closest('[data-copy-email]')) {
     const sel = () => { const r = document.createRange(); r.selectNodeContents($('fbEmail')); const s2 = getSelection(); s2.removeAllRanges(); s2.addRange(r); toast('Email selected. Copy it from the menu'); };
@@ -5607,7 +5631,7 @@ $('scrim').addEventListener('click', e => {
     if (o.money) { payFrom = sheetKey && !sheetKey.startsWith('pay:') ? sheetKey : 'shop'; return openTab('pay:' + id); }
     if (id === 'hypeRefill' && hypeLeftToFill() <= 60000) { sfx('denied'); toast('Your Hype is already full'); return; }
     const art = { boost2: ART.boost(2), boost5: ART.boost(5), skip15: ART.clock(0), skip1: ART.clock(4), monitors: ART.monitors(), nightOwl: ART.moon(), hypeRefill: ART.bolt(), fanFrenzy: ART.frenzy() }[id] || '';
-    return askBuy(o.name, o.skip ? `Instant ${fmt(skipValue(o.skip))} cash` : o.boost ? (bLeft(o.boost) > 0 ? `Adds ${hms(o.dur * 1000)} to your x${o.boost} boost (${hms(bLeft(o.boost))} left)` : o.sub) + (bLeft(o.boost === 2 ? 5 : 2) > 0 ? `. Your x${o.boost === 2 ? 5 : 2} is running too, so together it's x10` : '') : o.sub, o.gems, art, () => { if (S.gems < o.gems || (o.once && S.perks[id])) return; S.gems -= o.gems; grant(id); }, 'shop'); }
+    return askBuy(o.name, o.skip ? `Instant ${fmt(skipValue(o.skip))} cash` : o.boost ? (bLeft(o.boost === 2 ? 5 : 2) > 0 ? `Stacks to x10 with your x${o.boost === 2 ? 5 : 2}` : bLeft(o.boost) > 0 ? `Adds ${hms(o.dur * 1000)} more` : o.sub) : o.sub, o.gems, art, () => { if (S.gems < o.gems || (o.once && S.perks[id])) return; S.gems -= o.gems; grant(id); }, 'shop', id === 'fanFrenzy' ? 'art-frenzy' : o.skip ? 'art-clock' : ''); }
   if (e.target.closest('[data-confirm-buy]')) { const pb = pendingBuy; pendingBuy = null; if (pb) { pb.run(); return backFromBuy(pb); } return closeSheet(); }
   if (e.target.closest('[data-get-gems]')) { pendingBuy = null; openTab('shop'); const g = document.querySelector('[data-buy="gems100"]'); if (g) g.scrollIntoView({ block: 'center' }); return; }
   if (e.target.closest('[data-cancel-buy]')) { const pb = pendingBuy; pendingBuy = null; return pb ? backFromBuy(pb) : closeSheet(); }
@@ -7311,14 +7335,12 @@ function openTab(tab) {
       ${S.fbPrompted && !S.fbSent ? '<button class="ghost" data-close>Maybe later</button>' : ''}`);
   } else if (tab === 'confirm-buy') {
     const pb = pendingBuy; if (!pb) return closeSheet();
-    openSheet(`<div class="sheet-head"><h2>Buy ${esc(pb.name)}?</h2>${closeBtn().replace('data-close', 'data-cancel-buy')}</div>
-      ${pb.art ? `<div class="buyart ${pb.cls || ''}"><span class="rays"></span>${stageSparks(pb.cls === 'mythic' ? 16 : 7)}${pb.art}</div>` : ''}
+    openSheet(`<div class="sheet-head"><h2>${esc(pb.name)}</h2>${closeBtn().replace('data-close', 'data-cancel-buy')}</div>
+      ${pb.art ? `<div class="buyart ${pb.cls || ''}"><span class="rays"></span><span class="bx-rays"></span><span class="sbp-sun"></span>${stageSparks(pb.cls === 'mythic' ? 16 : 7)}${pb.art}</div>` : ''}
       <p class="buywhat">${pb.what}</p>
-      ${S.gems >= pb.gems
-        ? `<div class="buycost"><span>Costs</span><b><i class="g"></i>${pb.gems.toLocaleString()}</b></div>
-      <div class="buybtns"><button class="cta" data-confirm-buy>Buy for ${pb.gems.toLocaleString()} gems</button></div>`
-        : `<div class="buycost short"><span>Costs</span><b><i class="g"></i>${pb.gems.toLocaleString()}</b><span class="need">Need ${(pb.gems - S.gems).toLocaleString()} more gems</span></div>
-      <div class="buybtns"><button class="cta pink" data-get-gems>Get more gems</button></div>`}`);
+      ${S.gems >= pb.gems   // Build 254: compact like the box window: one buy button carrying the price
+        ? `<div class="buybtns"><button class="cta gemcta buyone" data-confirm-buy>Buy <span class="gemprice">${GEM_MINI}${pb.gems.toLocaleString()}</span></button></div>`
+        : `<div class="buybtns"><button class="cta pink" data-get-gems>Get more gems</button></div>`}`);
   } else if (tab === 'test-ask') {
     openSheet(`<div class="sheet-head"><h2>Test mode</h2>${closeBtn()}</div>
       <p>A separate practice career for checking pacing. Speed the game up to 200x and keep Hype on. Your real save, The Charts and play tracking are untouched, and you can switch back any time in Settings.</p>
@@ -7567,9 +7589,9 @@ function sboxSheet() {
   const k = sboxKind, B = BOXES[k], noUlt = k === 'event' && !sboxPool('ultimate').length;
   return `<div class="sheet-head"><h2>${B.name.replace(' Style', '')}</h2>${closeBtn()}</div>
     <div class="sbp"><span class="sbp-n">${B.rolls} outfits</span>
-      <span class="sbp-art"><span class="bx-rays"></span><span class="sbp-sun"></span><span class="bx-wrap">${boxArt(k, 150)}${boxSparks(5, k.length + 7)}</span><button class="sbp-i" data-sbox-odds="${k}" aria-label="Chances">i</button></span>
+      <span class="sbp-art"><span class="bx-rays"></span><span class="sbp-sun"></span><span class="bx-wrap">${boxArt(k, 102)}${boxSparks(5, k.length + 7)}</span><button class="sbp-i" data-sbox-odds="${k}" aria-label="Chances">i</button></span>
       ${sboxBtns(k)}
-      ${k === 'event' && !boxBuyable(k) ? `<p class="cnote sb-closed">Sold only while an event is live. Next: the ${EV_DEFS[boxTheme('event')] ? EV_DEFS[boxTheme('event')].name : ''} Event on Thursday.</p>` : noUlt ? '<p class="cnote sb-closed">Brand-new Ultimates are on the way.</p>' : ''}</div>`;
+      ${k === 'event' && !boxBuyable(k) ? `<p class="cnote sb-closed">On sale Thursday with the ${EV_DEFS[boxTheme('event')] ? EV_DEFS[boxTheme('event')].name : ''} Event</p>` : noUlt ? '<p class="cnote sb-closed">Brand-new Ultimates are on the way.</p>' : ''}</div>`;
 }
 let sboxOddsFrom = null;   // 'sbox' when the odds came from the box window (Back returns there); otherwise X only
 function sboxOddsSheet() {
