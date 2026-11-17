@@ -1838,9 +1838,9 @@ html .shop-float > .shopflt > .sheet-head { margin: 0 -16px 14px !important; } h
 /* Box Offers (Build 246): wide cards like Eatventure's */
 /* Special offers (Build 247): Eatventure's "x2 All Profit forever" card, framed like the Box Offers */
 .specs { display: grid; gap: 12px; }
-.spec { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; color: #14122A; filter: drop-shadow(0 4px 0 rgba(20,18,42,.3)); }
-.spec-in { position: relative; isolation: isolate; display: grid; grid-template-columns: 88px minmax(0, 1fr); grid-template-areas: "art body" "foot foot"; align-items: center; gap: 0 10px; border: 2.5px solid var(--a); border-radius: 14px; overflow: hidden; clip-path: inset(0 round 14px); background: var(--p); --ink: #14122A; --sub: rgba(20,18,42,.68); color: var(--ink); }
-.spec.dark .spec-in { --ink: #fff; --sub: rgba(255,255,255,.75); border-color: #C99A2E; }
+.spec { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; color: #14122A; }
+.spec-in { position: relative; isolation: isolate; display: grid; grid-template-columns: 88px minmax(0, 1fr); grid-template-areas: "art body" "foot foot"; align-items: center; gap: 0 10px; border: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 0 rgba(20,18,42,.35); background: var(--p); --ink: #14122A; --sub: rgba(20,18,42,.68); color: var(--ink); }
+.spec.dark .spec-in { --ink: #fff; --sub: rgba(255,255,255,.75); }
 .spec.dark .spec-in { background: radial-gradient(circle at 15% 35%, #5A3570, var(--p) 55%, var(--t)); }
 .spec.dark .spec-in > .wall { opacity: .12; }
 .spec.dark .spec-body em { background: none; color: #F2C94C; padding: 0; }
@@ -1849,7 +1849,7 @@ html .shop-float > .shopflt > .sheet-head { margin: 0 -16px 14px !important; } h
 .spec-art { grid-area: art; position: relative; align-self: stretch; display: grid; place-items: center; height: 74px; margin: 4px 0 4px 6px; }
 .spec-in > .wall { z-index: -1; border-radius: 0; inset: 0; opacity: .45; }
 .spec-art > svg, .spec-art > img { width: 58px; height: 58px; filter: drop-shadow(0 3px 3px rgba(20,18,42,.22)); }
-.spec-art .crewart { display: grid; place-items: center; } .spec-art .crewart svg { width: 50px; height: auto; margin-top: 10px; }
+.spec-art .crewart { display: grid; place-items: center; } .spec-art .crewart svg { width: auto; height: 64px; }
 .spec-body { grid-area: body; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; padding: 6px 10px 6px 0; }
 .spec-body em { font-style: normal; font: 800 10px var(--body); text-transform: uppercase; letter-spacing: .08em; color: #fff; background: var(--a); border-radius: 99px; padding: 2px 8px; }
 .spec-line { font: 700 12.5px/1.25 var(--body); color: var(--sub); }
@@ -1872,16 +1872,16 @@ html .shop-float > .shopflt > .sheet-head { margin: 0 -16px 14px !important; } h
 .boxoff.ev.th-island { --a: #2E9AA8; --d: #1F7C89; --t1: #E9FBF8; --t2: #C6EFE9; }
 .boxoff.ev.th-western { --a: #B86B2E; --d: #95531E; --t1: #FFF4E6; --t2: #F8DDBC; }
 .boxoff.ev.th-galaxy { --a: #6A4FD8; --d: #523AB8; --t1: #F0ECFF; --t2: #D7CEFF; }
-.bof-in { position: relative; isolation: isolate; display: grid; grid-template-columns: 136px minmax(0, 1fr); grid-template-areas: "art items" "foot foot"; border: 2.5px solid var(--a); border-radius: 14px; overflow: hidden; clip-path: inset(0 round 14px);
+.bof-in { position: relative; isolation: isolate; display: grid; grid-template-columns: 136px minmax(0, 1fr); grid-template-areas: "art items" "foot foot"; border: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 0 rgba(20,18,42,.35);
   background: linear-gradient(160deg, var(--t1), var(--t2)); }
-.boxoff > .bof-in { filter: none; } .boxoff { filter: drop-shadow(0 4px 0 rgba(20,18,42,.3)); }
+
 .boxoff:active .bof-in { transform: translateY(2px); }
 .bof-in .wall { z-index: -1; border-radius: 0; opacity: .5; inset: 0; }   /* drifting bubbles, like the other offers */
 .bof-in::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.6) 48%, transparent 60%) no-repeat; background-size: 250% 100%; animation: sheen 4.5s ease-in-out infinite; animation-delay: var(--shine-at, 0s); }
 .boxoff .rib { position: absolute; z-index: 4; top: -8px; left: -4px; background: linear-gradient(135deg, #FF6B57, #F0303A); animation: ribglow 2s ease-in-out infinite; color: #fff; font: 400 12px var(--display); padding: 3px 10px; border-radius: 8px 8px 8px 2px; transform: rotate(-4deg); box-shadow: 0 2px 0 rgba(0,0,0,.25); }
 .bof-top { position: absolute; top: 8px; right: 8px; z-index: 3; display: flex; gap: 6px; align-items: center; }
 .bof-left { font: 400 13px var(--display); color: #fff; background: var(--d); border-radius: 99px; padding: 3px 10px; }
-.bof-art { grid-area: art; position: relative; display: grid; place-items: end center; height: 120px; margin: 4px 0 -6px 4px; z-index: 2; }
+.bof-art { grid-area: art; position: relative; display: grid; place-items: center; height: 104px; margin: 18px 0 6px 6px; z-index: 2; }   /* Build 248: clear of the value tag, the counter and the title bar */
 .bof-main { position: relative; z-index: 2; display: grid; filter: drop-shadow(0 4px 3px rgba(20,18,42,.22)); }
 .bof-back { position: absolute; z-index: 1; left: 0; bottom: 2px; display: grid; filter: drop-shadow(0 3px 3px rgba(20,18,42,.18)); }
 .boxoff:has(.bof-back) .bof-main { margin-left: 30px; margin-bottom: 4px; }
@@ -3190,7 +3190,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 247, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 248, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7002,19 +7002,14 @@ function openTab(tab) {
         return `<div class="banner seasonal">Seasonal</div>${g}${live.map(({ h, ends: t }) => ['s', 'm'].filter(tier => holPack(h, tier)).map(tier => { const id = 'hol_' + h.id + '_' + tier, p = holPack(h, tier);
           const art = tier === 'm' && p.item ? `<span class="holfit">${outfitPreview(itemById(p.item))}</span>` : ART.gift(...h.colors);
           return offer(id, art, h.card, '', `<span class="dealtime">${ends(t)}</span>` + holLines(p).map(x => `<span>${x}</span>`).join(''), h.name); }).join('')).join('')}`; })()}
-      <div class="banner">Limited-time deals</div>
-      ${activeDeals().map(({ deal: d, ends }) => {
-        const left = Math.max(0, ends - Date.now()), dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5);
-        const art = d.outfit ? ART.gift('#FF6FAE', '#FFB3D4', '#FFD93D') : ART.gems(packArtFor(d.gems));
-        return offer(d.id, art, d.color, valueTag(dealWorth(d), d.price), `<span class="dealtime">Ends in ${dd ? dd + 'd ' : ''}${hh}h</span>` + dealSub(d).map(x => `<span>${x}</span>`).join(''));
-      }).join('')}
+      <!-- Build 248: Limited-time deals retired; Box Offers lead the shop -->
       ${(() => { const list = BOX_OFFERS.filter(b => (!b.ev || boxBuyable('event')) && boxOffLeft(b) > 0); if (!list.length) return '';   // a sold-out offer leaves the shop until it resets
         const ends = t => { const left = Math.max(0, t - Date.now()), dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5), mm = Math.floor(left % 36e5 / 6e4);
           return dd ? `${dd}d ${hh}h` : `${hh}h ${mm}m`; };
         const card = b => { const left = boxOffLeft(b), w = boxOffWin(b), [main, mn] = b.boxes[0], extra = b.boxes[1] || (mn >= 30 ? b.boxes[0] : null);   // a big single-box offer shows a stack
           return `<button class="boxoff ${b.ev ? 'ev th-' + boxTheme('event') : 'bo-' + main}" data-buy="${b.id}" aria-label="${b.name}: ${boxOffSub(b)}, ${b.money}, ${left} of ${boxOffMax(b)} left"><span class="rib">${valueX(boxOffWorth(b), b.price)}x value</span>
             <span class="bof-in"><span class="wall bubbles"></span><span class="bof-top">${b.ev ? `<span class="bof-time">${ends(w.end)}</span>` : ''}<span class="bof-left">${left}/${boxOffMax(b)}</span></span>
-            <span class="bof-art">${extra ? `<span class="bof-back">${boxArt(extra[0], 66)}</span>` : ''}<span class="bof-main">${boxArt(main, extra ? 100 : 112)}</span>${boxSparks(4, b.id.length)}</span>
+            <span class="bof-art">${extra ? `<span class="bof-back">${boxArt(extra[0], 58)}</span>` : ''}<span class="bof-main">${boxArt(main, extra ? 90 : 98)}</span>${boxSparks(4, b.id.length)}</span>
             <span class="bof-items ${b.boxes.length > 1 ? 'n3' : ''}">${b.boxes.map(([k, n]) => `<span class="bof-it"><span class="bof-ic">${boxArt(k, 50)}</span><i>${n}</i></span>`).join('')}<span class="bof-it gem"><span class="bof-ic">${GEM_MINI}</span><i>${b.gems.toLocaleString('en-US')}</i></span></span>
             <span class="bof-foot"><b>${b.name}</b><span class="bof-price">${b.money}</span></span></span></button>`; };
         return `<div class="banner">Box Offers</div><div class="boxoffs">${list.map(card).join('')}</div>`; })()}
@@ -7035,9 +7030,7 @@ function openTab(tab) {
         return `<div class="specs">
           ${pass().owned ? '' : spec('goldPass', PASS_SVG, ['#F2C94C', '#B8891A', '#3A1F4E', '#241330', 'dark'], seasonName() + ' Season', 'VIP rewards on all 30 tiers, plus the Backstage Jacket')}
           ${spec('goldenMic', ART.mic(), ['#F2C94C', '#B8891A', '#3B3466', '#22203A', 'dark'], 'Forever', 'x2 income on everything. Stacks with Hype')}
-          ${p === 'starter' ? '' /* Build 247: Starter Pack dropped from the shop */ && spec('starter', ART.gift(), ['#E2558F', '#B83E70', '#FFB3D3', '#FFFFFF'], 'One time', 'A head start for new artists', packItems('starter'), packTag('starter'))
-            : p === 'rising' ? spec('rising', ART.gift('#9B6BFF', '#C9B3FF', '#FFD93D'), ['#7B5CE0', '#5E43BF', '#DCCDFF', '#FFFFFF'], 'One time', 'For artists with an album out', packItems('rising'), packTag('rising'))
-            : p === 'headliner' ? spec('headliner', ART.gift('#FFD93D', '#FFE08A', '#FF6FAE'), ['#E0862E', '#B5671B', '#FFD9A8', '#FFFFFF'], 'One time', 'For established stars', packItems('headliner'), packTag('headliner')) : ''}
+          <!-- Build 248: packs removed; Special offers are one-and-done forever offers only -->
           ${spec('adFree', ART.noAds(), ['#3D9BD6', '#2C78B0', '#A9DEF7', '#FFFFFF'], 'Forever', 'Every ad reward instantly: Hype, Crates, Offline 2x')}
           ${spec('autoCrew', `<span class="crewart">${crewFigure('dayone-crew')}</span>`, ['#3BAA6A', '#2A8550', '#A8EBBE', '#FFFFFF'], 'Forever', 'Your first station runs itself on every map')}
         </div>`; })()}
