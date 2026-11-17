@@ -2125,6 +2125,22 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 
 @keyframes sbflip { from { transform: perspective(400px) rotateY(90deg) scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .sb-card { animation: none; } }
+
+/* Build 250: one depth style for everything sold in the shop (like Eatventure): a solid 6px edge in a darker shade of the card's bottom bar */
+#sheet .card { --edge: rgba(20,18,42,.45); box-shadow: 0 6px 0 var(--edge) !important; }
+#sheet .card.green.gemcard { --edge: #0F5A22; }
+#sheet .card.gemcard.boostcard { --edge: #47288F; }
+#sheet .card.gemcard.skipcard, #sheet .card.gold.sboxcard { --edge: #174A8C; }
+#sheet .card.skipcard.frcard { --edge: #741A3F; }
+#sheet .card.gold.sboxcard .price { box-shadow: none; }
+#sheet .card:active { transform: translateY(3px); box-shadow: 0 3px 0 var(--edge) !important; }
+.bof-in { box-shadow: 0 6px 0 rgba(20,18,42,.45); box-shadow: 0 6px 0 color-mix(in srgb, var(--d) 72%, #000); }
+.boxoff.holdark .bof-in { box-shadow: 0 6px 0 #121018; }
+.spec-in { box-shadow: 0 6px 0 rgba(20,18,42,.45); box-shadow: 0 6px 0 color-mix(in srgb, var(--d) 72%, #000); }
+.spec.dark .spec-in { box-shadow: 0 6px 0 #170C20; }
+.boxoff:active .bof-in, .spec:active .spec-in { transform: translateY(3px); box-shadow: 0 3px 0 rgba(20,18,42,.45); box-shadow: 0 3px 0 color-mix(in srgb, var(--d) 72%, #000); }
+.sb-side.evside { box-shadow: 0 6px 0 rgba(20,18,42,.45); box-shadow: 0 6px 0 color-mix(in srgb, var(--ec) 62%, #000); }
+#sheet .boxoffs, #sheet .specs { gap: 14px; } #sheet .holgifts + .boxoffs { margin-top: 14px; }
 </style>
 </head>
 <body>
@@ -3198,7 +3214,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 249, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 250, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7007,9 +7023,14 @@ function openTab(tab) {
     openSheet(`<div class="shop-stick"><div class="sheet-head shop-head"><h2>Shop</h2>${closeBtn()}</div>${shopTabs('shop')}</div>
       ${(() => { const live = liveHols(), gift = liveHols(Date.now(), 'gift')[0]; if (!live.length && !gift) return '';
         const ends = t => { const left = Math.max(0, t - Date.now()), dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5); return `Ends in ${dd ? dd + 'd ' : ''}${hh}h`; };
-        const g = gift && !(S.hol || {})[gift.key + ':gift'] ? `<button class="offer holgift" data-hol-gift style="background:${gift.h.card}" aria-label="${gift.h.gift.name}, free"><span class="wall bubbles"></span><span class="offer-art glow">${sparks(5, 9)}${ART.gift(...gift.h.colors)}</span>
-          <span class="offer-body"><em class="olabel">Free · ${gift.h.name}</em><b>${gift.h.gift.name}</b><span>${gift.h.gift.line}</span><span class="chips"><span class="dealtime">${ends(gift.ends)}</span><span>${gift.h.gift.gems} gems</span><span>${gift.h.gift.skips} Time Skip</span>${itemById(gift.h.gift.item) ? `<span>${itemById(gift.h.gift.item).name}</span>` : ''}</span></span>
-          <span class="paybtn">Free</span></button>` : '';
+        // Build 250: the free holiday gift uses the modern offer card (colored top, title and FREE in the bottom bar)
+        const gsh = (hex, f) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * f).toString(16).padStart(2, '0')).join('');
+        const g = gift && !(S.hol || {})[gift.key + ':gift'] ? (() => { const H = gift.h, G = H.gift, it = itemById(G.item), ac = H.colors[0];
+          return `<div class="specs holgifts"><button class="spec holgift" data-hol-gift style="--a:${ac};--d:${gsh(ac, .8)};--p:${H.card};--t:#fff" aria-label="${G.name}, free">
+            <span class="spec-in"><span class="wall bubbles"></span><span class="spec-art">${sparks(4, 9)}${ART.gift(...H.colors)}</span>
+            <span class="spec-body"><em>Free · ${ends(gift.ends).replace('Ends in ', '')} left</em><span class="spec-line">${G.line}</span>
+              <span class="spec-items"><span class="bof-it gem"><span class="bof-ic">${GEM_ICON}</span><i>${G.gems}</i></span><span class="spec-chip">${G.skips} Time Skip${G.skips === 1 ? '' : 's'}</span>${it ? `<span class="spec-chip">${it.name}</span>` : ''}</span></span>
+            <span class="spec-foot"><b>${G.name}</b><span class="spec-btn">Free</span></span></span></button></div>`; })() : '';
         // Build 249: holiday Box Offers, same card as the Box Offers in the holiday's colors
         const shade = (hex, f) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * f).toString(16).padStart(2, '0')).join('');
         const holCard = (h, tier, t) => { const id = 'hol_' + h.id + '_' + tier, o = OFFERS[id], p = holPack(h, tier); if (!p || holBought(o)) return '';
