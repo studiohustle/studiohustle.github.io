@@ -2210,14 +2210,16 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .lb-donline { display: flex; align-items: center; gap: 10px; width: 100%; margin: 0 0 10px; padding: 10px 12px; border: 0; border-radius: 14px; background: #fff; box-shadow: 0 4px 0 rgba(30,60,100,.16); text-align: left; color: #14122A; }
 .lb-donline > span { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; font: 600 12px var(--body); color: #6E6A88; } .lb-donline b { font: 800 13.5px var(--body); color: #14122A; }
 .lb-donline.spent { opacity: .7; } .lb-donchev { font-style: normal; font: 800 22px var(--body); color: #8C86A6; }
-.lb-don-rate { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 6px 0 12px; padding: 12px; border-radius: 14px; background: #EEF7FC; font: 400 22px var(--display); color: #14122A; }
+.lb-don-rate { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 2px 0 10px; padding: 10px; border-radius: 14px; background: #EEF7FC; font: 400 22px var(--display); color: #14122A; }
 .lb-don-tk, .lb-don-xp { display: inline-flex; align-items: center; gap: 6px; } .lb-don-xp { font-size: 18px; } .lb-don-xp b { font-size: 22px; } .lb-don-eq { color: #8C86A6; }
-.lb-don-bal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; background: #F3F1FA; font: 700 14px var(--body); color: #6E6A88; } .lb-don-bal b { font: 400 22px var(--display); color: #14122A; }
+.lb-mc.lb-don { width: min(272px, 100%); padding: 14px 14px 16px; }   /* same width as the Welcome back card */
+.lb-don-bal { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; background: #F3F1FA; font: 700 14px var(--body); color: #6E6A88; } .lb-don-bal b { font: 400 22px var(--display); color: #14122A; }
 .lb-don-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; } .lb-don-stats div { display: flex; flex-direction: column; align-items: center; padding: 8px; border-radius: 12px; background: #F3F1FA; }
 .lb-don-stats b { font: 400 19px var(--display); color: #14122A; } .lb-don-stats span { font: 700 11.5px var(--body); color: #6E6A88; }
 .lb-don-pick { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; } .lb-don-pick .stab { flex: 1 1 0; min-width: 60px; height: 38px; font-size: 13px; }
 .lb-don-none { margin: 6px 0 8px; text-align: center; font: 600 14px var(--body); color: #4A4560; }
 .lb-don .lb-big { margin-bottom: 6px; } .lb-don .lb-mc-h .lb-don-i { position: absolute; left: 0; top: 50%; transform: translateY(-50%); margin: 0; }
+.lb-don-note, .lb-don-none { text-wrap: balance; }
 .lb-don-note { margin: 14px 0 0; text-align: center; font: 600 12px/1.4 var(--body); color: #6E6A88; }
 </style>
 </head>
@@ -3292,7 +3294,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 261, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 262, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5165,10 +5167,10 @@ function lbModal() {
     const tk = sboxState().tokens;
     return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-don" role="dialog" aria-label="Donate Style Tokens"><div class="lb-mc-h"><b>Donate Tokens</b><button class="lb-i lb-don-i" data-lbdoninfo aria-label="How it works"><span>i</span></button><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
       <div class="lb-don-rate"><span class="lb-don-tk">${TK_IC(28)}<b>1</b></span><span class="lb-don-eq">=</span><span class="lb-don-xp"><b>1</b> Label XP</span></div>
-      <div class="lb-don-bal"><span>Your tokens</span><b>${fmtN(tk)}</b></div>
+      <div class="lb-don-bal"><span>Your tokens</span>${TK_IC(22)}<b>${fmtN(tk)}</b></div>
       ${tk > 0 ? `<button class="lb-big blue" data-lbdongo="${tk}">Donate all · +${fmtN(tk)} XP</button>`
         : `<p class="lb-don-none">Duplicates from any box give tokens</p>`}
-      ${LB.donInfo ? `<p class="lb-don-note">Duplicate outfits from any box give Style Tokens. Donating uses them up. Play still earns up to ${LB_DAILY_CAP} XP a day.</p>` : ''}</div></div>`;
+      ${LB.donInfo ? `<p class="lb-don-note">Duplicates from any box give tokens. Play still earns up to ${LB_DAILY_CAP} XP a day.</p>` : ''}</div></div>`;
   }
   if (LB.modal === 'leave') {
     const last = (LB.st.members || []).length <= 1;
