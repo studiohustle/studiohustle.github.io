@@ -949,8 +949,8 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .dresser::before { content: ""; position: absolute; left: 50%; bottom: 8px; width: 190px; height: 34px; margin-left: -95px; border-radius: 50%; background: #5FA9C8; box-shadow: inset 0 -6px 0 #4A93B2; }
 .dresser svg { position: relative; transform-origin: 50% 100%; animation: idle 1.8s ease-in-out infinite alternate; }
 @keyframes idle { from { transform: translateY(0) scaleY(1) } to { transform: translateY(-2px) scaleY(1.01) } }
-.swatches { display: flex; gap: 6px; flex-wrap: nowrap; }
-.sw { flex: 1 1 0; min-width: 0; max-width: 44px; aspect-ratio: 1; height: auto; border-radius: 50%; border: 3px solid transparent; box-shadow: inset 0 0 0 3px var(--panel); }
+.swatches { display: flex; gap: 6px; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -14px; padding: 2px 14px; scroll-padding: 0 14px; } .swatches::-webkit-scrollbar { display: none; }   /* Build 259: every swatch one size (9 fit a row), extras swipe */
+.sw { flex: 0 0 calc((100% - 48px) / 9); min-width: 0; max-width: none; scroll-snap-align: start; aspect-ratio: 1; height: auto; border-radius: 50%; border: 3px solid transparent; box-shadow: inset 0 0 0 3px var(--panel); }
 .sw.on { border-color: var(--text); }
 .lbl { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .cta { height: 52px; border-radius: 16px; background: var(--cash); color: var(--deep); font-family: var(--display); font-size: 17px; box-shadow: 0 3px 0 #4FA864; flex: none; }
@@ -3278,7 +3278,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 258, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 259, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5430,7 +5430,10 @@ function openSheet(html) {
   if (owedArmed && !refresh) flushOwed();
   if (owed.cash || owed.gems) owedArmed = true;
   sheetKey = nextSheetKey; nextSheetKey = null;
+  // Build 259: sideways rows (style pickers, color swatches, filters) keep their scroll position when the panel refreshes
+  const HX = '.picks.swipe, .swatches, .ofilters', keepX = refresh ? [...sh.querySelectorAll(HX)].map(r => r.scrollLeft) : [];
   sh.innerHTML = html; $('scrim').hidden = false; sh.scrollTop = keep;
+  if (keepX.length) sh.querySelectorAll(HX).forEach((r, i) => { if (keepX[i]) { r.style.scrollSnapType = 'none'; r.scrollLeft = keepX[i]; requestAnimationFrame(() => { r.style.scrollSnapType = ''; }); } });
   syncShine(sh);
   if (refresh) return;
   albumTouched = false;
@@ -5932,8 +5935,10 @@ const CURLY_D = (() => { const cx = 80, cy = 58, rx = 35, ry = 37, n = 7, bump =
   return d + ' Q104 45 80 44 Q56 45 45 58 Z'; })();
 function hairTop(hs, c, ln, hat) {
   if (hs === 'bald') return `<path d="M64 32 Q74 27 86 28" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"></path>`;
-  if (hs === 'afro') return `<path d="${scallop(80, 55, 41, 42, 10, 5)} Q104 45 80 44 Q56 45 39 55 Z" fill="${c}" ${ln}></path>`
-    + `<path d="M58 36 q3 -5 7 -2 M74 28 q3 -5 7 -2 M90 30 q3 -5 7 -2" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="2.2" stroke-linecap="round"></path>`;
+  // Build 259: one solid silhouette (outline comes from the back shape), only a hairline edge, and color-neutral texture
+  if (hs === 'afro') return `<path d="${scallop(80, 55, 41, 42, 10, 5)} Q104 45 80 44 Q56 45 39 55 Z" fill="${c}"></path>`
+    + `<path d="M40 56 Q56 45 80 44 Q104 45 120 56" fill="none" stroke="#1B1830" stroke-width="3" stroke-linecap="round"></path>`
+    + `<path d="M58 34 q3 -4 6 -2 M76 26 q3 -4 6 -2 M94 30 q3 -4 6 -2 M52 47 q3 -4 6 -2 M104 45 q3 -4 6 -2" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="2.2" stroke-linecap="round"></path>`;
   if (hs === 'flattop') return `<path d="M48 59 L48 22 Q80 16 112 22 L112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" ${ln}></path><path d="M56 26 Q80 22 104 26" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="3" stroke-linecap="round"></path>`;
   if (hs === 'mohawk') return `<path d="M48 59 Q46 27 80 26 Q114 27 112 59 Q104 45 80 44 Q56 45 48 59 Z" fill="${c}" opacity=".35"></path>`
     + `<path d="M68 45 Q64 30 66 18 L72 22 L74 6 L80 15 L86 6 L88 22 L94 18 Q96 30 92 45 Q80 41 68 45 Z" fill="${c}" ${ln}></path><path d="M76 14 L77 38 M84 14 L83 38" stroke="#fff" stroke-opacity=".18" stroke-width="2" stroke-linecap="round"></path>`;
