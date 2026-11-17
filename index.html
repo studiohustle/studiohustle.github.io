@@ -1836,6 +1836,36 @@ html .shop-float > .shopflt > .sheet-head { margin: 0 -16px 14px !important; } h
 .sbo-top { display: flex; align-items: center; gap: 10px; } .sbo-top .rt { display: flex; flex-direction: column; gap: 2px; } .sbo-top .rt b { font: 400 17px var(--display); } .sbo-top .rt span { font-size: 12.5px; color: var(--muted); font-weight: 600; }
 .sbo-art { flex: none; display: grid; }
 /* Box Offers (Build 246): wide cards like Eatventure's */
+/* Special offers (Build 247): Eatventure's "x2 All Profit forever" card, framed like the Box Offers */
+.specs { display: grid; gap: 12px; }
+.spec { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; color: #14122A; filter: drop-shadow(0 4px 0 rgba(20,18,42,.3)); }
+.spec-in { position: relative; isolation: isolate; display: grid; grid-template-columns: 88px minmax(0, 1fr); grid-template-areas: "art body" "foot foot"; align-items: center; gap: 0 10px; border: 2.5px solid var(--a); border-radius: 14px; overflow: hidden; clip-path: inset(0 round 14px); background: var(--p); --ink: #14122A; --sub: rgba(20,18,42,.68); color: var(--ink); }
+.spec.dark .spec-in { --ink: #fff; --sub: rgba(255,255,255,.75); border-color: #C99A2E; }
+.spec.dark .spec-in { background: radial-gradient(circle at 15% 35%, #5A3570, var(--p) 55%, var(--t)); }
+.spec.dark .spec-in > .wall { opacity: .12; }
+.spec.dark .spec-body em { background: none; color: #F2C94C; padding: 0; }
+.spec-in::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.5) 48%, transparent 60%) no-repeat; background-size: 250% 100%; animation: sheen 4.5s ease-in-out infinite; animation-delay: var(--shine-at, 0s); }
+.spec:active .spec-in { transform: translateY(2px); }
+.spec-art { grid-area: art; position: relative; align-self: stretch; display: grid; place-items: center; height: 74px; margin: 4px 0 4px 6px; }
+.spec-in > .wall { z-index: -1; border-radius: 0; inset: 0; opacity: .45; }
+.spec-art > svg, .spec-art > img { width: 58px; height: 58px; filter: drop-shadow(0 3px 3px rgba(20,18,42,.22)); }
+.spec-art .crewart { display: grid; place-items: center; } .spec-art .crewart svg { width: 50px; height: auto; margin-top: 10px; }
+.spec-body { grid-area: body; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; padding: 6px 10px 6px 0; }
+.spec-body em { font-style: normal; font: 800 10px var(--body); text-transform: uppercase; letter-spacing: .08em; color: #fff; background: var(--a); border-radius: 99px; padding: 2px 8px; }
+.spec-line { font: 700 12.5px/1.25 var(--body); color: var(--sub); }
+.spec-items { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 2px; }
+.spec-items .bof-it { flex-direction: row; } .spec-items .bof-ic { width: 30px; height: 30px; filter: drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff); }
+.spec-items .bof-ic img { width: 28px !important; height: 28px !important; } .spec-items .bof-it.gem .bof-ic img { width: 28px !important; height: 23px !important; }
+.spec-items .bof-it i { font-size: 12px; line-height: 18px; padding: 0 7px; margin: 0 0 0 -6px; }
+.spec-chip { font: 700 11px var(--body); background: rgba(255,255,255,.75); border-radius: 99px; padding: 2px 8px; }
+.spec-foot { grid-area: foot; display: flex; align-items: center; height: 40px; padding-left: 12px; background: var(--a); color: #fff; }
+.spec-foot b { flex: 1; min-width: 0; font: 400 15px var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spec-btn { align-self: stretch; display: grid; place-items: center; min-width: 92px; padding: 0 14px 0 22px; background: var(--d); color: #fff; font: 400 17px var(--display); clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%); white-space: nowrap; }
+.spec.dark .spec-foot { background: linear-gradient(90deg, #3A2148, #2A1638); color: #F2C94C; border-top: 1.5px solid rgba(242,201,76,.5); }
+.spec.dark .spec-btn { background: linear-gradient(180deg, #FFE38A, #F2C94C); color: #2A1638; }
+.spec:disabled .spec-btn { background: #9C98B4; color: #fff; font-size: 14px; }
+.spec:disabled .spec-art { filter: grayscale(.5); }
+.spec .rib { position: absolute; z-index: 4; top: -8px; left: -4px; background: linear-gradient(135deg, #FF6B57, #F0303A); animation: ribglow 2s ease-in-out infinite; color: #fff; font: 400 12px var(--display); padding: 3px 10px; border-radius: 8px 8px 8px 2px; transform: rotate(-4deg); box-shadow: 0 2px 0 rgba(0,0,0,.25); }
 .boxoffs { display: grid; gap: 12px; }
 .boxoff { --a: #3D86D6; --d: #2C6DB8; --t1: #EAF6FF; --t2: #CDE9FB; position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; color: #14122A; }
 .boxoff.bo-big { --a: #7B5CE0; --d: #5E43BF; --t1: #F3EEFF; --t2: #DED2FF; }
@@ -3160,7 +3190,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 246, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 247, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5258,7 +5288,7 @@ const sheetScroll = {};   // last scroll position of each sheet, so Back returns
 // every shine in the game runs off the same 4.5s clock, so they all sweep together
 function syncShine(root) {
   const t = (performance.now() / 1000) % 4.5;
-  root.querySelectorAll('.card, .offer, .bof-in, .sbtn.crate, .tab-hype .orb, .tab.shop .ticon, .tab .ticon.wt').forEach(el => el.style.setProperty('--shine-at', `-${t.toFixed(2)}s`));
+  root.querySelectorAll('.card, .offer, .bof-in, .spec-in, .sbtn.crate, .tab-hype .orb, .tab.shop .ticon, .tab .ticon.wt').forEach(el => el.style.setProperty('--shine-at', `-${t.toFixed(2)}s`));
 }
 // the album results always open at the top (the artist on stage first); stops as soon as the player touches the panel
 let albumTouched = false; $('sheet').addEventListener('touchstart', () => { albumTouched = true; }, { passive: true });
@@ -6989,17 +7019,28 @@ function openTab(tab) {
             <span class="bof-foot"><b>${b.name}</b><span class="bof-price">${b.money}</span></span></span></button>`; };
         return `<div class="banner">Box Offers</div><div class="boxoffs">${list.map(card).join('')}</div>`; })()}
       <div class="banner">Special offers</div>
-      ${pass().owned ? '' : `<button class="offer passoffer" data-buy="goldPass" style="background:linear-gradient(135deg,#FFE48A,#FFD93D)" aria-label="Backstage Pass"><span class="wall bubbles"></span><span class="offer-art glow"><svg width="64" height="64" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 1.5l5 7.5 5-7.5" fill="none" stroke="#14122A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="5" y="8.5" width="14" height="13.5" rx="2.5" fill="#FFF3C4" stroke="#14122A" stroke-width="1.8"></rect><rect x="5" y="8.5" width="14" height="4" rx="2" fill="#14122A"></rect><text x="12" y="11.6" text-anchor="middle" font-size="2.8" font-weight="900" fill="#FFD93D" font-family="sans-serif">VIP</text><circle cx="12" cy="16" r="2" fill="#E0307A"></circle><path d="M8.5 19.5h7" stroke="#14122A" stroke-width="1.4" stroke-linecap="round"></path></svg></span>
-        <span class="offer-body"><em class="olabel">${seasonName()} Season</em><b>Backstage Pass</b><span>${pass().owned ? 'VIP active. Claim your rewards' : 'VIP rewards on all 30 tiers, plus the Backstage Jacket'}</span></span>
-        <span class="paybtn">${pass().owned ? 'Open' : OFFERS.goldPass.money}</span></button>`}
-      ${offer('goldenMic', ART.mic(), '#FFD866', '', '<span>Stacks with Hype</span>', 'Forever')}
-      ${(() => { const p = currentPack();
-        const chips = id => packParts(id).map(x => `<span>${x[0]}</span>`).join('');
-        return p === 'starter' ? offer('starter', ART.gift(), '#FF9CC8', packTag('starter'), chips('starter'))
-          : p === 'rising' ? offer('rising', ART.gift('#9B6BFF', '#C9B3FF', '#FFD93D'), '#C9B3FF', packTag('rising'), chips('rising'))
-          : p === 'headliner' ? offer('headliner', ART.gift('#FFD93D', '#FFE08A', '#FF6FAE'), '#FFC27A', packTag('headliner'), chips('headliner')) : ''; })()}
-      ${offer('adFree', ART.noAds(), '#8FD8F5', '', '<span>Hype</span><span>Crates</span><span>Offline 2x</span>', 'No waiting')}
-      ${offer('autoCrew', `<span class="crewart">${crewFigure('dayone-crew')}</span>`, '#9BEBB4', '', '', 'Hands-free · Forever')}
+      ${(() => { // Build 247: Eatventure-style wide cards (big art on a colored panel, name and one line, chunky price button), framed like the Box Offers
+        const PASS_SVG = `<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><path d="M9 2 Q13 17 28 24M55 2 Q51 17 36 24" fill="none" stroke="#14122A" stroke-width="8" stroke-linecap="round"/><path d="M9 2 Q13 17 28 24M55 2 Q51 17 36 24" fill="none" stroke="#7B5CE0" stroke-width="5" stroke-linecap="round"/><path d="M9 2 Q13 17 28 24M55 2 Q51 17 36 24" fill="none" stroke="#F2C94C" stroke-width="1.4" stroke-linecap="round"/><rect x="27" y="20" width="10" height="9" rx="2.5" fill="#D5D8E3" stroke="#14122A" stroke-width="2"/><rect x="12" y="27" width="40" height="35" rx="6" fill="#FFF8E1" stroke="#14122A" stroke-width="2.5"/><path d="M13.3 33.5V33a4.7 4.7 0 0 1 4.7-4.7h28a4.7 4.7 0 0 1 4.7 4.7v3.5H13.3z" fill="#2A1638"/><text x="32" y="35.3" text-anchor="middle" font-size="6.4" font-weight="900" fill="#F2C94C" font-family="sans-serif" letter-spacing=".6">VIP</text><path d="M32.0 37.5 L34.4 43.3 L40.6 43.7 L35.8 47.7 L37.3 53.8 L32.0 50.5 L26.7 53.8 L28.2 47.7 L23.4 43.7 L29.6 43.3Z" fill="#F2C94C" stroke="#14122A" stroke-width="2" stroke-linejoin="round"/><rect x="24" y="56.5" width="16" height="2.4" rx="1.2" fill="#14122A" opacity=".25"/></svg>`;
+        const spec = (id, art, c, label, line, extra = '', ribbon = '', own = owned(id)) => { const o = OFFERS[id]; if (own) return '';   // owned offers leave the shop
+          return `<button class="spec ${c[4] || ''}" data-buy="${id}" ${own ? 'disabled' : ''} style="--a:${c[0]};--d:${c[1]};--p:${c[2]};--t:${c[3]}" aria-label="${o.name}, ${own ? 'owned' : o.money}">${ribbon ? `<span class="rib">${ribbon}</span>` : ''}
+            <span class="spec-in"><span class="wall bubbles"></span><span class="spec-art">${sparks(4, id.length)}${art}</span>
+            <span class="spec-body">${label ? `<em>${label}</em>` : ''}<span class="spec-line">${line}</span>${extra}</span>
+            <span class="spec-foot"><b>${o.name.replace(' VIP', '')}</b><span class="spec-btn">${own ? 'Owned' : o.money}</span></span></span></button>`; };
+        // pack contents as icons with counts (boxes, gems), anything else as a small chip
+        const packItems = id => { let gems = 0; const boxes = [], other = [];
+          packParts(id).forEach(([l]) => { const g = l.match(/^([\d,]+) gems/), bx = l.match(/^(\d+) (Small|Big) Style Box/);
+            if (g) gems += +g[1].replace(/,/g, ''); else if (bx) boxes.push([bx[2].toLowerCase(), +bx[1]]); else other.push(l.replace(/ \(.*\)$/, '')); });
+          return `<span class="spec-items">${boxes.map(([k, n]) => `<span class="bof-it"><span class="bof-ic">${boxArt(k, 36)}</span><i>${n}</i></span>`).join('')}<span class="bof-it gem"><span class="bof-ic">${GEM_MINI}</span><i>${gems.toLocaleString('en-US')}</i></span>${other.map(x => `<span class="spec-chip">${x}</span>`).join('')}</span>`; };
+        const p = currentPack();
+        return `<div class="specs">
+          ${pass().owned ? '' : spec('goldPass', PASS_SVG, ['#F2C94C', '#B8891A', '#3A1F4E', '#241330', 'dark'], seasonName() + ' Season', 'VIP rewards on all 30 tiers, plus the Backstage Jacket')}
+          ${spec('goldenMic', ART.mic(), ['#F2C94C', '#B8891A', '#3B3466', '#22203A', 'dark'], 'Forever', 'x2 income on everything. Stacks with Hype')}
+          ${p === 'starter' ? '' /* Build 247: Starter Pack dropped from the shop */ && spec('starter', ART.gift(), ['#E2558F', '#B83E70', '#FFB3D3', '#FFFFFF'], 'One time', 'A head start for new artists', packItems('starter'), packTag('starter'))
+            : p === 'rising' ? spec('rising', ART.gift('#9B6BFF', '#C9B3FF', '#FFD93D'), ['#7B5CE0', '#5E43BF', '#DCCDFF', '#FFFFFF'], 'One time', 'For artists with an album out', packItems('rising'), packTag('rising'))
+            : p === 'headliner' ? spec('headliner', ART.gift('#FFD93D', '#FFE08A', '#FF6FAE'), ['#E0862E', '#B5671B', '#FFD9A8', '#FFFFFF'], 'One time', 'For established stars', packItems('headliner'), packTag('headliner')) : ''}
+          ${spec('adFree', ART.noAds(), ['#3D9BD6', '#2C78B0', '#A9DEF7', '#FFFFFF'], 'Forever', 'Every ad reward instantly: Hype, Crates, Offline 2x')}
+          ${spec('autoCrew', `<span class="crewart">${crewFigure('dayone-crew')}</span>`, ['#3BAA6A', '#2A8550', '#A8EBBE', '#FFFFFF'], 'Forever', 'Your first station runs itself on every map')}
+        </div>`; })()}
       ${(() => { // one-time perks get their own section and leave the shop once owned (like outfits)
         const perks = [];   // Pro Monitors retired in Build 158
         return perks.length ? `<div class="banner">Permanent upgrades</div><div class="cards two ${perks.length === 1 ? 'solo' : ''}">${perks.map(([id, art, t]) => card(id, art, t, '', 'gold perk').replace('<span class="wall', '<span class="tag qtag">Forever</span><span class="wall')).join('')}</div>` : ''; })()}
