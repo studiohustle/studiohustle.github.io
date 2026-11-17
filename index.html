@@ -2176,8 +2176,14 @@ html .buywhat { margin: 0; font-size: 14px; line-height: 1.35; text-align: cente
 .shop-float > .shopflt .buybtns { margin: 0; } .shop-float > .shopflt .buybtns .cta { width: 100%; margin: 0; }
 .cta.buyone { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .buyneed { margin: 0; text-align: center; font: 600 14px var(--body); color: #C2410C; } .buyneed b { font-weight: 800; }
-.sbp .sb-btns .cta { white-space: nowrap; font-size: 14px; padding: 0 8px; gap: 5px; } .sbp .sb-btns .gemprice { display: inline-flex; align-items: center; gap: 3px; } .sbp .sb-btns .gemprice img { width: 18px; height: 15px; }
+.sbp .sb-btns { gap: 8px; } .sbp .sb-btns .cta { white-space: nowrap; font-size: 14px; padding: 0 6px; gap: 6px; min-width: 0; } .sbp .sb-btns .gemprice { display: inline-flex; align-items: center; gap: 2px; font-size: 14px; } .sbp .sb-btns .gemprice img { width: 16px; height: 13px; }
 .shop-float > .shopflt .sb-odds { gap: 4px; } .shop-float > .shopflt .sb-o b { font-size: 9.5px; }
+
+/* Build 255: floating window headers never overlap: the title gives way to Back and X */
+.shop-float > .shopflt > .sheet-head { display: flex; align-items: center; gap: 8px; }
+.shop-float > .shopflt > .sheet-head h2 { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html .shop-float > .shopflt > .sheet-head > .headbtns, html .shop-float > .shopflt > .sheet-head > .close { flex: none; display: flex; gap: 8px; position: static !important; transform: none !important; margin: 0 !important; }
+html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; margin: 0 !important; }
 </style>
 </head>
 <body>
@@ -3251,7 +3257,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 254, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 255, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7596,11 +7602,11 @@ function sboxSheet() {
 let sboxOddsFrom = null;   // 'sbox' when the odds came from the box window (Back returns there); otherwise X only
 function sboxOddsSheet() {
   const k = sboxKind, B = BOXES[k], st = sboxState(), P = boxPity(k);
-  return `<div class="sheet-head"><h2>Chances per outfit</h2>${sboxOddsFrom === 'sbox' ? headBtns(`data-sbox-view="${k}"`) : closeBtn()}</div>
-    <div class="sbo-top"><span class="sbo-art">${boxArt(k, 54)}</span><span class="rt"><b>${B.name.replace(' Style', '')}</b><span>${B.rolls} outfits per box, each rolls on its own</span></span></div>
+  return `<div class="sheet-head"><h2>Chances</h2>${sboxOddsFrom === 'sbox' ? headBtns(`data-sbox-view="${k}"`) : closeBtn()}</div>
+    <div class="sbo-top"><span class="sbo-art">${boxArt(k, 54)}</span><span class="rt"><b>${B.name.replace(' Style', '')}</b><span>${B.rolls} outfits per box</span></span></div>
     ${sboxOdds(k)}
     ${P ? `<div class="sec"><h3>Bad-luck protection</h3>${sboxPityRow(RARITY[P.rar][0], pityLeft(k), P.n, RARITY[P.rar][1])}</div>` : ''}
-    <p class="cnote">Duplicates turn into Style Tokens (you have <b>${st.tokens}</b>).</p>`;
+    <p class="cnote">Duplicates become Style Tokens · <b>${st.tokens}</b></p>`;
 }
 let sboxBusy = 0;
 document.addEventListener('click', e => {
