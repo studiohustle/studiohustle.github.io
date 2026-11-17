@@ -2141,6 +2141,15 @@ img.boxart { object-fit: contain; display: block; pointer-events: none; -webkit-
 .boxoff:active .bof-in, .spec:active .spec-in { transform: translateY(3px); box-shadow: 0 3px 0 rgba(20,18,42,.45); box-shadow: 0 3px 0 color-mix(in srgb, var(--d) 72%, #000); }
 .sb-side.evside { box-shadow: 0 6px 0 rgba(20,18,42,.45); box-shadow: 0 6px 0 color-mix(in srgb, var(--ec) 62%, #000); }
 #sheet .boxoffs, #sheet .specs { gap: 14px; } #sheet .holgifts + .boxoffs { margin-top: 14px; }
+
+/* Build 251: section notes behind an "i" on the section bar */
+.banner.hasi { position: relative; }
+.ban-i { position: absolute; right: max(18px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); width: 24px; height: 24px; box-sizing: border-box; padding: 0; border-radius: 50%; border: 2px solid rgba(255,255,255,.75); background: none; color: rgba(255,255,255,.85); font: 800 13px/1 var(--body); display: grid; place-items: center; }
+.shopinfo-t { margin: 0; font-size: 15px; line-height: 1.45; color: var(--text); }
+
+/* Build 251: every shop sparkle is white */
+#sheet .spk, #shopFloat .spk, .card.green .spk, .gemcard .spk { background: #fff; }
+.spk.bspk { background: #fff; filter: drop-shadow(0 0 3px rgba(255,255,255,.9)); }
 </style>
 </head>
 <body>
@@ -3214,7 +3223,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 250, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 251, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5327,7 +5336,13 @@ window.addEventListener('pointerdown', () => document.documentElement.classList.
 const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad'];   // small centered cards: one ad button, closes after the ad
 const DARK_SHEETS = ['shop', 'style', 'studio', 'profile', 'inv'];   // shop and style keep their dark backgrounds
 // ---------- Build 238: things opened from inside the Shop float over it as a card; the Shop stays underneath, in place ----------
-const SHOP_FLOAT = t => t === 'sbox' || t === 'sbox-odds' || t === 'confirm-buy' || t.startsWith('pay:');
+// Build 251: section notes live behind an "i" on the section bar
+const SHOP_INFO = { boxes: ['Style Boxes', 'Free boxes from map moves, albums and events wait on your studio screen. Tap a box to see its chances.'],
+  skips: ['Time Skips', 'Each skip grants 1 hour of cash instantly. Skips you buy are stored in your Inventory until you use them.'],
+  frenzy: ['Fan Frenzy', 'Each Frenzy brings a crowd of fans to tap for 30 minutes. Fans only show up during a Frenzy. Store them in your Inventory and use them whenever you want.'] };
+let shopInfoKey = 'skips';
+document.addEventListener('click', e => { const b = e.target.closest('[data-shopinfo]'); if (!b) return; sfx('tap'); shopInfoKey = b.dataset.shopinfo; openTab('shopinfo'); });
+const SHOP_FLOAT = t => t === 'shopinfo' || t === 'sbox' || t === 'sbox-odds' || t === 'confirm-buy' || t.startsWith('pay:');
 let floatNext = false, floatKey = null;
 const floatOpen = () => !!floatKey;
 function floatShow(html) {
@@ -6108,10 +6123,12 @@ const ART = {
     return `<svg class="gempack" viewBox="0 0 120 98" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><filter id="sk${n}" x="-10%" y="-10%" width="120%" height="120%"><feMorphology in="SourceAlpha" operator="dilate" radius="3" result="d"></feMorphology><feFlood flood-color="#fff"></feFlood><feComposite in2="d" operator="in" result="w"></feComposite><feMerge><feMergeNode in="w"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g filter="url(#sk${n})">${set.map(c => ck(...c)).join('')}</g></svg>`; },
   clock: t => `<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#fff" stroke="#14122A" stroke-width="3"></circle><circle cx="32" cy="32" r="24" fill="none" stroke="#6FD3FF" stroke-width="5" stroke-dasharray="${t === 4 ? '150 1' : '38 200'}" transform="rotate(-90 32 32)"></circle><path d="M32 18v14l9 6" stroke="#14122A" stroke-width="3.5" stroke-linecap="round" fill="none"></path></svg>`,
   monitors: () => `<svg width="84" height="84" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="14" width="22" height="36" rx="4" fill="#2C2F48" stroke="#14122A" stroke-width="3"></rect><rect x="36" y="14" width="22" height="36" rx="4" fill="#2C2F48" stroke="#14122A" stroke-width="3"></rect><circle cx="17" cy="38" r="7" fill="#8BF0A0"></circle><circle cx="47" cy="38" r="7" fill="#8BF0A0"></circle><circle cx="17" cy="23" r="3" fill="#8BF0A0"></circle><circle cx="47" cy="23" r="3" fill="#8BF0A0"></circle></svg>`,
-  boost: x => `<svg width="70" height="70" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="${x === 5 ? '#FF8A3D' : '#34C77B'}" stroke="#14122A" stroke-width="3.5"></circle><circle cx="32" cy="32" r="21" fill="${x === 5 ? '#FFB067' : '#6FE0A4'}"></circle>
-    <path d="M14 22 A21 21 0 0 1 36 11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"></path>
-    <text x="32" y="41" text-anchor="middle" font-family="Bungee, 'Arial Black', sans-serif" font-size="22" fill="#fff" stroke="#14122A" stroke-width="2.4" paint-order="stroke">x${x}</text>
-    <path d="M48 6 l7 8 h-4.5 v7 h-5 v-7 H41 z" fill="#FFD93D" stroke="#14122A" stroke-width="2" stroke-linejoin="round"></path></svg>`,
+  boost: x => { const [rim, face, ink] = x === 5 ? ['#F2782B', '#FFB672', '#C25515'] : ['#22B067', '#7FE3AE', '#14864B'];   // Build 251: thick white outline like the gem packs
+    return `<svg width="70" height="70" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="33" r="29.5" fill="#fff"></circle><circle cx="32" cy="33" r="25" fill="${rim}"></circle><circle cx="32" cy="33" r="19" fill="${face}"></circle>
+    <path d="M17.5 24 A17 17 0 0 1 35 16.2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"></path>
+    <text x="32" y="43.6" text-anchor="middle" font-family="Bungee, 'Arial Black', sans-serif" font-size="21" fill="${ink}" opacity=".55">x${x}</text>
+    <text x="32" y="41.6" text-anchor="middle" font-family="Bungee, 'Arial Black', sans-serif" font-size="21" fill="#fff">x${x}</text>
+</svg>`; },
   bolt: () => `<span class="hype-tile"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"></path></svg></span>`,
   frenzy: () => `<svg width="78" height="78" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 L36 14 L46 8 L44 19 L56 18 L48 27 L58 32 L48 37 L56 46 L44 45 L46 56 L36 50 L32 60 L28 50 L18 56 L20 45 L8 46 L16 37 L6 32 L16 27 L8 18 L20 19 L18 8 L28 14 Z" fill="#FFE27A" opacity=".9"></path><rect x="14" y="22" width="36" height="26" rx="6" fill="#2B2742" stroke="#14122A" stroke-width="3"></rect><rect x="24" y="16" width="14" height="8" rx="2.5" fill="#2B2742" stroke="#14122A" stroke-width="3"></rect><circle cx="32" cy="35" r="8" fill="#6E7BBF" stroke="#14122A" stroke-width="3"></circle><circle cx="34.5" cy="32.5" r="2.4" fill="#fff" opacity=".85"></circle><rect x="42" y="26" width="5" height="3.5" rx="1.2" fill="#FFD93D"></rect></svg>`,
   moon: () => `<svg width="84" height="84" viewBox="0 0 64 64" aria-hidden="true"><path d="M44 42A20 20 0 1 1 26 12a15 15 0 0 0 18 30z" fill="#FFE08A" stroke="#14122A" stroke-width="3" stroke-linejoin="round"></path><circle cx="48" cy="16" r="2.5" fill="#fff"></circle><circle cx="54" cy="28" r="1.8" fill="#fff"></circle></svg>`,
@@ -6976,13 +6993,15 @@ function openTab(tab) {
         <div><b>You keep</b><ul><li>Gems &amp; inventory</li><li>Outfits &amp; style</li><li>Plaques &amp; goals</li><li>Perks &amp; Hype</li><li>Pass progress</li></ul></div>
         <div class="lose"><b>Resets</b><ul><li>Back to the Apartment</li><li>Cash to $0</li><li>Levels &amp; crew</li><li>Upgrades</li></ul></div></div>
       <button class="cta pink" data-album>Drop album #${(S.albums || 0) + 1}</button><button class="ghost" data-close>Not yet</button>`);
+  } else if (tab === 'shopinfo') { const T = SHOP_INFO[shopInfoKey] || SHOP_INFO.skips;
+    openSheet(`<div class="sheet-head"><h2>${T[0]}</h2>${closeBtn()}</div><p class="shopinfo-t">${T[1]}</p>`);
   } else if (tab === 'sbox-odds') { openSheet(sboxOddsSheet());
   } else if (tab === 'sbox') { openSheet(sboxSheet());
   } else if (tab === 'shop') {
     const owned = id => OFFERS[id].once && S.perks[id];
     // deterministic sparkle positions so they don't jump around on every refresh
     const sparks = (n, seed = 1) => Array.from({ length: n }, (_, i) => { const a = (i * 137 + seed * 53) % 100, b = (i * 71 + seed * 29) % 100;
-      return `<i class="spk" style="left:${8 + a * .84}%;top:${6 + b * .7}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.6 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
+      return `<i class="spk" style="left:${24 + a * .52}%;top:${12 + b * .5}%;animation-delay:-${((i * .63 + seed * .37) % 2.4).toFixed(2)}s;--k:${(.6 + (i % 3) * .25).toFixed(2)}"></i>`; }).join('');
     const offer = (id, art, color, ribbon, perks, label) => { const o = OFFERS[id], own = o.deal ? dealOwned(id) : o.hol ? holBought(o) : owned(id);
       return `<button class="offer" data-buy="${id}" ${own ? 'disabled' : ''} style="background:${color}" aria-label="${o.name}, ${own ? 'owned' : o.money}">${ribbon ? `<span class="rib">${ribbon}</span>` : ''}
         <span class="wall bubbles"></span><span class="offer-art glow">${sparks(5, id.length)}${art}</span>
@@ -7078,7 +7097,7 @@ function openTab(tab) {
       ${(() => { // one-time perks get their own section and leave the shop once owned (like outfits)
         const perks = [];   // Pro Monitors retired in Build 158
         return perks.length ? `<div class="banner">Permanent upgrades</div><div class="cards two ${perks.length === 1 ? 'solo' : ''}">${perks.map(([id, art, t]) => card(id, art, t, '', 'gold perk').replace('<span class="wall', '<span class="tag qtag">Forever</span><span class="wall')).join('')}</div>` : ''; })()}
-      <div class="banner">Style Boxes</div>
+      <div class="banner hasi">Style Boxes<button class="ban-i" data-shopinfo="boxes" aria-label="About">i</button></div>
       ${(() => { const card = k => { const B = BOXES[k];
           return `<button class="card gold sboxcard sb-${k}" data-sbox-view="${k}" aria-label="${B.name}, ${B.rolls} outfits, ${B.cost} gems, see chances">
           <span class="sb-name">${B.name.replace(' Style', '')}</span><span class="sb-items">${B.rolls} outfits <i class="sb-i" data-sbox-odds="${k}" role="button" aria-label="Chances">i</i></span>
@@ -7089,7 +7108,7 @@ function openTab(tab) {
         ${live ? `<div class="cards two sboxes">${card('event')}${(() => { const L = evLive(), D = EV_DEFS[boxTheme('event')] || {}, left = L ? Math.max(0, L.end - Date.now()) : 0, dd = Math.floor(left / 864e5), hh = Math.floor(left % 864e5 / 36e5), mm = Math.floor(left % 36e5 / 6e4);
           return `<div class="sb-side evside" style="--ec:${D.color};--ei:${D.ink}"><span class="evs-em">${evEmblem(boxTheme('event'), 46)}</span><b>${D.title || 'Event'}</b>
             <span class="evs-t">Ends in<em>${dd ? dd + 'd ' + hh + 'h' : hh + 'h ' + mm + 'm'}</em></span></div>`; })()}</div>` : ''}
-        <p class="cnote sb-note">Free boxes from map moves, albums and events wait on your studio screen.</p>`; })()}
+        `; })()}
       <div class="banner">Boosts</div>
       <div class="cards gems boosts">
         ${boostCard('skip15', ART.clock(0), '+15m', 'Skip 15 min')}
@@ -7099,16 +7118,13 @@ function openTab(tab) {
         ${boostCard('boost2', ART.boost(2), bLeft(2) > 0 ? hms(bLeft(2)) : '20m', 'Income x2')}
         ${boostCard('boost5', ART.boost(5), bLeft(5) > 0 ? hms(bLeft(5)) : '5m', 'Income x5')}
       </div>
-      <div class="banner">Time Skip Packs</div>
-      <div class="skipbar"><span>Each skip grants 1 hour of cash.</span><button class="hire" data-tab-go="inv">Inventory${invQty('skips') + invQty('frenzies') ? ' · ' + (invQty('skips') + invQty('frenzies')) : ''}</button></div>
-
+      <div class="banner hasi">Time Skip Packs<button class="ban-i" data-shopinfo="skips" aria-label="About">i</button></div>
       <div class="cards gems skips">
         ${skipCard('skips5', 1, '5 skips', '', 3)}
         ${skipCard('skips20', 2, '20 skips', '', 4)}
         ${skipCard('skips60', 3, '60 skips', 'Best value', 5)}
       </div>
-      <div class="banner">Fan Frenzy Packs</div>
-      <div class="skipbar"><span>Each Frenzy brings a crowd of fans to tap for 30 minutes. Fans only show up during a Frenzy. Store them and use whenever you want.</span></div>
+      <div class="banner hasi">Fan Frenzy Packs<button class="ban-i" data-shopinfo="frenzy" aria-label="About">i</button></div>
       <div class="cards gems skips">
         ${skipCard('frenzy4', 1, '4 Frenzies', '', 3, 'frenzies')}
         ${skipCard('frenzy20', 2, '20 Frenzies', '', 4, 'frenzies')}
