@@ -3329,7 +3329,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 271, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 272, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5076,11 +5076,15 @@ function lbSeasonPop(sz) {   // sz: { name: 'November', levels: [4, 5] }: reward
 const LB_RWQ = []; let lbRwBusy = 0;
 async function lbRewardsCheck() {
   if (!S.onboarded || lbRwBusy) return; lbRwBusy = 1;
-  try { const r = await lbCall('lb_rewards'); if (!r.ok || !r.data) return; const list = r.data.rewards || []; if (!list.length) return;
+  try { const r = await lbCall('lb_rewards', { gifts: true }); /* older builds never ask for gifts, so they can't confirm one they can't show */ if (!r.ok || !r.data) return; const list = r.data.rewards || []; if (!list.length) return;
     list.forEach(x => { const d = x.data || {};
       if (x.kind === 'week') { if (!(S.lbWkPaid || {})[x.ref]) { S.lbWkPaid = Object.assign({}, S.lbWkPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; owe('gems'); if (!SRV_BOX) boxGive(d.box, d.n, 'label'); }
         LB_RWQ.push(() => lbRwPop(`${lbPlace(d.place)} place!`, [['box:' + d.box + ':' + d.n, d.n], ['gems', d.gems]], `<b>${esc(d.name)}</b> · ${lbXpShort(d.xp)} XP last week`,
           `<div class="lbrw-badge">${lbBadge({ color: d.color, glyph: d.glyph }, 54)}${d.place <= 3 ? `<span class="lbrw-medal m${d.place}">${d.place}</span>` : ''}</div>`)); }
+      if (x.kind === 'gift') {   // Build 272: a personal gift sent from the server (gems paid here, boxes already added on the server)
+        if (!(S.giftPaid || {})[x.ref]) { S.giftPaid = Object.assign({}, S.giftPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; if (d.gems) owe('gems'); if (!SRV_BOX) (d.boxes || []).forEach(([k, n]) => boxGive(k, n, 'label')); }
+        const items = [...(d.gems ? [['gems', d.gems]] : []), ...(d.boxes || []).map(([k, n]) => ['box:' + k + ':' + n, n])];
+        LB_RWQ.push(() => lbRwPop(esc(d.title || 'Thank you!'), items, esc(d.note || 'Thanks for playing!'))); }
       if (x.kind === 'season') { const lv = d.levels || []; lv.forEach(l => lbPay(x.ref, l));
         const mo = new Date(x.ref + '-15T12:00:00Z').toLocaleString('en-US', { month: 'long', timeZone: 'UTC' }); LB_RWQ.push(() => lbSeasonPop({ name: mo, levels: lv })); } });
     if (SRV_BOX && r.data.inv && sboxState().synced) sboxState().inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, r.data.inv);
