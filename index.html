@@ -3312,10 +3312,38 @@ const ITEMS = (() => { const list = [
   { id: 'biker', rar: 'epic', slot: 'top', name: 'Leather Biker', gems: 135, bonus: 0.09, look: { style: 'biker', body: '#1E1B26', trim: '#2E2B38', zip: '#D9DCE6' } },
   { id: 'cuban', rar: 'legendary', slot: 'neck', name: 'Diamond Cuban', gems: 270, bonus: 0.15, look: { style: 'cuban', color: '#E8F7FF' } },
   // Build 236: the first Ultimate set. Ultimates come only from Event Boxes, and each set only drops during its own event (ev)
-  { id: 'tidewave', rar: 'ultimate', ev: 'island', slot: 'top', name: 'Tidewave Aloha', gems: 600, bonus: 0.3, look: { style: 'aloha', body: '#14A89A', trim: '#FFF4DC', flower: '#FF6B5B', leaf: '#0B6E5A', bud: '#FFD93D' } },
+  { id: 'tidewave', rar: 'ultimate', ev: 'island', slot: 'top', name: 'Tidewave Aloha', gems: 600, bonus: 0.3, look: { style: 'aloha', thick: 3, body: '#14A89A', trim: '#FFF4DC', flower: '#FF6B5B', leaf: '#0B6E5A', bud: '#FFD93D' } },
   { id: 'sunsetstraw', rar: 'ultimate', ev: 'island', slot: 'hat', name: 'Sunset Straw Hat', gems: 400, bonus: 0.2, look: { style: 'straw', color: '#EBC77A', weave: '#C99A4A', band: '#14A89A', stripe: '#FF6B5B', flower: '#FF6B5B' } },
   { id: 'pukashell', rar: 'ultimate', ev: 'island', slot: 'neck', name: 'Golden Puka Shells', gems: 500, bonus: 0.25, look: { style: 'puka', color: '#FFD24D', bead: '#FFF6E6', pend: '#FFF1D6', rib: '#D8B98C' } },
   { id: 'sunsetshades', rar: 'ultimate', ev: 'island', slot: 'face', name: 'Lagoon Shades', gems: 300, bonus: 0.15, look: { style: 'sunset', color: '#FF6B5B' } },
+  // Build 275 (lineup draft): Western and Galaxy Ultimate sets for their Event Boxes, and the first Epic hats
+  { id: 'duster', rar: 'ultimate', ev: 'western', slot: 'top', name: 'Desert Duster', gems: 600, bonus: 0.3, look: { style: 'duster', thick: 3, body: '#B9773E', trim: '#6B3E1E', fringe: '#E8C089', star: '#E8EEF6' } },
+  { id: 'stetson', rar: 'ultimate', ev: 'western', slot: 'hat', name: 'Silver Spur Stetson', gems: 400, bonus: 0.2, look: { style: 'stetson', color: '#3A2418', band: '#E8EEF6', star: '#FFD93D' } },
+  { id: 'sheriffstar', rar: 'ultimate', ev: 'western', slot: 'neck', name: 'Sheriff Star Chain', gems: 500, bonus: 0.25, look: { style: 'sheriff', color: '#E8EEF6', star: '#FFD24D' } },
+  { id: 'dustyav', rar: 'ultimate', ev: 'western', slot: 'face', name: 'Dust Devil Aviators', gems: 300, bonus: 0.15, look: { style: 'goldav', color: '#E0A43A', top: '#FFB23F', bot: '#E2552B' } },
+  { id: 'starlight', rar: 'ultimate', ev: 'galaxy', slot: 'top', name: 'Starlight Jacket', gems: 600, bonus: 0.3, look: { style: 'starlight', puffy: true, body: '#2B2160', trim: '#7FF0FF', glow: '#FF8FE0' } },
+  { id: 'planetbeanie', rar: 'ultimate', ev: 'galaxy', slot: 'hat', name: 'Ringed Planet Beanie', gems: 400, bonus: 0.2, look: { style: 'planet', color: '#3B2C86', cuff: '#7FF0FF', planet: '#FF8FE0', ring: '#FFD93D' } },
+  { id: 'meteor', rar: 'ultimate', ev: 'galaxy', slot: 'neck', name: 'Meteor Pendant', gems: 500, bonus: 0.25, look: { style: 'meteor', color: '#B9A6FF', rock: '#7FF0FF', tail: '#FF8FE0' } },
+  { id: 'nebulaswirl', rar: 'ultimate', ev: 'galaxy', slot: 'face', name: 'Nebula Swirl Shades', gems: 300, bonus: 0.15, look: { style: 'swirl', color: '#2B2160', a: '#FF5FD2', b: '#5FF2FF' } },
+  // Build 275 (lineup 2 draft): Legendaries
+  { id: 'shearling', rar: 'legendary', slot: 'top', name: 'Shearling Jacket', gems: 325, bonus: 0.18, look: { style: 'shearling', thick: 3, body: '#8A5634', trim: '#F3E6CC', zip: '#D7B98A' } },
+  { id: 'velvetblazer', rar: 'legendary', slot: 'top', name: 'Velvet Tour Blazer', gems: 325, bonus: 0.18, look: { style: 'blazer', thick: 2, body: '#7A1F3D', trim: '#1E1B26', gold: '#FFD24D' } },
+  { id: 'platsnap', rar: 'legendary', slot: 'hat', name: 'Platinum Snapback', gems: 215, bonus: 0.12, look: { style: 'platsnap', color: '#D9DEE8', brim: '#1E1B26', gold: '#FFD24D' } },
+  { id: 'fedora', rar: 'legendary', slot: 'hat', name: 'Headliner Fedora', gems: 215, bonus: 0.12, look: { style: 'fedora', color: '#24212E', band: '#FFD24D', feather: '#E2552B' } },
+  { id: 'diamondstar', rar: 'legendary', slot: 'neck', name: 'Diamond Star Pendant', gems: 270, bonus: 0.15, look: { style: 'dstar', color: '#E8F7FF', edge: '#2E9CD6' } },
+  { id: 'mirrorav', rar: 'legendary', slot: 'face', name: 'Mirror Aviators', gems: 180, bonus: 0.1, look: { style: 'mirror', color: '#C9D2E3' } },
+  { id: 'goldrimless', rar: 'legendary', slot: 'face', name: 'Gold Rimless Shades', gems: 180, bonus: 0.1, look: { style: 'rimless', color: '#FFD24D', lens: '#E7B04A' } },
+  // Build 275 (lineup 3 draft): Commons, Rares and the last Epics
+  { id: 'cfisher', rar: 'common', cm: true, slot: 'hat', name: 'Fisherman Beanie', bonus: 0.01, look: { style: 'fisher', color: '#E0A43A', rib: '#B7822A' } },
+  { id: 'cdogtag', rar: 'common', cm: true, slot: 'neck', name: 'Dog Tag', bonus: 0.01, look: { style: 'dogtag', color: '#B9C0CC', tag: '#D9DEE8' } },
+  { id: 'bomber', rar: 'rare', slot: 'top', name: 'Bomber Jacket', gems: 50, bonus: 0.04, look: { style: 'bomber', body: '#5E6B3A', trim: '#2A2A33', lining: '#E8792B', zip: '#C9CED8' } },
+  { id: 'pearls', rar: 'rare', slot: 'neck', name: 'Pearl Necklace', gems: 35, bonus: 0.03, look: { style: 'pearls', color: '#F6F1E6', shade: '#D8CFE6' } },
+  { id: 'cassette', rar: 'rare', slot: 'neck', name: 'Cassette Pendant', gems: 35, bonus: 0.03, look: { style: 'cassette', color: '#2A2A33', body: '#FF6FAE', label: '#F4F1EA' } },
+  { id: 'micpendant', rar: 'epic', slot: 'neck', name: 'Gold Mic Pendant', gems: 105, bonus: 0.07, look: { style: 'micpend', color: '#FFD24D', grille: '#B8891A' } },
+  { id: 'heartshades', rar: 'epic', slot: 'face', name: 'Heart Shades', gems: 120, bonus: 0.08, look: { style: 'hearts', color: '#E2382B', lens: '#FF6B8A' } },
+  { id: 'cheftoque', rar: 'epic', slot: 'hat', name: "Chef's Toque", gems: 120, bonus: 0.08, look: { style: 'toque', color: '#FFFFFF', shade: '#E4E1EE', band: '#F4F1EA' } },
+  { id: 'luckytop', rar: 'epic', slot: 'hat', name: 'Lucky Top Hat', gems: 120, bonus: 0.08, look: { style: 'tophat', color: '#2E9E4F', band: '#1E1B26', buckle: '#FFD24D', clover: '#7EE07A' } },
+  { id: 'racingcap', rar: 'epic', slot: 'hat', name: 'Racing Cap', gems: 120, bonus: 0.08, look: { style: 'racing', color: '#F4F1EA', side: '#E2382B', brim: '#1E1B26' } },
   { id: 'nameplate', rar: 'mythic', pw: 'ultimate', slot: 'neck', name: 'Artist Nameplate', gems: 500, bonus: 0.25, look: { style: 'nameplate', color: '#E8F7FF' } },
   // batch 2: evening out the slots (hats, glasses, necklaces)
   { id: 'trucker', rar: 'rare', slot: 'hat', name: 'Trucker Cap', gems: 60, bonus: 0.05, look: { style: 'trucker', color: '#F4F1EA', mesh: '#2F6FDE', patch: '#FF6FAE', brim: '#2F6FDE' } },
@@ -3339,7 +3367,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 273, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 275, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5550,7 +5578,7 @@ const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad'];   // small cente
 const DARK_SHEETS = ['shop', 'style', 'studio', 'profile', 'inv'];   // shop and style keep their dark backgrounds
 // ---------- Build 238: things opened from inside the Shop float over it as a card; the Shop stays underneath, in place ----------
 // Build 251: section notes live behind an "i" on the section bar
-const SHOP_INFO = { boxes: ['Style Boxes', 'Free boxes from map moves, albums and events wait on your studio screen. Tap a box to see its chances.'],
+const SHOP_INFO = { boxes: ['Style Boxes', 'Boxes you earn from Daily Rewards, the Pass, your label, map moves and albums wait on your studio screen. Duplicates turn into Style Tokens. Tap a box to see its chances.'],
   skips: ['Time Skips', 'Each skip grants 1 hour of cash instantly. Skips you buy are stored in your Inventory until you use them.'],
   frenzy: ['Fan Frenzy', 'Each Frenzy brings a crowd of fans to tap for 30 minutes. Fans only show up during a Frenzy. Store them in your Inventory and use them whenever you want.'] };
 let shopInfoKey = 'skips';
@@ -5927,6 +5955,7 @@ const lookOf = (eq, slot) => { const it = itemById(eq[slot]); return it ? it.loo
 const FONT = 'font-family="Arial Black, Arial, sans-serif" font-weight="900" text-anchor="middle"';
 // arms: tees show forearms, jerseys show whole arms, varsity has its own sleeve color
 function armPair(t, ln, sk, xl, xr, w, h, y) {
+  if (t.thick) { xl -= t.thick / 2; xr -= t.thick / 2; w += t.thick; }   // Build 275: a bit thicker than a hoodie sleeve, thinner than the puffer
   const one = (x, rot) => { const tf = `transform="rotate(${rot} ${x + w / 2} ${y})"`;
     if (t.style === 'jersey') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" ${sk} ${ln} ${tf}></rect>`;
     if (t.style === 'tee' || t.style === 'aloha' || t.style === 'polo') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" ${sk} ${ln} ${tf}></rect><rect x="${x - 1}" y="${y - 2}" width="${w + 2}" height="${h * (t.style === 'aloha' || t.style === 'polo' ? .5 : .42)}" rx="${w / 2}" fill="${t.body}" ${ln} ${tf}></rect>${t.style === 'aloha' ? `<rect x="${x + 2}" y="${y + h * .5 - 7.5}" width="${w - 4}" height="4.5" fill="${t.trim}" ${tf}></rect>` : ''}`;
@@ -5969,6 +5998,35 @@ function topExtra(t, ln, sk, big) {
     <path d="M67 99 L80 120 L93 99 Z" ${sk} stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
     <path d="M62 99 L71 99 L80 120 L67 113 Z M98 99 L89 99 L80 120 L93 113 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
     <path d="M80 120 V157" stroke="${K}" stroke-opacity=".3" stroke-width="2"></path>${[130, 143].map(y => `<circle cx="80" cy="${y}" r="1.9" fill="${t.trim}" stroke="${K}" stroke-width="1"></circle>`).join('')}`; }
+  // Build 275: Rare bomber: ribbed collar showing orange lining, zip, ribbed hem
+  if (t.style === 'bomber') return `<path d="M64 99 Q80 110 96 99 L96 104 Q80 115 64 104 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
+    <path d="M74 106 L80 114 L86 106 Z" fill="${t.lining}" stroke="${K}" stroke-width="1.6" stroke-linejoin="round"></path><path d="M80 114 V150" stroke="${t.zip}" stroke-width="2.4"></path>
+    ${inside(`<rect x="50" y="146" width="60" height="12" fill="${t.trim}"></rect>${Array.from({ length: 12 }, (_, i) => `<path d="M${55 + i * 4.6} 147 V158" stroke="#fff" stroke-opacity=".15" stroke-width="1.6"></path>`).join('')}`)}<path d="M58 146 Q80 150 102 146" fill="none" stroke="${K}" stroke-width="2"></path>
+    <rect x="62" y="122" width="10" height="3" rx="1.5" fill="${t.zip}" opacity=".7"></rect>`;
+  // Build 275: Legendary shearling: suede body, big fluffy cream collar, zip and cream hem
+  if (t.style === 'shearling') { const fl = (pts, mir) => pts.map(([x, y]) => `<circle cx="${mir ? 160 - x : x}" cy="${y}" r="3.4" fill="${t.trim}"></circle>`).join('');
+    const L = 'M64 99 Q60 100 59 104 Q62 116 75 124 L80 122 Q74 112 72 99 Z', R = 'M96 99 Q100 100 101 104 Q98 116 85 124 L80 122 Q86 112 88 99 Z';
+    return `<path d="M80 120 V154" stroke="${t.zip}" stroke-width="3"></path><path d="M80 120 V154" stroke="#1B1830" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 2"></path>
+    ${inside(`<path d="M50 150 Q80 157 110 150 L110 162 L50 162 Z" fill="${t.trim}"></path>`)}<path d="M58.5 150 Q80 156.5 101.5 150" fill="none" stroke="${K}" stroke-width="2"></path>
+    <path d="${L}" fill="${t.trim}" stroke="${K}" stroke-width="5" stroke-linejoin="round"></path><path d="${R}" fill="${t.trim}" stroke="${K}" stroke-width="5" stroke-linejoin="round"></path>
+    <path d="${L}" fill="${t.trim}"></path><path d="${R}" fill="${t.trim}"></path>${fl([[61, 106], [65, 113], [70, 119]], false)}${fl([[61, 106], [65, 113], [70, 119]], true)}
+    <path d="M66 104 Q67 110 71 115 M94 104 Q93 110 89 115" fill="none" stroke="#C9B48C" stroke-width="1.6" stroke-linecap="round"></path>`; }
+  // Legendary velvet tour blazer: satin lapels, gold buttons, gold pocket square, soft velvet sheen
+  if (t.style === 'blazer') return `${inside(`<path d="M62 108 Q66 130 62 152" stroke="#fff" stroke-opacity=".12" stroke-width="5" fill="none"></path>`)}
+    <path d="M70 99 L80 128 L90 99 Z" fill="#F4F1EA" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path><path d="M77 102 L80 110 L83 102 Z" fill="${t.trim}"></path>
+    <path d="M65 99 L71 99 L80 128 L72 132 L62 105 Z M95 99 L89 99 L80 128 L88 132 L98 105 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
+    ${[136, 146].map(y => `<circle cx="80" cy="${y}" r="2.4" fill="${t.gold}" stroke="${K}" stroke-width="1.2"></circle>`).join('')}
+    <path d="M87 120 h9 l-1 4 h-7 z" fill="${t.gold}" stroke="${K}" stroke-width="1.4" stroke-linejoin="round"></path><path d="M89 120 l2 -4 2 4" fill="${t.gold}" stroke="${K}" stroke-width="1.2" stroke-linejoin="round"></path>`;
+  // Build 275: Western duster: open coat with wide lapels, fringed yoke and a silver star badge
+  if (t.style === 'duster') return `${inside(`<path d="M50 113 Q80 121 110 113" fill="none" stroke="${t.trim}" stroke-width="3"></path>${Array.from({ length: 11 }, (_, i) => `<path d="M${55 + i * 5} ${115 + Math.sin(i / 10 * Math.PI) * 3} v7" stroke="${t.fringe}" stroke-width="2.2" stroke-linecap="round"></path>`).join('')}`)}
+    <path d="M66 99 L80 132 L72 99 Z M94 99 L80 132 L88 99 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path><path d="M63 100 L74 126 L70 129 L60 104 Z M97 100 L86 126 L90 129 L100 104 Z" fill="${t.trim}" stroke="${K}" stroke-width="2" stroke-linejoin="round"></path>
+    <path d="M80 132 V156" stroke="${K}" stroke-opacity=".35" stroke-width="2"></path><polygon points="${starPts(96, 140, 6)}" fill="${t.star}" stroke="${K}" stroke-width="1.5" stroke-linejoin="round"></polygon>
+    <path d="M58 151 Q80 156 102 151" fill="none" stroke="${t.trim}" stroke-width="3"></path>`;
+  // Galaxy: starlight jacket, deep-space body, glowing zipper and a ringed planet patch
+  if (t.style === 'starlight') return `${inside([[64, 118, 1.6], [94, 128, 1.3], [70, 146, 1.2], [97, 150, 1.6], [62, 134, 1.1], [90, 112, 1]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity=".9"></circle>`).join('') + `<path d="M58 140 l1.4 3.6 3.6 1.4 -3.6 1.4 -1.4 3.6 -1.4 -3.6 -3.6 -1.4 3.6 -1.4 z" fill="${t.glow}"></path>`)}
+    <path d="M64 100 Q80 112 96 100" fill="none" stroke="${t.trim}" stroke-width="4" stroke-linecap="round"></path><path d="M80 108 V154" stroke="${t.trim}" stroke-width="3"></path><path d="M80 108 V154" stroke="#fff" stroke-width="1" opacity=".7"></path>
+    <circle cx="68" cy="126" r="6" fill="${t.glow}" stroke="${K}" stroke-width="1.8"></circle><ellipse cx="68" cy="126.5" rx="10" ry="2.8" transform="rotate(-15 68 126.5)" fill="none" stroke="${t.trim}" stroke-width="2"></ellipse>
+    <path d="M57 152 Q80 158 103 152" fill="none" stroke="${t.glow}" stroke-width="4" stroke-linecap="round"></path>`;
   if (t.style === 'spotlight') { const d = (x, y, r) => `<path d="M${x} ${y - r} L${x + r} ${y} L${x} ${y + r} L${x - r} ${y} Z" fill="#fff" stroke="${PRISM.deep}" stroke-width="1.6" stroke-linejoin="round"></path>`;
     // sleeve bands follow the puffy sleeve's own rotation and stay inside its outline
     const sl = big ? [[40, 16, 9, 48], [104, 16, -9, 112]] : [[38, 17, 9, 46], [105, 17, -9, 114]];
@@ -5983,6 +6041,32 @@ const topEmblem = t => t.emblem === 'moon' ? `<path d="M66 124 a9 9 0 1 0 7 15 a
 function neckExtra(n, big) {
   const K = '#1B1830', p = big ? 'M68 99 Q80 120 92 99' : 'M66 99 Q80 122 94 99', py = big ? 120 : 123;
   if (n.style === 'cuban') return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 9 : 11}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 6 : 8}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="#7FA6BE" stroke-width="${big ? 6 : 8}" stroke-dasharray="2 4"></path><circle cx="${big ? 72 : 71}" cy="${big ? 108 : 110}" r="1.6" fill="#fff"></circle>`;
+  if (n.style === 'sheriff') { const yb = big ? 109.5 : 110.5, sy = yb + 15.5; return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 7 : 9}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 4 : 6}" stroke-linecap="round" stroke-dasharray="3 2"></path>
+    <path d="${Array.from({ length: 6 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 3, b = a + Math.PI / 6; return `${i ? 'L' : 'M'}${(80 + 12 * Math.cos(a)).toFixed(1)} ${(sy + 12 * Math.sin(a)).toFixed(1)} L${(80 + 6 * Math.cos(b)).toFixed(1)} ${(sy + 6 * Math.sin(b)).toFixed(1)}`; }).join(' ')} Z" fill="${n.star}" stroke="${K}" stroke-width="2.2" stroke-linejoin="round"></path>
+    ${Array.from({ length: 6 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 3; return `<circle cx="${(80 + 12 * Math.cos(a)).toFixed(1)}" cy="${(sy + 12 * Math.sin(a)).toFixed(1)}" r="2" fill="${n.star}" stroke="${K}" stroke-width="1.2"></circle>`; }).join('')}<circle cx="80" cy="${sy}" r="3" fill="${n.color}" stroke="${K}" stroke-width="1.2"></circle><circle cx="80" cy="${yb + 1.8}" r="2.4" fill="none" stroke="${K}" stroke-width="3.4"></circle><circle cx="80" cy="${yb + 1.8}" r="2.4" fill="none" stroke="${n.color}" stroke-width="1.8"></circle>`; }
+  if (n.style === 'dogtag') { const yb = big ? 109.5 : 110.5, ty = yb + 4;
+    return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 3.2"></path><path d="${p}" fill="none" stroke="${K}" stroke-width="0.8" opacity=".5"></path>
+    <rect x="74" y="${ty}" width="12" height="17" rx="4" fill="${n.tag}" stroke="${K}" stroke-width="2"></rect><circle cx="80" cy="${ty + 3}" r="1.3" fill="${K}" opacity=".6"></circle><path d="M77 ${ty + 8} H83 M77 ${ty + 11.5} H83" stroke="${K}" stroke-width="1.2" opacity=".4" stroke-linecap="round"></path>`; }
+  if (n.style === 'pearls') { const [x0, y0, cx, cy, x1, y1] = big ? [68, 99, 80, 120, 92, 99] : [66, 99, 80, 122, 94, 99];
+    const at = u => [(1 - u) * (1 - u) * x0 + 2 * (1 - u) * u * cx + u * u * x1, (1 - u) * (1 - u) * y0 + 2 * (1 - u) * u * cy + u * u * y1];
+    return Array.from({ length: 11 }, (_, i) => at(i / 10)).map(([x, y]) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.7" fill="${n.color}" stroke="${K}" stroke-width="1.3"></circle><circle cx="${(x - 0.8).toFixed(1)}" cy="${(y - 0.9).toFixed(1)}" r="0.9" fill="#fff"></circle>`).join(''); }
+  if (n.style === 'cassette') { const yb = big ? 109.5 : 110.5, cy = yb + 5;
+    return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.4" stroke-linecap="round"></path>
+    <rect x="70" y="${cy}" width="20" height="13" rx="2.5" fill="${n.body}" stroke="${K}" stroke-width="2"></rect><rect x="73" y="${cy + 2.5}" width="14" height="4.5" rx="1" fill="${n.label}"></rect>
+    <circle cx="75.5" cy="${cy + 9.5}" r="1.8" fill="${K}"></circle><circle cx="84.5" cy="${cy + 9.5}" r="1.8" fill="${K}"></circle>`; }
+  if (n.style === 'micpend') { const yb = big ? 109.5 : 110.5, my = yb + 5;
+    return `<path d="${p}" fill="none" stroke="${K}" stroke-width="4.6" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.6" stroke-linecap="round"></path>
+    <circle cx="80" cy="${yb + 1.8}" r="2.3" fill="none" stroke="${n.color}" stroke-width="1.8"></circle>
+    <rect x="73.5" y="${my}" width="13" height="12" rx="6" fill="${n.color}" stroke="${K}" stroke-width="2"></rect><path d="M74.5 ${my + 4.5} H85.5 M74.5 ${my + 7.5} H85.5" stroke="${n.grille}" stroke-width="1.4"></path>
+    <path d="M77 ${my + 12} L78.3 ${my + 20} H81.7 L83 ${my + 12} Z" fill="${n.color}" stroke="${K}" stroke-width="1.8" stroke-linejoin="round"></path><circle cx="77" cy="${my + 3}" r="1.3" fill="#fff" opacity=".8"></circle>`; }
+  if (n.style === 'dstar') { const yb = big ? 109.5 : 110.5, sy = yb + 13;
+    return `<path d="${p}" fill="none" stroke="${n.edge}" stroke-width="3.4" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="1.4" stroke-linecap="round"></path>
+    <circle cx="80" cy="${yb + 1.8}" r="2.3" fill="none" stroke="${n.edge}" stroke-width="1.8"></circle>
+    <polygon points="${starPts(80, sy, 9.5)}" fill="${n.edge}" stroke="${n.edge}" stroke-width="4.5" stroke-linejoin="round"></polygon><polygon points="${starPts(80, sy, 9.5)}" fill="${n.color}" stroke="${n.color}" stroke-width="1.4" stroke-linejoin="round"></polygon>
+    <polygon points="${starPts(80, sy, 4)}" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"></polygon><circle cx="91" cy="${sy - 8}" r="1.6" fill="#fff"></circle>`; }
+  if (n.style === 'meteor') { const yb = big ? 109.5 : 110.5, my = yb + 12.5; return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.6" stroke-linecap="round"></path><circle cx="80" cy="${yb + 1.8}" r="2.3" fill="none" stroke="${n.color}" stroke-width="1.8"></circle>
+    <path d="M85 ${my - 5} Q96 ${my - 9} 101 ${my - 16} Q99 ${my - 5} 87.5 ${my + 1} Z" fill="${n.tail}" stroke="${K}" stroke-width="1.8" stroke-linejoin="round"></path>
+    <circle cx="80" cy="${my}" r="8.5" fill="${n.rock}" stroke="${K}" stroke-width="2.4"></circle><circle cx="77" cy="${my - 2}" r="2.2" fill="#fff" opacity=".7"></circle><circle cx="83" cy="${my + 3}" r="1.6" fill="${K}" opacity=".25"></circle>`; }
   if (n.style === 'pin') { const cx = big ? 92 : 93, cy = big ? 124 : 127; return `<circle cx="${cx}" cy="${cy}" r="7.5" fill="${n.color}" stroke="${K}" stroke-width="2"></circle><circle cx="${cx}" cy="${cy}" r="5" fill="${n.pend}"></circle><polygon points="${starPts(cx, cy, 3.8)}" fill="${n.color}"></polygon>`; }
   if (n.style === 'record') return `<path d="${p}" fill="none" stroke="${n.color}" stroke-width="2.5" stroke-linecap="round"></path><circle cx="80" cy="${py}" r="9.5" fill="${n.pend}" stroke="${K}" stroke-width="2"></circle><circle cx="80" cy="${py}" r="6" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="1.2"></circle><circle cx="80" cy="${py}" r="3" fill="${K}"></circle>`;
   if (n.style === 'rope') return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 7 : 9}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 4.5 : 6}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="#8D93A6" stroke-width="${big ? 4.5 : 6}" stroke-dasharray="1.5 3"></path>`;
@@ -6011,7 +6095,7 @@ const haloHat = (h, ln, big) => `<path d="M44 52 Q44 15 80 15 Q116 15 116 52 Z" 
   <path d="M46 47 Q80 39 114 47 Q118 48 118 52 Q118 56 114 56 Q80 49 46 56 Q42 56 42 52 Q42 48 46 47 Z" fill="${h.brim}" ${ln}></path><path d="M50 47 Q80 41 110 47" fill="none" stroke="${PRISM.pink}" stroke-width="2.5" stroke-linecap="round"></path>
   <path d="M80 24 L86 31 L80 38 L74 31 Z" fill="#fff" stroke="${PRISM.deep}" stroke-width="2" stroke-linejoin="round"></path>
   <ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="#1B1830" stroke-width="${big ? 6 : 8}"></ellipse><ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="${PRISM.cyan}" stroke-width="${big ? 3.5 : 5}"></ellipse><path d="M62 6.5 Q69 4 77 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>`;
-const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar'];
+const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar', 'stetson', 'bucketd', 'racing', 'toque', 'tophat', 'planet', 'platsnap', 'fedora', 'fisher'];
 const HATS = {
   cap: (h, ln) => capHat(h, ln),
   capstar: (h, ln) => capHat(h, ln) + `<polygon points="${starPts(80, 31, 8.5)}" fill="${h.star}" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round" stroke-linejoin="round"></polygon><path d="M52 38 Q60 30 66 33" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".18"></path>`,
@@ -6027,6 +6111,52 @@ const HATS = {
     <path d="M44 39.5 Q80 33.5 116 39.5" fill="none" stroke="${h.stripe}" stroke-width="2.6"></path>
     <g transform="translate(121 41)">${[0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="-3.2" rx="2.5" ry="3.4" fill="${h.flower}" stroke="#1B1830" stroke-width="1" transform="rotate(${a})"></ellipse>`).join('')}<circle r="1.6" fill="#FFD93D"></circle></g>`; },
   halo: (h, ln, big) => haloHat(h, ln, big),
+  // Build 275: Western Stetson: wide brim curled up at the sides, pinched crown, silver band with a gold star concho
+  stetson: (h, ln) => `<path d="M16 40 Q24 52 46 50 Q80 44 114 50 Q136 52 144 40 Q146 56 128 59 Q80 52 32 59 Q14 56 16 40 Z" fill="${h.color}" ${ln}></path>
+    <path d="M45 50 Q43 14 60 11 Q70 17 80 13 Q90 17 100 11 Q117 14 115 50 Q80 44 45 50 Z" fill="${h.color}" ${ln}></path>
+    <path d="M68 16 Q80 24 92 16" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="2.5" stroke-linecap="round"></path>
+    <path d="M45 40 Q80 34 115 40 L115 48 Q80 42 45 48 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
+    <polygon points="${starPts(80, 41, 7)}" fill="${h.star}" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round"></polygon>
+    ${[60, 100].map(x => `<circle cx="${x}" cy="${x < 80 ? 43 : 43}" r="2.6" fill="#fff" stroke="#1B1830" stroke-width="1.2"></circle>`).join('')}`,
+  // Galaxy: deep-space beanie with a tiny ringed planet for a pom-pom
+  planet: (h, ln) => { const ring = `<ellipse cx="80" cy="9" rx="13.5" ry="3.6" transform="rotate(-14 80 9)" fill="none"`;
+    return `<path d="M41 53 Q41 11 80 11 Q119 11 119 53 Z" fill="${h.color}" ${ln}></path>
+    <defs><clipPath id="plDome"><path d="M41 53 Q41 11 80 11 Q119 11 119 53 Z"></path></clipPath><clipPath id="plBack"><rect x="60" y="-6" width="40" height="15"></rect></clipPath><clipPath id="plFront"><rect x="60" y="9" width="40" height="15"></rect></clipPath></defs>
+    <g clip-path="url(#plDome)">${[[58, 31, 1.8], [96, 26, 1.5], [70, 22, 1.2], [104, 38, 1.4], [62, 42, 1.1]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity=".85"></circle>`).join('')}</g>
+    <rect x="38" y="41" width="84" height="15" rx="7.5" fill="${h.cuff}" ${ln}></rect>
+    <path d="M74.5 14.5 Q80 11 85.5 14.5" fill="${h.cuff}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
+    <g clip-path="url(#plBack)">${ring} stroke="#1B1830" stroke-width="5"></ellipse>${ring} stroke="${h.ring}" stroke-width="2.4"></ellipse></g>
+    <circle cx="80" cy="9" r="6.5" fill="${h.planet}" stroke="#1B1830" stroke-width="2.6"></circle><path d="M76 6.5 Q78.5 5 81 5.3" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".7"></path>
+    <g clip-path="url(#plFront)">${ring} stroke="#1B1830" stroke-width="5"></ellipse>${ring} stroke="${h.ring}" stroke-width="2.4"></ellipse></g>`; },
+  // Common: short fisherman beanie, ribbed, sits high on the head
+  fisher: (h, ln) => `<path d="M46 46 Q46 18 80 18 Q114 18 114 46 Z" fill="${h.color}" ${ln}></path>
+    <defs><clipPath id="fsC"><path d="M46 46 Q46 18 80 18 Q114 18 114 46 Z"></path></clipPath></defs><g clip-path="url(#fsC)" stroke="${h.rib}" stroke-width="2" stroke-linecap="round">${Array.from({ length: 11 }, (_, i) => { const x = 52 + i * 5.6, top = 46 - 28 * Math.sqrt(Math.max(0, 1 - ((x - 80) / 34) ** 2)) + 4; return `<path d="M${x.toFixed(1)} ${top.toFixed(1)} V44"></path>`; }).join('')}</g><path d="M46 46 Q46 18 80 18 Q114 18 114 46" fill="none" ${ln}></path>
+    <rect x="43" y="36" width="74" height="13" rx="6.5" fill="${h.color}" ${ln}></rect><defs><clipPath id="fsCuff"><rect x="43" y="36" width="74" height="13" rx="6.5"></rect></clipPath></defs><g clip-path="url(#fsCuff)" stroke="${h.rib}" stroke-width="2" stroke-linecap="round">${Array.from({ length: 12 }, (_, i) => `<path d="M${49.6 + i * 5.6} 39.5 V45.5"></path>`).join('')}</g><rect x="43" y="36" width="74" height="13" rx="6.5" fill="none" ${ln}></rect>`,
+  // Legendary: platinum snapback: chrome crown with a diamond-studded star and a gold-trimmed black brim
+  platsnap: (h, ln) => `<path d="M44 50 Q44 14 80 14 Q116 14 116 50 Z" fill="${h.color}" ${ln}></path>
+    <defs><clipPath id="psDome"><path d="M44 50 Q44 14 80 14 Q116 14 116 50 Z"></path></clipPath></defs><g clip-path="url(#psDome)"><path d="M54 20 L62 19 L50 48 L45 48 Z" fill="#fff" opacity=".45"></path><path d="M67 18 L71 18 L60 48 L56 48 Z" fill="#fff" opacity=".3"></path></g><path d="M44 50 Q44 14 80 14 Q116 14 116 50" fill="none" ${ln}></path>
+    <polygon points="${starPts(80, 31, 9)}" fill="#fff" stroke="#2E9CD6" stroke-width="1.8" stroke-linejoin="round"></polygon>${[[80, 31], [74, 29], [86, 29]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.1" fill="#2E9CD6"></circle>`).join('')}
+    <circle cx="80" cy="14.5" r="3.5" fill="${h.gold}" stroke="#1B1830" stroke-width="2.5"></circle>` + capBrim(h.brim, ln) + `<path d="M48 51 Q80 44.5 112 51" fill="none" stroke="${h.gold}" stroke-width="2.4"></path>`,
+  // Legendary: headliner fedora: pinched black crown, gold band, a small feather
+  fedora: (h, ln) => `<path d="M26 47 Q80 37 134 47 Q138 55 126 55 Q80 47 34 55 Q22 55 26 47 Z" fill="${h.color}" ${ln}></path>
+    <path d="M47 46 Q45 18 60 12 Q70 18 80 15 Q90 18 100 12 Q115 18 113 46 Q80 40 47 46 Z" fill="${h.color}" ${ln}></path>
+    <path d="M70 17 Q80 23 90 17" fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="2.5" stroke-linecap="round"></path>
+    <path d="M47.5 36 Q80 30 112.5 36 L113 45 Q80 39 47 45 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
+    <path d="M104 37 Q114 24 122 19 Q118 31 108 40 Z" fill="${h.feather}" stroke="#1B1830" stroke-width="1.8" stroke-linejoin="round"></path><path d="M106 38 Q113 29 120 22" fill="none" stroke="#1B1830" stroke-width="1" opacity=".6"></path>`,
+  // Epic: chef's toque: puffy pleated top over a tall band
+  toque: (h, ln) => `<path d="M48 50 L50 28 Q34 25 39 13 Q44 3 59 8 Q65 1 80 3 Q95 1 101 8 Q116 3 121 13 Q126 25 110 28 L112 50 Z" fill="${h.color}" ${ln}></path>
+    <path d="M60 10 Q62 19 62 29 M80 5 V29 M100 10 Q98 19 98 29" fill="none" stroke="${h.shade}" stroke-width="2.4" stroke-linecap="round"></path>
+    <path d="M46 34 Q80 29 114 34 L114 52 Q80 47 46 52 Z" fill="${h.band}" ${ln}></path><path d="M50 43 Q80 38.5 110 43" fill="none" stroke="${h.shade}" stroke-width="2"></path>`,
+  // Epic: lucky top hat: green top hat, black band with a gold buckle, a little clover
+  tophat: (h, ln) => `<path d="M30 48 Q80 38 130 48 Q132 56 120 56 Q80 49 40 56 Q28 56 30 48 Z" fill="${h.color}" ${ln}></path>
+    <path d="M52 47 L55 6 Q80 1 105 6 L108 47 Q80 42 52 47 Z" fill="${h.color}" ${ln}></path>
+    <path d="M53.5 31 Q80 26 106.5 31 L107.6 42 Q80 37 52.6 42 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
+    <rect x="72" y="28" width="16" height="13" rx="2" fill="none" stroke="#1B1830" stroke-width="5"></rect><rect x="72" y="28" width="16" height="13" rx="2" fill="none" stroke="${h.buckle}" stroke-width="2.6"></rect>
+    <g transform="translate(97 17)">${[0, 120, 240].map(a => `<circle cx="0" cy="-3" r="3" fill="${h.clover}" stroke="#1B1830" stroke-width="1.2" transform="rotate(${a})"></circle>`).join('')}<path d="M0 0 q1 4 3 5" fill="none" stroke="#1B1830" stroke-width="1.4" stroke-linecap="round"></path></g>
+    <ellipse cx="64" cy="14" rx="3" ry="7" fill="#fff" opacity=".18"></ellipse>`,
+  // Epic: racing cap, white crown with a red side panel and a checkered brim edge
+  racing: (h, ln) => capDome(h.color, ln) + `<path d="M44 52 Q44 30 58 21 Q66 34 66 50 Z" fill="${h.side}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path><path d="M116 52 Q116 30 102 21 Q94 34 94 50 Z" fill="${h.side}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>`
+    + capBrim(h.brim, ln) + `<path d="M50 50.5 Q80 44.5 110 50.5" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="3.5 3.5"></path>`,
   // trucker: foam front panel, mesh sides, little snap on top
   trucker: (h, ln) => `<path d="M44 52 Q44 15 80 15 Q116 15 116 52 Z" fill="${h.mesh}" ${ln}></path>
     ${[[52, 40], [56, 31], [61, 24], [99, 24], [104, 31], [108, 40]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2" fill="#1B1830" opacity=".22"></circle>`).join('')}
@@ -6048,6 +6178,25 @@ function faceExtra(fc, eyes) {
   // white frames: two lenses that meet exactly in the middle; outlines first, then the white rims, so the join is one clean shared wall
   if (fc.style === 'thick') { const L = [57, 80], r = (x, extra) => `<rect x="${x}" y="58" width="23" height="16" rx="6" ${extra}></rect>`;
     return L.map(x => r(x, `fill="${fc.lens}" stroke="${K}" stroke-width="7"`)).join('') + L.map(x => r(x, `fill="${fc.lens}" stroke="${fc.color}" stroke-width="4"`)).join(''); }
+  if (fc.style === 'goldav') { const L = 'M55 60 H78 Q78 79 66.5 79 Q55 79 55 60 Z M82 60 H105 Q105 79 93.5 79 Q82 79 82 60 Z';
+    return `<defs><linearGradient id="gav" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${fc.top}"></stop><stop offset="1" stop-color="${fc.bot}"></stop></linearGradient></defs><path d="${L}" fill="url(#gav)" stroke="#1B1830" stroke-width="5.5" stroke-linejoin="round"></path><path d="${L}" fill="url(#gav)" stroke="${fc.color}" stroke-width="2.6" stroke-linejoin="round"></path>
+    <path d="M78 61 Q80 57 82 61 M76 58 H84" fill="none" stroke="${fc.color}" stroke-width="2.2" stroke-linecap="round"></path><path d="M59 64 L64 63 M86 64 L91 63" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"></path>`; }
+  if (fc.style === 'mirror') { const L = 'M55 60 H78 Q78 79 66.5 79 Q55 79 55 60 Z M82 60 H105 Q105 79 93.5 79 Q82 79 82 60 Z';
+    return `<defs><linearGradient id="mirG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4F7FF"></stop><stop offset=".45" stop-color="#9FB7D9"></stop><stop offset=".75" stop-color="#C9A6F2"></stop><stop offset="1" stop-color="#7FD9F0"></stop></linearGradient><clipPath id="mirC"><path d="${L}"></path></clipPath></defs>
+    <path d="${L}" fill="url(#mirG)" stroke="#1B1830" stroke-width="5.5" stroke-linejoin="round"></path><g clip-path="url(#mirC)"><path d="M56 70 L68 58 L72 58 L58 74 Z M83 70 L95 58 L99 58 L85 74 Z" fill="#fff" opacity=".75"></path></g>
+    <path d="${L}" fill="none" stroke="${fc.color}" stroke-width="2.4" stroke-linejoin="round"></path><path d="M78 62 Q80 58 82 62 M76 58.5 H84" fill="none" stroke="${fc.color}" stroke-width="2.2" stroke-linecap="round"></path>`; }
+  if (fc.style === 'hearts') { const H = cx => `M${cx} 77 C${cx - 15} 68 ${cx - 13} 57 ${cx - 6.5} 57 C${cx - 3} 57 ${cx} 60 ${cx} 62 C${cx} 60 ${cx + 3} 57 ${cx + 6.5} 57 C${cx + 13} 57 ${cx + 15} 68 ${cx} 77 Z`;
+    return [66.5, 93.5].map(cx => `<path d="${H(cx)}" fill="${fc.lens}" fill-opacity=".9" stroke="#1B1830" stroke-width="5" stroke-linejoin="round"></path><path d="${H(cx)}" fill="none" stroke="${fc.color}" stroke-width="2.2" stroke-linejoin="round"></path><circle cx="${cx - 5}" cy="${62}" r="1.8" fill="#fff" opacity=".8"></circle>`).join('') + `<path d="M77 63 Q80 60.5 83 63" fill="none" stroke="#1B1830" stroke-width="3" stroke-linecap="round"></path>`; }
+  if (fc.style === 'rimless') { const r = x => `<rect x="${x}" y="60" width="24" height="16" rx="6" fill="${fc.lens}" fill-opacity=".85" stroke="#1B1830" stroke-width="2.4"></rect>`;
+    return `${r(54)}${r(82)}<path d="M78 64 Q80 61.5 82 64" fill="none" stroke="${fc.color}" stroke-width="2.6" stroke-linecap="round"></path>
+    ${[[57, 62], [103, 62]].map(([x, y]) => `<path d="M${x} ${y - 2.4} L${x + 2.4} ${y} L${x} ${y + 2.4} L${x - 2.4} ${y} Z" fill="#fff" stroke="#2E9CD6" stroke-width="1"></path>`).join('')}
+    <path d="M59 68 L64 66 M87 68 L92 66" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"></path>`; }
+  if (fc.style === 'swirl') { const L = [[66.5, 'swL'], [93.5, 'swR']], r = 11.5;
+    const sp = cx => { let d = `M${cx} 67`; for (let i = 1; i <= 28; i++) { const a = i * 0.45, rr = i * 0.45; d += ` L${(cx + rr * Math.cos(a)).toFixed(2)} ${(67 + rr * Math.sin(a)).toFixed(2)}`; } return d; };
+    return `<defs><radialGradient id="swG"><stop offset="0" stop-color="${fc.b}"></stop><stop offset="1" stop-color="${fc.a}"></stop></radialGradient>${L.map(([cx, id]) => `<clipPath id="${id}"><circle cx="${cx}" cy="67" r="${r - 1}"></circle></clipPath>`).join('')}</defs>
+    ${L.map(([cx]) => `<circle cx="${cx}" cy="67" r="${r}" fill="url(#swG)" stroke="#1B1830" stroke-width="5.5"></circle>`).join('')}
+    ${L.map(([cx, id]) => `<g clip-path="url(#${id})"><path d="${sp(cx)}" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"></path></g><circle cx="${cx}" cy="67" r="${r}" fill="none" stroke="${fc.color}" stroke-width="2.2"></circle>`).join('')}
+    <path d="M78 64 Q80 61.5 82 64" fill="none" stroke="#1B1830" stroke-width="3" stroke-linecap="round"></path>`; }
   if (fc.style === 'clear') return eyes + [55, 81].map(x => `<rect x="${x}" y="56" width="24" height="21" rx="5" fill="#fff" fill-opacity=".22" stroke="${fc.color}" stroke-width="3"></rect>`).join('') + `<path d="M79 62 H81" stroke="${fc.color}" stroke-width="3"></path>`;
   if (fc.style === 'aviator') return `<path d="M55 60 H78 Q78 79 66.5 79 Q55 79 55 60 Z M82 60 H105 Q105 79 93.5 79 Q82 79 82 60 Z" fill="${fc.lens}" fill-opacity=".9" stroke="${fc.color}" stroke-width="2.5" stroke-linejoin="round"></path><path d="M78 62 Q80 58 82 62" fill="none" stroke="${fc.color}" stroke-width="2.5"></path><path d="M59 64 L64 64 M86 64 L91 64" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"></path>`;
   // tinted: thin round gold wire frames, see-through rose lenses
@@ -7411,10 +7560,10 @@ function openTab(tab) {
           return `<span class="spec-items">${boxes.map(([k, n]) => `<span class="bof-it"><span class="bof-ic">${boxArt(k, 36)}</span><i>${n}</i></span>`).join('')}<span class="bof-it gem"><span class="bof-ic">${GEM_ICON}</span><i>${gems.toLocaleString('en-US')}</i></span>${other.map(x => `<span class="spec-chip">${x}</span>`).join('')}</span>`; };
         const p = currentPack();
         return `<div class="specs">
-          ${pass().owned ? '' : spec('goldPass', PASS_SVG, ['#F2C94C', '#B8891A', '#3A1F4E', '#241330', 'dark'], seasonName() + ' Season', 'VIP rewards on all 30 tiers, plus the Backstage Jacket')}
+          ${pass().owned ? '' : spec('goldPass', PASS_SVG, ['#F2C94C', '#B8891A', '#3A1F4E', '#241330', 'dark'], seasonName() + ' Season', `${passTotals('gold').big} Big Boxes, ${fmtN(passTotals('gold').gems)} gems and the Backstage Jacket`)}
           ${spec('goldenMic', ART.mic(), ['#F2C94C', '#B8891A', '#3B3466', '#22203A', 'dark'], 'Forever', 'x2 income on everything. Stacks with Hype')}
           <!-- Build 248: packs removed; Special offers are one-and-done forever offers only -->
-          ${spec('adFree', ART.noAds(), ['#3D9BD6', '#2C78B0', '#A9DEF7', '#FFFFFF'], 'Forever', 'Every ad reward instantly: Hype, Crates, Offline 2x')}
+          ${spec('adFree', ART.noAds(), ['#3D9BD6', '#2C78B0', '#A9DEF7', '#FFFFFF'], 'Forever', 'Skip every ad: Hype, the Backer, crates and Welcome Back 2x')}
           ${spec('autoCrew', `<span class="crewart">${crewFigure('dayone-crew')}</span>`, ['#3BAA6A', '#2A8550', '#A8EBBE', '#FFFFFF'], 'Forever', 'Your first station runs itself on every map')}
         </div>`; })()}
       ${(() => { // one-time perks get their own section and leave the shop once owned (like outfits)
