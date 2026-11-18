@@ -96,6 +96,15 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .day.got { opacity: .55; } .day.got span { color: var(--cash); }
 .day.today { border-color: var(--accent); }
 .day.big { grid-column: span 2; }
+/* Build 273: Daily Rewards fills the standard panel: cards grow, the button sits at the bottom */
+.sheet.dailymode { display: flex; flex-direction: column; } .sheet.dailymode > * { flex: none; }
+.sheet.dailymode .days { flex: 1 1 auto; grid-auto-rows: 1fr; min-height: 0; margin-bottom: 14px; }
+.sheet.dailymode .day { display: grid; grid-template-rows: auto 44px auto; align-content: start; justify-items: center; row-gap: 8px; padding: 14px 4px 10px; }   /* labels, art and text line up across every card */
+.sheet.dailymode .day .dart, .sheet.dailymode .day .dchk { align-self: center; }
+.day.just { animation: dJust .6s ease-out; } @keyframes dJust { 0% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.dbox { position: relative; display: block; } .dbox svg, .dbox img { display: block; } .dbox i { position: absolute; right: -8px; bottom: -4px; font: 400 11px var(--display); font-style: normal; color: #fff; background: #14122A; border-radius: 99px; padding: 2px 5px; }
+.dart { display: flex; align-items: center; justify-content: center; gap: 4px; height: 44px; } .dart img { display: block; filter: drop-shadow(0 2px 0 rgba(20,18,42,.15)); }
+.dchk { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #DDF4E5; color: #2A8F50; font: 800 18px var(--body); }
 .vols { display: flex; flex-direction: column; gap: 6px; background: var(--panel-2); border-radius: 16px; padding: 8px 14px; }
 .vol { display: grid; grid-template-columns: 112px minmax(0, 1fr) 34px; align-items: center; gap: 10px; min-height: 48px; }
 .vol label { font-size: 15px; font-weight: 700; }
@@ -3073,9 +3082,10 @@ const lastLoc = () => LOCATIONS.length - 1;
 // album boost grows with the length of the tour: +25% with 3 maps, +50% once all 6 are in
 const FAME_PER_ALBUM = Math.round(LOCATIONS.length / 3 * 25) / 100;
 const albumReady = () => !isEv() && S.loc === lastLoc() && movePct() >= 100;
+// Build 273: boxes instead of minutes of cash (a week = 6 Small Boxes, 1 Big Box and 110 gems)
 const DAILY = [
-  { min: 2, gems: 0 }, { min: 3, gems: 0 }, { min: 0, gems: 10 }, { min: 5, gems: 0 },
-  { min: 0, gems: 15 }, { min: 8, gems: 0 }, { min: 15, gems: 50 },
+  { gems: 0, box: ['small', 1] }, { gems: 10 }, { gems: 0, box: ['small', 2] }, { gems: 20 },
+  { gems: 0, box: ['small', 3] }, { gems: 30 }, { gems: 50, box: ['big', 1] },
 ];
 const MILES = [25, 50, 75, 90], MILE_PAY = 3; let LV_CAP = 100;   // x3 pay at each milestone, level 100 is MAX (Eli kept 90; the card's bar then runs 90 -> MAX)
 // Model B economy (build 133): per-map level price growth and the one-time Upgrades for each map. Same dataset as the balance simulator.
@@ -3329,7 +3339,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 272, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 273, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5571,6 +5581,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('shopmode', ['shop', 'inv'].includes(nextSheetKey));
   $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('sheet').classList.toggle('shopfull', ['shop', 'inv'].includes(nextSheetKey)); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
   $('sheet').classList.toggle('evhub', nextSheetKey === 'evhub' || nextSheetKey === 'evbadges');
+  $('sheet').classList.toggle('dailymode', nextSheetKey === 'daily');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
   if (sheetKey && !$('scrim').hidden && !refresh) sheetScroll[sheetKey] = sh.scrollTop;
@@ -5683,15 +5694,15 @@ function giftClaim() {
   sfx('claim'); save(); render(); boxPopClose();
   toast(GIFT.boxes.reduce((a, [, n]) => a + n, 0) + ' boxes added');
 }
+let dailyJust = 0;
 function claimDaily() {
   if (!dailyReady()) return;
   const day = nextStreak(), r = DAILY[day - 1];
-  const cash = r.min ? dailyCash(r.min) : 0;
-  if (cash) { earn(cash); owe('cash'); }
-  S.gems += r.gems; if (r.gems) owe('gems');
+  S.gems += r.gems || 0; if (r.gems) owe('gems');
+  if (r.box) boxGive(r.box[0], r.box[1], 'gift');
   S.daily = { last: dayKey(), streak: day };
-  sfx('claim'); save(); render(); closeSheet();
-  rewardPop(`Day ${day} claimed`, [cash ? ['cash', fmt(cash)] : null, r.gems ? ['gems', r.gems] : null], day === 7 ? 'Week complete! New streak tomorrow' : `Day ${day + 1} unlocks tomorrow`);
+  // Build 273: no confirm pop-up. The rewards fly to the top bar and the card turns to Claimed right where you tapped
+  sfx('claim'); save(); render(); dailyJust = day; openTab('daily');
 }
 $('scrim').addEventListener('click', e => {
   if ((e.target === $('scrim') || e.target.closest('[data-close]')) && sheetKey === 'confirm-buy') { const pb = pendingBuy; pendingBuy = null; return pb ? backFromBuy(pb) : closeSheet(); }
@@ -7570,12 +7581,14 @@ function openTab(tab) {
     const ready = dailyReady(), today = ready ? nextStreak() : S.daily.streak;
     const cells = DAILY.map((r, i) => {
       const d = i + 1, got = ready ? d < today : d <= today;
-      const what = [r.min ? r.min + ' min cash' + (r.min ? ` <small class=\"dval\">≈ ${fmt(skipValue(r.min * 60))}</small>` : '') : '', r.gems ? r.gems + ' gems' : ''].filter(Boolean).join(' + ');
-      return `<div class="day ${got ? 'got' : ''} ${ready && d === today ? 'today' : ''} ${d === 7 ? 'big' : ''}"><b>Day ${d}</b><span>${got ? 'Claimed' : what}</span></div>`;
+      const what = [r.box ? boxCountTxt(r.box[0], r.box[1]) : '', r.gems ? r.gems + ' gems' : ''].filter(Boolean).join(' + ');
+      // Build 273: each day shows its reward art, and the cards fill the panel (no empty space under the button)
+      const art = `<span class="dart">${r.box ? `<span class="dbox">${boxArt(r.box[0], 44)}${r.box[1] > 1 ? `<i>x${r.box[1]}</i>` : ''}</span>` : ''}${r.gems ? `<img src="art/gem.webp" width="40" height="33" alt="">` : ''}</span>`;
+      return `<div class="day ${got ? 'got' : ''} ${ready && d === today ? 'today' : ''} ${d === 7 ? 'big' : ''} ${dailyJust === d ? 'just' : ''}"><b>Day ${d}</b>${got ? '<span class="dchk">✓</span>' : art}<span class="dtx">${got ? 'Claimed' : what}</span></div>`;
     }).join('');
     openSheet(`<div class="sheet-head"><h2>Goals</h2>${closeBtn()}</div>${goalsTabs('daily')}
       <div class="days">${cells}</div>
-      <button class="cta" ${ready ? 'data-claim' : 'disabled'}>${ready ? 'Claim day ' + today : 'Come back tomorrow'}</button>`);
+      <button class="cta" ${ready ? 'data-claim' : 'disabled'}>${ready ? 'Claim day ' + today : 'Come back tomorrow'}</button>`); dailyJust = 0;
   } else if (tab === 'settings') {
     openSheet(`<div class="sheet-head"><h2>Settings</h2>${closeBtn()}</div>
       <div class="vols">${[['master', 'Master'], ['music', 'Music'], ['sfx', 'Sound effects']].map(([k, l]) => `
