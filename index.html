@@ -721,6 +721,19 @@ html .crow .ca.lb-ca { color: #4A3A9E; min-width: 64px; text-align: right; } htm
   .rotate-msg svg { animation: rotHint 2.4s ease-in-out infinite; }
 }
 @keyframes rotHint { 0%, 30% { transform: rotate(-90deg); } 60%, 100% { transform: rotate(0); } }
+/* Build 270 (demo): weekly label rewards */
+.lb-wkn { display: flex; align-items: center; justify-content: center; gap: 8px; } .lb-wkn .lb-i { position: static; }
+.lb-cprize { flex: none; display: grid; place-items: center; width: 34px; height: 34px; margin-right: 6px; filter: drop-shadow(0 2px 0 rgba(20,18,42,.15)); }
+.lb-mc.lb-wrw { width: min(300px, 100%); }
+.lb-wrw-list { display: flex; flex-direction: column; gap: 6px; }
+.lb-wrw-row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 12px; background: #F1EFF8; }
+.lb-wrw-row .pl { flex: none; width: 58px; white-space: nowrap; font: 400 15px var(--display); color: #14122A; }
+.lb-wrw-row.m1 { background: #FFF3CC; } .lb-wrw-row.m2 { background: #EEF0F5; } .lb-wrw-row.m3 { background: #FBE6D8; }
+.lb-wrw-row .its { display: flex; gap: 12px; } .lb-wrw-row .it { display: flex; align-items: center; gap: 4px; } .lb-wrw-row .it b { font: 800 13.5px var(--body); color: #14122A; }
+html .lb-mc.lb-wrw .lb-wrw-note { margin: 16px 0 -4px; text-align: center; font: 600 12px/1.4 var(--body); color: #6E6A88; text-wrap: balance; }
+.lbrw-badge { position: relative; display: grid; place-items: center; margin: -4px 0 8px; }
+.lbrw-medal { position: absolute; right: calc(50% - 38px); bottom: -4px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font: 400 13px var(--display); color: #14122A; border: 2.5px solid #14122A; }
+.lbrw-medal.m1 { background: #FFD24A; } .lbrw-medal.m2 { background: #D9DEE8; } .lbrw-medal.m3 { background: #E8A374; }
 .lb-frb { position: absolute; left: 0; top: -2px; width: 36px; height: 36px; border-radius: 7px; border: 0; padding: 0; display: grid; place-items: center; background: #4DB6F7; color: #fff; box-shadow: 0 3px 0 #2E8ACB; }   /* Build 269: Add Friend on a labelmate's card (mirrors the X) */
 .lb-frb:not(:disabled):active { transform: translateY(3px); box-shadow: none; } .lb-frb.green { background: #3FBF6F; box-shadow: 0 3px 0 #2A8F50; }
 .lb-frb.ok { background: #DDF4E5; color: #2A8F50; box-shadow: none; } .lb-frb.wait { background: #ECE9F5; color: #7C7799; box-shadow: none; }
@@ -3316,7 +3329,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 269, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 270, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5031,6 +5044,49 @@ const LB_REWARD = L => { const v = LB_TABLE[L];
   if (v === 'skip') return { k: 'skip', t: 'Time Skip', ic: 'skip' };
   return { k: 'gems', n: 10, t: '10 gems', ic: 'gems' };
 };
+// Build 270 (demo): weekly label rewards by place in your group of 20, paid to every member who earned XP for the label that week.
+// A label needs LB_WEEK_MIN XP that week to get rewards. Ties go to the label that reached its total first.
+const LB_WEEK_RW = [[1, 1, [['box:label:1', 1, 'label', 1], ['gems', 150]]], [2, 2, [['box:big:2', 2, 'big', 2], ['gems', 100]]], [3, 3, [['box:big:1', 1, 'big', 1], ['gems', 75]]],
+  [4, 10, [['box:small:3', 3, 'small', 3], ['gems', 50]]], [11, 20, [['box:small:2', 2, 'small', 2], ['gems', 25]]]];
+const LB_WEEK_MIN = 1000;
+const lbWeekRw = place => (LB_WEEK_RW.find(([a, b]) => place >= a && place <= b) || [])[2] || null;
+const lbPlace = n => n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th');
+// one pop-up for weekly prizes and last season's leftover level rewards: items = [[icon, count], ...]
+function lbRwPop(title, items, note, badge) {
+  $('boxPop').innerHTML = `<div class="bp-card rwpop lbrw" role="dialog" aria-label="${title}">
+    <div class="bp-head"><span></span><h3>${title}</h3><button class="bp-x" data-boxpop-x aria-label="Close">${XSVG}</button></div>
+    <div class="bp-body">${badge || ''}<div class="rw-art"><span class="bx-rays"></span><span class="sbp-sun"></span>
+      <span class="rw-items">${items.map(([ic, n]) => `<span class="rw-it"><span class="rw-ic">${lbRewardIc(ic, 58)}</span><i>${ic === 'gems' ? '+' + fmtN(n) : 'x' + n}</i></span>`).join('')}</span></div>
+      <p class="rw-note">${note}</p><button class="cta" data-boxpop-x>Collect</button></div></div>`;
+  $('boxPop').hidden = false; sfx('bling');
+}
+function lbWeekPop(w) {   // w: { place, name, color, glyph, xp }
+  const rw = lbWeekRw(w.place); if (!rw) return;
+  lbRwPop(`${lbPlace(w.place)} place!`, rw, `<b>${esc(w.name)}</b> · ${lbXpShort(w.xp)} XP last week`,
+    `<div class="lbrw-badge">${lbBadge({ color: w.color, glyph: w.glyph }, 54)}${w.place <= 3 ? `<span class="lbrw-medal m${w.place}">${w.place}</span>` : ''}</div>`);
+}
+function lbSeasonPop(sz) {   // sz: { name: 'November', levels: [4, 5] }: rewards nobody claimed before the season ended, added automatically
+  const tot = {}; sz.levels.forEach(l => { const r = LB_REWARD(l), k = r.k === 'box' ? 'box:' + r.box + ':1' : r.ic; tot[k] = (tot[k] || 0) + (r.k === 'box' ? r.n : r.k === 'gems' ? r.n : 1); });
+  const items = Object.entries(tot).map(([ic, n]) => [ic.startsWith('box:') ? ic.replace(/:1$/, ':' + n) : ic, n]);
+  const lv = sz.levels.length > 1 ? `Levels ${sz.levels[0]}–${sz.levels[sz.levels.length - 1]}` : `Level ${sz.levels[0]}`;
+  lbRwPop(`${sz.name} rewards`, items, `Unclaimed ${lv}, added for you`);
+}
+// Build 270: prizes and season leftovers wait on the server; the game picks them up when it opens, pays gems/boosts, shows a pop-up each, then confirms.
+// Boxes were already added on the server, so the game takes the server's box count instead of adding them twice.
+const LB_RWQ = []; let lbRwBusy = 0;
+async function lbRewardsCheck() {
+  if (!S.onboarded || lbRwBusy) return; lbRwBusy = 1;
+  try { const r = await lbCall('lb_rewards'); if (!r.ok || !r.data) return; const list = r.data.rewards || []; if (!list.length) return;
+    list.forEach(x => { const d = x.data || {};
+      if (x.kind === 'week') { if (!(S.lbWkPaid || {})[x.ref]) { S.lbWkPaid = Object.assign({}, S.lbWkPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; owe('gems'); if (!SRV_BOX) boxGive(d.box, d.n, 'label'); }
+        LB_RWQ.push(() => lbRwPop(`${lbPlace(d.place)} place!`, [['box:' + d.box + ':' + d.n, d.n], ['gems', d.gems]], `<b>${esc(d.name)}</b> · ${lbXpShort(d.xp)} XP last week`,
+          `<div class="lbrw-badge">${lbBadge({ color: d.color, glyph: d.glyph }, 54)}${d.place <= 3 ? `<span class="lbrw-medal m${d.place}">${d.place}</span>` : ''}</div>`)); }
+      if (x.kind === 'season') { const lv = d.levels || []; lv.forEach(l => lbPay(x.ref, l));
+        const mo = new Date(x.ref + '-15T12:00:00Z').toLocaleString('en-US', { month: 'long', timeZone: 'UTC' }); LB_RWQ.push(() => lbSeasonPop({ name: mo, levels: lv })); } });
+    if (SRV_BOX && r.data.inv && sboxState().synced) sboxState().inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, r.data.inv);
+    save(); render(); await lbCall('lb_rewards_ack', { ids: list.map(x => x.id) }); lbRwNext();
+  } finally { lbRwBusy = 0; } }
+function lbRwNext() { if (!LB_RWQ.length || tutActive() || !$('boxPop').hidden || !$('scrim').hidden) return; const f = LB_RWQ.shift(); f(); }
 const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Earn an event star', '+2 XP'], ['Send a labelmate Hype', '+10 XP']];
 // Build 261 prototype: duplicates give Style Tokens; tokens are donated to your label at 1 token = 1 Label XP (no daily limit).
 // The server keeps the token balance (SRV_BOX): it rolls boxes, credits duplicates and deducts donations, so an edited save can't mint tokens.
@@ -5257,6 +5313,12 @@ function lbModal() {
       ${me ? '' : `<button class="lb-big blue" data-lbhype="${esc(m.uid)}" ${sent || !lbHypesLeft() ? 'disabled' : ''}>${sent ? 'Hype sent' : lbHypesLeft() ? `Send Hype · ${lbHypesLeft()}/${LB_HYPES} left` : 'No Hypes left today'}</button>`}
       ${canKick ? `<button class="lb-big red" data-lbkick>Kick</button>` : ''}${me ? `<button class="lb-big red" data-lbleave>Leave Label</button>` : ''}</div></div></div>`;
   }
+  if (LB.modal === 'weekrw') {
+    return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-wrw" role="dialog" aria-label="Weekly rewards"><div class="lb-mc-h"><b>Weekly Rewards</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
+      <div class="lb-wrw-list">${LB_WEEK_RW.map(([a, b, rw]) => `<div class="lb-wrw-row ${a <= 3 ? 'top m' + a : ''}"><span class="pl">${a === b ? lbPlace(a) : `${a}–${b}`}</span>
+        <span class="its">${rw.map(([ic, n]) => `<span class="it">${lbRewardIc(ic.replace(/:\d+$/, ':1'), 28)}<b>${ic === 'gems' ? fmtN(n) : 'x' + n}</b></span>`).join('')}</span></div>`).join('')}</div>
+      <p class="lb-wrw-note">Every member who earns XP that week gets the reward. Labels need ${fmtN(LB_WEEK_MIN)} XP to qualify.</p></div></div>`;
+  }
   if (LB.modal === 'kick') {
     const m = (LB.st.members || []).find(x => x.uid === LB.view); if (!m) return '';
     const left = Math.max(0, Math.ceil((LB.kickAt - Date.now()) / 1000));
@@ -5270,9 +5332,9 @@ function lbModal() {
 }
 function lbCharts() {
   if (!LB.chart) return '<p class="cnote">Loading the Label Charts…</p>';
-  const rows = LB.chart.map((r, i) => `<div class="crow ${r.mine ? 'me' : ''}"><span class="cr">${i + 1}</span>${lbBadgeOf(r)}
-      <span class="rt"><b><span class="nm">${esc(r.name)}</span></b><span>Level ${r.level}</span></span><span class="ca lb-ca">${lbXpShort(r.week_xp)}<small>XP this week</small></span></div>`).join('');
-  return `<p class="cnote">New week in <b>${lbWeekLeft()}</b></p><div class="clist lb-clist">${rows}</div>`;
+  const rows = LB.chart.map((r, i) => { const rw = i < 3 && lbWeekRw(i + 1); return `<div class="crow ${r.mine ? 'me' : ''}"><span class="cr">${i + 1}</span>${lbBadgeOf(r)}
+      <span class="rt"><b><span class="nm">${esc(r.name)}</span></b><span>Level ${r.level}</span></span>${rw ? `<span class="lb-cprize">${lbRewardIc(rw[0][0].replace(/:\d+$/, ':1'), 30)}</span>` : ''}<span class="ca lb-ca">${lbXpShort(r.week_xp)}<small>XP this week</small></span></div>`; }).join('');
+  return `<p class="cnote lb-wkn">New week in <b>${lbWeekLeft()}</b>${lbI('weekrw', 'sm')}</p><div class="clist lb-clist">${rows}</div>`;
 }
 function lbDiscover() {   // Build 242: simpler "not in a label" screen
   const free = !(LB.st && LB.st.created > 0), list = LB.list || [];
@@ -5586,6 +5648,7 @@ function closeSheet() {
   if (pendingWelcome) { pendingWelcome = false; return openTab('welcome'); }
   if (pendingDaily) { pendingDaily = false; if (dailyReady()) return openTab('daily'); }
   if (giftReady() && $('boxPop').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) giftPop(); }, 350);
+  else if (LB_RWQ.length) setTimeout(lbRwNext, 350);
 }
 // Build 256: reward claimed screens use the floating card (title + X, reward art with count pills, one short line), like Open Boxes
 function rewardPop(title, items, note) {
@@ -7905,7 +7968,7 @@ function boxPop() {
       <button class="cta" data-boxopen="${top}:1">Open 1</button></div></div>`;
   $('boxPop').hidden = false;
 }
-function boxPopClose() { $('boxPop').hidden = true; $('boxPop').innerHTML = ''; }
+function boxPopClose() { $('boxPop').hidden = true; $('boxPop').innerHTML = ''; if (LB_RWQ.length) setTimeout(lbRwNext, 300); }
 function boxReceived(res, kind) {
   $('boxPop').innerHTML = `<div class="bp-card recv" role="dialog" aria-label="Received items">
     <div class="bp-head"><span></span><h3>Received Items</h3><button class="bp-x" data-boxpop-back aria-label="Close">${XSVG}</button></div>
@@ -8673,7 +8736,7 @@ function start(data) {
   pass();   // a new month delivers last season's unclaimed rewards
   setTimeout(loadTestAccess, 2500);
   setTimeout(startHeartbeat, 4000);
-  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); frLoad(); if (SRV_BOX) sboxSync().then(sboxFlush); }), 5000);
+  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); frLoad(); if (SRV_BOX) sboxSync().then(sboxFlush).then(lbRewardsCheck); else lbRewardsCheck(); }), 5000);
   window.addEventListener('online', () => { if (SRV_BOX && S.onboarded) sboxSync().then(sboxFlush); });
   setInterval(() => { if (!document.hidden && S.onboarded) frLoad(); }, 300000);   // Labels: Hype from labelmates, queued XP
   if (S.passRecap) { const r = S.passRecap; S.passRecap = null; setTimeout(() => toast('Backstage Pass season ended. Delivered: ' + rewardLine(r)), 3200); }
