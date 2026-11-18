@@ -2237,6 +2237,8 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .rw-it { display: flex; flex-direction: column; align-items: center; animation: bppop .35s cubic-bezier(.3,1.5,.5,1) both; } .rw-it + .rw-it { animation-delay: .08s; }
 .rw-ic { display: grid; place-items: center; width: 78px; height: 78px; } .rw-ic img { max-width: 76px; max-height: 76px; object-fit: contain; filter: drop-shadow(0 4px 3px rgba(20,18,42,.2)); }
 .rw-it i { position: relative; z-index: 2; margin-top: -10px; font: 400 15px/24px var(--display); font-style: normal; color: #fff; background: #14122A; border-radius: 99px; padding: 0 11px; white-space: nowrap; }
+.svpop .sv-art { display: grid; place-items: center; height: 104px; } .svpop .bp-body { gap: 12px; }
+.sv-later { background: none; border: 0; color: #5A5480; font: 700 14px var(--body); text-decoration: underline; padding: 4px; align-self: center; }
 .rw-note { margin: 0; text-align: center; font: 600 14px var(--body); color: #5A5480; }
 .rwpop .cta { width: 100%; margin: 0; }
 
@@ -3184,7 +3186,7 @@ const VAULT = [
     fx: L => 1 + L, show: (v, L) => L ? 'Lv ' + v : 'None' },
   // (Pickaxe above)
 ];
-const EV_NO_VAULT = ['tip', 'piggy', 'case'];   // Tip Jar, Piggy coins, Backer cash: base values on an event map. Offline time and rate use the Vault on events too (Build 216, like Eatventure)
+const EV_NO_VAULT = [];   // Build 277: Tip Jar, Piggy Bank and Briefcase apply at full strength on event maps too, like every other Vault upgrade (Build 216-276 used base values there)
 const vLv = id => (S && S.inEv && EV_NO_VAULT.includes(id)) ? 0 : (((S && S.vault) || {})[id] || 0);   // Build 164: Remote starts at Lv 0 (Hype x2); its first level is a free tap in the Vault
 const vaultFx = id => VAULT.find(v => v.id === id).fx(vLv(id));
 const vaultCost = v => v.costs[vLv(v.id)];   // undefined once maxed
@@ -3368,7 +3370,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 276, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 277, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5694,6 +5696,7 @@ function closeSheet() {
   if (pendingDaily) { pendingDaily = false; if (dailyReady()) return openTab('daily'); }
   if (giftReady() && $('boxPop').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) giftPop(); }, 350);
   else if (LB_RWQ.length) setTimeout(lbRwNext, 350);
+  else if (saveReady() && $('boxPop').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) savePop(); }, 450);
 }
 // Build 256: reward claimed screens use the floating card (title + X, reward art with count pills, one short line), like Open Boxes
 function rewardPop(title, items, note) {
@@ -5708,6 +5711,20 @@ function rewardPop(title, items, note) {
 // Build 263: one-time thank-you gift (3 Small + 1 Big Box), once per save, while the window is open
 const GIFT = { id: 'thanks263', until: Date.parse('2026-11-25T08:00:00Z'), title: 'Thank you!', note: 'Thanks for playing. Enjoy some boxes!', boxes: [['small', 3], ['big', 1]] };
 const giftReady = () => S.onboarded && !tutActive() && Date.now() < GIFT.until && !(S.gifts || {})[GIFT.id];
+// Build 277: guests (no email on their cloud save) are asked to protect their progress when they reach Map 2. If they don't
+// link then, they're asked once more after their next album. Never during the tutorial, on an event map or in test/playtest builds.
+const saveReady = () => { const a = S.saveAsk || { n: 0 }; return (!TEST || (S.test || {}).savePrompt) && !PLAYTEST && S.onboarded && !tutActive() && !S.inEv && !cloud().email
+  && ((a.n === 0 && (S.maxLoc || 0) >= 1) || (a.n === 1 && (S.albums || 0) > a.at)); };
+function savePop() {
+  if (!saveReady()) return;
+  const a = S.saveAsk || { n: 0 }; S.saveAsk = { n: a.n + 1, at: S.albums || 0 }; save();
+  $('boxPop').innerHTML = `<div class="bp-card rwpop svpop" role="dialog" aria-label="Save progress">
+    <div class="bp-head"><span></span><h3>Save progress</h3><button class="bp-x" data-boxpop-x aria-label="Close">${XSVG}</button></div>
+    <div class="bp-body"><div class="sv-art">${CLOUD_IC.replace('width="22" height="22"', 'width="84" height="84"')}</div>
+      <p class="rw-note">${a.n ? 'Your first album is out. ' : 'You made it to ' + LOCATIONS[1].name + '. '}Add your email so you never lose your career, even on a new phone.</p>
+      <button class="cta" data-save-go>Protect my progress</button><button class="sv-later" data-boxpop-x>Not now</button></div></div>`;
+  $('boxPop').hidden = false; sfx('pop');
+}
 function giftPop() {
   if (!giftReady()) return;
   $('boxPop').innerHTML = `<div class="bp-card rwpop" role="dialog" aria-label="${GIFT.title}">
@@ -8190,6 +8207,7 @@ document.addEventListener('click', e => {
   const t = e.target;
   if (t.closest('#boxStack')) { sfx('tap'); return boxPop(); }
   if (t.closest('[data-gift-claim]')) return giftClaim();
+  if (t.closest('[data-save-go]')) { sfx('tap'); boxPopClose(); Cloud.flow = { mode: 'link', email: '' }; return openTab('cloud-email'); }
   if (t.closest('[data-boxpop-x]') || t === $('boxPop')) { sfx('tap'); return boxPopClose(); }
   if (t.closest('[data-boxpop-back]')) { sfx('tap'); return boxesOwned() ? boxPop() : boxPopClose(); }
   const o = t.closest('[data-boxopen]'); if (o) { const [k, how] = o.dataset.boxopen.split(':'); return boxOpenOwned(k, how === 'all'); }
@@ -9012,6 +9030,7 @@ function start(data) {
     if (!S.onboarded) { if (dailyReady()) pendingDaily = true; if ($('scrim').hidden) openTab('welcome'); else pendingWelcome = true; }
     else if (dailyReady()) { if ($('scrim').hidden) openTab('daily'); else pendingDaily = true; }
     else if (giftReady() && $('scrim').hidden) giftPop();
+    else if (saveReady() && $('scrim').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) savePop(); }, 1200);
     if (S.onboarded) setTimeout(() => syncChart(true), 1500);
   }
   { const c = cloud(); if (!c.friendsOld) c.friendsOld = (c.friends || []).slice(); }   // friends added before requests existed stay on the list
