@@ -3185,8 +3185,9 @@ const VAULT = [
   { id: 'case', name: 'Briefcase', icon: 'case', costs: vcosts(270, 45), what: 'Bigger Backer cash offers',
     fx: L => 1 + 0.2 * L, show: v => 'x' + (Math.round(v * 10) / 10) },
   // Checkbook: unlock 300, 20 levels (7,450 gems). Ours: the first station's starting level, Lv 21 at most (the Lv 25 gem stays ahead)
-  { id: 'seed', name: 'Starting Cash', icon: 'seed', costs: vcosts(300, 20), what: 'Start every new map with enough cash to take your first station to',
-    fx: L => 1 + L, show: (v, L) => L ? 'Lv ' + v : 'None' },
+  // Build 279: Lv 10 at level 1, about +2 a level, Lv 50 at max (tour sims: ~11-14% faster tours at max). Paid as cash, so the Lv 25 / 50 milestone gems still pay out when you buy those levels
+  { id: 'seed', name: 'Starting Cash', icon: 'seed', costs: vcosts(300, 20), what: 'Start every new map and event with enough cash to take your first station to',
+    fx: L => L ? 10 + Math.round((L - 1) * 40 / 19) : 1, show: (v, L) => L ? 'Lv ' + v : 'None' },
   // (Pickaxe above)
 ];
 const EV_NO_VAULT = [];   // Build 277: Tip Jar, Piggy Bank and Briefcase apply at full strength on event maps too, like every other Vault upgrade (Build 216-276 used base values there)
@@ -3220,7 +3221,7 @@ const VART = {
     <path d="M22 18 Q38 8 52 22 Q44 18 37 22 L33 26 Q29 20 22 18Z" fill="#C9CFDC" stroke="#1B1830" stroke-width="3" stroke-linejoin="round"/>
     <path d="M40 40 L50 34 L58 42 L50 54 L40 46Z" fill="#B48CFF" stroke="#1B1830" stroke-width="3" stroke-linejoin="round"/><path d="M45 43 L50 37 L53 43" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>`,
   seed: `<rect x="9" y="22" width="40" height="24" rx="4" fill="#5FD08A" stroke="#1B1830" stroke-width="3"/><rect x="13" y="17" width="40" height="24" rx="4" fill="#7FE3A2" stroke="#1B1830" stroke-width="3"/>
-    <circle cx="33" cy="29" r="6" fill="#4FBF7A" stroke="#1B1830" stroke-width="2.5"/><circle cx="46" cy="44" r="10" fill="#FFD93D" stroke="#1B1830" stroke-width="3"/><path d="M46 39 V49 M43 41.5 H48 Q49.5 41.5 49.5 43 Q49.5 44.5 46 44.5 Q42.5 44.5 42.5 46 Q42.5 47.5 44 47.5 H49" fill="none" stroke="#1B1830" stroke-width="2"/>`,
+    <circle cx="33" cy="29" r="6" fill="#4FBF7A" stroke="#1B1830" stroke-width="2.5"/><circle cx="46" cy="44" r="10" fill="#FFD93D" stroke="#1B1830" stroke-width="3"/><path d="M46 38.5 V49.5 M49.5 41.5 H44.5 Q42.5 41.5 42.5 43.2 Q42.5 44.6 46 44.6 Q49.5 44.6 49.5 46.2 Q49.5 47.7 47.5 47.7 H42.5" fill="none" stroke="#1B1830" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
   moon: `<defs><mask id="vmoonM"><rect width="64" height="64" fill="#fff"/><circle cx="41" cy="25" r="15" fill="#000"/></mask><clipPath id="vmoonC"><circle cx="29" cy="35" r="20"/></clipPath></defs><circle cx="29" cy="35" r="20" fill="#FFD25A" stroke="#1B1830" stroke-width="3" mask="url(#vmoonM)"/><circle cx="41" cy="25" r="15" fill="none" stroke="#1B1830" stroke-width="3" clip-path="url(#vmoonC)"/>
     <path d="M47 12 l2 5 5 2 -5 2 -2 5 -2-5 -5-2 5-2z" fill="#FFF4C2" stroke="#1B1830" stroke-width="2" stroke-linejoin="round"/><circle cx="52" cy="32" r="2.6" fill="#FFF4C2" stroke="#1B1830" stroke-width="1.6"/>`,
   clock: `<path d="M16 15 L11 20 M48 15 L53 20" stroke="#1B1830" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="35" r="19" fill="#FF8A4C" stroke="#1B1830" stroke-width="3"/>
@@ -3239,7 +3240,7 @@ function buyVault(id) {
   S.gems -= c; S.vault = Object.assign({}, S.vault, { [id]: vLv(id) + 1 });
   sfx('bling'); track(`vault/${id}/${vLv(id)}`); save(); render(); vaultSel = id; openTab('vitem');
 }
-// Starting Cash: enough cash to take a fresh map's first station from Lv 1 to its Vault level (Lv 21 at most, before the Lv 25 milestone)
+// Starting Cash: enough cash to take a fresh map's (or event's) first station from Lv 1 to its Vault level (Lv 50 at max)
 function seedCash() { const L = vLv('seed'); if (!L) return; const st = LOC().stations[0]; S.cash += bulkCost(st, vaultFx('seed') - 1); }
 const CRATE_CD = 600, OFFLINE_BASE = 2 * 3600, OFFLINE_OWL = 8 * 3600;
 const OFFLINE_RATE = 0.5;
@@ -3373,7 +3374,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 278, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 279, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -8717,7 +8718,9 @@ function evEnsure() {
 function evTravel() {
   if (!evLive() || !evUnlocked() || !evEnsure()) return;
   if (isEv()) return closeSheet();
-  bumpRev(); evSwapIn(); S.ev.carAway = Date.now(); closeSheet(); evRebuild(); save();
+  bumpRev(); evSwapIn(); S.ev.carAway = Date.now();
+  if (!S.ev.seeded) { S.ev.seeded = true; const f = LOC().stations[0]; if (lvl(f.id) <= 1 && LOC().stations.every((st, i) => !i || !lvl(st.id))) seedCash(); }   // Build 279: Starting Cash also applies when an event starts (once, on a fresh event map)
+  closeSheet(); evRebuild(); save();
   toast(`Welcome to the ${evDef().title}! Level up and fill the reward track.`);
   // away earnings for the time spent on the career: the normal offline rules (Vault cap and rate, half rate,
   // ad doubles it, nothing past the event's end), the same as if the app had been closed on the event map
