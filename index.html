@@ -1465,8 +1465,8 @@ html .side .sbtn.evtab .evt-ic { display: block; flex: none; }
 .tour .tstop { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 11px/1 var(--body); background: #ECE8F6; color: #A39EBC; }
 .tour .tstop.done { background: #8BF0A0; color: #14122A; } .tour .tstop.now { background: #F7A3C6; color: #14122A; box-shadow: 0 0 0 4px rgba(247,163,198,.3); }
 .tour .tline { flex: 1; height: 3px; background: #ECE8F6; } .tour .tline.done { background: #8BF0A0; }
-h3 .hinfo, .phead .hinfo, .evh-prog .hinfo { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-left: 6px; vertical-align: 2px; border-radius: 50%; border: 1.8px solid #4A3A9E; background: none; color: #4A3A9E; font: 800 12px/1 var(--body, sans-serif); font-style: normal; padding: 0; cursor: pointer; }
-h3 .hinfo[aria-expanded="true"], .phead .hinfo[aria-expanded="true"], .evh-prog .hinfo[aria-expanded="true"] { background: #4A3A9E; color: #FFFFFF; }
+h3 .hinfo, .phead .hinfo, .evh-prog .hinfo, .evlb-goal .hinfo { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-left: 6px; vertical-align: 2px; border-radius: 50%; border: 1.8px solid #4A3A9E; background: none; color: #4A3A9E; font: 800 12px/1 var(--body, sans-serif); font-style: normal; padding: 0; cursor: pointer; }
+h3 .hinfo[aria-expanded="true"], .phead .hinfo[aria-expanded="true"], .evh-prog .hinfo[aria-expanded="true"], .evlb-goal .hinfo[aria-expanded="true"] { background: #4A3A9E; color: #FFFFFF; }
 .hinfo-txt { margin-top: 8px; } .hinfo-txt p { margin: 0; }
 details.more.chev > summary { display: flex; align-items: center; }
 details.more.chev > summary::before { content: ''; flex: none; width: 7px; height: 7px; margin: 0 9px 0 2px; border: solid currentColor; border-width: 0 2.4px 2.4px 0; transform: rotate(-45deg); transition: transform .15s; }
@@ -1549,6 +1549,31 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evh-head { background: linear-gradient(180deg, #7A5BE0, #6343CC); color: #fff; padding: 14px 16px 10px; display: flex; align-items: center; gap: 12px; border-radius: 24px 24px 0 0; }
 .evh-head h2 { font: 400 21px var(--display); letter-spacing: .3px; line-height: 1.05; margin: 0; color: #fff; } .evh-head small { display: block; font: 700 12px var(--body, sans-serif); opacity: .9; margin-top: 3px; }
 .evh-head .close { margin-left: auto; background: rgba(255,255,255,.18); color: #fff; }
+.evlb-goal { margin: 4px 2px 12px; text-align: center; font: 700 13px var(--body, sans-serif); color: #5A5480; }
+.evlb-cols, .evlb-row { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px; }
+.evlb-cols { padding: 0 14px 6px; font: 800 11px var(--body, sans-serif); color: #8A84A8; text-transform: uppercase; letter-spacing: .4px; } .evlb-cols span:first-child { text-align: center; } .evlb-cols span:last-child { text-align: right; }
+.evlb-tbl { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 0 rgba(20,18,42,.08); }
+.evlb-row { height: 46px; padding: 0 14px; box-sizing: border-box; } .evlb-row + .evlb-row { border-top: 1px solid #EEEBF6; }
+.evlb-row.me { background: #ECE7FF; } .evlb-row b { font: 400 15px var(--display); color: #2E2266; text-align: center; }
+.evlb-row .nm { font: 800 14px var(--body, sans-serif); color: #14122A; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; }
+.evlb-row .pc { text-align: right; font: 800 14px var(--body, sans-serif); color: #2E2266; line-height: 1.15; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; } .evlb-row .pc small { display: block; font: 700 11.5px var(--body, sans-serif); color: #7A5BE0; }
+.evlb-note { text-align: center; color: #5A5480; font: 700 14px var(--body, sans-serif); padding: 24px 8px; }
+.evlb-btn svg { display: block; margin: auto; }
+.evlb-time { display: inline-flex; align-items: center; gap: 7px; margin: 0 auto; padding: 7px 14px; border-radius: 999px; background: #F1EEFB; color: #5A5480; font: 700 13px var(--body, sans-serif); }
+.evlb-time b { color: #2E2266; font-weight: 800; } .evlb-time svg { color: #7A5BE0; }
+.sheet.evhub.evsmall { height: auto; max-height: 88%; } .sheet.evhub.evsmall .evh-list { padding-bottom: 18px; }
+.evdf-list { display: flex; flex-direction: column; gap: 9px; } .evdf-list .evlb-goal { margin-bottom: 2px; } .evdf-list .cta { margin-top: 6px; }
+.evdf-row { display: flex; align-items: center; gap: 10px; }
+.evdf { position: relative; flex: 1; min-height: 56px; border: 0; border-radius: 8px; padding: 7px 44px; margin-bottom: 7px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+.evdf b { font: 400 21px var(--display); letter-spacing: .3px; display: inline-flex; align-items: center; gap: 6px; } .evdf small { font: 800 12px var(--body, sans-serif); opacity: .95; }
+.evdf.normal { background: #6CBCF8; box-shadow: inset 0 0 0 1.5px rgba(40,100,165,.35), 0 7px 0 #4F95D2; text-shadow: 0 2px 0 #3A78AE; }
+.evdf.hard { background: #7E8CF0; box-shadow: inset 0 0 0 1.5px rgba(60,70,170,.35), 0 7px 0 #5D69C9; text-shadow: 0 2px 0 #4B56B0; }
+.evdf.extreme { background: #9C6CF0; box-shadow: inset 0 0 0 1.5px rgba(90,50,170,.35), 0 7px 0 #7848C9; text-shadow: 0 2px 0 #6237B0; }
+.evdf-ck { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; color: #fff; filter: drop-shadow(0 2px 0 rgba(20,18,42,.3)); }
+.evdf:disabled { background: #E3E0EE; color: #8E89A8; box-shadow: 0 7px 0 #CFCADF; text-shadow: none; }
+.evdf-row .hinfo { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #8A84A8; background: none; color: #8A84A8; font: 800 13px/1 var(--body, sans-serif); padding: 0; }
+.evdf-row .hinfo[aria-expanded="true"] { background: #4A3A9E; border-color: #4A3A9E; color: #fff; }
+.evdf-info { margin: -4px 36px 4px 0; padding: 8px 12px; border-radius: 10px; background: #F1EEFB; text-align: center; font: 700 12.5px var(--body, sans-serif); color: #4A3A9E; }
 .evh-head .headbtns { margin-left: auto; } .evh-head .headbtns .close { margin-left: 0; }
 .evh-sub { display: flex; gap: 10px; padding: 0 16px 20px; background: #6343CC; align-items: center; }
 .evh-bdg { width: 40px; height: 40px; border-radius: 12px; background: #fff; color: #14122A; display: grid; place-items: center; box-shadow: 0 2px 0 rgba(0,0,0,.25); position: relative; border: 0; flex: none; }
@@ -3109,9 +3134,10 @@ function upgFx() {   // every bonus stacks by multiplying: two x2 pay upgrades g
     else if (kind === 'fanfreq') { fx.fanFreq *= x; fx.all *= 1.05; } else if (kind === 'fanval') { fx.fanVal *= x; fx.all *= 1.05; } });
   return (upgCache = fx);
 }
-const upgCost = i => Math.ceil(upgList()[i][1] * (isEv() ? 1 : goalScale()));
+const upgCost = i => Math.ceil(upgList()[i][1] * (isEv() ? evDiffX() : goalScale()));
 const unlockRank = st => [...LOC().stations].sort((a, b) => a.unlock - b.unlock).indexOf(st);
-const crewCostOf = st => Math.ceil(st.crewCost * (!isEv() && S.loc >= 2 && unlockRank(st) >= 2 ? 0.3 : 1));   // the top two crews on the Loft and later cost 70% less
+const crewCostOf = st => Math.ceil(st.crewCost * (!isEv() && S.loc >= 2 && unlockRank(st) >= 2 ? 0.3 : 1) * evCostX());   // the top two crews on the Loft and later cost 70% less
+const unlockCost = st => Math.ceil(st.unlock * evCostX());   // Build 280: event difficulty multiplies unlocks too
 const upgAffordable = () => upgList().map((u, i) => i).filter(i => !upgOwned().includes(i) && S.cash >= upgCost(i));
 const upgNewAffordable = () => upgAffordable().some(i => !(S.upgSeen || []).includes(i));   // the Crew dot: something affordable you haven't looked at yet
 let lastUpgBuy = 0;
@@ -3374,7 +3400,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 279, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 280, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3885,6 +3911,7 @@ const ICONS = {
   star: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"></path>',
 };
 const svgIc = (k, color = '#F4F1EA', size = 14) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
+const LOCK_S = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 const LOCK = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4F1EA" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
 const UP = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V9M5.5 13l6.5-6.5 6.5 6.5"></path></svg>';   // thick and stubby: reads at badge size
 
@@ -4244,7 +4271,7 @@ const legacyPayX = () => (S.legacyPay && S.legacyPay.key === runKey()) ? S.legac
 const payout = st => (isEv() ? 1 : legacyPayX()) * st.base * lvl(st.id) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) * (upgFx().pay[st.id] || 1) * upgFx().all * (isEv() ? evFame() : careerProfit()) * boostMult();
 const bestRate = () => LOC().stations.filter(st => lvl(st.id)).reduce((a, st) => Math.max(a, payout(st) / cycleTime(st)), 0);
 const skipValue = secs => Math.round(Math.max(perSec(), bestRate()) * secs);
-const upCost = st => lvl(st.id) >= LV_CAP ? Infinity : Math.ceil(st.cost * (isEv() ? 1 : goalScale()) * Math.pow(growthOf(), lvl(st.id) - 1));
+const upCost = st => lvl(st.id) >= LV_CAP ? Infinity : Math.ceil(st.cost * (isEv() ? evDiffX() : goalScale()) * Math.pow(growthOf(), lvl(st.id) - 1));
 // cost of buying n levels at once: geometric series from the current level's price
 const bulkCost = (st, n) => { const g = growthOf(); return Math.ceil(upCost(st) * (Math.pow(g, n) - 1) / (g - 1)); };
 function buyPlan(st) {
@@ -4325,7 +4352,7 @@ function buildRoom() {
       <span class="badge" data-x0="${8 - (st.box0[0] - w) / 2}" style="left:${8 - (st.box0[0] - w) / 2}px;top:-16px"><span class="ic">${svgIc(st.icon)}</span><span class="lv">1</span><span class="up" hidden>${UP}</span></span>
       <span class="prog" style="left:${8 - (st.box0[0] - w) / 2}px;width:${st.box0[0] - 16}px;top:${h - 4}px"><i></i></span>
       <span class="spd" aria-hidden="true">${BOOST_SPEED}× SPEED</span>
-      <span class="lockspot" style="left:${-(st.box0[0] - w) / 2}px;right:${-(st.box0[0] - w) / 2}px;top:${-(st.box0[1] - h)}px"><span class="lk">${LOCK}</span><b>${st.name}</b><span class="price">${fmt(st.unlock)}</span></span>
+      <span class="lockspot" style="left:${-(st.box0[0] - w) / 2}px;right:${-(st.box0[0] - w) / 2}px;top:${-(st.box0[1] - h)}px"><span class="lk">${LOCK}</span><b>${st.name}</b><span class="price">${fmt(unlockCost(st))}</span></span>
     </button>`;
   }).join('') + loc.stations.map(st => {
     const [l, t, w, h] = st.pos;
@@ -4763,10 +4790,10 @@ function toast(msg) {
 // ---------- actions ----------
 function tapStation(st) {
   if (!lvl(st.id)) {
-    if (S.cash >= st.unlock) {
-      S.cash -= st.unlock; S.levels[st.id] = 1; S.selected = st.id; S.stats.unlocks++;
+    if (S.cash >= unlockCost(st)) {
+      S.cash -= unlockCost(st); S.levels[st.id] = 1; S.selected = st.id; S.stats.unlocks++;
       sfx('unlock'); toast(st.name + ' unlocked'); moveArtist(st); save();
-    } else { sfx('denied'); toast('Need ' + fmt(st.unlock) + ' to unlock ' + st.name); }
+    } else { sfx('denied'); toast('Need ' + fmt(unlockCost(st)) + ' to unlock ' + st.name); }
     render(); return;
   }
   tutTapped++;
@@ -5616,7 +5643,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
   $('sheet').classList.toggle('shopmode', ['shop', 'inv'].includes(nextSheetKey));
   $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('sheet').classList.toggle('shopfull', ['shop', 'inv'].includes(nextSheetKey)); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
-  $('sheet').classList.toggle('evhub', nextSheetKey === 'evhub' || nextSheetKey === 'evbadges');
+  $('sheet').classList.toggle('evhub', ['evhub', 'evbadges', 'evboard', 'evdiff'].includes(nextSheetKey)); $('sheet').classList.toggle('evsmall', nextSheetKey === 'evdiff');
   $('sheet').classList.toggle('dailymode', nextSheetKey === 'daily');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -7181,7 +7208,7 @@ function openTab(tab) {
   if (tab === 'career' && isEv()) { tab = 'evhub'; evHubTab = 'rewards'; }
   if (tab === 'evrewards') { evHubTab = 'rewards'; tab = 'evhub'; }
   if (tab === 'evhub' && !evEnsure()) return;
-  if (['evintro', 'evhub', 'evresult', 'evbadges'].includes(tab)) { if (tab === 'evresult' ? !S.evResult : tab === 'evbadges' ? false : !S.ev) return; nextSheetKey = tab;
+  if (['evintro', 'evhub', 'evresult', 'evbadges', 'evboard', 'evdiff'].includes(tab)) { if (tab === 'evresult' ? !S.evResult : tab === 'evbadges' ? false : !S.ev) return; nextSheetKey = tab;
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', tab === 'evhub' && isEv() && t.dataset.tab === 'career'));
     const ol = sheetKey === tab && !$('scrim').hidden && document.querySelector('#sheet .evh-list'), keep = ol ? ol.scrollTop : 0;   // claiming keeps your place in the list
     openSheet(evSheet(tab)); const nl = document.querySelector('#sheet .evh-list'); if (nl) nl.scrollTop = keep; return; }
@@ -7878,10 +7905,10 @@ function render() {
     const L = lvl(st.id), unlocked = L > 0;
     e.crew.hidden = !(unlocked && S.crew[st.id]);
     e.furn.hidden = !unlocked; e.badge.hidden = !unlocked; e.prog.hidden = !unlocked; e.lock.hidden = unlocked;
-    e.lock.classList.toggle('can', !unlocked && S.cash >= st.unlock);
+    e.lock.classList.toggle('can', !unlocked && S.cash >= unlockCost(st));
     e.b.classList.toggle('sel', unlocked && S.selected === st.id);
     e.b.classList.toggle('idle', unlocked && !S.crew[st.id] && !S.running[st.id]);
-    e.b.setAttribute('aria-label', unlocked ? `${st.name}, level ${L}` : `Unlock ${st.name} for ${fmt(st.unlock)}`);
+    e.b.setAttribute('aria-label', unlocked ? `${st.name}, level ${L}` : `Unlock ${st.name} for ${fmt(unlockCost(st))}`);
     if (unlocked) { e.lv.textContent = L >= LV_CAP ? 'MAX' : L; e.up.hidden = S.cash < upCost(st); }
   });
 
@@ -8305,6 +8332,65 @@ const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 15 }, { box: 'small',
 // 360 gems in the pass lane = 120 gems per dollar, in line with the Backstage Pass VIP (117/$) and the $2.99 Mixtape Bundle (127/$)
 const EV_PASS = [null, { gems: 40 }, { skips: 1 }, { gems: 70 }, { box: 'small', n: 5 }, { gems: 100 }, { frenzy: 1 }, { box: 'small', n: 8 }, { acc: true }, { gems: 150 }, { skips: 1 }, { box: 'small', n: 12 }, { frenzy: 1 }, { skips: 1 }, { box: 'event', n: 3 }, { top: true }];   // Build 241: Mini Pass never has less of anything than Free: 360 gems, 3 skips, 2 Frenzies, 25 Small and 3 Event Boxes
 const EV_PRICE = 2.99;
+// Build 280: event difficulty (Eatventure-style). Chosen once when you first enter an event; Hard / Extreme unlock after you've finished
+// that event (Western, Island or Galaxy) on the difficulty below. Every event cost is multiplied (x); the reward track's gems and boxes
+// scale (free / mini pass). Event sims: completion time grows about in line with the cost multiplier, so a player whose multiplier is
+// about x times a new player's gets a similar run on that difficulty.
+const EV_DIFF = { normal: { name: 'Normal', x: 1, free: 1, pass: 1 }, hard: { name: 'Hard', x: 2.5, free: 2, pass: 1.5 }, extreme: { name: 'Extreme', x: 6, free: 3, pass: 2 } };
+const EV_DIFF_IDS = ['normal', 'hard', 'extreme'];
+const evDiffId = () => (S && S.ev && EV_DIFF[S.ev.diff]) ? S.ev.diff : 'normal';
+const evDiffX = () => EV_DIFF[evDiffId()].x;
+const evCostX = () => isEv() ? evDiffX() : 1;
+const evBestOf = id => (S.evBest || {})[id] || ((S.evHist || []).some(h => h.id === id && h.badge) ? 'normal' : '');
+const evDiffOpen = (id, d) => d === 'normal' || EV_DIFF_IDS.indexOf(evBestOf(id)) >= EV_DIFF_IDS.indexOf(d) - 1;   // finished the one below
+const evDiffRec = id => { const m = evFame() * micX(); let r = 'normal'; EV_DIFF_IDS.forEach(d => { if (evDiffOpen(id, d) && m >= EV_DIFF[d].x) r = d; }); return r; };
+// Build 280: event leaderboard (groups of 20 per event and difficulty, bragging rights only). Times are the server's: first entry -> 100%.
+const evSrvKey = () => { const k = String(S.ev && S.ev.key || ''); return /^w\d{1,7}$/.test(k) ? k : 'qa' + k.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20); };
+let evSrvBusy = false, evSrvNext = 0, EVB = { rows: null, err: '', at: 0 };
+async function evSrvSync() {
+  if (!S.ev || !S.ev.diff || PLAYTEST || PREVIEW_LOCK || evSrvBusy || Date.now() < evSrvNext) return; evSrvBusy = true;
+  try {
+    if (!S.ev.srv) { const r = await lbCall('ev_join', { k: evSrvKey(), d: S.ev.diff }); if (!r.ok) throw 0; if (S.ev) { S.ev.srv = { grp: r.data.grp }; save(); } }
+    const pct = Math.round(evPoints() / EV_MAX_PTS * 10000) / 100;
+    if (S.ev && pct > (S.ev.srvPct || 0)) { const r = await lbCall('ev_progress', { k: evSrvKey(), p: pct }); if (r.ok && S.ev) { S.ev.srvPct = pct; save(); } }
+    evSrvNext = Date.now() + (pct >= 100 ? 5000 : 60000);
+  } catch (e) { evSrvNext = Date.now() + 60000; } finally { evSrvBusy = false; }
+}
+async function evBoardLoad() {
+  evSrvNext = 0; await evSrvSync();
+  const r = await lbCall('ev_board', { k: evSrvKey() });
+  EVB = r.ok && r.data ? { rows: r.data.rows, my: r.data.mySecs, done: r.data.done, at: Date.now(), err: '' } : { rows: null, err: r.ok ? 'Enter the event to join a leaderboard.' : "Couldn't load the leaderboard. Check your connection.", at: Date.now() };
+  if (sheetKey === 'evboard' && !$('scrim').hidden) openTab('evboard');
+}
+const durTxt = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return h ? `${h}h ${m}m` : m ? `${m}m ${x}s` : `${x}s`; };
+function evBoardView() {
+  const d = EV_DEFS[S.ev.id], df = EV_DIFF[evDiffId()];
+  const rows = EVB.rows ? `<div class="evlb-tbl">${EVB.rows.map((r, i) => `<div class="evlb-row ${r.mine ? 'me' : ''}"><b>${i + 1}</b><span class="nm">${esc(r.name)}<i class="ondot ${r.online ? 'on' : ''}"></i></span><span class="pc">${r.secs != null ? `100%<small>${durTxt(r.secs)}</small>` : (Math.floor(r.pct * 100) / 100).toFixed(2) + '%'}</span></div>`).join('')}</div>`
+    : `<p class="evlb-note">${EVB.err || 'Loading…'}</p>`;
+  const mine = EVB.rows && EVB.my != null ? EVB.my + (EVB.done ? 0 : (Date.now() - EVB.at) / 1000) : null;
+  return `<div class="evh-head"><div><h2>Leaderboard</h2><small>${df.name} division · ${d.title}</small></div>${headBtns('data-evboardback')}</div>
+    <div class="evh-list"><p class="evlb-goal">Finish the ${d.title} as fast as possible!</p><div class="evlb-cols"><span>Rank</span><span>Name</span><span>% Completed</span></div>${rows}</div>
+    <div class="evh-foot"><div class="evlb-time"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Your time <b id="evLbTime">${mine == null ? '—' : durTxt(mine)}</b></div></div>`;
+}
+let evDiffPick = null, evDiffInfo = null;   // highlighted option (starts on the recommended one; Start confirms it) and the open "i" breakdown
+function evDiffView() {
+  const id = S.ev.id, d = EV_DEFS[id], rec = evDiffRec(id);
+  if (!evDiffPick || !evDiffOpen(id, evDiffPick)) evDiffPick = rec;
+  const CK = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+  const info = k => { const D = EV_DIFF[k]; return k === 'normal' ? "The event's standard costs and rewards." : `Everything costs ×${D.x}. Free rewards ×${D.free}, Mini Pass ×${D.pass} (gems and boxes).`; };
+  const opt = k => { const o = evDiffOpen(id, k), D = EV_DIFF[k], below = EV_DIFF[EV_DIFF_IDS[EV_DIFF_IDS.indexOf(k) - 1]], on = o && evDiffPick === k;
+    return `<div class="evdf-row"><button class="evdf ${k} ${on ? 'on' : ''}" data-evdiff="${k}" ${o ? '' : 'disabled'} aria-pressed="${on}">
+        <b>${o ? '' : LOCK_S}${D.name}</b>${o ? (k === rec ? '<small>Recommended</small>' : '') : `<small>Finish ${below.name} first</small>`}${on ? `<i class="evdf-ck" aria-hidden="true">${CK}</i>` : ''}</button>
+      <button class="hinfo evdf-i" data-evdinfo="${k}" aria-label="About ${D.name}" aria-expanded="${evDiffInfo === k}">i</button></div>
+      ${evDiffInfo === k ? `<p class="evdf-info">${info(k)}</p>` : ''}`; };
+  return `<div class="evh-head">${evEmblem(id, 44)}<div><h2>Event difficulty</h2><small>${d.title}</small></div>${closeBtn()}</div>
+    <div class="evh-list evdf-list"><p class="evlb-goal">You've finished this event before. Get more rewards on a harder difficulty!</p>
+    ${EV_DIFF_IDS.map(opt).join('')}
+    <button class="cta" data-evdiffgo>Start on ${EV_DIFF[evDiffPick].name}</button></div>`;
+}
+function evRaw(lane, n) {   // the track's reward, scaled for this event's difficulty (gems and box counts; skips, Frenzies, cosmetics and the badge stay as they are)
+  const r = (lane === 'free' ? EV_FREE : EV_PASS)[n]; if (!r) return r; const k = EV_DIFF[evDiffId()][lane === 'free' ? 'free' : 'pass']; if (k === 1) return r;
+  const o = Object.assign({}, r); if (o.gems) o.gems = Math.round(o.gems * k / 5) * 5 || o.gems; if (o.box) o.n = Math.round((o.n || 1) * k); return o; }
 const EVI = { guitar: '<path d="M14 4l6 6M17 7l-5.5 5.5"/><path d="M11.5 12.5a4 4 0 1 0-1.5 6 3 3 0 0 0 4-4 4 4 0 0 0-2.5-2z"/>', mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/>',
   note: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>', disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>', star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
   sliders: '<path d="M6 4v16M12 4v16M18 4v16"/><rect x="3.5" y="7" width="5" height="3" rx="1"/><rect x="9.5" y="13" width="5" height="3" rx="1"/><rect x="15.5" y="9" width="5" height="3" rx="1"/>',
@@ -8718,6 +8804,11 @@ function evEnsure() {
 function evTravel() {
   if (!evLive() || !evUnlocked() || !evEnsure()) return;
   if (isEv()) return closeSheet();
+  if (!S.ev.diff) {   // Build 280: pick a difficulty on a fresh run once a harder one is open; a run already under way stays Normal
+    const st = S.ev.state || {}, lv = st.levels || {}, fresh = Object.values(lv).every(v => v <= 1) && Object.keys(lv).length <= 1 && !(st.upg || []).length;
+    if (fresh && EV_DIFF_IDS.some(d => d !== 'normal' && evDiffOpen(S.ev.id, d))) return openTab('evdiff');
+    S.ev.diff = 'normal';
+  }
   bumpRev(); evSwapIn(); S.ev.carAway = Date.now();
   if (!S.ev.seeded) { S.ev.seeded = true; const f = LOC().stations[0]; if (lvl(f.id) <= 1 && LOC().stations.every((st, i) => !i || !lvl(st.id))) seedCash(); }   // Build 279: Starting Cash also applies when an event starts (once, on a fresh event map)
   closeSheet(); evRebuild(); save();
@@ -8726,6 +8817,7 @@ function evTravel() {
   // ad doubles it, nothing past the event's end), the same as if the app had been closed on the event map
   if (S.ev && S.ev.away) { const keep = Date.now(); S.last = S.ev.away; S.ev.away = null; offline(); S.last = keep; save(); }
   if (!S.ev.intro) { S.ev.intro = true; setTimeout(() => openTab('evintro'), 600); }
+  evSrvNext = 0; evSrvSync();
 }
 function evBack() { if (!isEv()) return; bumpRev(); evSwapOut(); S.ev.away = Date.now();   // the event's crew keep working while you're on the career
   closeSheet(); evRebuild(); save(); toast('Back to your career');
@@ -8735,7 +8827,7 @@ function evBack() { if (!isEv()) return; bumpRev(); evSwapOut(); S.ev.away = Dat
 function evResolve(r) { const d = EV_DEFS[S.ev.id]; if (r.acc || r.top) { const it = r.acc ? d.acc : d.top; return S.owned[it] ? { gems: 100 } : { item: it }; } return r; }
 function evClaim(lane, n) {
   if (!S.ev || n > evTier() || S.ev.got[lane][n] || (lane === 'pass' && !S.ev.pass)) return null;
-  const raw = (lane === 'free' ? EV_FREE : EV_PASS)[n]; if (!raw) return null;
+  const raw = evRaw(lane, n); if (!raw) return null;
   S.ev.got[lane][n] = true;
   if (raw.badge) { const b = EV_DEFS[S.ev.id].badge; S.evBadges = Object.assign({}, S.evBadges, { [b]: true }); bumpRev(); return { badge: b }; }
   const r = evResolve(raw); payReward(r, `ev:${S.ev.key}:${lane}:${n}`); return r;
@@ -8765,6 +8857,10 @@ function evTick() {
     else if (bs.top) { bs.left = ''; bs.top = ''; } }
   if (sheetKey === 'evhub' && !$('scrim').hidden) { if (!S.ev) closeSheet(); else { const e = $('evHubEnds'); if (e) { e.textContent = evLeft(S.ev.end).replace(' left', ''); e.parentNode.classList.toggle('warn', S.ev.end - Date.now() < 12 * 3600e3); } } }
   if (S.evResult && $('scrim').hidden && !evResultShown) { evResultShown = true; openTab('evresult'); }
+  if (S.ev && S.ev.diff && !S.ev.done && evPoints() >= EV_MAX_PTS) { S.ev.done = true; const b = evBestOf(S.ev.id);   // Build 280: a finish opens the next difficulty for this event
+    if (EV_DIFF_IDS.indexOf(S.ev.diff) > EV_DIFF_IDS.indexOf(b)) S.evBest = Object.assign({}, S.evBest, { [S.ev.id]: S.ev.diff }); evSrvNext = 0; save(); }
+  if (S.ev && S.ev.diff && (isEv() || S.ev.srv)) evSrvSync();
+  if (sheetKey === 'evboard' && !$('scrim').hidden) { const t = $('evLbTime'); if (t && EVB.rows && EVB.my != null && !EVB.done) t.textContent = durTxt(EVB.my + (Date.now() - EVB.at) / 1000); if (Date.now() - EVB.at > 30000 && EVB.at) { EVB.at = Date.now(); evBoardLoad(); } }
   // HUD: event bar on the event map, a small chip in the career while an event is live
   const bar = $('evBar'), chip = $('evChip'); if (!bar) return;
   if (isEv()) { const d = evDef(), p = evPoints(), T = evTier();
@@ -8855,9 +8951,9 @@ function evTasks() {
   const row = (icon, title, sub, pts, done, frac, none, lock) => `<div class="evh-task ${done ? 'done' : ''} ${lock ? 'lock' : ''}"><div class="ti">${evI(done ? 'check' : lock ? 'lock' : icon, 18)}</div><div><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}${frac != null && !done ? `<div class="mini"><i style="width:${Math.min(100, frac * 100)}%"></i></div>` : ''}</div><div class="evh-pts ${none ? 'none' : ''}">${none ? 'no ★' : (done ? '✓ ' : '+') + pts + '★'}</div></div>`;
   const open = [], done = []; let prevOpen = true;
   loc.stations.forEach((st, i) => { const L = lv[st.id] || 0, on = L > 0, out = [];
-    if (i > 0) out.push(row(st.icon, 'Unlock ' + st.name, on ? 'Opens 4 more tasks' : prevOpen ? evMoney(st.unlock) : 'Unlock ' + loc.stations[i - 1].name + ' first', 0, on, null, true, !on && !prevOpen));
+    if (i > 0) out.push(row(st.icon, 'Unlock ' + st.name, on ? 'Opens 4 more tasks' : prevOpen ? evMoney(Math.ceil(st.unlock * evDiffX())) : 'Unlock ' + loc.stations[i - 1].name + ' first', 0, on, null, true, !on && !prevOpen));
     if (on) { EV_PT_LV.forEach((m, k) => out.push(row(st.icon, `${st.name} to Lv ${m}`, L >= m ? '' : `Lv ${L} / ${m}`, [5, 10, 20][k], L >= m, L / m)));
-      out.push(row('crew', 'Hire the ' + st.crew, crew[st.id] ? '' : evMoney(isEv() ? crewCostOf(st) : Math.ceil(st.crewCost)), 5, !!crew[st.id])); }
+      out.push(row('crew', 'Hire the ' + st.crew, crew[st.id] ? '' : evMoney(isEv() ? crewCostOf(st) : Math.ceil(st.crewCost * evDiffX())), 5, !!crew[st.id])); }
     const all = on && L >= EV_CAP && crew[st.id];
     (all ? done : open).push(`<div class="evh-grp">${st.name}</div>` + out.join(''));
     prevOpen = on; });
@@ -8869,17 +8965,17 @@ function evTasks() {
 }
 function evRewardsTab() {
   const d = EV_DEFS[S.ev.id], T = evTier();
-  const pt = EV_PASS.slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), box: a.box + (r.box ? 1 : 0), small: a.small + (r.box === 'small' ? r.n || 1 : 0), ev: a.ev + (r.box === 'event' ? r.n || 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, box: 0, small: 0, ev: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.small.cost * pt.small + BOXES.event.cost * pt.ev;   // the shop's one value formula
+  const pt = EV_PASS.map((r, n) => n && evRaw('pass', n)).slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), box: a.box + (r.box ? 1 : 0), small: a.small + (r.box === 'small' ? r.n || 1 : 0), ev: a.ev + (r.box === 'event' ? r.n || 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, box: 0, small: 0, ev: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.small.cost * pt.small + BOXES.event.cost * pt.ev;   // the shop's one value formula
   const pass = S.ev.pass ? `<div class="evh-pass on">${evI('check', 20, '#2E9E5B')}<div>Mini Pass active<span>The right-hand lane is unlocked for this event.</span></div></div>`
     : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>${pt.gems} gems + ${pt.small} Small Boxes + ${pt.ev} Event Boxes + ${pt.skips} skips + ${pt.frenzy} Frenzies + 2 looks · ${valueTag(worth, EV_PRICE) || ''}</span></div>
       ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${EV_DEFS[S.ev.id].name}">$${EV_PRICE}</button>`}</div>`;
-  const cell = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], reached = n <= T, ready = reached && !!r && (lane === 'free' || S.ev.pass);
+  const cell = (lane, n) => { const r = evRaw(lane, n), got = S.ev.got[lane][n], reached = n <= T, ready = reached && !!r && (lane === 'free' || S.ev.pass);
     if (!r) return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>—</span></div>`;
     const right = got ? '<span class="ok">✓</span>' : ready ? `<button data-evclaim="${lane}:${n}">Claim</button>` : lane === 'pass' && !S.ev.pass ? `<span class="lk">${evI('lock', 13, '#9A6A00', 2.6)}</span>` : '';
     return `<div class="evh-rc ${lane === 'pass' ? 'p' : ''} ${reached ? '' : 'dim'}"><span>${evRewardTxt(r)}</span>${right}</div>`; };
   // laid out like the Backstage Pass: Free | tier node | Mini Pass, with art on every tile
   const icon = r => r.box ? `<span class="pf pbox">${boxArt(r.box, 48)}${(r.n || 1) > 1 ? `<i class="pbn">${r.n}</i>` : ''}</span>` : r.acc || r.top ? `<span class="pjk">${itemArt(itemById(r.acc ? d.acc : d.top), 44)}</span>` : r.badge ? `<span class="pjk">${evEmblem(S.ev.id, 40)}</span>` : r.skips ? '<img src="art/shop/boost-60.svg" width="30" height="31" alt="">' : r.frenzy ? '<span class="pf">' + ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') + '</span>' : '<img src="art/gem.webp" width="30" height="25" alt="">';
-  const tile = (lane, n) => { const r = (lane === 'free' ? EV_FREE : EV_PASS)[n], got = S.ev.got[lane][n], open = n <= T, need = lane === 'pass' && !S.ev.pass, ready = open && !got && !need && !!r;
+  const tile = (lane, n) => { const r = evRaw(lane, n), got = S.ev.got[lane][n], open = n <= T, need = lane === 'pass' && !S.ev.pass, ready = open && !got && !need && !!r;
     const state = got ? '<span class="pst ok">Claimed</span>' : ready ? `<button class="hire" data-evclaim="${lane}:${n}">Claim</button>` : need ? '<span class="pst vip">Mini Pass</span>' : `<span class="pst">Tier ${n} · ${n * EV_TIER_PTS}★</span>`;
     return `<div class="ptile ${lane === 'pass' ? 'gold' : 'free'} ${got ? 'got' : ''} ${ready ? 'ready' : ''} ${need ? 'needvip' : ''} ${!open && !got ? 'locked' : ''} ${r && (r.acc || r.top || r.badge) ? 'big' : ''}">${r ? icon(r) : ''}<b>${evRewardTxt(r)}</b>${state}</div>`; };
   const rows = Array.from({ length: EV_TIERS }, (_, k) => k + 1).map(n => `<div class="prow ${n <= T ? 'done' : ''} ${n === T + 1 ? 'next' : ''}">${tile('free', n)}<span class="pnode"><i>${n}</i></span>${tile('pass', n)}</div>`).join('');
@@ -8890,7 +8986,7 @@ function evRewardsTab() {
 function evHub() {
   const d = EV_DEFS[S.ev.id], p = evPoints(), T = evTier(), into = p - T * EV_TIER_PTS, here = isEv(), cc = evClaimCount(), left = S.ev.end - Date.now();
   const foot = here ? '<button class="cta exit" data-evexit>Exit to career</button>' : evUnlocked() ? '<button class="cta" data-eventer>Enter</button>' : '<button class="cta" disabled>Reach Home Studio (map 2)</button>';
-  return `<div class="evh-head">${evEmblem(S.ev.id, 52)}<div><h2>${d.title}</h2><small>This week's long event</small></div>${closeBtn()}</div>
+  return `<div class="evh-head">${evEmblem(S.ev.id, 52)}<div><h2>${d.title}</h2><small>${S.ev.diff ? EV_DIFF[evDiffId()].name + ' · long event' : "This week's long event"}</small></div><span class="headbtns">${S.ev.diff && !PLAYTEST ? `<button class="close evlb-btn" data-evboard aria-label="Leaderboard"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><rect x="3" y="12" width="5" height="9" rx="1.2"/><rect x="9.5" y="5" width="5" height="16" rx="1.2"/><rect x="16" y="9" width="5" height="12" rx="1.2"/></svg></button>` : ''}${closeBtn()}</span></div>
     <div class="evh-prog"><b>★ ${p} / ${EV_MAX_PTS} <button class="hinfo" data-hinfo="evrew" aria-label="About event rewards" aria-expanded="${!!hinfoOpen.evrew}">i</button></b><span>Tier ${T} of ${EV_TIERS}${T < EV_TIERS ? ` · ${EV_TIER_PTS - into}★ to next` : ' · complete'}</span><div class="bar"><i style="width:${p / EV_MAX_PTS * 100}%"></i></div><div class="evh-info hinfo-txt" ${hinfoOpen.evrew ? '' : 'hidden'}>Tier 15 is the free ${EV_DEFS[S.ev.id].badge} badge, kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>. Unclaimed rewards arrive at the end.</div></div>
     <div class="evh-fx">${[Date.now() < S.hypeUntil ? 'Hype ×' + (+hypeX().toFixed(1)) : '', evFame() > 1.001 ? 'All Profit ×' + evFame().toFixed(2).replace(/\.?0+$/, '') : '', micBought() ? 'Golden Mic ×2' : ''].filter(Boolean).map(t => `<span>${t}</span>`).join('') || '<span class="off">No boosts active</span>'}</div>
     <div class="evh-tabs"><button data-evtab="tasks" class="${evHubTab === 'tasks' ? 'on' : ''}">Tasks</button><button data-evtab="rewards" class="${evHubTab === 'rewards' ? 'on' : ''}">Rewards${cc ? ` <em>${cc}</em>` : ''}</button></div>
@@ -8901,6 +8997,8 @@ function evSheet(tab) {
   const d = evDef();
   if (tab === 'evhub') return evHub();
   if (tab === 'evbadges') return evBadgesView();
+  if (tab === 'evboard') return evBoardView();
+  if (tab === 'evdiff') return evDiffView();
   if (tab === 'evintro') return `<div class="sheet-head"><h2>${d.title}</h2>${closeBtn()}</div><div class="pscroll evsheet">
     <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
@@ -8917,6 +9015,11 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-evbadgesback]')) { sfx('tap'); return openTab(evBadgeFrom === 'evhub' && S.ev ? 'evhub' : 'events'); }
   if (!S) return;
   if (e.target.closest('[data-evgo]') || e.target.closest('[data-eventer]')) { sfx('tap'); return evTravel(); }
+  { const di = e.target.closest('[data-evdinfo]'); if (di && S.ev) { sfx('tap'); evDiffInfo = evDiffInfo === di.dataset.evdinfo ? null : di.dataset.evdinfo; return openTab('evdiff'); } }
+  { const df = e.target.closest('[data-evdiff]'); if (df && S.ev && !S.ev.diff && !df.disabled) { sfx('tap'); evDiffPick = df.dataset.evdiff; return openTab('evdiff'); } }
+  if (e.target.closest('[data-evdiffgo]') && S.ev && !S.ev.diff && evDiffOpen(S.ev.id, evDiffPick || 'normal')) { sfx('tap'); S.ev.diff = evDiffPick || 'normal'; evDiffPick = null; save(); return evTravel(); }
+  if (e.target.closest('[data-evboard]')) { sfx('tap'); EVB = { rows: null, err: '', at: 0 }; openTab('evboard'); evBoardLoad(); return; }
+  if (e.target.closest('[data-evboardback]')) { sfx('tap'); return openTab('evhub'); }
   if (e.target.closest('[data-evback]') || e.target.closest('[data-evexit]')) { sfx('tap'); return evBack(); }
   if (e.target.closest('[data-evhub]') || e.target.closest('#evChip') || e.target.closest('#evTab')) { sfx('tap'); evHubTab = 'tasks'; return openTab('evhub'); }
   if (e.target.closest('#evBarCareer')) { sfx('tap'); return evBack(); }
