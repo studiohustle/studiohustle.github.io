@@ -1619,7 +1619,10 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 @media (prefers-reduced-motion: reduce) { .evtw, .evblink, .evbeam, .evshoot, .evfield { animation: none; } .evshoot { display: none; } }
 .evsway { animation: evsway 3.6s ease-in-out infinite alternate; } @keyframes evsway { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 .evsun { border-radius: 50%; box-shadow: 0 0 34px 10px var(--glow); animation: evsun 5s ease-in-out infinite alternate; } @keyframes evsun { from { box-shadow: 0 0 26px 6px var(--glow); } to { box-shadow: 0 0 44px 16px var(--glow); } }
-@media (prefers-reduced-motion: reduce) { .evsway, .evsun { animation: none; } }
+.evsway.sm { animation-name: evswaysm; } @keyframes evswaysm { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
+.evbob { animation: evbob 2.8s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; } @keyframes evbob { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-2.5px) rotate(1.5deg); } }
+.evwig { animation: evwig 2.4s ease-in-out infinite alternate; } @keyframes evwig { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { .evsway, .evsun, .evbob, .evwig { animation: none; } }
 .evh-fx { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px 0; } .evh-fx span { font: 700 11.5px var(--body, sans-serif); color: #2E9E5B; background: #E5F4E4; border-radius: 999px; padding: 3px 9px; } .evh-fx span.off { color: #8C86A6; background: #EFEDF6; }
 .evh-empty { text-align: center; padding: 18px 10px; font: 600 13px var(--body, sans-serif); color: #6E6990; }
 .evr-c em { font-style: normal; font-size: 11px; opacity: .65; } .evr-c em.ok { color: #2E9E5B; opacity: 1; font-weight: 700; } .evr-c .hire { align-self: flex-start; padding: 3px 12px; }
@@ -3370,7 +3373,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 277, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 278, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -8498,22 +8501,24 @@ const evOutside = (key, H, down = 0) => {   // down: how far the scenery reaches
     .map(([x, y, l], i) => `<path d="M${x} ${y} q${l / 2} ${-2 - rnd(i + 50) * 2} ${l} 0" fill="none" stroke="#E9FBFF" stroke-width="${1.6 + rnd(i + 60)}" stroke-linecap="round" opacity="${(.3 + rnd(i + 70) * .2).toFixed(2)}"/>`).join('');
   const isle = `<path d="M70 ${hz + 2} Q110 ${hz - 70} 140 ${hz - 46} Q160 ${hz - 34} 180 ${hz - 20} Q230 ${hz - 18} 270 ${hz + 2} Z"`;
   const palmlet = (x, y, s, lean) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0 Q${lean} -24 ${lean * 2} -46" fill="none" stroke="#6B4423" stroke-width="3.4" stroke-linecap="round"/>
-    <g transform="translate(${lean * 2} -46)" stroke-linecap="round" fill="none"><path d="M0 0 q-14 -12 -30 -6 M0 0 q-20 0 -26 12" stroke="#2A6B42" stroke-width="5"/><path d="M0 0 q4 -20 22 -22 M0 0 q18 -10 32 0 M0 0 q16 4 22 16" stroke="#3F9A57" stroke-width="5"/>
-    <path d="M0 0 q4 -20 22 -22 M0 0 q18 -10 32 0" stroke="#7CCB86" stroke-width="1.4"/></g></g>`;
+    <g transform="translate(${lean * 2} -46)" stroke-linecap="round" fill="none"><g class="evsway sm" style="animation-delay:-${(x % 7) / 2}s"><path d="M0 0 q-14 -12 -30 -6 M0 0 q-20 0 -26 12" stroke="#2A6B42" stroke-width="5"/><path d="M0 0 q4 -20 22 -22 M0 0 q18 -10 32 0 M0 0 q16 4 22 16" stroke="#3F9A57" stroke-width="5"/>
+    <path d="M0 0 q4 -20 22 -22 M0 0 q18 -10 32 0" stroke="#7CCB86" stroke-width="1.4"/></g></g></g>`;
   const boat = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="22" cy="15" rx="30" ry="4" fill="#0F6A84" opacity=".28"/>
-    <path d="M14 17 Q22 20 30 17" stroke="#FFFFFF" stroke-width="1.6" fill="none" opacity=".55" stroke-linecap="round"/>
+    <path d="M14 17 Q22 20 30 17" stroke="#FFFFFF" stroke-width="1.6" fill="none" opacity=".55" stroke-linecap="round"/><g class="evbob">
     <path d="M0 0 H44 L36 12 H8 Z" fill="#FFFFFF" stroke="#1B5C6E" stroke-width="2.5" stroke-linejoin="round"/><path d="M6 8 H38" stroke="#7CCFE0" stroke-width="2"/>
     <path d="M22 0 V-42" stroke="#1B5C6E" stroke-width="2.5" stroke-linecap="round"/><path d="M24 -40 L44 -5 H24 Z" fill="#FF6FAE" stroke="#1B5C6E" stroke-width="2.5" stroke-linejoin="round"/>
     <path d="M27 -31 L39 -8" stroke="#FFC2DD" stroke-width="2.5" stroke-linecap="round"/><path d="M20 -36 L6 -6 H20 Z" fill="#FFF1D6" stroke="#1B5C6E" stroke-width="2.5" stroke-linejoin="round"/>
-    <path d="M22 -42 l9 3 l-9 3" fill="#FFB347" stroke="#1B5C6E" stroke-width="1.6" stroke-linejoin="round"/></g>`;
+    <path d="M22 -42 l9 3 l-9 3" fill="#FFB347" stroke="#1B5C6E" stroke-width="1.6" stroke-linejoin="round"/></g></g>`;
   // pier: posts and planks over the water, then the boardwalk across the sand (same planks as the station screen)
   const pk = []; for (let y = wb - 44; y < H; y += 22) pk.push(y);
   const posts = [wb - 40, wb, wb + 40].map(y => [160, 230].map(x => `<ellipse cx="${x}" cy="${y + 22}" rx="7" ry="2.4" fill="#0F6A84" opacity=".35"/><rect x="${x - 4}" y="${y - 4}" width="8" height="26" rx="2" fill="#7A4A26" stroke="#5C3A1A" stroke-width="1.6"/><path d="M${x - 7} ${y + 21} q7 -3 14 0" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8"/>`).join('')).join('');
   const pier = pk.map(y => y < yW - 6 ? `<rect x="163" y="${y}" width="64" height="16" rx="3" fill="#C9935A" stroke="#8B5A2B" stroke-width="2"/><path d="M168 ${y + 5} H222" stroke="#DDB07A" stroke-width="1.6" stroke-linecap="round"/>`
     : `<rect x="${EV_WALK[0] + 5}" y="${y}" width="${EV_WALK[1] - EV_WALK[0] - 10}" height="16" rx="3" fill="#C9935A" stroke="#8B5A2B" stroke-width="2"/>`).join('');
-  const rowboat = (x, y) => `<g transform="translate(${x} ${y})"><ellipse cx="0" cy="9" rx="20" ry="3" fill="#0F6A84" opacity=".3"/><path d="M-19 0 Q-16 9 0 9 Q16 9 19 0 Z" fill="#E2711D" stroke="#8B3F12" stroke-width="2" stroke-linejoin="round"/><path d="M-13 1 H13" stroke="#FFD58A" stroke-width="2"/><path d="M-19 0 Q-17 -6 -20 -10" fill="none" stroke="#8B5A2B" stroke-width="1.4"/></g>`;
+  const rowboat = (x, y) => `<g transform="translate(${x} ${y})"><ellipse cx="0" cy="9" rx="20" ry="3" fill="#0F6A84" opacity=".3"/><g class="evbob" style="animation-delay:-1.3s;animation-duration:2.3s"><path d="M-19 0 Q-16 9 0 9 Q16 9 19 0 Z" fill="#E2711D" stroke="#8B3F12" stroke-width="2" stroke-linejoin="round"/><path d="M-13 1 H13" stroke="#FFD58A" stroke-width="2"/><path d="M-19 0 Q-17 -6 -20 -10" fill="none" stroke="#8B5A2B" stroke-width="1.4"/></g></g>`;
   const umbrella = (x, y) => `<g transform="translate(${x} ${y})"><ellipse cx="-14" cy="1" rx="24" ry="5" fill="#C9A86A" opacity=".4"/><path d="M0 0 L-6 -44" stroke="#8B5A2B" stroke-width="3" stroke-linecap="round"/>
-    <path d="M-34 -38 Q-8 -66 22 -48 Z" fill="#FF6FAE" stroke="#B83A72" stroke-width="2" stroke-linejoin="round"/><path d="M-24 -42 Q-14 -60 -6 -58 L-4 -44 Z M4 -45 Q8 -58 12 -52 L14 -47 Z" fill="#FFFFFF" opacity=".9"/>
+    <g transform="translate(-6 -44)"><g class="evwig"><g transform="translate(6 44)"><clipPath id="iUmbC"><path d="M-34 -38 Q-8 -66 22 -48 Z"/></clipPath>
+      <path d="M-34 -38 Q-8 -66 22 -48 Z" fill="#FF6FAE"/><path d="M-24 -42 Q-14 -60 -6 -58 L-4 -44 Z M4 -45 Q8 -58 12 -52 L14 -47 Z" fill="#FFFFFF" opacity=".9" clip-path="url(#iUmbC)"/>
+      <path d="M-34 -38 Q-8 -66 22 -48 Z" fill="none" stroke="#B83A72" stroke-width="2" stroke-linejoin="round"/></g></g></g>
     <g transform="translate(6 -2) skewX(-18)"><rect x="0" y="-7" width="34" height="11" rx="2" fill="#36C2CE" stroke="#1B7F8C" stroke-width="1.6"/><path d="M8 -7 V4 M17 -7 V4 M26 -7 V4" stroke="#FFFFFF" stroke-width="2.4"/></g></g>`;
   const castle = (x, y) => `<g transform="translate(${x} ${y})" stroke="#B88A4A" stroke-width="1.6" stroke-linejoin="round"><ellipse cx="-4" cy="1" rx="24" ry="4" fill="#C9A86A" opacity=".35" stroke="none"/>
     <path d="M-16 0 V-14 h4 v-4 h4 v4 h4 v-4 h4 v4 h4 v-4 h4 v4 h4 V0 Z" fill="#EBCB8B"/><path d="M-6 -14 V-28 h3 v-3 h4 v3 h3 V-14" fill="#F2D79E"/><path d="M-1 -31 V-40 l7 2.5 l-7 2.5" fill="#FF6FAE" stroke="#B83A72" stroke-width="1.2"/>
@@ -8534,10 +8539,11 @@ const evOutside = (key, H, down = 0) => {   // down: how far the scenery reaches
     <rect x="-390" y="${hz}" width="1170" height="${sea * .7}" fill="url(#iOPath)"/>${glints}
     <g transform="translate(0 ${hz * 2 + 4}) scale(1 -1)" opacity=".3">${isle} fill="#0F6A84" transform="translate(0 ${hz}) scale(1 .42) translate(0 ${-hz})"/></g>
     <path d="M60 ${hz + 3} Q160 ${hz - 6} 282 ${hz + 3} Z" fill="#F2DDA6" stroke="#C9A86A" stroke-width="1.5"/>
-    ${isle} fill="#3F8F5A" stroke="#2A6B42" stroke-width="2.5" stroke-linejoin="round"/>
-    <path d="M74 ${hz} Q108 ${hz - 64} 122 ${hz - 60} Q104 ${hz - 30} 112 ${hz} Z" fill="#2F7A4C" opacity=".8"/>
-    <path d="M118 ${hz - 62} Q136 ${hz - 50} 150 ${hz - 39} Q176 ${hz - 22} 214 ${hz - 18}" fill="none" stroke="#6CC07F" stroke-width="3" stroke-linecap="round" opacity=".85"/>
-    ${palmlet(112, hz - 52, 1, 2)}${palmlet(166, hz - 26, .72, 3)}
+    <clipPath id="iIsle">${isle}/></clipPath>
+    <g clip-path="url(#iIsle)">${isle} fill="#5BAE6E"/><g transform="translate(-5 6)">${isle} fill="#3F8F5A"/></g>
+      <path d="M60 ${hz + 4} L60 ${hz - 80} L118 ${hz - 80} Q100 ${hz - 40} 112 ${hz + 4} Z" fill="#2F7A4C" opacity=".55"/></g>
+    ${isle} fill="none" stroke="#2A6B42" stroke-width="2.5" stroke-linejoin="round"/>
+    ${palmlet(114, hz - 46, 1, 2)}${palmlet(166, hz - 26, .72, 3)}
     <path d="M252 ${hz + 2} q4 -11 12 -10 q8 0 9 10 Z M268 ${hz + 3} q2 -6 7 -6 q5 0 6 6 Z" fill="#8E8A80" stroke="#55534C" stroke-width="1.6" stroke-linejoin="round"/><path d="M256 ${hz - 4} q5 -4 10 -2" stroke="#B9B4A8" stroke-width="1.4" fill="none" stroke-linecap="round"/>
     <path d="M246 ${hz + 5} q10 -3 20 0 q8 -3 18 0" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity=".8"/>
     ${shine}
