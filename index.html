@@ -1553,7 +1553,7 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evlb-cols, .evlb-row { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px; }
 .evlb-cols { padding: 0 14px 8px; margin: 0 -14px; border-bottom: 3px solid #4A3A9E; font: 800 11px var(--body, sans-serif); color: #8A84A8; text-transform: uppercase; letter-spacing: .4px; } .evlb-cols span:first-child { text-align: center; } .evlb-cols span:last-child { text-align: right; }
 .evlb-tbl { display: flex; flex-direction: column; gap: 8px; padding-top: 10px; }
-.evlb-row { height: 50px; padding: 0 14px; box-sizing: border-box; background: #fff; border-radius: 10px; box-shadow: 0 1px 0 rgba(20,18,42,.06); }
+.evlb-row { flex: none; height: 50px; padding: 0 14px; box-sizing: border-box; background: #fff; border-radius: 10px; box-shadow: 0 1px 0 rgba(20,18,42,.06); }
 .evlb-cols.rw, .evlb-row.rw { grid-template-columns: 30px 1fr 56px 62px; } .evlb-row .rwd { display: inline-flex; align-items: center; justify-content: flex-end; gap: 3px; font: 800 13px var(--body, sans-serif); color: #2E2266; } .evlb-row .rwd img { width: 17px; height: 14px; } .evlb-row .pts { display: inline-flex; align-items: center; justify-content: flex-end; gap: 3px; font: 800 14px var(--body, sans-serif); color: #2E2266; } .evlb-row .pts svg { width: 15px; height: 15px; }
 .evlb-row.me { background: #ECE7FF; } .evlb-row b { font: 400 15px var(--display); color: #2E2266; text-align: center; }
 .evlb-row .nm { font: 800 14px var(--body, sans-serif); color: #14122A; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; }
@@ -1564,8 +1564,11 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evlb-time { display: inline-flex; align-items: center; gap: 7px; margin: 0 auto; padding: 7px 14px; border-radius: 999px; background: #F1EEFB; color: #5A5480; font: 700 13px var(--body, sans-serif); }
 .evlb-time b { color: #2E2266; font-weight: 800; } .evlb-time svg { color: #7A5BE0; }
 .sheet.evhub.float { width: min(344px, 100%); height: auto; max-height: min(640px, 100%); padding: 0 !important; gap: 0; border-radius: 20px; box-shadow: 0 10px 30px rgba(8,7,20,.35); }
-.sheet.evhub.float .evh-head { border-radius: 20px 20px 0 0; } .sheet.evhub.float .evh-foot { padding-bottom: 14px; border-radius: 0 0 20px 20px; }
+.sheet.evhub.float .evh-head { border-radius: 20px 20px 0 0; }
+.sheet.evhub.float .evh-list { flex: none; overflow: visible; } .sheet.evhub.float .evlb-tbl { height: 412px; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 4px; box-sizing: border-box; } .sheet.evhub.float .evlb-note { height: 412px; box-sizing: border-box; display: grid; place-items: center; margin: 0; } .sheet.evhub.float .evh-foot { padding-bottom: 14px; border-radius: 0 0 20px 20px; }
 .sheet.evhub.evsmall { height: auto; max-height: 88%; } .sheet.evhub.evsmall .evh-list { padding-bottom: 18px; }
+.evlb-info { margin: -4px 0 8px; text-align: center; } .sheet.evhub.float .evlb-info:not([hidden]) ~ .evlb-tbl { height: 296px; }
+html .side .sbtn.sptab .cap { color: #E0A400 !important; }
 .evdf-list { display: flex; flex-direction: column; gap: 9px; } .evdf-list .evlb-goal { margin-bottom: 2px; } .evdf-list .cta { margin-top: 6px; }
 .evdf-row { display: flex; align-items: center; gap: 10px; }
 .evdf { position: relative; flex: 1; min-height: 56px; border: 0; border-radius: 8px; padding: 7px 44px; margin-bottom: 7px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
@@ -2403,6 +2406,7 @@ html .lb-mc.lb-don .lb-don-note { margin: 20px 0 0; text-align: center; font: 60
         <span class="cap">Events</span><span class="bang evdot" id="eventsBang" hidden>!</span>
       </button>
       <button class="sbtn evtab" id="evTab" aria-label="Long event" hidden><span class="evt-ic" id="evTabIc"></span><span class="cap" id="evTabTime"></span></button>
+      <button class="sbtn evtab sptab" id="spTab" aria-label="Studio Sprint" hidden><span class="evt-ic" id="spTabIc"></span><span class="cap" id="spTabTxt"></span></button>
     </div>
     <div class="stage" id="stage">
       <div id="roomArt"></div>
@@ -3047,7 +3051,7 @@ function evLay() {
   const wrap = $('roomWrap'), W = (wrap && wrap.clientWidth) || 390, ox = (W - 390 * fitS) / 2, key = [W, Math.round(viewH), fitS.toFixed(4), TEST ? 1 : 0].join('|');
   if (evLayMemo && evLayMemo.key === key) return evLayMemo;
   const hintBot = (TEST ? 21 : 4) + 20, bk = hintBot / fitS + EV_BK_BUB + 4, bkBot = bk + EV_BK_H;
-  let sideBot = 250; try { const wr = wrap.getBoundingClientRect(), b = [...document.querySelectorAll('.side .sbtn')].filter(e => e.offsetParent || e.id === 'evTab').map(e => e.getBoundingClientRect().bottom).filter(Boolean); if (b.length) sideBot = (Math.max(...b) - wr.top) / fitS; } catch (e) {}
+  let sideBot = 250; try { const wr = wrap.getBoundingClientRect(), b = [...document.querySelectorAll('.side .sbtn')].filter(e => e.offsetParent || e.id === 'evTab' || e.id === 'spTab').map(e => e.getBoundingClientRect().bottom).filter(Boolean); if (b.length) sideBot = (Math.max(...b) - wr.top) / fitS; } catch (e) {}
   const inner = EV_WALK[0] - EV_WALK_M, row = w0 => 112 * (w0 / 150) * ART_SC + 18, fits = (top, bh) => top + 2 * (bh + 20) + bh + 16 <= viewH;
   // Build 200: stations are sized to clear the side buttons, so the first pair sits right under the fence beside them (Eli's layout)
   let sideR = 54; try { const wr = wrap.getBoundingClientRect(), r = [...document.querySelectorAll('.side-l .sbtn')].filter(e => e.offsetParent).map(e => e.getBoundingClientRect().right).filter(Boolean); if (r.length) sideR = (Math.max(...r) - wr.left - ox) / fitS; } catch (e) {}
@@ -3111,7 +3115,7 @@ function payMileGems(st, before, after) {
   const owed = MILE_GEM_AT.filter(m => after >= m).length, had = S.mg.got[st.id] || 0;
   if (owed <= had) return 0;
   const g = (owed - had) * MILE_GEM * (ev() === 'gems' ? 2 : 1);
-  S.mg.got[st.id] = owed; S.gems += g; owe('gems', g, els[st.id] && els[st.id].b); return g;
+  S.mg.got[st.id] = owed; S.gems += g; owe('gems', g, els[st.id] && els[st.id].b); sprintAdd(owed - had); return g;
 }
 const lastLoc = () => LOCATIONS.length - 1;
 // album boost grows with the length of the tour: +25% with 3 maps, +50% once all 6 are in
@@ -3404,7 +3408,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 282, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 283, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4601,7 +4605,7 @@ function flushOwed() {
 // Colors are soft pastels and every event also has its own icon, so color is never the only cue.
 const EVENTS = {
   monday: { name: 'Music Monday', short: 'Crates pay 2x cash and 2x gems, and the daily ad gem limit is doubled', color: '#9BEBC8' },
-  wed: { name: 'Wednesday Challenge', short: 'One goal for a big gem prize', color: '#FFB3D1' },
+  wed: { name: 'Studio Sprint', short: 'Race for milestone stars and gems', color: '#FFB3D1' },
   friday: { name: 'Fan Friday', short: 'The Backer visits 1.5x as often', color: '#8FE3DA' },
   fans: { name: 'Fan Weekend', short: 'All weekend (Sat + Sun): the Backer visits 2x as often', color: '#8FE3DA' },
   gems: { name: 'Gem Rush', short: 'All weekend: station milestones, ads and Backer gem offers give double gems', color: '#C9B0FF' },
@@ -4686,6 +4690,46 @@ function wedChallenge() {
   const c = WED_POOL.concat(WED_LEGACY).find(x => x.id === S.wed.id) || WED_POOL[0], target = S.wed.target || c.target || 1;
   const v = Math.floor(Math.max(0, (S.stats[c.stat] || 0) - S.wed.base));
   return Object.assign({}, c, { text: wedText(c, target), target, v: Math.min(v, target), ready: v >= target, got: S.wed.got });
+}
+// ---------- Studio Sprint (Build 283): the Wednesday race. Each station milestone (Lv 25/50/75/100, once per station per album run,
+// the same ones that pay milestone gems) reached on a career map during the player's local Wednesday is a star. Divisions of 10 on
+// the server; the top 5 win 600/200/100/50/25 gems once Wednesday is over everywhere. 25 stars pays the Backstage Pass stars the old
+// Wednesday Challenge gave.
+const SPRINT_PRIZE = [600, 200, 100, 50, 25], SPRINT_PASS_AT = 25;
+const isoDay = (t = Date.now()) => { const d = new Date(t); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const sprintKey = () => ev() !== 'wed' ? null : (S.test && S.test.event === 'wed') ? 'qasprint' + isoDay().replace(/-/g, '') : 's' + isoDay();
+function sprintState() { const k = sprintKey(); if (!k) return null; if (!S.sprint || S.sprint.k !== k) S.sprint = { k, n: 0 }; return S.sprint; }
+let sprintNext = 0, sprintBusy = false, SPB = { rows: null, err: '', at: 0 };
+function sprintAdd(x) {
+  const sp = !isEv() && x > 0 && sprintState(); if (!sp) return;
+  sp.n += x; sprintNext = 0;
+  if (sp.n >= SPRINT_PASS_AT && !sp.pass) { sp.pass = 1; passStars('wed'); toast(`Studio Sprint: ${SPRINT_PASS_AT} stars! +${PASS_STARS.wed} Pass stars`); }
+}
+async function sprintSync(force) {
+  const sp = sprintState(); if (!sp || PLAYTEST || PREVIEW_LOCK || sprintBusy || (!force && Date.now() < sprintNext) || (!sp.n && !sp.joined && !force)) return; sprintBusy = true;
+  try {
+    if (!sp.joined) { const r = await lbCall('sprint_join', { k: sp.k }); if (!r.ok || !r.data) throw 0; sp.joined = 1; sp.grp = r.data.grp; save(); }
+    if (sp.n > (sp.sent || 0)) { const r = await lbCall('sprint_report', { k: sp.k, n: sp.n }); if (r.ok && r.data) { sp.sent = sp.n; save(); } }
+    sprintNext = Date.now() + 60000;
+  } catch (e) { sprintNext = Date.now() + 60000; } finally { sprintBusy = false; }
+}
+async function sprintBoardLoad() {
+  await sprintSync(true); const sp = sprintState(); if (!sp) return;
+  const r = await lbCall('sprint_board', { k: sp.k });
+  SPB = r.ok && r.data ? { rows: r.data.rows, grp: r.data.grp, at: Date.now(), err: '' } : { rows: null, at: Date.now(), err: r.ok ? 'The Studio Sprint runs on Wednesdays.' : "Couldn't load the leaderboard. Check your connection." };
+  if (sheetKey === 'sprint' && !$('scrim').hidden) openTab('sprint');
+}
+const sprintEndsTxt = () => { const n = new Date(), e = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1); const m = Math.max(0, Math.round((e - n) / 60000)); return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`; };
+function sprintView() {
+  const sp = sprintState(), mine = sp ? sp.n : 0;
+  const rows = SPB.rows ? `<div class="evlb-tbl">${SPB.rows.map((r, i) => { const g = i < 5 && r.stars > 0 ? SPRINT_PRIZE[i] : 0;
+      return `<div class="evlb-row rw ${r.mine ? 'me' : ''}"><b>${i + 1}</b><span class="nm">${esc(r.name)}<i class="ondot ${r.online ? 'on' : ''}"></i></span><span class="pts">${MILE_STAR}${(r.mine ? Math.max(r.stars, mine) : r.stars).toLocaleString('en-US')}</span><span class="rwd">${g ? GEM_MINI + g : '–'}</span></div>`; }).join('')}</div>`
+    : `<p class="evlb-note">${SPB.err || 'Joining a division…'}</p>`;
+  return `<div class="evh-head"><div><h2>Studio Sprint</h2><small>${SPB.rows ? `Division ${(SPB.grp || 0) + 1} · ` : ''}ends in ${sprintEndsTxt()}</small></div>${closeBtn()}</div>
+    <div class="evh-list"><p class="evlb-goal">Collect as many ⭐ as you can today! <button class="hinfo" data-hinfo="sprint" aria-label="How stars work" aria-expanded="${!!hinfoOpen.sprint}">i</button></p>
+    <div class="evh-info hinfo-txt evlb-info" ${hinfoOpen.sprint ? '' : 'hidden'}>Every station milestone (Lv 25, 50, 75, 100) on your career maps is a star. The top 5 in your division win gems when Wednesday ends. ${SPRINT_PASS_AT} stars also earns ${PASS_STARS.wed} Pass stars.</div>
+    <div class="evlb-cols rw"><span>Rank</span><span>Name</span><span style="text-align:right">Stars</span><span>Reward</span></div>${rows}</div>
+    <div class="evh-foot evlb-foot"><div class="evlb-time">${MILE_STAR.replace('<svg', '<svg width="16" height="16"')}Your stars <b>${mine.toLocaleString('en-US')}</b></div></div>`;
 }
 // Weekend Encore: one optional goal per weekend (Sat + Sun together) for Backstage Pass stars. Ordinary play only, paid once.
 const ENCORE = {
@@ -5153,7 +5197,7 @@ function lbSeasonPop(sz) {   // sz: { name: 'November', levels: [4, 5] }: reward
 const LB_RWQ = []; let lbRwBusy = 0;
 async function lbRewardsCheck() {
   if (!S.onboarded || lbRwBusy) return; lbRwBusy = 1;
-  try { const r = await lbCall('lb_rewards', { gifts: true }); /* older builds never ask for gifts, so they can't confirm one they can't show */ if (!r.ok || !r.data) return; const list = r.data.rewards || []; if (!list.length) return;
+  try { const r = await lbCall('lb_rewards', { gifts: true, sprint: true }); /* older builds never ask for gifts, so they can't confirm one they can't show */ if (!r.ok || !r.data) return; const list = r.data.rewards || []; if (!list.length) return;
     list.forEach(x => { const d = x.data || {};
       if (x.kind === 'week') { if (!(S.lbWkPaid || {})[x.ref]) { S.lbWkPaid = Object.assign({}, S.lbWkPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; owe('gems'); if (!SRV_BOX) boxGive(d.box, d.n, 'label'); }
         LB_RWQ.push(() => lbRwPop(`${lbPlace(d.place)} place!`, [['box:' + d.box + ':' + d.n, d.n], ['gems', d.gems]], `<b>${esc(d.name)}</b> · ${lbXpShort(d.xp)} XP last week`,
@@ -5162,6 +5206,9 @@ async function lbRewardsCheck() {
         if (!(S.giftPaid || {})[x.ref]) { S.giftPaid = Object.assign({}, S.giftPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; if (d.gems) owe('gems'); if (!SRV_BOX) (d.boxes || []).forEach(([k, n]) => boxGive(k, n, 'label')); }
         const items = [...(d.gems ? [['gems', d.gems]] : []), ...(d.boxes || []).map(([k, n]) => ['box:' + k + ':' + n, n])];
         LB_RWQ.push(() => lbRwPop(esc(d.title || 'Thank you!'), items, esc(d.note || 'Thanks for playing!'))); }
+      if (x.kind === 'sprint') {   // Build 283: Studio Sprint prize (gems paid here, once per race)
+        if (!(S.sprintPaid || {})[x.ref]) { S.sprintPaid = Object.assign({}, S.sprintPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; owe('gems'); }
+        LB_RWQ.push(() => lbRwPop(`${lbPlace(d.place)} place!`, [['gems', d.gems]], `Studio Sprint · ${(d.stars || 0).toLocaleString('en-US')} stars`, `<div class="lbrw-badge">${sprintEmblem(54)}</div>`)); }
       if (x.kind === 'season') { const lv = d.levels || []; lv.forEach(l => lbPay(x.ref, l));
         const mo = new Date(x.ref + '-15T12:00:00Z').toLocaleString('en-US', { month: 'long', timeZone: 'UTC' }); LB_RWQ.push(() => lbSeasonPop({ name: mo, levels: lv })); } });
     if (SRV_BOX && r.data.inv && sboxState().synced) sboxState().inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, r.data.inv);
@@ -5613,7 +5660,7 @@ $('sheet').addEventListener('scroll', moreBelow, { passive: true });
 const MAIN_SHEETS = ['vault', 'career', 'crew', 'upgrades', 'goals', 'daily', 'pass', 'events', 'charts', 'settings', 'feedback', 'testaccess'];
 window.addEventListener('keydown', e => { if (e.key === 'Tab') document.documentElement.classList.add('kbd'); });
 window.addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'));
-const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad', 'evboard'];   // small centered cards: one ad button, closes after the ad
+const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad', 'evboard', 'sprint'];   // small centered cards: one ad button, closes after the ad
 const DARK_SHEETS = ['shop', 'style', 'studio', 'profile', 'inv'];   // shop and style keep their dark backgrounds
 // ---------- Build 238: things opened from inside the Shop float over it as a card; the Shop stays underneath, in place ----------
 // Build 251: section notes live behind an "i" on the section bar
@@ -5647,7 +5694,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
   $('sheet').classList.toggle('shopmode', ['shop', 'inv'].includes(nextSheetKey));
   $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('sheet').classList.toggle('shopfull', ['shop', 'inv'].includes(nextSheetKey)); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
-  $('sheet').classList.toggle('evhub', ['evhub', 'evbadges', 'evboard', 'evdiff'].includes(nextSheetKey)); $('sheet').classList.toggle('evsmall', nextSheetKey === 'evdiff');
+  $('sheet').classList.toggle('evhub', ['evhub', 'evbadges', 'evboard', 'evdiff', 'sprint'].includes(nextSheetKey)); $('sheet').classList.toggle('evsmall', nextSheetKey === 'evdiff');
   $('sheet').classList.toggle('dailymode', nextSheetKey === 'daily');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -5871,7 +5918,7 @@ $('scrim').addEventListener('click', e => {
     sfx('bling'); toast(G.name + ' claimed'); save(); render(); return openTab('shop'); }
   if (e.target.closest('[data-ev-crate]')) { if (Date.now() >= S.crateReady) { closeSheet(); setTimeout(() => $('crateBtn').click(), 60); } return; }
   const evd = e.target.closest('[data-evday]'); if (evd) { evPick = +evd.dataset.evday; sfx('tap'); return openTab('events'); }
-  if (e.target.closest('[data-wed]')) { const w = wedChallenge(); if (w.ready && !w.got && ev() === 'wed') { S.wed.got = true; passStars('wed'); S.gems += WED_GEMS; flurry('gems', lastTap.x, lastTap.y, 12); sfx('bling'); toast('Challenge complete! +' + WED_GEMS + ' gems + ' + PASS_STARS.wed + ' pass stars'); save(); render(); } return openTab('events'); }
+  // Build 283: the single Wednesday goal (data-wed) was replaced by the Studio Sprint
   const tk = e.target.closest('[data-task]');
   if (tk) { const t = dailyTasks().find(x => x.id === tk.dataset.task); if (t && t.ready && !t.got) { S.dt.got[t.id] = true; passStars('task'); S.gems += TASK_GEMS; flurry('gems', lastTap.x, lastTap.y, 6); sfx('gems'); toast('+' + TASK_GEMS + ' gems'); save(); render(); } return openTab('goals'); }
   if (e.target.closest('[data-task-bonus]')) { if (dailyTasks().every(t => t.got) && !S.dt.bonus) { S.dt.bonus = true; passStars('taskSet'); lbQueue('tasks'); S.stats.taskSets = (S.stats.taskSets || 0) + 1; S.gems += TASK_BONUS; flurry('gems', lastTap.x, lastTap.y, 10); sfx('bling'); toast('All done today! +' + TASK_BONUS + ' gems'); save(); render(); } return openTab('goals'); }
@@ -6726,7 +6773,7 @@ const LIVE = {
     + '|' + dailyTasks().map(t => t.id + (t.got ? 'x' : t.ready ? '!' : Math.floor(t.v / t.target * 20))).join(',') + (S.dt.bonus ? 'b' : '') + '|' + new Date().getMinutes(),
   hype: () => Math.ceil(Math.max(0, S.hypeUntil - Date.now()) / 1000) + '|' + S.gems,
   career: () => Math.floor(movePct()) + '|' + albumReady(),
-  events: () => (S.wed ? Math.floor(wedChallenge().v / (wedChallenge().mins ? 60 : 1)) : 0) + '|' + ev() + '|' + (evPick || 0) + '|' + dayKey() + '|' + (Date.now() >= S.crateReady) + '|' + (S.wed && S.wed.got),
+  events: () => ((S.sprint && S.sprint.n) || 0) + '|' + ev() + '|' + (evPick || 0) + '|' + dayKey() + '|' + (Date.now() >= S.crateReady) + '|' + (S.wed && S.wed.got),
 };
 let liveSig = '';
 function refreshLive() {
@@ -7212,7 +7259,7 @@ function openTab(tab) {
   if (tab === 'career' && isEv()) { tab = 'evhub'; evHubTab = 'rewards'; }
   if (tab === 'evrewards') { evHubTab = 'rewards'; tab = 'evhub'; }
   if (tab === 'evhub' && !evEnsure()) return;
-  if (['evintro', 'evhub', 'evresult', 'evbadges', 'evboard', 'evdiff'].includes(tab)) { if (tab === 'evresult' ? !S.evResult : tab === 'evbadges' ? false : !S.ev) return; nextSheetKey = tab;
+  if (['evintro', 'evhub', 'evresult', 'evbadges', 'evboard', 'evdiff', 'sprint'].includes(tab)) { if (tab === 'sprint' ? !sprintState() : tab === 'evresult' ? !S.evResult : tab === 'evbadges' ? false : !S.ev) return; nextSheetKey = tab;
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', tab === 'evhub' && isEv() && t.dataset.tab === 'career'));
     const ol = sheetKey === tab && !$('scrim').hidden && document.querySelector('#sheet .evh-list'), keep = ol ? ol.scrollTop : 0;   // claiming keeps your place in the list
     openSheet(evSheet(tab)); const nl = document.querySelector('#sheet .evh-list'); if (nl) nl.scrollTop = keep; return; }
@@ -7414,14 +7461,14 @@ function openTab(tab) {
         <div class="pseas"><b>${seasonName()} Season</b><button class="pcd" data-pass-info aria-label="Season ends ${seasonRollover()}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14122A" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">${VAULT_IC.clock}</svg><span data-cd="${seasonEnds()}">${hms(seasonEnds() - Date.now())}</span></button></div>
         <div class="pprize2"><span class="pdress2">${bigArtist(Object.assign({}, S.equip, { top: PASS_JACKET }))}</span><span class="ptext2"><em>Tier ${PASS_TIERS} VIP reward</em><b>${jacket.name}</b></span></div>
         <div class="pprog"><b class="ptier2">Tier ${T}<span>/${PASS_TIERS}</span></b><span class="pbar"><i style="width:${maxed ? 100 : Math.round(into / PASS_STEP * 100)}%"></i></span><span class="pstars">${maxed ? 'Max' : `${into}/${PASS_STEP} ★`}</span><button class="pinfo" data-pass-info aria-label="Season end date and how to earn stars" aria-expanded="${passInfo}">i</button></div>
-        ${passInfo ? `<div class="pinfobox"><p class="pend">Season ends <b>${seasonRollover()}</b></p><b>Earn stars</b><ul><li>Daily task <span>+${PASS_STARS.task}</span></li><li>All three daily tasks <span>+${PASS_STARS.taskSet}</span></li><li>Career goal <span>+${PASS_STARS.goal}</span></li><li>Wednesday Challenge <span>+${PASS_STARS.wed}</span></li><li>Weekend Encore <span>+${PASS_STARS.encore}</span></li><li>Drop an album <span>+${PASS_STARS.album}</span></li></ul><p>Unclaimed rewards arrive when the season ends.</p></div>` : ''}
+        ${passInfo ? `<div class="pinfobox"><p class="pend">Season ends <b>${seasonRollover()}</b></p><b>Earn stars</b><ul><li>Daily task <span>+${PASS_STARS.task}</span></li><li>All three daily tasks <span>+${PASS_STARS.taskSet}</span></li><li>Career goal <span>+${PASS_STARS.goal}</span></li><li>Studio Sprint (25 stars) <span>+${PASS_STARS.wed}</span></li><li>Weekend Encore <span>+${PASS_STARS.encore}</span></li><li>Drop an album <span>+${PASS_STARS.album}</span></li></ul><p>Unclaimed rewards arrive when the season ends.</p></div>` : ''}
         ${p.owned ? '<span class="pown">VIP active</span>' : `<button class="cta gold pbuy" data-buy="goldPass">Unlock VIP · ${OFFERS.goldPass.money}</button><p class="pvipsum">VIP adds <b>${vt.big} Big Boxes</b> · ${vt.small} Small · ${fmtN(vt.gems)} gems</p>`}</div>
       ${any ? '<button class="cta pclaim" data-pass-all>Claim All</button>' : ''}
       <div class="ptrack"><div class="phead"><span>Free</span><span></span><span class="g">VIP</span></div>${rows}</div>`);
     if (freshOpen) { passInfo = false; const r = $('sheet').querySelector('[data-pnow]'); if (passTop) $('sheet').scrollTop = 0; else if (r && T > 2) $('sheet').scrollTop = r.offsetTop - 160; }
     passTop = false;
   } else if (tab === 'events') {
-    const e = ev(), now = Date.now(), days = Array.from({ length: 7 }, (_, k) => evDay(k)), sel = days[evPick || 0], w = wedChallenge();
+    const e = ev(), now = Date.now(), days = Array.from({ length: 7 }, (_, k) => evDay(k)), sel = days[evPick || 0];
     const cd = t => `<span data-cd="${t}">${hms(Math.max(0, t - now))}</span>`;
     const nextOn = days.find(x => x.k > 0 && x.e && x.start > now);
     // long events (Western / Island, Thu 00:00 to Sun 00:00, alternating weekly) on the same strip
@@ -7453,12 +7500,9 @@ function openTab(tab) {
       const when = live ? `<span class="live">Live now</span> · ends in ${cd(sel.end)}` : `Starts in ${cd(sel.start)}`;
       const span = wkend ? 'Saturday + Sunday, one weekend event' : new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' }) + ', all day';
       let body = '';
-      if (sel.e === 'wed') { const c = wedGoalFor(sel.t), ct = c.scale ? (c.scale === 'cash' ? 'Earn 15 minutes of income from your stations' : `Buy about ${wedTarget(c).toLocaleString('en-US')} upgrades`) : c.text;
-        body = live ? `<div class="evobj"><b>${w.text}</b><span class="mile"><i style="width:${w.v / w.target * 100}%;background:${w.ready ? 'var(--cash)' : 'var(--gem)'}"></i></span>
-            <span class="evprog">${w.mins ? `${Math.floor(w.v / 60)} / ${w.target / 60} min` : w.scale === 'cash' ? `${fmt(w.v)} / ${fmt(w.target)}` : `${w.v.toLocaleString('en-US')} / ${w.target.toLocaleString('en-US')}`}</span><span class="evprog">Reward: ${WED_GEMS} gems + ${PASS_STARS.wed} pass stars</span></div>
-            <button class="cta" data-wed ${w.ready && !w.got ? '' : 'disabled'}>${w.got ? 'Claimed' : w.ready ? `Claim ${WED_GEMS} gems + ${PASS_STARS.wed} stars` : 'In progress'}</button>`
-          : `<div class="evobj"><b>${ct}</b><span class="evprog">Reward: ${WED_GEMS} gems + ${PASS_STARS.wed} pass stars</span></div>`;
-        body += `<div class="evtags"><span>Counts all day</span><span>No ads needed</span></div>`; }
+      if (sel.e === 'wed') { const sp = live && sprintState();   // Build 283: Studio Sprint replaces the single Wednesday goal
+        body = `<div class="evobj"><b>Hit station milestones (Lv 25, 50, 75, 100) for stars</b><span class="evprog">Top 5 of 10 win ${SPRINT_PRIZE.join(' / ')} gems · ${SPRINT_PASS_AT} stars: +${PASS_STARS.wed} Pass stars</span>${sp ? `<span class="evprog"><b>Your stars: ${sp.n.toLocaleString('en-US')}</b>${sp.pass ? ' · Pass stars earned' : ''}</span>` : ''}</div>
+          ${sp ? '<button class="cta" data-sprint>Open the leaderboard</button>' : ''}<div class="evtags"><span>Career maps</span><span>All day Wednesday</span></div>`; }
       else { body = `<div class="evtags">${EV_TAGS[sel.e].map(t => `<span>${t}</span>`).join('')}</div><p class="evauto">${live ? 'Active now · nothing to turn on' : 'Starts automatically'}</p>`;
         if (live && sel.e === 'hype') { const fl = freeHypeLeft(), room = hypeLeftToFill(), mins = x => Math.round(x / 60000);
           body += !freeHypeReady() ? '<p class="evauto">Free Hype boost used this weekend.</p>'
@@ -7956,7 +8000,7 @@ function render() {
   const hb = $('hypeBtn');
   $('hypeLbl').textContent = hypeOn() ? hms(S.hypeUntil - now) : hypeTxt() + ' Hype';
 
-  { const e = ev(), b = $('eventsBtn'), w = e === 'wed' && wedChallenge(), enc = encore();
+  { const e = ev(), b = $('eventsBtn'), w = null, enc = encore();
     b.hidden = !S.onboarded; b.style.setProperty('--evc', e ? EVENTS[e].color : 'transparent'); b.classList.toggle('live', !!e);
     $('eventsBang').hidden = !((w && w.ready && !w.got) || (enc && enc.ready && !enc.got) || (e && S.evSeen !== dayKey())); }
   const fz = frenzyOn(); $('frenzyChip').hidden = !fz; if (fz) $('frenzyChip').textContent = 'Fan Frenzy ' + hms(S.frenzyUntil - now);
@@ -8372,7 +8416,7 @@ function evBoardView() {
   const rows = EVB.rows ? `<div class="evlb-tbl">${EVB.rows.map((r, i) => `<div class="evlb-row ${r.mine ? 'me' : ''}"><b>${i + 1}</b><span class="nm">${esc(r.name)}<i class="ondot ${r.online ? 'on' : ''}"></i></span><span class="pc">${r.secs != null ? `100%<small>${durTxt(r.secs)}</small>` : (Math.floor(r.pct * 100) / 100).toFixed(2) + '%'}</span></div>`).join('')}</div>`
     : `<p class="evlb-note">${EVB.err || 'Loading…'}</p>`;
   const mine = EVB.rows && EVB.my != null ? EVB.my + (EVB.done ? 0 : (Date.now() - EVB.at) / 1000) : null;
-  return `<div class="evh-head"><div><h2>Leaderboard</h2><small>${df.name} division · ${d.title}</small></div>${headBtns('data-evboardback')}</div>
+  return `<div class="evh-head"><div><h2>Leaderboard</h2><small>${df.name} · ${d.title}</small></div>${headBtns('data-evboardback')}</div>
     <div class="evh-list"><p class="evlb-goal">Finish the ${d.title} as fast as possible!</p><div class="evlb-cols"><span>Rank</span><span>Name</span><span>% Completed</span></div>${rows}</div>
     <div class="evh-foot evlb-foot"><div class="evlb-time"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Your time <b id="evLbTime">${mine == null ? '—' : durTxt(mine)}</b></div></div>`;
 }
@@ -8865,6 +8909,8 @@ function evTick() {
   if (S.ev && S.ev.diff && !S.ev.done && evPoints() >= EV_MAX_PTS) { S.ev.done = true; const b = evBestOf(S.ev.id);   // Build 280: a finish opens the next difficulty for this event
     if (EV_DIFF_IDS.indexOf(S.ev.diff) > EV_DIFF_IDS.indexOf(b)) S.evBest = Object.assign({}, S.evBest, { [S.ev.id]: S.ev.diff }); evSrvNext = 0; save(); }
   if (S.ev && S.ev.diff && (isEv() || S.ev.srv)) evSrvSync();
+  sprintSync();
+  if (sheetKey === 'sprint' && !$('scrim').hidden && SPB.at && Date.now() - SPB.at > 30000) { SPB.at = Date.now(); sprintBoardLoad(); }
   if (sheetKey === 'evboard' && !$('scrim').hidden) { const t = $('evLbTime'); if (t && EVB.rows && EVB.my != null && !EVB.done) t.textContent = durTxt(EVB.my + (Date.now() - EVB.at) / 1000); if (Date.now() - EVB.at > 30000 && EVB.at) { EVB.at = Date.now(); evBoardLoad(); } }
   // HUD: event bar on the event map, a small chip in the career while an event is live
   const bar = $('evBar'), chip = $('evChip'); if (!bar) return;
@@ -8881,6 +8927,8 @@ function evTick() {
     bar.classList.toggle('warn', S.ev.end - Date.now() < 12 * 3600e3);
   } else { bar.hidden = true; $('evHint').hidden = true; const cash = $('cash').closest('.pill'); cash.classList.remove('evcash'); const sym = cash.querySelector('.hud-ic.coin span'); if (sym.textContent !== '$') sym.textContent = '$'; document.querySelectorAll('.coin-s').forEach(c => { if (c.textContent !== '$') c.textContent = '$'; }); document.body.classList.remove('evmode'); delete document.body.dataset.ev;
     chip.hidden = true; }   // replaced by the event tab in the left column
+  { const t = $('spTab'), sp = S.onboarded && !PLAYTEST && !tutActive() && sprintState(); if (t) { t.hidden = !sp;   // Build 283: Studio Sprint shortcut (Wednesdays)
+    if (sp) { if (!t.dataset.on) { t.dataset.on = 1; $('spTabIc').innerHTML = sprintEmblem(38); } const tx = '★ ' + sp.n.toLocaleString('en-US'); if ($('spTabTxt').textContent !== tx) $('spTabTxt').textContent = tx; } } }
   { const t = $('evTab'), w = isEv() ? S.ev : evLive(), on = !!(w && evUnlocked()); if (t) { t.hidden = !on;
     if (on) { const id = w.id, end = isEv() ? S.ev.end : w.end, own = S.ev && S.ev.key === w.key;
       if (t.dataset.id !== id) { t.dataset.id = id; $('evTabIc').innerHTML = evEmblem(id, 38); t.setAttribute('aria-label', EV_DEFS[id].title + ' · open the event'); }
@@ -8917,6 +8965,13 @@ const evI = (k, sz = 18, c = 'currentColor', w = 2.4) => `<svg width="${sz}" hei
 const evEmblem = (key, sz = 52) => key === 'galaxy' ? evGalaxyEmblem(sz) : key === 'western'
   ? `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#F6A66A"/><path d="M4 44 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#E6BE85"/><path d="M10 44 V32 H20 L23 26 H34 L37 34 H54 V44Z" fill="#B5523B" stroke="#6E2A1E" stroke-width="2"/><circle cx="46" cy="18" r="6" fill="#FFF1C1"/><g transform="translate(18 52)" stroke="#2C4A22" stroke-width="1.6"><rect x="-3" y="-18" width="6" height="20" rx="3" fill="#5E9A43"/><path d="M-3 -8 H-7 V-13 M3 -11 H7 V-16" fill="none"/></g><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`
   : `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#BDEBF5"/><rect x="4" y="26" width="56" height="20" fill="#2DB4C2"/><path d="M4 46 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#F5E6C0"/><path d="M22 26 Q32 14 42 26Z" fill="#3F8F5A"/><circle cx="46" cy="15" r="5" fill="#FFF6C8"/><path d="M14 50 Q16 40 12 32" stroke="#8B5A2B" stroke-width="3" fill="none"/><path d="M12 32 q-8 0 -10 5 M12 32 q8 -2 10 4 M12 32 q-2 -8 4 -10" stroke="#2F8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
+// Studio Sprint patch (Wednesday race): checkered flag on the Wednesday pink, same rounded-square patch as the event emblems
+const sprintEmblem = (sz = 44) => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="spFlag"><path d="M21 13 Q30 8 39 13 Q47 17 55 13 V35 Q47 39 39 35 Q30 31 21 35 Z"/></clipPath></defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFB3D1"/><path d="M4 46 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#7A5BE0"/><path d="M10 53 H18 M26 53 H34 M42 53 H50" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>
+  <g clip-path="url(#spFlag)"><rect x="18" y="6" width="40" height="34" fill="#fff"/>${Array.from({ length: 30 }, (_, i) => { const c = i % 6, r = Math.floor(i / 6); return (c + r) % 2 ? '' : `<rect x="${21 + c * 6}" y="${7 + r * 6}" width="6" height="6" fill="#14122A"/>`; }).join('')}</g>
+  <path d="M21 13 Q30 8 39 13 Q47 17 55 13 V35 Q47 39 39 35 Q30 31 21 35 Z" fill="none" stroke="#14122A" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M20 10 V50" stroke="#14122A" stroke-width="5" stroke-linecap="round"/><path d="M20 10 V50" stroke="#C9A06A" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="9" r="3.2" fill="#FFD93D" stroke="#14122A" stroke-width="2"/>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 const evMoney = n => fmt(n);
 const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday through<br>Saturday' : 'Test window<br>ends ' + new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
 // event badges: one per event, earned by claiming free tier 15. Earning it again never adds a second badge or any currency.
@@ -9004,6 +9059,7 @@ function evSheet(tab) {
   if (tab === 'evbadges') return evBadgesView();
   if (tab === 'evboard') return evBoardView();
   if (tab === 'evdiff') return evDiffView();
+  if (tab === 'sprint') return sprintView();
   if (tab === 'evintro') return `<div class="sheet-head"><h2>${d.title}</h2>${closeBtn()}</div><div class="pscroll evsheet">
     <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
@@ -9026,6 +9082,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-evboard]')) { sfx('tap'); EVB = { rows: null, err: '', at: 0 }; openTab('evboard'); evBoardLoad(); return; }
   if (e.target.closest('[data-evboardback]')) { sfx('tap'); return openTab('evhub'); }
   if (e.target.closest('[data-evback]') || e.target.closest('[data-evexit]')) { sfx('tap'); return evBack(); }
+  if (e.target.closest('#spTab') || e.target.closest('[data-sprint]')) { sfx('tap'); SPB = { rows: null, err: '', at: 0 }; openTab('sprint'); sprintBoardLoad(); return; }
   if (e.target.closest('[data-evhub]') || e.target.closest('#evChip') || e.target.closest('#evTab')) { sfx('tap'); evHubTab = 'tasks'; return openTab('evhub'); }
   if (e.target.closest('#evBarCareer')) { sfx('tap'); return evBack(); }
   if (e.target.closest('#evBarRew')) { sfx('tap'); evHubTab = 'rewards'; return openTab('evhub'); }
