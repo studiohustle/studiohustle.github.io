@@ -109,7 +109,13 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .vol { display: grid; grid-template-columns: 112px minmax(0, 1fr) 34px; align-items: center; gap: 10px; min-height: 48px; }
 .vol label { font-size: 15px; font-weight: 700; }
 .vol output { font-family: var(--display); font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
-.vol input[type=range] { width: 100%; height: 44px; margin: 0; accent-color: var(--accent); background: transparent; }
+.vol input[type=range] { width: 100%; height: 44px; margin: 0; background: transparent; -webkit-appearance: none; appearance: none; --p: 50%; cursor: pointer; }
+/* Build 284: softer sliders in the UI blue: thin rounded track (filled part blue), plain white thumb with a soft shadow, no black outline */
+.vol input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #6CBCF8 var(--p), #DCD8EA var(--p)); }
+.vol input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: #DCD8EA; } .vol input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: #6CBCF8; }
+.vol input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; margin-top: -9px; border-radius: 50%; background: #fff; border: 1px solid rgba(20,18,42,.12); box-shadow: 0 2px 5px rgba(20,18,42,.22); }
+.vol input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 1px solid rgba(20,18,42,.12); box-shadow: 0 2px 5px rgba(20,18,42,.22); }
+.vol input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgba(108,188,248,.35), 0 2px 5px rgba(20,18,42,.22); }
 .toggle { display: flex; align-items: center; justify-content: space-between; background: var(--panel-2); border-radius: 16px; padding: 0 8px 0 14px; height: 56px; font-size: 15px; font-weight: 700; }
 .toggle span.sw2 { width: 52px; height: 30px; border-radius: 999px; background: var(--line); position: relative; transition: background .2s; }
 .toggle span.sw2::after { content: ""; position: absolute; left: 4px; top: 4px; width: 22px; height: 22px; border-radius: 50%; background: var(--text); transition: left .2s; }
@@ -3408,7 +3414,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 283, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 284, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4605,6 +4611,7 @@ function flushOwed() {
 // Colors are soft pastels and every event also has its own icon, so color is never the only cue.
 const EVENTS = {
   monday: { name: 'Music Monday', short: 'Crates pay 2x cash and 2x gems, and the daily ad gem limit is doubled', color: '#9BEBC8' },
+  tuesday: { name: 'Label Tuesday', short: 'Label XP from play counts double, up to 800 for the day', color: '#BDE38A' },
   wed: { name: 'Studio Sprint', short: 'Race for milestone stars and gems', color: '#FFB3D1' },
   friday: { name: 'Fan Friday', short: 'The Backer visits 1.5x as often', color: '#8FE3DA' },
   fans: { name: 'Fan Weekend', short: 'All weekend (Sat + Sun): the Backer visits 2x as often', color: '#8FE3DA' },
@@ -4615,7 +4622,7 @@ const EVENTS = {
 };
 // the weekend rotation and its date anchor are unchanged, so weekends already on the calendar stay put
 const WEEKEND = ['fans', 'gems', 'tour', 'crates', 'hype'];
-const EV_TAGS = { monday: ['2× crate cash', '2× crate gems', '2× ad gem limit'], wed: [], friday: ['1.5× Backer visits'],
+const EV_TAGS = { monday: ['2× crate cash', '2× crate gems', '2× ad gem limit'], tuesday: ['2× Label XP from play', 'Daily cap 800', 'Donations stay 1:1'], wed: [], friday: ['1.5× Backer visits'],
   fans: ['2× Backer visits'], gems: ['2× milestone gems', '2× ad gems', '2× Backer gems'],
   tour: ['Move up at level 90'], crates: ['Free crate every 5 min', 'Normal crate payouts'], hype: ['2× Hype time per ad', '1 free Hype boost'] };
 // the fine print: limits, what isn't affected, and how it ends
@@ -4628,7 +4635,7 @@ const EV_NOTE = k => ({
   crates: 'More crates: twice as often as usual (every 5 minutes instead of 10), each with its normal cash and gems. One crate waits at a time, so open it to start the next timer.',
   hype: `Ad-Free Rewards counts too. Hype still stops at your cap (${capText()}).`,
 })[k] || '';
-const EV_IC = { monday: 'M9 18V6l10-2v12M9 18a3 3 0 1 1-3-3 3 3 0 0 1 3 3zM19 16a3 3 0 1 1-3-3 3 3 0 0 1 3 3z', wed: 'M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z',
+const EV_IC = { tuesday: 'M3 11.2V4.6A1.6 1.6 0 0 1 4.6 3h6.6l9.6 9.6a1.6 1.6 0 0 1 0 2.3l-5.9 5.9a1.6 1.6 0 0 1-2.3 0zM7.6 7.6h.01', monday: 'M9 18V6l10-2v12M9 18a3 3 0 1 1-3-3 3 3 0 0 1 3 3zM19 16a3 3 0 1 1-3-3 3 3 0 0 1 3 3z', wed: 'M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z',
   fans: 'M4 8h3l2-3h6l2 3h3v11H4zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', gems: 'M7 4h10l4 5-9 11L3 9zM3 9h18M9 4l3 16M15 4l-3 16', tour: 'M5 21V4M5 4h12l-2.5 4.5L17 13H5',
   crates: 'M3 9h18v12H3zM3 13h18M12 9v12M7 9a3 3 0 0 1 5-3 3 3 0 0 1 5 3', hype: 'M13 2 3 14h9l-1 8 10-12h-9z',
   leaf: 'M5 19C5 10 10 5 20 4c-1 10-6 15-15 15zM5 19l8-8' };
@@ -4647,6 +4654,7 @@ const weekIdx = (t = Date.now()) => Math.floor((localDay(t) + 3) / 7);   // week
 function eventOn(t = Date.now()) {
   const w = new Date(t).getDay();
   if (w === 1) return 'monday';
+  if (w === 2) return 'tuesday';   // Build 284: Label Tuesday
   if (w === 3) return 'wed';
   if (w === 5) return 'friday';
   if (w === 0 || w === 6) return WEEKEND[weekIdx(t) % WEEKEND.length];
@@ -5225,6 +5233,7 @@ const SRV_BOX = !PREVIEW_LOCK && !PLAYTEST && (() => { try { return localStorage
 const BOX_OFFLINE = "You're offline. Connect to the internet to open boxes";
 const lbNet = r => !r || !r.status;   // no answer from the server at all
 const LB_DAILY_CAP = 400;   // per member per day, so one very active player can't carry a whole label
+const lbCap = () => ev() === 'tuesday' ? LB_DAILY_CAP * 2 : LB_DAILY_CAP;   // Build 284: Label Tuesday doubles play XP and the cap (the server enforces it on the member's local Tuesday)
 
 // ---- live state: everything below comes from the server (lb_* functions); nothing about a label lives in the save ----
 const LB = { st: null, list: null, chart: null, status: 'idle', err: '', tab: 'home', modal: null, view: null, set: null, kickAt: 0, busy: false, at: 0,
@@ -5386,7 +5395,7 @@ function lbModal() {
         <p>Every level pays every member who was in the label when it was reached.</p>
         <p>Level and Label All Profit reset each season. Rewards you collected are yours to keep.</p>
         <details class="lb-more"><summary>More rules</summary>
-          <p>Up to ${LB_DAILY_CAP} XP per member per day. Each level pays you once per season, even if you switch labels.</p>
+          <p>${ev() === 'tuesday' ? '<b>Label Tuesday: play XP counts double today.</b> ' : ''}Up to ${lbCap()} XP per member per day. Each level pays you once per season, even if you switch labels.</p>
           <p>Anyone can invite players to an open label; only the owner can invite to a private one. Invited players still need the album minimum.</p>
           <p>Up to 10 members. If the owner leaves, the top contributor becomes owner. Kicked members can't rejoin until next season, and the Label XP they added is removed.</p></details></div>
       <button class="lb-leave" data-lbleave>Leave Label</button></div></div>`;
@@ -5398,7 +5407,7 @@ function lbModal() {
       <div class="lb-don-bal"><span>Your tokens</span>${TK_IC(22)}<b>${fmtN(tk)}</b></div>
       ${tk > 0 ? `<button class="lb-big blue" data-lbdongo="${tk}">Donate all · +${fmtN(tk)} XP</button>`
         : `<p class="lb-don-none">Duplicates from any box give tokens</p>`}
-      ${LB.donInfo ? `<p class="lb-don-note">Duplicates from any box give tokens. Play still earns up to ${LB_DAILY_CAP} XP a day.</p>` : ''}</div></div>`;
+      ${LB.donInfo ? `<p class="lb-don-note">Duplicates from any box give tokens. Play still earns up to ${lbCap()} XP a day.</p>` : ''}</div></div>`;
   }
   if (LB.modal === 'leave') {
     const last = (LB.st.members || []).length <= 1;
@@ -5437,7 +5446,7 @@ function lbModal() {
     return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-pm" role="dialog" aria-label="${esc(lbNm(m))}"><div class="lb-mc-h">${me ? '' : lbFrBtn(m)}<b>${esc(me ? cleanName(S.name) : cleanName(m.name))}</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
       <div class="lb-pm-sub">${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums · #${rank} in the label</div>
       <div class="lb-pm-colm"><div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : p.skin || '#C68B5E'};--phones:${me ? S.phones : (p.ph && p.ph !== 'none' ? p.ph : PHONES[0])}">${bigArtist(eq, me ? S.bt : bt, lk)}</div>
-      <div class="lb-pm-stats"><div><b>${fmtN(m.xp)}</b><span>Label XP</span></div><div><b>${m.today}/${LB_DAILY_CAP}</b><span>XP today</span></div></div>
+      <div class="lb-pm-stats"><div><b>${fmtN(m.xp)}</b><span>Label XP</span></div><div><b>${m.today}/${lbCap()}</b><span>XP today</span></div></div>
       ${me ? '' : `<button class="lb-big blue" data-lbhype="${esc(m.uid)}" ${sent || !lbHypesLeft() ? 'disabled' : ''}>${sent ? 'Hype sent' : lbHypesLeft() ? `Send Hype · ${lbHypesLeft()}/${LB_HYPES} left` : 'No Hypes left today'}</button>`}
       ${canKick ? `<button class="lb-big red" data-lbkick>Kick</button>` : ''}${me ? `<button class="lb-big red" data-lbleave>Leave Label</button>` : ''}</div></div></div>`;
   }
@@ -6038,7 +6047,7 @@ $('scrim').addEventListener('input', e => {
   if (e.target.dataset && e.target.dataset.fbt) { fbDraft()[e.target.dataset.fbt] = e.target.value.slice(0, 400); saveSoon(); return; }
   const k = e.target.dataset && e.target.dataset.vol; if (!k) return;
   S.vol = Object.assign({ master: 80, music: 20, sfx: 80 }, S.vol, { [k]: +e.target.value }); S.volV = 3;
-  $('out-' + k).textContent = e.target.value;
+  $('out-' + k).textContent = e.target.value; e.target.style.setProperty('--p', e.target.value + '%');
   if (volOf('master') > 0) ac();
   applyVolumes(); playMusic();
 });
@@ -7839,7 +7848,7 @@ function openTab(tab) {
   } else if (tab === 'settings') {
     openSheet(`<div class="sheet-head"><h2>Settings</h2>${closeBtn()}</div>
       <div class="vols">${[['master', 'Master'], ['music', 'Music'], ['sfx', 'Sound effects']].map(([k, l]) => `
-        <div class="vol"><label for="vol-${k}">${l}</label><input type="range" id="vol-${k}" data-vol="${k}" min="0" max="100" step="1" value="${Math.round(volOf(k) * 100)}"><output id="out-${k}">${Math.round(volOf(k) * 100)}</output></div>`).join('')}
+        <div class="vol"><label for="vol-${k}">${l}</label><input type="range" id="vol-${k}" data-vol="${k}" min="0" max="100" step="1" value="${Math.round(volOf(k) * 100)}" style="--p:${Math.round(volOf(k) * 100)}%"><output id="out-${k}">${Math.round(volOf(k) * 100)}</output></div>`).join('')}
       </div>
       ${cloudSec()}
       <div class="sec"><h3>Redeem a code</h3>
