@@ -3294,7 +3294,7 @@ const hypeLv = () => Object.assign({ len: 0, cap: 0 }, S.hypeLv);
 const hypePerAd = () => Math.round(HYPE_BASE_MIN * vaultFx('tv') * 60);   // seconds; 6.5 min at TV Lv 1
 const hypeX = () => 2 * vaultFx('remote');   // same Hype in events as on the career maps   // Hype ad = 2x base x the Remote factor (Build 158)
 const hypeTxt = () => fmtX(hypeX()) + 'x';
-const hypeCap = () => vaultFx('cap') * 3600;
+const hypeCap = () => (vaultFx('cap') + (ev() === 'hype' ? 1 : 0)) * 3600;   // Hype Weekend: +1 h (Build 285)
 const capText = () => { const h = vaultFx('cap'); return h === 1 ? '1 hour' : h + ' hours'; };
 const SLOTS = [['top', 'Tops'], ['hat', 'Hats'], ['neck', 'Necklaces'], ['face', 'Glasses']];
 // rar: rarity (common, rare, epic, legendary, mythic) is separate from the source. album: reward for dropping that album. gems: bought in the shop.
@@ -3414,7 +3414,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 284, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 285, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4615,16 +4615,18 @@ const EVENTS = {
   wed: { name: 'Studio Sprint', short: 'Race for milestone stars and gems', color: '#FFB3D1' },
   friday: { name: 'Fan Friday', short: 'The Backer visits 1.5x as often', color: '#8FE3DA' },
   fans: { name: 'Fan Weekend', short: 'All weekend (Sat + Sun): the Backer visits 2x as often', color: '#8FE3DA' },
-  gems: { name: 'Gem Rush', short: 'All weekend: station milestones, ads and Backer gem offers give double gems', color: '#C9B0FF' },
+  gems: { name: 'Gem Rush', short: 'All weekend: station milestones, ads, the Backer, fans and albums give double gems', color: '#C9B0FF' },
   tour: { name: 'Tour Rush', short: 'All weekend: move up once every station reaches level 90', color: '#A9C1FF' },
   crates: { name: 'Crate Party', short: 'All weekend: a free crate every 5 minutes instead of 10, with normal payouts', color: '#FFD978' },
-  hype: { name: 'Hype Weekend', short: 'All weekend: every Hype ad gives twice the time, plus one free Hype boost', color: '#FFBFA0' },
+  hype: { name: 'Hype Weekend', short: 'All weekend: every Hype boost gives twice the time, your Hype cap is 1 hour longer, plus one free Hype boost', color: '#FFBFA0' },
 };
 // the weekend rotation and its date anchor are unchanged, so weekends already on the calendar stay put
-const WEEKEND = ['fans', 'gems', 'tour', 'crates', 'hype'];
+// Build 285: the weekend event (Saturday + Sunday) rotates the three that don't repeat a weekday event: Fan Weekend (Fan Friday covers
+// the Backer) and Crate Party (Music Monday covers crates) are retired.
+const WEEKEND = ['gems', 'hype', 'tour'];
 const EV_TAGS = { monday: ['2× crate cash', '2× crate gems', '2× ad gem limit'], tuesday: ['2× Label XP from play', 'Daily cap 800', 'Donations stay 1:1'], wed: [], friday: ['1.5× Backer visits'],
-  fans: ['2× Backer visits'], gems: ['2× milestone gems', '2× ad gems', '2× Backer gems'],
-  tour: ['Move up at level 90'], crates: ['Free crate every 5 min', 'Normal crate payouts'], hype: ['2× Hype time per ad', '1 free Hype boost'] };
+  fans: ['2× Backer visits'], gems: ['2× milestone gems', '2× ad gems', '2× Backer gems', '2× album gems'],
+  tour: ['Move up at level 90'], crates: ['Free crate every 5 min', 'Normal crate payouts'], hype: ['2× Hype time per boost', '+1 h Hype cap', '1 free Hype boost'] };
 // the fine print: limits, what isn't affected, and how it ends
 const EV_NOTE = k => ({
   monday: 'Richer crates: each pays double. They still come every 10 minutes. Daily task and map rewards are unchanged.',
@@ -4742,14 +4744,14 @@ function sprintView() {
 // Weekend Encore: one optional goal per weekend (Sat + Sun together) for Backstage Pass stars. Ordinary play only, paid once.
 const ENCORE = {
   fans: { text: 'Tap the Backer 15 times', stat: 'fans', target: 15 },
-  gems: { text: 'Open 3 free crates', stat: 'crates', target: 3 },
-  tour: { text: 'Spend 20 minutes in the studio', stat: 'playSec', target: 1200, mins: true },
+  gems: { text: 'Open 6 free crates', stat: 'crates', target: 6 },   // Build 285: the weekend Encore asks about 20 min / 3 crates per day, across both days
+  tour: { text: 'Spend 40 minutes in the studio', stat: 'playSec', target: 2400, mins: true },
   crates: { text: 'Open 5 free crates', stat: 'crates', target: 5 },
-  hype: { text: 'Spend 20 minutes in the studio', stat: 'playSec', target: 1200, mins: true },
+  hype: { text: 'Spend 40 minutes in the studio', stat: 'playSec', target: 2400, mins: true },
 };
 const weekendKey = (t = Date.now()) => localDay(t) - (new Date(t).getDay() === 0 ? 1 : 0);   // the Saturday it started on
 function encore() {
-  const w = new Date().getDay(), e = ev(); if (!(w === 6 || w === 0) || !ENCORE[e]) return null;
+  const w = new Date().getDay(), e = ev(); if (!(w === 6 || w === 0 || (S.test && S.test.event)) || !ENCORE[e]) return null;
   const c = ENCORE[e], wk = weekendKey();
   if (!S.encore || S.encore.wk !== wk) S.encore = { wk, base: S.stats[c.stat] || 0, got: false };
   const v = Math.floor(Math.max(0, (S.stats[c.stat] || 0) - S.encore.base));
@@ -7507,7 +7509,7 @@ function openTab(tab) {
       detail = `<div class="evdet quiet"><div class="evhead"><span class="evbig none">${svgIc('star', '#8C86A6', 30)}</span><span class="t"><small>${sel.k ? sel.label + ' ' + sel.date : 'Today'}</small><b>No scheduled event</b><span>${nx ? `Next: ${EVENTS[nx.e].name}, ${nx.k === sel.k + 1 ? 'the day after' : nx.label}` : ''}</span></span></div></div>`; }
     else { const E = EVENTS[sel.e], live = sel.e === e && sel.start <= now && now < sel.end, wkend = sel.w === 6 || sel.w === 0;
       const when = live ? `<span class="live">Live now</span> · ends in ${cd(sel.end)}` : `Starts in ${cd(sel.start)}`;
-      const span = wkend ? 'Saturday + Sunday, one weekend event' : new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' }) + ', all day';
+      const span = wkend ? 'Saturday + Sunday · rotates weekly' : new Date(sel.t).toLocaleDateString('en-US', { weekday: 'long' }) + ', all day';
       let body = '';
       if (sel.e === 'wed') { const sp = live && sprintState();   // Build 283: Studio Sprint replaces the single Wednesday goal
         body = `<div class="evobj"><b>Hit station milestones (Lv 25, 50, 75, 100) for stars</b><span class="evprog">Top 5 of 10 win ${SPRINT_PRIZE.join(' / ')} gems · ${SPRINT_PASS_AT} stars: +${PASS_STARS.wed} Pass stars</span>${sp ? `<span class="evprog"><b>Your stars: ${sp.n.toLocaleString('en-US')}</b>${sp.pass ? ' · Pass stars earned' : ''}</span>` : ''}</div>
