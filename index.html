@@ -20,7 +20,7 @@ img { max-width: 100%; }
 </style>
 <title>Studio Hustle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Caveat:wght@600&family=Outfit:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: one-screen phone game. HUD on top, the room fills the middle with floating side buttons, a tab bar at the bottom; tapping a station opens its upgrade card. Deliberately one look: a mid-purple UI around bright rooms. */
 :root {
@@ -2346,6 +2346,125 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .lb-don .lb-big { margin-bottom: 6px; } .lb-don .lb-mc-h .lb-don-i { position: absolute; left: 0; top: 50%; transform: translateY(-50%); margin: 0; }
 .lb-don-note, .lb-don-none { text-wrap: balance; }
 html .lb-mc.lb-don .lb-don-note { margin: 20px 0 0; text-align: center; font: 600 12px/1.4 var(--body); color: #6E6A88; }   /* Build 265: same space above and below */
+/* ===== Build 288: Dex story scenes, Legendary, Signature Set, Maya restyle ===== */
+#storyK { position: fixed; inset: 0; z-index: 2147483200; background: #07040F; opacity: 0; pointer-events: none; transition: opacity 600ms ease-in-out; }
+#storyK.on { opacity: 1; }
+#story { position: fixed; top: 0; bottom: 0; z-index: 2147483300; font-family: var(--body); overflow: hidden; color: #1B1830; cursor: pointer; -webkit-user-select: none; user-select: none; transition: opacity 800ms ease-out; -webkit-tap-highlight-color: transparent; }
+#story.hide { opacity: 0; transition-duration: 600ms; pointer-events: none; }
+#story .lay { position: absolute; inset: 0; }
+#story .bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, #5B3E9E 0%, #40286F 45%, #2A1946 78%, #1A1030 100%); box-shadow: inset 0 0 140px 40px rgba(10,6,24,.55); }
+#story .bg::before { content: ''; position: absolute; left: 50%; top: 50%; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; background: radial-gradient(circle, rgba(198,160,255,.30), rgba(198,160,255,0) 62%); }
+#story .bg.gold { background: radial-gradient(120% 90% at 50% 40%, #D99A3A 0%, #A86423 45%, #6A3A16 78%, #3A1F0C 100%); } #story .bg.gold::before { background: radial-gradient(circle, rgba(255,230,160,.40), rgba(255,230,160,0) 62%); }
+#story img { max-width: none !important; }
+#story .door { position: absolute; left: 66%; top: 200px; width: 150px; height: 262px; transform: translateX(-50%); }
+#story .door .glowd { position: absolute; left: -90px; right: -90px; top: -60px; bottom: -40px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,226,150,.55), rgba(255,226,150,0)); }
+#story .door .frame { position: absolute; inset: 0; border-radius: 85px 85px 10px 10px; background: linear-gradient(#FFF1C8, #FFC766); box-shadow: 0 0 0 7px #14122A, 0 0 0 13px #3A2766; }
+#story .door .dexin { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); height: 234px; } #story .door .dexin img { height: 100%; width: auto; display: block; }
+#story .skip { position: absolute; z-index: 4; top: calc(env(safe-area-inset-top, 0px) + 58px); right: 14px; padding: 7px 14px; border: 0; border-radius: 999px; background: rgba(255,255,255,.16); color: #fff; font: 700 13px var(--body); }
+#story .dots { position: absolute; z-index: 4; top: calc(env(safe-area-inset-top, 0px) + 66px); left: 16px; display: flex; gap: 6px; } #story .dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.3); } #story .dots i.on { background: #fff; }
+#story .stg { position: absolute; left: 0; right: 0; top: 0; bottom: calc(var(--tabs) + 12px); overflow: hidden; }
+#story .chr { position: absolute; width: 500px; height: 450px; bottom: -12px; filter: drop-shadow(0 12px 16px rgba(0,0,0,.35)); } #story .chr img { width: 100%; height: 100%; display: block; transform-origin: 50% 97.8%; }
+#story .chr.m { left: calc(25% - 250px); } #story .chr.d { left: calc(61% - 250px); } #story .chr.solo { left: calc(50% - 250px); }
+#story .chr.m img { transform: scale(.88); } #story .chr.d img.p-dex-sincere { transform-origin: 50.65% 4.2%; transform: translateX(-2px) scale(1.09); } #story .chr.d img.p-dex-open { transform-origin: 50.3% 4.2%; transform: scale(1.11); }
+#story .chr.off { opacity: .6; filter: saturate(.55) drop-shadow(0 12px 16px rgba(0,0,0,.25)); z-index: 0; } #story .chr.on { z-index: 1; }
+#story .card { position: absolute; z-index: 3; left: 12px; right: 12px; bottom: calc(var(--tabs) + 10px); min-height: 128px; padding: 18px 18px 30px; border-radius: 20px; background: #fff; box-shadow: 0 7px 0 #CFC9E4, 0 18px 30px rgba(0,0,0,.4); color: #1B1830; box-sizing: border-box; }
+#story .nm { position: absolute; top: -15px; left: 16px; padding: 6px 13px; border-radius: 10px; background: #14122A; color: #fff; font: 400 14px var(--display); } #story .nm.dex { background: #7C5CFF; }
+#story .card p { margin: 0; font: 700 17.5px/1.38 var(--body); color: #1B1830; } #story .card em { font-style: normal; color: #7C5CFF; } #story .card .aside { display: block; margin: 0 0 6px; color: #8C86A6; font-weight: 600; }
+#story .card .next { position: absolute; right: 16px; bottom: 9px; color: #8C86A6; font: 800 12px var(--body); letter-spacing: .04em; }
+#story .float { position: absolute; left: 50%; top: 57%; transform: translate(-50%,-50%) rotate(-5deg); animation: stdrift 1.1s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes stdrift { from { transform: translate(-50%,-62%) rotate(-9deg); opacity: 0; } to { transform: translate(-50%,-50%) rotate(-5deg); opacity: 1; } }
+#story .halo { position: absolute; left: 50%; top: 57%; width: 300px; height: 300px; margin: -150px 0 0 -150px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.45), rgba(255,255,255,0) 65%); }
+#story .halo.gold { background: radial-gradient(circle, rgba(255,226,140,.75), rgba(255,226,140,0) 65%); }
+#story .shadow { position: absolute; left: 50%; top: calc(57% + 98px); width: 150px; height: 16px; margin-left: -75px; border-radius: 50%; background: rgba(0,0,0,.28); filter: blur(4px); }
+#story .cap { position: absolute; left: 0; right: 0; margin: 0; text-align: center; color: #fff; }
+#story .cap.top { top: calc(57% - 150px); font: 400 20px var(--display); text-shadow: 0 3px 0 rgba(0,0,0,.3); } #story .cap.bot { top: calc(57% + 132px); font: 800 15px var(--body); opacity: .9; }
+#story .paper { position: absolute; left: 50%; top: 57%; transform: translate(-50%,-50%) rotate(-2deg); width: 288px; padding: 30px 26px 26px; border-radius: 6px; box-shadow: 0 22px 44px rgba(0,0,0,.5); color: #2A2440; background: #FFF8E8; background-image: repeating-linear-gradient(#FFF8E8 0 33px, #E9DFC6 33px 34px); box-sizing: border-box; }
+#story .paper p { margin: 0; font: 600 28px/34px Caveat, 'Comic Sans MS', cursive; } #story .paper .sig { margin-top: 14px; text-align: right; color: #9A8FAF; font: 600 24px Caveat, cursive; }
+#story .paper.look { width: 240px; } #story .paper.look p { text-align: center; font-size: 40px; line-height: 44px; }
+#story .tort { position: absolute; }
+#story .lay.first .card { animation: strise 420ms cubic-bezier(.2,.8,.2,1) both; } @keyframes strise { from { transform: translateY(24px); opacity: 0; } }
+#story .rw { position: absolute; left: 0; right: 0; top: 13%; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #fff; text-align: center; cursor: default; }
+#story .rw h2 { margin: 0; font: 400 24px var(--display); text-shadow: 0 3px 0 rgba(0,0,0,.3); } #story .rw .rwt { margin: 6px 0 2px; } #story .rw .sub { margin: 0; font: 700 15px var(--body); color: #E9E4FF; }
+#story .tog { display: flex; align-items: center; gap: 12px; margin-top: 14px; padding: 12px 16px; border: 0; border-radius: 16px; background: #fff; color: #1B1830; font: 800 15px var(--body); box-shadow: 0 6px 0 #CFC9E4; }
+#story .tog .sw { position: relative; flex: none; width: 46px; height: 28px; border-radius: 999px; background: #C9C4DA; transition: background .15s; } #story .tog .sw.on { background: #2BB673; }
+#story .tog .sw::after { content: ''; position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: left .15s; } #story .tog .sw.on::after { left: 21px; }
+#story .btn { margin-top: 22px; width: min(300px, calc(100% - 48px)); padding: 15px 0; border: 0; border-radius: 14px; background: #6CBCF8; color: #fff; font: 400 18px var(--display); box-shadow: 0 7px 0 #3E8FCB; }
+.dxttl { display: inline-block; padding: 1px 8px; border-radius: 999px; color: #FFF3C4 !important; background: linear-gradient(90deg, #7C5CFF, #E08BFF, #FFD36B, #7C5CFF); background-size: 200% 100%; animation: dxglow 4s linear infinite; box-shadow: 0 0 0 1.5px #FFE7A3, 0 0 10px rgba(255,214,120,.7); text-shadow: 0 1px 0 rgba(60,20,120,.6); }
+.dxttl.big { padding: 7px 16px; font: 400 15px var(--display); box-shadow: 0 0 0 2px #FFE7A3, 0 0 18px rgba(255,214,120,.85), 0 0 34px rgba(160,110,255,.6); text-shadow: 0 2px 0 rgba(60,20,120,.6); }
+@keyframes dxglow { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .dxttl { animation: none; } #story .float, #story .lay.first .card { animation: none; } }
+/* Legendary cleared! */
+#dxPop { position: absolute; inset: 0; z-index: 70; display: grid; place-items: center; background: rgba(18,15,38,.62); }
+#dxPop .lgd { width: min(300px, calc(100% - 40px)); border-radius: 22px; background: #fff; box-shadow: 0 14px 40px rgba(0,0,0,.45); overflow: hidden; text-align: center; color: #1B1830; transform: translateY(-6%); animation: up .25s ease-out; }
+#dxPop .lg-hd { padding: 14px 12px 12px; background: linear-gradient(90deg, #E39B2C, #F2C14E); color: #fff; text-shadow: 0 2px 0 #9A5E10; } #dxPop .lg-hd b { display: block; font: 400 21px var(--display); } #dxPop .lg-hd small { display: block; font: 800 12.5px var(--body); margin-top: 2px; }
+#dxPop .lg-bd { padding: 16px 16px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+#dxPop .lg-rw { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 14px; background: #F4F2FA; width: 100%; box-sizing: border-box; text-align: left; }
+#dxPop .lg-pc { flex: none; width: 58px; height: 58px; border-radius: 12px; border: 3px solid #C38BFF; background: #fff; display: grid; place-items: center; overflow: hidden; } #dxPop .lg-pc svg { display: block; }
+#dxPop .lg-rw b { display: block; font: 800 14.5px var(--body); } #dxPop .lg-rw span span { display: block; font: 600 12px var(--body); color: #6E6890; }
+#dxPop .lg-prog { margin: 0; font: 800 13px var(--body); color: #6E6890; } #dxPop .lg-prog em { font-style: normal; color: #F2A11E; } #dxPop .lg-word { color: #7C5CFF; }
+#dxPop .cta { width: 100%; margin: 4px 0 0; }
+/* Legendary difficulty button */
+.evdf.legendary { background: linear-gradient(90deg, #E39B2C, #F2C14E); box-shadow: inset 0 0 0 1.5px rgba(150,90,10,.35), 0 7px 0 #B3711A, 0 0 16px rgba(255,200,90,.55); text-shadow: 0 2px 0 #9A5E10; }
+.evdf.legendary:disabled { background: #E3E0EE; box-shadow: 0 7px 0 #CFCADF; text-shadow: none; }
+.evdf .dxf { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 10px; overflow: hidden; background: #FFF1D0; border: 2px solid #fff; } .evdf .dxf img { width: 38px; height: 38px; display: block; }
+/* Events: Dex's challenge card and the slim row after the farewell */
+.dxcard { --c: #B49BFF; }
+.dxcard .evbig { background: #EDE6FF !important; overflow: hidden; } .dxcard .evbig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dxsteps { display: flex; flex-direction: column; gap: 7px; margin: 10px 0 2px; }
+.dxrow { display: flex; align-items: center; gap: 10px; font: 700 13px var(--body); color: #3F3868; }
+.dxrow .em { flex: none; width: 26px; height: 26px; display: grid; place-items: center; } .dxrow .nm { width: 62px; } .dxrow .pips { display: flex; gap: 4px; flex: 1; }
+.dxrow .pips i { flex: 1; height: 8px; border-radius: 5px; background: #E6E2F1; } .dxrow .pips i.on { background: #B49BFF; } .dxrow .pips i.gold { background: #F2B636; }
+.dxrow .st { width: 78px; text-align: right; font: 800 11.5px var(--body); color: #8C86A6; } .dxrow .st.ok { color: #2BB673; }
+.dxgoal { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 10px; border-radius: 12px; background: #F4F2FA; font: 700 12.5px var(--body); color: #4A4466; }
+.dxdone { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 10px 12px; border-radius: 16px; background: #fff; border: 2px solid #E6E2F1; }
+.dxdone .fc { flex: none; width: 40px; height: 40px; border-radius: 11px; overflow: hidden; background: #EDE6FF; } .dxdone .fc img { width: 40px; height: 40px; display: block; }
+.dxdone .t { flex: 1; min-width: 0; } .dxdone b { display: block; font: 400 14px var(--display); color: #14122A; } .dxdone small { display: block; font: 700 12px var(--body); color: #2BB673; }
+.dxdone .lk { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; } .dxdone .lk button { background: none; border: 0; padding: 0; font: 800 12.5px var(--body); color: #6343CC; text-decoration: underline; }
+/* Bassline beside the player in the studio */
+.artist .bassl { position: absolute; left: 60px; bottom: 3px; width: 34px; pointer-events: none; } .artist .bassl svg { display: block; }
+.artist.working .bassl svg { animation: none !important; }
+/* Signature rarity */
+.item.signature { border-color: #C38BFF !important; } .item.signature .bar { background: linear-gradient(90deg, #7C5CFF, #E08BFF, #FFD36B) !important; color: #fff !important; }
+/* Maya restyle: white card with a black MAYA tag; Maya waist-up behind its top edge */
+.tut.maya .mport { width: 124px; height: 146px; overflow: hidden; }
+.tut.maya .mport img { left: -79px; top: -6px; bottom: auto !important; width: 282px; height: 254px; max-width: none; filter: drop-shadow(0 8px 10px rgba(0,0,0,.25)); }
+.tut.maya .mport.flip img { transform: scaleX(-1); }
+.tut.maya .mcard { background: #fff; border: 0; border-radius: 18px; padding: 18px 16px 10px; box-shadow: 0 6px 0 #CFC9E4, 0 14px 26px rgba(0,0,0,.32); }
+.tut.maya .mcard .mname { position: absolute; top: -14px; left: 14px; padding: 5px 12px; border-radius: 10px; background: #14122A; color: #fff; font: 400 13px var(--display); letter-spacing: .02em; }
+.tut.maya .mcard p { margin: 0; font: 700 15.5px/1.38 var(--body); color: #1B1830; }
+.tut.maya .mcard .mfoot { justify-content: space-between; align-items: center; margin-top: 8px; }
+.tut.maya #tutSkip { height: 26px; padding: 0; background: none; color: #8C86A6; font: 800 11.5px var(--body); letter-spacing: .04em; text-transform: uppercase; }
+.tut.maya .mcard button.mok { height: 30px; min-width: 0; padding: 0 14px; border-radius: 9px; background: #6CBCF8; color: #fff; font: 400 13px var(--display); box-shadow: 0 4px 0 #3E8FCB; }
+.tut.maya .mtail { display: none; }
+.maya-note.v2 { position: relative; display: block; margin: 12px 0 4px; }
+.maya-note.v2 .m2fig { position: absolute; left: 50%; transform: translateX(-50%); top: 0; z-index: 1; }
+.maya-note.v2 .mcrop { display: block; position: relative; overflow: hidden; width: 124px; height: 146px; }
+.maya-note.v2 .mcrop img { position: absolute; width: 282px !important; height: 254px !important; max-width: none !important; max-height: none !important; left: -79px; top: -6px; filter: drop-shadow(0 8px 10px rgba(0,0,0,.25)); }
+.maya-note.v2 .m2card { position: relative; z-index: 2; margin-top: 130px; padding: 16px 14px 14px; border-radius: 16px; background: #fff; box-shadow: 0 5px 0 #CFC9E4; color: #1B1830; text-align: left; }
+.maya-note.v2 .m2card .nm2 { position: absolute; top: -14px; left: 12px; padding: 5px 12px; border-radius: 10px; background: #14122A; color: #fff; font: 400 13px var(--display); }
+html .maya-note.v2 .m2card p { margin: 0; font: 700 14.5px/1.38 var(--body); color: #1B1830 !important; opacity: 1 !important; text-align: left; }
+/* letter reveal: the envelope squashes and opens, then the letter pops up out of it (like a box reveal) */
+#story .flap { transform-box: fill-box; transform-origin: 50% 0; transition: transform .22s ease-out; }
+#story .lay.opening .float { animation: stsquash .42s ease; } #story .lay.opening .flap { transform: scaleY(-1); }
+#story .lay.opening .halo { transform: scale(1.35); opacity: 1 !important; transition: transform .4s ease, opacity .4s; }
+@keyframes stsquash { 0% { transform: translate(-50%,-50%) rotate(-5deg); } 45% { transform: translate(-50%,-50%) rotate(-5deg) scale(1.12,.86); } 100% { transform: translate(-50%,-46%) rotate(-3deg) scale(1.04); } }
+#story .float.envout { animation: stenvout .55s ease-in forwards; } #story .float.envout .flap { transform: scaleY(-1); }
+@keyframes stenvout { from { transform: translate(-50%,-46%) rotate(-3deg) scale(1.04); opacity: 1; } to { transform: translate(-50%,10%) rotate(4deg) scale(.8); opacity: 0; } }
+#story .lay.popped .paper { animation: stpop .5s cubic-bezier(.3,1.5,.5,1) both; }
+@keyframes stpop { from { transform: translate(-50%,calc(-50% + 150px)) rotate(-8deg) scale(.3); opacity: 0; } 30% { opacity: 1; } }
+#story .halo.burst { animation: stburst .7s ease-out forwards; } @keyframes stburst { from { transform: scale(1.35); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
+#story .stspk { position: absolute; left: 50%; top: 57%; width: 12px; height: 12px; margin: -6px; background: #FFF6C8; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); filter: drop-shadow(0 0 4px rgba(255,220,120,1)); opacity: 0; animation: stspk .75s ease-out forwards; }
+@keyframes stspk { 0% { opacity: 0; transform: translate(0,0) scale(.4); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--x),var(--y)) scale(1.1) rotate(90deg); } }
+@media (prefers-reduced-motion: reduce) { #story .lay.popped .paper, #story .float.envout, #story .stspk, #story .halo.burst { animation: none; } #story .float.envout, #story .stspk { display: none; } }
+.picks.bassp .pk { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; aspect-ratio: auto; padding: 6px 2px 4px; }
+.picks.bassp .pk svg { width: 34px !important; height: auto; } .picks.bassp .pk small { font: 800 10.5px var(--body); color: var(--text); display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.picks.bassp .pk small svg { width: 10px !important; } .picks.bassp .pk.lk svg:first-child { filter: grayscale(.85) brightness(.75); opacity: .6; }
+.picks.bassp .pk.off .sw.none { width: 30px; height: 30px; border-radius: 50%; margin: 5px 0 4px; display: block; }
+.bassnote { margin: 6px 0 0; font: 700 12px var(--body); color: var(--muted); text-align: center; }
+#story .float svg { overflow: visible; }
+.evlbar.n1 { justify-content: center; gap: 3px; padding: 0 3px; } .evlbar.n2 { padding-right: 6px; }
+.evlbar em.dot { flex: none; width: 9px; height: 9px; padding: 0; margin-left: auto; border-radius: 50%; background: #2BB673; border: 1.5px solid #14122A; box-sizing: border-box; } .evlbar.n1 em.dot { margin-left: 0; }
+.evlbar.n2 { gap: 4px; padding: 0 5px 0 4px; font-size: 11.5px; } .evlbar.n2 em.dot { width: 8px; height: 8px; }
 </style>
 </head>
 <body>
@@ -2508,7 +2627,7 @@ html .lb-mc.lb-don .lb-don-note { margin: 20px 0 0; text-align: center; font: 60
   <div class="tut-ptr" id="tutPtr" hidden></div>
   <div class="tut maya" id="tut" hidden>
     <div class="mport" id="mayaPort"><img id="mayaImg" alt="" draggable="false"></div>
-    <div class="mcard" id="mayaCard" role="status"><span class="mname">Maya · Your manager</span><p id="tutText"></p><div class="mfoot"><button id="tutSkip">Skip tips</button><button id="mayaOk" class="mok" hidden>Got it</button></div><i class="mtail" aria-hidden="true"></i></div>
+    <div class="mcard" id="mayaCard" role="status"><span class="mname">Maya</span><p id="tutText"></p><div class="mfoot"><button id="tutSkip">Skip tips</button><button id="mayaOk" class="mok" hidden>Got it</button></div><i class="mtail" aria-hidden="true"></i></div>
   </div>
   <div class="scrim" id="scrim" hidden>
     <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div><div class="more-cue" aria-hidden="true"></div>
@@ -3358,7 +3477,7 @@ const ITEMS = (() => { const list = [
   { id: 'debut', rar: 'epic', slot: 'top', name: 'Debut Hoodie', album: 1, bonus: 0.08, look: { body: '#2A2733', trim: '#FF6FAE', style: 'hoodie' } },
   { id: 'goldchain', rar: 'epic', slot: 'neck', name: 'Gold Chain', album: 3, bonus: 0.08, look: { color: '#FFD93D' } },
   { id: 'platinum', rar: 'legendary', slot: 'top', name: 'Platinum Jacket', album: 5, bonus: 0.15, look: { body: '#CDD3DE', trim: '#7D8499', style: 'jacket' } },
-  { id: 'bucket', rar: 'epic', slot: 'hat', name: 'Bucket Hat', album: 10, bonus: 0.08, look: { color: '#E2D3B0', style: 'bucket' } },
+  { id: 'bucket', rar: 'epic', slot: 'hat', name: 'Studio Trilby', album: 10, bonus: 0.08, look: { color: '#EADCBB', band: '#5A3E2B', style: 'trilby' } },   // Build 288: was the Bucket Hat
   { id: 'starshades', rar: 'epic', slot: 'face', name: 'Star Shades', album: 20, bonus: 0.08, look: { color: '#FF6FAE', style: 'star' } },
   { id: 'crown', rar: 'legendary', slot: 'hat', name: 'Diamond Crown', album: 30, bonus: 0.25, look: { color: '#FFD93D', style: 'crown' } },
   { id: 'backstage', rar: 'vip', slot: 'top', name: 'Backstage Jacket', gift: true, bonus: 0, perk: 'VIP · November', look: { style: 'varsity', body: '#1C1A2E', sleeve: '#FFD93D', trim: '#FFD93D' } },
@@ -3453,7 +3572,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 287, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 288, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3532,44 +3651,49 @@ function startTutorial() {   // Settings > Replay: the steps again, from whereve
 }
 let tutShownAt = 0;
 // ---------- Maya, your manager: one dialogue component for every tutorial line and tip ----------
-const MAYA_W = 118, MAYA_H = 170, MAYA_MOUTH = .52;   // portrait cropped at the hips: full blouse, star and waist show above the bar   // portrait size (CSS px) and mouth height as a share of the portrait
+   // portrait cropped at the hips: full blouse, star and waist show above the bar   // portrait size (CSS px) and mouth height as a share of the portrait
 function mayaPose(pose) {   // a quick cross-fade between poses, nothing more
   const img = $('mayaImg'); if (img.dataset.pose === pose) return;
   const first = !img.dataset.pose; img.dataset.pose = pose;
-  const set = () => { img.src = `art/maya-${pose}.webp?v=124`; img.style.opacity = 1; };
+  const set = () => { img.src = STA('maya-' + pose); img.style.opacity = 1; };
   if (first) return set(); img.style.opacity = 0; setTimeout(set, 140);
 }
 // Default: lower-left, rising from behind the bottom bar, card to her right. If that would cover the highlighted control, an open
 // upgrade card or the panel the step needs, she switches sides, then sits on top of the open panel, then at the top of the room.
+// Build 288: Maya's card runs the full width (white, black MAYA tag) with Maya waist-up standing behind its top edge.
+// Default: just above the bottom buttons with a clear gap, Maya on the right. If that covers the highlighted control or an open
+// upgrade card she moves to the left, then the card goes above the open panel, then to the top of the room.
+const MAYA_W = 124, MAYA_H = 146, MAYA_TUCK = 10;   // portrait window (CSS px); the card overlaps her waist by MAYA_TUCK
 function placeMaya(app, room, r, step) {
   const port = $('mayaPort'), card = $('mayaCard'), bar = document.querySelector('.tabs').getBoundingClientRect();
+  const btnTop = Math.min(bar.top, ...[...document.querySelectorAll('.tabs > *')].map(e => e.getBoundingClientRect()).filter(b => b.height > 0).map(b => b.top));
   const sheetOpen = !$('scrim').hidden, sh = sheetOpen ? $('sheet').getBoundingClientRect() : null, pop = !$('pop').hidden ? $('pop').getBoundingClientRect() : null;
-  const cw = app.width - MAYA_W - 16; card.style.width = cw + 'px'; const ch = card.offsetHeight;
+  const cw = app.width - 20; card.style.width = cw + 'px'; const ch = card.offsetHeight;
   const hit = (a, b) => b && a.l < b.right && a.r > b.left && a.t < b.bottom && a.b > b.top;
   const tgt = r && { left: r.left - 8, right: r.right + 8, top: r.top - 8, bottom: r.bottom + 8 };
-  const inBar = r && r.top >= bar.top - 34, leftHalf = r && (r.left + r.width / 2) < app.left + app.width * .4;
   const C = [];
-  if (!sheetOpen) { const cb = bar.top - (inBar ? 36 : 22); C.push({ flip: !!(inBar && leftHalf), cardB: cb, portB: bar.top + 12, clip: false }, { flip: !(inBar && leftHalf), cardB: cb, portB: bar.top + 12, clip: false }); }
-  else C.push({ flip: false, cardB: sh.top - 8, portB: sh.top, clip: true });
-  C.push({ flip: false, cardB: room.top + 8 + ch, portB: room.top + 14 + ch, clip: true, top: true });
-  const make = c => { const visH = c.clip ? Math.max(60, Math.min(MAYA_H * .92, c.portB - room.top - 2)) : MAYA_H;
-    const pl = c.flip ? app.right - 4 - MAYA_W : app.left + 4, cl = c.flip ? pl + 6 - cw : pl + MAYA_W - 6;
-    return { c, visH, pl, pt: c.portB - visH, cl, ct: c.cardB - ch }; };
-  const blocked = g => { const parts = [{ l: g.cl, r: g.cl + cw, t: g.ct, b: g.ct + ch }, { l: g.pl + 14, r: g.pl + MAYA_W - 14, t: g.pt, b: g.c.portB }];
-    return g.ct < room.top + 2 || parts.some(p => hit(p, tgt) || hit(p, pop) || (sheetOpen && !g.c.clip && hit(p, sh))) || (sheetOpen && hit(parts[0], sh)); };
+  if (!sheetOpen) C.push({ cardB: btnTop - 38 }, { cardB: btnTop - 38, flip: true });   // the gap from the approved mockup
+  else C.push({ cardB: sh.top - 10, over: true }, { cardB: sh.top - 10, over: true, flip: true });
+  C.push({ top: true }, { top: true, flip: true });
+  const make = c => { let ct, pt;
+    if (c.top) { pt = room.top + 6; ct = pt + MAYA_H - MAYA_TUCK; } else { ct = c.cardB - ch; pt = ct - MAYA_H + MAYA_TUCK; }
+    return { c, ct, pt, cl: app.left + 10, pl: c.flip ? app.left + 12 : app.right - 12 - MAYA_W }; };
+  const blocked = g => { const vt = Math.max(g.pt, room.top);
+    const parts = [{ l: g.cl, r: g.cl + cw, t: g.ct, b: g.ct + ch }, { l: g.pl + 16, r: g.pl + MAYA_W - 16, t: vt, b: g.ct }];
+    return g.ct < room.top + 2 || parts.some(p => hit(p, tgt) || hit(p, pop)) || (sheetOpen && hit(parts[0], sh)); };
   let geo = null;
   for (const c of C) { const g = make(c); if (!blocked(g)) { geo = g; break; }
-    // before giving up the bottom spot for a target in the room, try scrolling the room so the target sits clear above Maya
-    if (!c.clip && !c.top && step && !step._scrolled && step._el && $('stage').contains(step._el)) {
-      step._scrolled = true; const need = (r.bottom + 10) - g.ct;   // px the target must move up
+    // before giving up the bottom spot for a target in the room, try scrolling the room so the target sits clear above the card
+    if (!c.over && !c.top && step && !step._scrolled && step._el && $('stage').contains(step._el)) {
+      step._scrolled = true; const need = (r.bottom + 10) - (g.pt + 30);
       if (need > 0 && panY - need / fitS >= panMin && r.top - need > room.top + 4) { setPan(panY - need / fitS); return placeMaya(app, room, step._el.getBoundingClientRect(), step); } } }
-  geo = geo || make(C[C.length - 1]); const pick = geo.c;
-  port.classList.toggle('flip', pick.flip); card.classList.toggle('tail-right', pick.flip);
-  Object.assign(port.style, { left: geo.pl - app.left + 'px', top: geo.pt - app.top + 'px', height: geo.visH + 'px' });
-  $('mayaImg').style.bottom = (pick.clip ? geo.visH - MAYA_H : 0) + 'px';   // clipped: her upper body shows, cut at the panel / card line
+  geo = geo || make(C[C.length - 2]);
+  // she is cut off at the top of the room if there isn't room for all of her (above an open panel)
+  const vt = Math.max(geo.pt, room.top), vh = geo.pt + MAYA_H - vt;
+  port.classList.toggle('flip', !!geo.c.flip); port.hidden = vh < 110;   // too little of her would show: the card goes alone
+  Object.assign(port.style, { left: geo.pl - app.left + 'px', top: vt - app.top + 'px', height: vh + 'px' });
+  $('mayaImg').style.top = (geo.pt - vt - 6) + 'px';
   Object.assign(card.style, { left: geo.cl - app.left + 'px', top: geo.ct - app.top + 'px' });
-  const mouth = geo.pt + MAYA_H * MAYA_MOUTH;   // the image's top edge is the portrait box's top edge in every placement
-  card.style.setProperty('--ty', Math.max(10, Math.min(ch - 22, mouth - geo.ct - 7)) + 'px');
 }
 function updateTut() {
   const tip = $('tut'), ptr = $('tutPtr');
@@ -3583,7 +3707,9 @@ function updateTut() {
       S.tut++; tutShownAt = 0; if (S.tut >= TUT.length) tipEnd = Date.now() - TIP_GAP + 1200; save(); return updateTut(); }
     if (!$('scrim').hidden && sheetKey !== step.inSheet) return hide();
   } else {
-    if (S.tipsOff) return hide();
+    if (storyBusy) return hide();
+    if (!tipNow && S.dex && S.dex.point && $('scrim').hidden) tipNow = DEX_TIP;   // Build 288: Maya points at Events after the reveal
+    if (S.tipsOff && !(tipNow && tipNow.force)) return hide();
     const seen = S.coach || {}, now = Date.now();
     if (tipNow) {   // the tip stays until you act on it (or tap Got it / Skip tips); it waits behind open panels and comes back after
       if (tipNow.done && tipNow.done()) { endTip(); return hide(); }
@@ -3722,7 +3848,7 @@ const PLAQUE_TIERS = [[1, 'Wood', '#7A4A26'], [3, 'Silver', '#C9CED9'], [5, 'Gol
 const plaqueTier = n => PLAQUE_TIERS.filter(t => n >= t[0]).pop();
 // titles shown on the charts, earned by maps reached and albums dropped
 const TITLES = [[0, 0, 'Bedroom Producer', '#B7B0D4'], [0, 1, 'Local Act', '#6FD3FF'], [0, 2, 'Rising Star', '#8BF0A0'], [1, 0, 'Signed Artist', '#FF9E57'],
-  [3, 0, 'Charting Artist', '#FF6FAE'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#E4E7F0'], [20, 0, 'Diamond Artist', '#9FE6FF'], [30, 0, 'Icon', '#FF8FC8'], [50, 0, 'Legend', '#C9A6FF']];
+  [3, 0, 'Charting Artist', '#FF6FAE'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#E4E7F0'], [20, 0, 'Diamond Artist', '#9FE6FF'], [30, 0, 'Headliner', '#FF8FC8'], [50, 0, 'Studio Icon', '#C9A6FF']];   // Build 288: renamed so "Legendary" only means the difficulty
 // title ladder follows the plaque ladder: Gold at 5, Platinum at 10, Diamond at 20
 const GRIND_IC = '<svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M7 0 L1 7.5 H5.5 L4.5 13 L11 5 H6.5 Z" fill="#FFD93D" stroke="#14122A" stroke-width="1"></path></svg>';
 const LIFER_IC = '<svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M8 5 C6 1.5 1.5 1.5 1.5 5 S6 8.5 8 5 S14.5 1.5 14.5 5 S10 8.5 8 5 Z" fill="none" stroke="#14122A" stroke-width="2"></path></svg>';
@@ -4172,6 +4298,7 @@ function stopMusic() {
 }
 // idempotent: menus, map changes and volume changes call this freely; it only starts music when none is playing or scheduled
 function playMusic() {
+  if (storyOn) return;   // Build 288: the cutscene loop is playing
   if (musicOff()) { if (Music.cur || Music.next) stopMusic(); return; }
   if (Music.cur || Music.next) return;
   scheduleTrack(Music.gen, actx.currentTime + 0.05, 0);
@@ -4682,7 +4809,8 @@ const EV_IC = { tuesday: 'M3 11.2V4.6A1.6 1.6 0 0 1 4.6 3h6.6l9.6 9.6a1.6 1.6 0 
   leaf: 'M5 19C5 10 10 5 20 4c-1 10-6 15-15 15zM5 19l8-8' };
 EV_IC.friday = EV_IC.fans;
 const evIcon = (k, size = 18, color = '#14122A') => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${EV_IC[k]}"></path></svg>`;
-const evArt = k => k === 'monday' ? ART.gift('#4FCB94', '#9BEBC8', '#FFD93D') : k === 'crates' ? ART.gift('#FFD93D', '#FFE08A', '#FF6FAE') : k === 'fans' || k === 'friday' ? ART.frenzy() : k === 'gems' ? '<img src="art/gems/gems-3.webp" width="84" height="69" alt="">'
+const evArt = k => EV_ART2[k] || evArt0(k);
+const evArt0 = k => k === 'monday' ? ART.gift('#4FCB94', '#9BEBC8', '#FFD93D') : k === 'crates' ? ART.gift('#FFD93D', '#FFE08A', '#FF6FAE') : k === 'fans' || k === 'friday' ? ART.frenzy() : k === 'gems' ? '<img src="art/gems/gems-3.webp" width="84" height="69" alt="">'
   : k === 'hype' ? '<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="8" width="48" height="48" rx="14" fill="#FF9F7A" stroke="#14122A" stroke-width="3.5"></rect><path d="M35 14 20 35h11l-2 15 15-21H33z" fill="#fff" stroke="#14122A" stroke-width="3" stroke-linejoin="round"></path></svg>'
   : `<svg width="64" height="64" viewBox="0 0 24 24" fill="#fff" stroke="#14122A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${EV_IC[k]}"></path></svg>`;
 // the event on day k (0 = today), with the real start and end of that event (a weekend runs Saturday 00:00 to Monday 00:00)
@@ -5100,7 +5228,7 @@ function showArrival() {
   openSheet(`<div class="welcome arrive"><h2 class="ar-title"><small>Welcome to the</small><span>${loc.name}</span></h2>
     ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20].includes(a.clears) ? ` Its plaque is now <b style="color:${plaqueTier(a.clears)[2]}">${plaqueTier(a.clears)[1]}</b>!` : ''}</p>`}
     ${a.box ? `<div class="arew"><span class="rchip sbchip">${boxArt('small', 30)}<b>+1 Small Style Box</b></span></div>` : ''}
-    <div class="maya-note"><span class="mfig"><img src="art/maya-celebrating.webp?v=124" alt="" draggable="false"></span><div class="mcard"><span class="mname">Maya \u00b7 Your manager</span><p>${ARRIVE_LINES[loc.id] || 'New space, bigger money. Let\u2019s get to work!'}</p><i class="mtail" aria-hidden="true"></i></div></div></div>
+    ${mayaNote('celebrating', ARRIVE_LINES[loc.id] || 'New space, bigger money. Let\u2019s get to work!')}</div>
     <button class="cta" data-arrive>${stage ? 'Take the Stage' : 'Open Studio'}</button>`);
 }
 function finishArrival() {
@@ -5166,12 +5294,13 @@ function dropAlbum() {
   buildRoom(); save(); render(); sfx('move'); syncChart(true);
   // the big moment: your artist on the glowing stage with gold rays and sparkles (wearing the new exclusive if there is one)
   const prev = `<div class="dresser album-stage" style="width:100%"><span class="arays"></span><span class="spot"></span>${stageSparks(14)}${bigArtist(it ? Object.assign({}, S.equip, { [it.slot]: it.id }) : S.equip)}</div>`;
-  const mayaLine = S.albums > (S.mayaAlbum || 0) ? (S.albums <= 3 ? MAYA_ALBUM[S.albums - 1] : MAYA_ALBUM_LATER[(S.albums - 4) % MAYA_ALBUM_LATER.length]) : '';
+  dexAlbum();   // Build 288: the album 5 letter / album 10 reveal play when this panel closes
+  const mayaLine = S.albums > (S.mayaAlbum || 0) ? (S.albums === 9 && !dexMet() ? DEX_TEASE : S.albums <= 3 ? MAYA_ALBUM[S.albums - 1] : MAYA_ALBUM_LATER[(S.albums - 4) % MAYA_ALBUM_LATER.length]) : '';
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
-  const mayaNote = mayaLine ? `<div class="maya-note"><span class="mfig"><img src="art/maya-celebrating.webp?v=124" alt="" draggable="false"></span><div class="mcard"><span class="mname">Maya · Your manager</span><p>${mayaLine}</p><i class="mtail" aria-hidden="true"></i></div></div>` : '';
+  const mayaNoteH = mayaLine ? mayaNote('celebrating', mayaLine) : '';
   albumUpload(S.albums, () => (setTimeout(albumTop, 0), setTimeout(albumTop, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span><small class="acap">Permanent All Profit bonus</small>
     <div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}<span class="rchip sbchip">${boxArt('big', 30)}<b>+1 Big Style Box</b></span></div></div>
-    ${mayaNote}
+    ${mayaNoteH}
     ${it ? `<button class="cta" data-equip="${it.id}" data-then="close">Wear it</button>` : ''}
     <button class="ghost" data-close>Start the next run</button>`)));
 }
@@ -5831,6 +5960,7 @@ function closeSheet() {
   if (pendingArrive) { pendingArrive = false; return showArrival(); }
   if (pendingWelcome) { pendingWelcome = false; return openTab('welcome'); }
   if (pendingDaily) { pendingDaily = false; if (dailyReady()) return openTab('daily'); }
+  if (storyPending()) return void setTimeout(dexCheck, 320);   // Build 288
   if (giftReady() && $('boxPop').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) giftPop(); }, 350);
   else if (LB_RWQ.length) setTimeout(lbRwNext, 350);
   else if (saveReady() && $('boxPop').hidden) setTimeout(() => { if ($('scrim').hidden && $('boxPop').hidden) savePop(); }, 450);
@@ -6117,6 +6247,7 @@ const lookOf = (eq, slot) => { const it = itemById(eq[slot]); return it ? it.loo
 const FONT = 'font-family="Arial Black, Arial, sans-serif" font-weight="900" text-anchor="middle"';
 // arms: tees show forearms, jerseys show whole arms, varsity has its own sleeve color
 function armPair(t, ln, sk, xl, xr, w, h, y) {
+  if (t.style === 'dexponcho') t = Object.assign({}, t, { style: 'jersey' });   // Build 288: the poncho covers the arms; only the hands show
   if (t.thick) { xl -= t.thick / 2; xr -= t.thick / 2; w += t.thick; }   // Build 275: a bit thicker than a hoodie sleeve, thinner than the puffer
   const one = (x, rot) => { const tf = `transform="rotate(${rot} ${x + w / 2} ${y})"`;
     if (t.style === 'jersey') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w / 2}" ${sk} ${ln} ${tf}></rect>`;
@@ -6126,6 +6257,7 @@ function armPair(t, ln, sk, xl, xr, w, h, y) {
 }
 // details drawn over the body; null means the figure's own hoodie/jacket/puffer drawing is used
 function topExtra(t, ln, sk, big) {
+  if (t.style === 'dexponcho') return dexPoncho(ln, sk, big);
   const K = '#1B1830';
   // Build 237: prints are clipped to the inside of the shirt outline so nothing bleeds over the border
   const cid = big ? 'shirtInB' : 'shirtInS', cp = big ? 'M59 113 Q59 102 80 102 Q101 102 101 113 L100 154.5 Q80 159.5 60 154.5 Z' : 'M58 113 Q58 101 80 101 Q102 101 102 113 L101 155.5 Q80 160.5 59 155.5 Z';
@@ -6201,6 +6333,7 @@ function topExtra(t, ln, sk, big) {
 }
 const topEmblem = t => t.emblem === 'moon' ? `<path d="M66 124 a9 9 0 1 0 7 15 a7 7 0 1 1 -7 -15z" fill="${t.trim}"></path><polygon points="${starPts(95, 140, 3.5)}" fill="${t.trim}"></polygon><polygon points="${starPts(90, 148, 2.5)}" fill="${t.trim}"></polygon>` : '';
 function neckExtra(n, big) {
+  if (n.style === 'dexbeads') return dexBeads(big);
   const K = '#1B1830', p = big ? 'M68 99 Q80 120 92 99' : 'M66 99 Q80 122 94 99', py = big ? 120 : 123;
   if (n.style === 'cuban') return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 9 : 11}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 6 : 8}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="#7FA6BE" stroke-width="${big ? 6 : 8}" stroke-dasharray="2 4"></path><circle cx="${big ? 72 : 71}" cy="${big ? 108 : 110}" r="1.6" fill="#fff"></circle>`;
   if (n.style === 'sheriff') { const yb = big ? 109.5 : 110.5, sy = yb + 15.5; return `<path d="${p}" fill="none" stroke="${K}" stroke-width="${big ? 7 : 9}" stroke-linecap="round"></path><path d="${p}" fill="none" stroke="${n.color}" stroke-width="${big ? 4 : 6}" stroke-linecap="round" stroke-dasharray="3 2"></path>
@@ -6257,7 +6390,7 @@ const haloHat = (h, ln, big) => `<path d="M44 52 Q44 15 80 15 Q116 15 116 52 Z" 
   <path d="M46 47 Q80 39 114 47 Q118 48 118 52 Q118 56 114 56 Q80 49 46 56 Q42 56 42 52 Q42 48 46 47 Z" fill="${h.brim}" ${ln}></path><path d="M50 47 Q80 41 110 47" fill="none" stroke="${PRISM.pink}" stroke-width="2.5" stroke-linecap="round"></path>
   <path d="M80 24 L86 31 L80 38 L74 31 Z" fill="#fff" stroke="${PRISM.deep}" stroke-width="2" stroke-linejoin="round"></path>
   <ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="#1B1830" stroke-width="${big ? 6 : 8}"></ellipse><ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="${PRISM.cyan}" stroke-width="${big ? 3.5 : 5}"></ellipse><path d="M62 6.5 Q69 4 77 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>`;
-const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar', 'stetson', 'bucketd', 'racing', 'toque', 'tophat', 'planet', 'platsnap', 'fedora', 'fisher'];
+const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar', 'stetson', 'bucketd', 'racing', 'toque', 'tophat', 'planet', 'platsnap', 'fedora', 'fisher', 'trilby'];
 const HATS = {
   cap: (h, ln) => capHat(h, ln),
   capstar: (h, ln) => capHat(h, ln) + `<polygon points="${starPts(80, 31, 8.5)}" fill="${h.star}" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round" stroke-linejoin="round"></polygon><path d="M52 38 Q60 30 66 33" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".18"></path>`,
@@ -6300,6 +6433,7 @@ const HATS = {
     <polygon points="${starPts(80, 31, 9)}" fill="#fff" stroke="#2E9CD6" stroke-width="1.8" stroke-linejoin="round"></polygon>${[[80, 31], [74, 29], [86, 29]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.1" fill="#2E9CD6"></circle>`).join('')}
     <circle cx="80" cy="14.5" r="3.5" fill="${h.gold}" stroke="#1B1830" stroke-width="2.5"></circle>` + capBrim(h.brim, ln) + `<path d="M48 51 Q80 44.5 112 51" fill="none" stroke="${h.gold}" stroke-width="2.4"></path>`,
   // Legendary: headliner fedora: pinched black crown, gold band, a small feather
+  trilby: (h, ln) => `<path d="M26 47 Q80 37 134 47 Q138 55 126 55 Q80 47 34 55 Q22 55 26 47 Z" fill="${h.color}" ${ln}></path><path d="M47 46 Q45 18 60 12 Q70 18 80 15 Q90 18 100 12 Q115 18 113 46 Q80 40 47 46 Z" fill="${h.color}" ${ln}></path><path d="M70 17 Q80 23 90 17" fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="2.5" stroke-linecap="round"></path><path d="M47.5 36 Q80 30 112.5 36 L113 45 Q80 39 47 45 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>`,   // Build 288: album 10, a plain fedora (cream, brown band, no feather)
   fedora: (h, ln) => `<path d="M26 47 Q80 37 134 47 Q138 55 126 55 Q80 47 34 55 Q22 55 26 47 Z" fill="${h.color}" ${ln}></path>
     <path d="M47 46 Q45 18 60 12 Q70 18 80 15 Q90 18 100 12 Q115 18 113 46 Q80 40 47 46 Z" fill="${h.color}" ${ln}></path>
     <path d="M70 17 Q80 23 90 17" fill="none" stroke="#fff" stroke-opacity=".15" stroke-width="2.5" stroke-linecap="round"></path>
@@ -6336,6 +6470,7 @@ const HATS = {
     <circle cx="80" cy="11" r="4.5" fill="${h.stitch}" stroke="#1B1830" stroke-width="3"></circle>` + capBrim(h.color, ln) + `<path d="M48 51.5 Q80 45 112 51.5" fill="none" stroke="${h.stitch}" stroke-width="1.8" stroke-dasharray="3 3"></path>`,
 };
 function faceExtra(fc, eyes) {
+  if (fc.style === 'dexspecs') return DEX_SPECS;
   const K = '#1B1830';
   // white frames: two lenses that meet exactly in the middle; outlines first, then the white rims, so the join is one clean shared wall
   if (fc.style === 'thick') { const L = [57, 80], r = (x, extra) => `<rect x="${x}" y="58" width="23" height="16" rx="6" ${extra}></rect>`;
@@ -6792,7 +6927,7 @@ function plaqueRow(cl) {
 }
 const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 // Common ~+2% · Rare +3–5% · Epic +6–10% · Legendary +12–18% · Mythic +25% and up
-const RARITY = { vip: ['VIP', '#C99A00'], seasonal: ['Seasonal', '#B5562F'], founder: ['Founder', '#C9871A'], common: ['Common', '#7F7A99'], rare: ['Rare', '#2F7FE8'], epic: ['Epic', '#7C4FE0'], legendary: ['Legendary', '#E5650F'], ultimate: ['Ultimate', '#D4231F'], mythic: ['Mythic', '#21B4EC'] };
+const RARITY = { vip: ['VIP', '#C99A00'], seasonal: ['Seasonal', '#B5562F'], founder: ['Founder', '#C9871A'], common: ['Common', '#7F7A99'], rare: ['Rare', '#2F7FE8'], epic: ['Epic', '#7C4FE0'], legendary: ['Legendary', '#E5650F'], ultimate: ['Ultimate', '#D4231F'], mythic: ['Mythic', '#21B4EC'], signature: ['Signature', '#A35BEA'] };
 const topTier = it => it && (it.rar === 'ultimate' || it.rar === 'mythic');
 // Build 286: Ultimates and Mythics from boxes arrive as blueprints (no boost, can't be worn). Build an Ultimate once you own all 3 box Legendaries of its slot;
 // build a Mythic once you've built all 3 Ultimates of its slot. The server checks the same thing (sbox_build).
@@ -6828,7 +6963,7 @@ function nameTab(t) { if (renameFrom === 'style') { styleModal = t === 'style' ?
 function styleCard(it, still) {
         const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it), bp = bpHas(it.id), rdy = bp && bpReady(it);
         const bar = own || bp ? rn : it.album ? `Album ${it.album}` : it.cm ? 'Style Box' : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : it.gems ? 'Style Box' : (it.perk || 'Locked');
-        const tier = topTier(it) ? tierCls(it) : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
+        const tier = topTier(it) ? tierCls(it) : ['epic', 'legendary', 'signature'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
         return `<${still ? 'div' : 'button'} class="item ${own ? '' : 'locked'} ${bp ? 'bp' : ''} ${rdy ? 'rdy' : ''} ${tier} ${it.album ? 'album' : ''}" ${still ? '' : `data-item="${it.id}"`} ${bp ? `style="--rc:${rc}"` : ''} aria-label="${it.name}${own ? (on ? ', wearing' : '') : bp ? (rdy ? ', blueprint, ready to build' : ', blueprint, ' + bpLine(it)) : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
           ${on ? '<span class="eq">Wearing</span>' : ''}${rdy && !still ? '<span class="bpdot"></span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
           <span class="nm">${it.name}${it.bonus ? ` <em>+${Math.round(it.bonus * 100)}%</em>` : ''}${it.perk ? `<em class="perk">${it.perk}</em>` : ''}</span>
@@ -7455,7 +7590,7 @@ function openTab(tab) {
         <div class="hinfo-txt" ${hinfoOpen.plaques ? '' : 'hidden'}><p>Every time you clear a map its plaque counts it. Frames upgrade to Silver, Gold, Platinum and Diamond at 3, 5, 10 and 20 clears.</p></div></div>
       <div class="sec"><h3>Career stats <small class="h3note">all-time</small></h3>
         <div class="statgrid">
-          <div class="wide"><b>${titleTag(S.albums, S.maxLoc)}</b><span>Your title on The Charts${(() => { const nx = TITLES[TITLES.indexOf(titleOf(S.albums, S.maxLoc)) + 1]; return nx ? ` · next: ${nx[2]} at ${nx[0] ? 'album ' + nx[0] : 'the ' + allLocs[nx[1]]}` : ''; })()}</span></div>
+          <div class="wide"><b>${myTitleTag()}</b><span>Your title on The Charts${(() => { const nx = TITLES[TITLES.indexOf(titleOf(S.albums, S.maxLoc)) + 1]; return nx ? ` · next: ${nx[2]} at ${nx[0] ? 'album ' + nx[0] : 'the ' + allLocs[nx[1]]}` : ''; })()}</span></div>
           <div><b>${S.albums || 0}</b><span>Albums dropped</span></div>
           <div><b>${fmt(S.stats.lifetime)}</b><span>Lifetime earnings</span></div>
           <div><b>${S.stats.fastestAlbum ? playTime(S.stats.fastestAlbum) : '—'}</b><span>Fastest album</span></div>
@@ -7501,7 +7636,7 @@ function openTab(tab) {
       ${FR.inc.length ? `<div class="sec frreqs"><h3>Friend requests</h3>${FR.inc.map(x => `<div class="row frreq"><span class="rt"><b>${esc(cleanName(x.name))}</b><span>${x.albums || 0} albums</span></span><button class="hire" data-fracc="${esc(x.code)}">Accept</button><button class="lb-dec" data-frdec="${esc(x.code)}" aria-label="Decline">${LB_X}</button></div>`).join('')}</div>` : ''}
       <div class="stabs period-tabs">${[['week', 'This week'], ['all', 'All time']].map(([k, l]) => `<button class="stab ${Charts.period === k ? 'on' : ''}" data-period="${k}">${l}</button>`).join('')}</div>
       ${Charts.period === 'week' ? (Charts.hasWeek === false ? `<p class="cnote">Weekly Charts need a quick database update. Showing all-time until then.</p>` : `<p class="cnote">New week in <b>${resetIn}</b></p>`) : ''}
-      <div class="row chartme" data-prof="me" role="button" tabindex="0" aria-label="See your profile"><span class="rank">${Charts.rank ? '#' + Charts.rank : '–'}</span><span class="rt"><b>${esc(cleanName(S.name))}</b><span>${titleTag(S.albums, S.maxLoc)} · ${fmt(weekly ? wk.earned : S.stats.lifetime)}${weekly ? ' this week' : ''}</span></span><span class="xv">${weekly ? wk.albums : S.albums || 0} <small>${weekly ? 'this week' : 'albums'}</small></span></div>
+      <div class="row chartme" data-prof="me" role="button" tabindex="0" aria-label="See your profile"><span class="rank">${Charts.rank ? '#' + Charts.rank : '–'}</span><span class="rt"><b>${esc(cleanName(S.name))}</b><span>${myTitleTag()} · ${fmt(weekly ? wk.earned : S.stats.lifetime)}${weekly ? ' this week' : ''}</span></span><span class="xv">${weekly ? wk.albums : S.albums || 0} <small>${weekly ? 'this week' : 'albums'}</small></span></div>
       ${Charts.syncError ? `<p class="cerr">Your rank isn't updated yet. ${esc(Charts.syncError)} Your progress is safe on this phone. <button class="hire" data-chart-retry>Try again</button></p>` : ''}
       <div class="stabs charts-tabs">${tabs.map(([k, l]) => `<button class="stab ${Charts.tab === k ? 'on' : ''}" data-ctab="${k}">${esc(l)}</button>`).join('')}</div>
       <div class="clist ${Charts.status === 'loading' && Charts.rows.length ? 'dim' : ''}">${body}</div>
@@ -7522,7 +7657,7 @@ function openTab(tab) {
     const maps = [...LOCATIONS.map(l => l.name), ...FUTURE], loc = p ? p.loc : 0, best = p && itemById(p.best);
     const t = titleOf(albums, loc), pcl = p && p.clears ? p.clears : maps.map((_, i) => i < loc ? 1 : 0);
     openSheet(`<div class="sheet-head"><h2>${esc(name)}${me ? ' <small class="h3note">you</small>' : ''}</h2>${headBtns('data-back-charts')}</div>
-      <div class="prof-top"><span class="ptags"><span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
+      <div class="prof-top"><span class="ptags"><span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${me && dexDone() ? `<span class="ttl-pill dxttl">${DEX_TITLE}</span>` : ''}${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
       ${p ? `<div class="dresser prof-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><span class="spot"></span>${stageSparks()}${country ? `<span class="pcountry">${esc(countryName(country))}</span>` : ''}${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>` : `<p class="cnote">This artist hasn't opened the latest version yet, so their outfit, plaques and stats will show up after they do.</p>`}
       ${lbProfCard(me, r)}
       ${p ? `<div class="sec"><h3>Plaques <small class="h3note">${pcl.filter(Boolean).length} of ${maps.length} maps cleared</small></h3>${plaqueRow(pcl)}</div>` : ''}
@@ -7578,7 +7713,7 @@ function openTab(tab) {
     days.forEach(x => { x.lw = lwins.find(w => x.t >= w.start && x.t < w.end) || null; });
     const lrow = lwins.map(w => { const ks = days.filter(x => x.lw === w).map(x => x.k); if (!ks.length) return '';
       const d = EV_DEFS[w.id], live = now >= w.start && now < w.end, a = ks[0], b = ks[ks.length - 1];
-      return `<button class="evlbar" data-evday="${a}" style="grid-column:${a + 1} / ${b + 2};--c:${d.color};--ink:${d.ink}" aria-label="${d.title}, ${live ? 'live now' : 'long event'}">${evEmblem(w.id, 20)}<span>${live && ks.length < 4 ? d.name : d.title}</span>${live ? '<em>Live</em>' : ''}</button>`; }).join('');
+      const n = ks.length; return `<button class="evlbar n${Math.min(n, 3)}" data-evday="${a}" style="grid-column:${a + 1} / ${b + 2};--c:${d.color};--ink:${d.ink}" aria-label="${d.title}, ${live ? 'live now' : 'long event'}">${evEmblem(w.id, 20)}${n > 1 ? `<span>${n < 4 ? d.name : d.title}</span>` : ''}${live ? (n >= 3 ? '<em>Live</em>' : '<em class="dot" aria-hidden="true"></em>') : ''}</button>`; }).join('');   // Build 288: no cut-off names
     // live strip: what's on now (tap to come back to today), or what's next
     const strip = evCard() + (e ? `<button class="evstrip" data-evday="0" style="--c:${EVENTS[e].color}"><span class="evdotic">${evIcon(e, 16)}</span><span class="t"><small>Live now</small><b>${EVENTS[e].name}</b></span><span class="cdx">ends in ${cd(evEnds())}</span></button>`
       : nextOn ? `<button class="evstrip quiet" data-evday="${nextOn.k}" style="--c:${EVENTS[nextOn.e].color}"><span class="evdotic">${evIcon(nextOn.e, 16)}</span><span class="t"><small>Up next</small><b>${EVENTS[nextOn.e].name}</b></span><span class="cdx">starts in ${cd(nextOn.start)}</span></button>` : '');
@@ -7621,7 +7756,7 @@ function openTab(tab) {
     openSheet(`<div class="sheet-head"><h2>Events</h2>${closeBtn()}</div>
       ${strip}
       <div class="evweekw"><div class="evweek2">${week}</div>${lrow ? `<div class="evlrow">${lrow}</div>` : ''}</div>
-      ${detail}${(() => { const lw = evLive(); return lw && !/data-evhub|Reach Home Studio/.test(detail) ? lwCard(lw) : ''; })()}${evBadgeBtn()}
+      ${detail}${(() => { const lw = evLive(); return lw && !/data-evhub|Reach Home Studio/.test(detail) ? lwCard(lw) : ''; })()}${dexCard()}${evBadgeBtn()}
 `);
   } else if (tab === 'reset-note') {
     S.resetNote = 0; save();
@@ -7864,7 +7999,7 @@ function openTab(tab) {
         <div class="sec"><h3>Details</h3>${markPick()}</div>
         <div class="sec"><h3>Skin tone</h3><div class="swatches">${SKINS.map(c => `<button class="sw ${S.skin === c ? 'on' : ''}" style="background:${c}" data-skin="${c}" aria-label="Skin tone ${c}"></button>`).join('')}</div></div>
         <div class="sec"><h3>Headphones</h3><div class="swatches"><button class="sw none ${S.phones === 'none' ? 'on' : ''}" data-phones="none" aria-label="No headphones"></button>${PHONES.map(c => `<button class="sw ${S.phones === c ? 'on' : ''}" style="background:${c}" data-phones="${c}" aria-label="Headphone color ${c}"></button>`).join('')}</div></div>
-        ${Object.keys(PHONES_X).some(k => (S.phonesX || {})[k]) ? `<div class="sec"><h3>Earned colors <small class="h3note">from long-term goals</small></h3><div class="swatches earned">${Object.entries(PHONES_X).filter(([k]) => (S.phonesX || {})[k]).map(([k, [n, c]]) => `<button class="sw ${S.phones === c ? 'on' : ''}" style="background:${c}" data-phones="${c}" aria-label="${n} headphones"></button>`).join('')}</div></div>` : ''}`;
+        ${Object.keys(PHONES_X).some(k => (S.phonesX || {})[k]) ? `<div class="sec"><h3>Earned colors <small class="h3note">from long-term goals</small></h3><div class="swatches earned">${Object.entries(PHONES_X).filter(([k]) => (S.phonesX || {})[k]).map(([k, [n, c]]) => `<button class="sw ${S.phones === c ? 'on' : ''}" style="background:${c}" data-phones="${c}" aria-label="${n} headphones"></button>`).join('')}</div></div>` : ''}${bassSec()}`;
     } else {
       const tier = i => i.id === 'basic' ? -2 : i.gift ? -1 : RAR_ORDER.indexOf(i.rar), within = i => i.album ? 1000 + i.album : i.gems || 0;
       const rank = i => (S.owned[i.id] ? 0 : bpHas(i.id) ? 50000 : 100000) + tier(i) * 10000 + within(i);
@@ -8012,7 +8147,7 @@ function applyLook() {
   if (S.hs === 'short') S.hs = 'buzz';
   document.documentElement.style.setProperty('--skin', S.skin);
   document.documentElement.style.setProperty('--phones', S.phones === 'none' ? PHONES[0] : S.phones);
-  artist.innerHTML = smallArtist();
+  artist.innerHTML = smallArtist() + (dexBass() ? `<span class="bassl">${TORT(34, bassVar())}</span>` : '');   // Build 288: Bassline at your hip
   artist.classList.toggle('mythic', wearingMythic() && !wearingUlt()); artist.classList.toggle('ultimate', wearingUlt());
 }
 
@@ -8493,19 +8628,20 @@ const EV_PRICE = 2.99;
 // that event (Western, Island or Galaxy) on the difficulty below. Every event cost is multiplied (x); the reward track's gems and boxes
 // scale (free / mini pass). Event sims: completion time grows about in line with the cost multiplier, so a player whose multiplier is
 // about x times a new player's gets a similar run on that difficulty.
-const EV_DIFF = { normal: { name: 'Normal', x: 1, free: 1, pass: 1 }, hard: { name: 'Hard', x: 2.5, free: 2, pass: 1.5 }, extreme: { name: 'Extreme', x: 6, free: 3, pass: 2 } };
-const EV_DIFF_IDS = ['normal', 'hard', 'extreme'];
+const EV_DIFF = { normal: { name: 'Normal', x: 1, free: 1, pass: 1 }, hard: { name: 'Hard', x: 2.5, free: 2, pass: 1.5 }, extreme: { name: 'Extreme', x: 6, free: 3, pass: 2 },
+  legendary: { name: 'Legendary', x: 10, free: 4, pass: 2.5 } };   // Build 288: Dex's difficulty, opens after Extreme once you've met him (album 10)
+const EV_DIFF_IDS = ['normal', 'hard', 'extreme', 'legendary'];
 const evDiffId = () => (S && S.ev && EV_DIFF[S.ev.diff]) ? S.ev.diff : 'normal';
 const evDiffX = () => EV_DIFF[evDiffId()].x;
 const evCostX = () => isEv() ? evDiffX() : 1;
 const evBestOf = id => (S.evBest || {})[id] || ((S.evHist || []).some(h => h.id === id && h.badge) ? 'normal' : '');
-const evDiffOpen = (id, d) => d === 'normal' || EV_DIFF_IDS.indexOf(evBestOf(id)) >= EV_DIFF_IDS.indexOf(d) - 1;   // finished the one below
+const evDiffOpen = (id, d) => d === 'normal' || ((d !== 'legendary' || dexMet()) && EV_DIFF_IDS.indexOf(evBestOf(id)) >= EV_DIFF_IDS.indexOf(d) - 1);   // finished the one below (Legendary: and met Dex)
 const evDiffRec = id => { const m = evFame() * micX(); let r = 'normal'; EV_DIFF_IDS.forEach(d => { if (evDiffOpen(id, d) && m >= EV_DIFF[d].x) r = d; }); return r; };
 // Build 280: event leaderboard (groups of 20 per event and difficulty, bragging rights only). Times are the server's: first entry -> 100%.
 const evSrvKey = () => { const k = String(S.ev && S.ev.key || ''); return /^w\d{1,7}$/.test(k) ? k : 'qa' + k.toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20); };
 let evSrvBusy = false, evSrvNext = 0, EVB = { rows: null, err: '', at: 0 };
 async function evSrvSync() {
-  if (!S.ev || !S.ev.diff || PLAYTEST || PREVIEW_LOCK || evSrvBusy || Date.now() < evSrvNext) return; evSrvBusy = true;
+  if (!S.ev || !S.ev.diff || S.ev.diff === 'legendary' || PLAYTEST || PREVIEW_LOCK || evSrvBusy || Date.now() < evSrvNext) return; evSrvBusy = true;   // Build 288: Legendary stays on the device for now
   try {
     if (!S.ev.srv) { const r = await lbCall('ev_join', { k: evSrvKey(), d: S.ev.diff }); if (!r.ok) throw 0; if (S.ev) { S.ev.srv = { grp: r.data.grp }; save(); } }
     const pct = Math.round(evPoints() / EV_MAX_PTS * 10000) / 100;
@@ -8514,6 +8650,7 @@ async function evSrvSync() {
   } catch (e) { evSrvNext = Date.now() + 60000; } finally { evSrvBusy = false; }
 }
 async function evBoardLoad() {
+  if (S.ev && S.ev.diff === 'legendary') { EVB = { rows: null, err: 'Legendary leaderboards are coming soon.', at: Date.now() }; if (sheetKey === 'evboard' && !$('scrim').hidden) openTab('evboard'); return; }
   evSrvNext = 0; await evSrvSync();
   const r = await lbCall('ev_board', { k: evSrvKey() });
   EVB = r.ok && r.data ? { rows: r.data.rows, my: r.data.mySecs, done: r.data.done, at: Date.now(), err: '' } : { rows: null, err: r.ok ? 'Enter the event to join a leaderboard.' : "Couldn't load the leaderboard. Check your connection.", at: Date.now() };
@@ -8537,12 +8674,12 @@ function evDiffView() {
   const info = k => { const D = EV_DIFF[k]; return k === 'normal' ? "The event's standard costs and rewards." : `Everything costs ×${D.x}. Free rewards ×${D.free}, Mini Pass ×${D.pass} (gems and boxes).`; };
   const opt = k => { const o = evDiffOpen(id, k), D = EV_DIFF[k], below = EV_DIFF[EV_DIFF_IDS[EV_DIFF_IDS.indexOf(k) - 1]], on = o && evDiffPick === k;
     return `<div class="evdf-row"><button class="evdf ${k} ${on ? 'on' : ''}" data-evdiff="${k}" ${o ? '' : 'disabled'} aria-pressed="${on}">
-        <b>${o ? '' : LOCK_S}${D.name}</b>${o ? (k === rec ? '<small>Recommended</small>' : '') : `<small>Finish ${below.name} first</small>`}${on ? `<i class="evdf-ck" aria-hidden="true">${CK}</i>` : ''}</button>
+        ${k === 'legendary' ? `<span class="dxf"><img src="${STA('dex-face')}" alt=""></span>` : ''}<b>${o ? '' : LOCK_S}${D.name}</b>${o ? (k === rec ? '<small>Recommended</small>' : '') : `<small>Finish ${below.name} first</small>`}${on ? `<i class="evdf-ck" aria-hidden="true">${CK}</i>` : ''}</button>
       <button class="hinfo evdf-i" data-evdinfo="${k}" aria-label="About ${D.name}" aria-expanded="${evDiffInfo === k}">i</button></div>
       ${evDiffInfo === k ? `<p class="evdf-info">${info(k)}</p>` : ''}`; };
   return `<div class="evh-head">${evEmblem(id, 44)}<div><h2>Event difficulty</h2><small>${d.title}</small></div>${closeBtn()}</div>
     <div class="evh-list evdf-list"><p class="evlb-goal">You've finished this event before. Get more rewards on a harder difficulty!</p>
-    ${EV_DIFF_IDS.map(opt).join('')}
+    ${EV_DIFF_IDS.filter(k => k !== 'legendary' || dexMet()).map(opt).join('')}
     <button class="cta" data-evdiffgo>Start on ${EV_DIFF[evDiffPick].name}</button></div>`;
 }
 function evRaw(lane, n) {   // the track's reward, scaled for this event's difficulty (gems and box counts; skips, Frenzies, cosmetics and the badge stay as they are)
@@ -8582,11 +8719,11 @@ const evPalm = (x, y, flip = 1, s = 1) => { const fr = [[-46, -4, -16], [-40, -2
 // ---- Galaxy art (drawn in code, temporary like the other event art) ----
 const evRand = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const evGalaxyEmblem = sz => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="gEmb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E1648"/><stop offset="1" stop-color="#4A3594"/></linearGradient></defs>
-  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#gEmb)"/><path d="M4 48 H60 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#CDC2EC"/>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#gEmb)"/><path d="M4.5 48 H59.5 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4.5 48Z" fill="#CDC2EC"/>
   ${[[14, 14], [50, 12], [44, 24], [10, 30], [24, 9], [56, 34]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.3" fill="#FFFFFF"/>`).join('')}
   <ellipse cx="32" cy="31" rx="19" ry="5.5" transform="rotate(-16 32 31)" fill="none" stroke="#FFD58A" stroke-width="2.6"/>
-  <circle cx="32" cy="31" r="10" fill="#FF8FB1" stroke="#14122A" stroke-width="2"/><path d="M23 28 Q32 25 41 29 M23.5 34 Q32 31 40.5 35" stroke="#E2588F" stroke-width="2" fill="none"/>
-  <path d="M14.5 37 A19 5.5 0 0 0 49.5 25" transform="rotate(-16 32 31) translate(0 0)" fill="none" stroke="#FFD58A" stroke-width="2.6"/>
+  <circle cx="32" cy="31" r="10" fill="#FF8FB1" stroke="#14122A" stroke-width="2"/><path d="M24.5 28.5 Q32 25.5 39.5 28.5 M25 34 Q32 31 39.5 34.5" stroke="#E2588F" stroke-width="2" fill="none"/>
+  <path d="M13 31 A19 5.5 0 0 0 51 31" transform="rotate(-16 32 31)" fill="none" stroke="#FFD58A" stroke-width="2.6"/>
   <rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 const evCrystal = (x, y, s = 1, c = '#7FE3FF', k = '#2E6F9E') => `<g transform="translate(${x} ${y}) scale(${s})" stroke="${k}" stroke-width="2" stroke-linejoin="round"><ellipse cx="0" cy="1" rx="24" ry="7" fill="${c}" opacity=".22" stroke="none"/><ellipse cx="0" cy="2" rx="16" ry="4" fill="#2E2266" opacity=".18" stroke="none"/>
   <path d="M-10 0 L-13 -16 L-7 -24 L-4 0Z" fill="${c}"/><path d="M-4 0 L-3 -30 L4 -38 L8 -28 L6 0Z" fill="${c}"/><path d="M6 0 L10 -18 L15 -12 L13 0Z" fill="${c}"/>
@@ -9016,7 +9153,9 @@ function evTick() {
   if (S.evResult && $('scrim').hidden && !evResultShown) { evResultShown = true; openTab('evresult'); }
   if (S.ev && !S.ev.diff && !evRunFresh()) { S.ev.diff = 'normal'; save(); }   // Build 281: runs started before Build 280 (or already under way) are Normal and join the leaderboard
   if (S.ev && S.ev.diff && !S.ev.done && evPoints() >= EV_MAX_PTS) { S.ev.done = true; const b = evBestOf(S.ev.id);   // Build 280: a finish opens the next difficulty for this event
-    if (EV_DIFF_IDS.indexOf(S.ev.diff) > EV_DIFF_IDS.indexOf(b)) S.evBest = Object.assign({}, S.evBest, { [S.ev.id]: S.ev.diff }); evSrvNext = 0; save(); }
+    if (EV_DIFF_IDS.indexOf(S.ev.diff) > EV_DIFF_IDS.indexOf(b)) S.evBest = Object.assign({}, S.evBest, { [S.ev.id]: S.ev.diff }); evSrvNext = 0;
+    if (S.ev.diff === 'legendary') dexClear(S.ev.id);   // Build 288: Dex's piece for this event, and the panel when you're back
+    save(); }
   if (S.ev && S.ev.diff && (isEv() || S.ev.srv)) evSrvSync();
   sprintSync();
   if (sheetKey === 'sprint' && !$('scrim').hidden && SPB.at && Date.now() - SPB.at > 30000) { SPB.at = Date.now(); sprintBoardLoad(); }
@@ -9072,11 +9211,11 @@ let evHubTab = 'tasks';
 const evI = (k, sz = 18, c = 'currentColor', w = 2.4) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${EVI[k] || EVI.star}</svg>`;
 // event emblems (shortcut art)
 const evEmblem = (key, sz = 52) => key === 'galaxy' ? evGalaxyEmblem(sz) : key === 'western'
-  ? `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#F6A66A"/><path d="M4 44 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#E6BE85"/><path d="M10 44 V32 H20 L23 26 H34 L37 34 H54 V44Z" fill="#B5523B" stroke="#6E2A1E" stroke-width="2"/><circle cx="46" cy="18" r="6" fill="#FFF1C1"/><g transform="translate(18 52)" stroke="#2C4A22" stroke-width="1.6"><rect x="-3" y="-18" width="6" height="20" rx="3" fill="#5E9A43"/><path d="M-3 -8 H-7 V-13 M3 -11 H7 V-16" fill="none"/></g><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`
-  : `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#BDEBF5"/><rect x="4" y="26" width="56" height="20" fill="#2DB4C2"/><path d="M4 46 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#F5E6C0"/><path d="M22 26 Q32 14 42 26Z" fill="#3F8F5A"/><circle cx="46" cy="15" r="5" fill="#FFF6C8"/><path d="M14 50 Q16 40 12 32" stroke="#8B5A2B" stroke-width="3" fill="none"/><path d="M12 32 q-8 0 -10 5 M12 32 q8 -2 10 4 M12 32 q-2 -8 4 -10" stroke="#2F8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
+  ? `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#F6A66A"/><path d="M4 44 H60 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4 44Z" fill="#E6BE85"/><path d="M10 44 V32 H20 L23 26 H34 L37 34 H54 V44Z" fill="#B5523B" stroke="#6E2A1E" stroke-width="2"/><circle cx="46" cy="18" r="6" fill="#FFF1C1"/><g transform="translate(18 52)" stroke="#2C4A22" stroke-width="1.6"><rect x="-3" y="-18" width="6" height="20" rx="3" fill="#5E9A43"/><path d="M-3 -8 H-7 V-13 M3 -11 H7 V-16" fill="none"/></g><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`
+  : `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#BDEBF5"/><rect x="4" y="26" width="56" height="20" fill="#2DB4C2"/><path d="M4.1 46 H59.9 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4.1 46Z" fill="#F5E6C0"/><path d="M22 26 Q32 14 42 26Z" fill="#3F8F5A"/><circle cx="46" cy="15" r="5" fill="#FFF6C8"/><path d="M20 50 Q22 40 18 32" stroke="#8B5A2B" stroke-width="3" fill="none"/><path d="M18 32 q-8 0 -10 5 M18 32 q8 -2 10 4 M18 32 q-2 -8 4 -10" stroke="#2F8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 // Studio Sprint patch (Wednesday race): checkered flag on the Wednesday pink, same rounded-square patch as the event emblems
 const sprintEmblem = (sz = 44) => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="spFlag"><path d="M21 13 Q30 8 39 13 Q47 17 55 13 V35 Q47 39 39 35 Q30 31 21 35 Z"/></clipPath></defs>
-  <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFB3D1"/><path d="M4 46 H60 V48 Q60 60 48 60 H16 Q4 60 4 48Z" fill="#7A5BE0"/><path d="M10 53 H18 M26 53 H34 M42 53 H50" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFB3D1"/><path d="M4.1 46 H59.9 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4.1 46Z" fill="#7A5BE0"/><path d="M10 53 H18 M26 53 H34 M42 53 H50" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>
   <g clip-path="url(#spFlag)"><rect x="18" y="6" width="40" height="34" fill="#fff"/>${Array.from({ length: 30 }, (_, i) => { const c = i % 6, r = Math.floor(i / 6); return (c + r) % 2 ? '' : `<rect x="${21 + c * 6}" y="${7 + r * 6}" width="6" height="6" fill="#14122A"/>`; }).join('')}</g>
   <path d="M21 13 Q30 8 39 13 Q47 17 55 13 V35 Q47 39 39 35 Q30 31 21 35 Z" fill="none" stroke="#14122A" stroke-width="2.4" stroke-linejoin="round"/>
   <path d="M20 10 V50" stroke="#14122A" stroke-width="5" stroke-linecap="round"/><path d="M20 10 V50" stroke="#C9A06A" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="9" r="3.2" fill="#FFD93D" stroke="#14122A" stroke-width="2"/>
@@ -9246,6 +9385,268 @@ document.addEventListener('error', e => { const im = e.target; if (!im || im.tag
   if (!im.dataset.retry) { im.dataset.retry = '1'; const u = im.getAttribute('src') || ''; setTimeout(() => { im.src = u + (u.includes('?') ? '&' : '?') + 'r=' + Date.now(); }, 1500); }
   else im.style.visibility = 'hidden'; }, true);
 document.addEventListener('load', e => { const im = e.target; if (im && im.tagName === 'IMG' && im.dataset.retry) im.style.visibility = ''; }, true);
+// ===================== Build 288: Dex Monroe, Legendary difficulty and the Signature Set =====================
+// Story scenes (album 5 letter, album 10 reveal, farewell), a fourth event difficulty (Legendary, x10 costs), Dex's challenge
+// card in Events, the "Legendary cleared!" panel, Bassline and the "Dex's Last Student" title. Legendary progress is saved on the
+// device only for now (no leaderboard rows). S.dex = { letter, met, q: [scenes to play], clr: {event: 1}, pop: [events], done, bass, point }
+const DEX_REWARD = { western: 'dexponcho', island: 'dexbeads', galaxy: 'dexspecs' };
+const dexS = () => { if (!S.dex || typeof S.dex !== 'object') S.dex = {}; const d = S.dex; d.q = Array.isArray(d.q) ? d.q : []; d.pop = Array.isArray(d.pop) ? d.pop : []; d.clr = d.clr || {}; return d; };
+const dexMet = () => !!(S && S.dex && S.dex.met);
+const dexDone = () => !!(S && S.dex && S.dex.done);
+const dexBass = () => dexDone() && S.dex.bass !== false;
+const dexCleared = () => EV_ROT.filter(id => S.dex && S.dex.clr && S.dex.clr[id]).length;
+// a Legendary clear: the event's Signature piece is yours straight away; the panel says so when you're back in the studio
+function dexClear(id) {
+  const d = dexS(); if (d.clr[id]) return; d.clr[id] = 1;
+  const it = DEX_REWARD[id]; if (it && !S.owned[it]) { S.owned[it] = true; S.newItems = [...(S.newItems || []), it]; }
+  d.pop.push(id); save();
+}
+// album drops queue the scenes; they play when you tap "Start the next run" (the album panel closing)
+function dexAlbum() {
+  const d = dexS(), n = S.albums || 0;
+  if (dexBass()) d.ba = (d.ba || 0) + 1;   // albums dropped with Bassline out unlock his colours
+  if (n >= 5 && n < 10 && !d.letter && !d.q.includes('letter')) d.q.push('letter');
+  if (n >= 10 && !d.met && !d.q.includes('reveal')) { if (!d.letter && !d.q.includes('letter')) d.q.push('letter'); d.q.push('reveal'); }
+}
+const DEX_TEASE = 'People in the industry are starting to notice you. Someone I trust wants to meet after your next album.';
+// Bassline: front-facing tortoise in the character style (stand-in until final art). Clip ids are unique per drawing.
+// Bassline colour variants: earned by dropping albums with Bassline out in the studio (look-only)
+const BASS_V = {
+  classic: { name: 'Classic', at: 0, sh: '#C08A48', sh2: '#A87638', sh3: '#8E6230', sk: '#8FD18B', hd: '#9BDA8F', sk2: '#86C97B', pl: '#F4DFA2', pl2: '#E8CC86', pl3: '#D9BC72', ph: '#FF8FB8' },
+  pink: { name: 'Pink', at: 5, sh: '#F49AC1', sh2: '#E07BAA', sh3: '#C9628F', sk: '#8FD18B', hd: '#9BDA8F', sk2: '#86C97B', pl: '#FFE3EE', pl2: '#F9CFE0', pl3: '#EDB3CB', ph: '#B18CFF' },
+  gold: { name: 'Gold', at: 10, sh: '#F2C14E', sh2: '#D9A12E', sh3: '#B9780C', sk: '#8FD18B', hd: '#9BDA8F', sk2: '#86C97B', pl: '#FFF4CF', pl2: '#F7E3A0', pl3: '#E6C86E', ph: '#2A2440' },
+  midnight: { name: 'Midnight', at: 20, sh: '#3E3184', sh2: '#2C2266', sh3: '#20184E', sk: '#7FC9B6', hd: '#8DD6C2', sk2: '#72BBA8', pl: '#6B5BB0', pl2: '#5B4C9E', pl3: '#4C3E8C', ph: '#6FD3FF', stars: true } };
+const BASS_IDS = Object.keys(BASS_V);
+const bassAlbums = () => (S.dex && S.dex.ba) || 0;
+const bassVar = () => { const v = S.dex && S.dex.bv; return BASS_V[v] && bassAlbums() >= BASS_V[v].at ? v : 'classic'; };
+let TORT_N = 0;
+const TORT = (w = 100, v) => { const k = 'tb' + (TORT_N++), P = BASS_V[v] || BASS_V.classic; return `<svg width="${w}" height="${w * 1.2}" viewBox="0 0 100 120" aria-hidden="true">
+  <defs><clipPath id="${k}s"><ellipse cx="50" cy="74" rx="41" ry="36"/></clipPath><clipPath id="${k}p"><ellipse cx="50" cy="82" rx="24" ry="25"/></clipPath><clipPath id="${k}h"><circle cx="50" cy="40" r="25"/></clipPath></defs>
+  <ellipse cx="50" cy="115" rx="30" ry="4.5" fill="rgba(0,0,0,.18)"/><ellipse cx="50" cy="74" rx="41" ry="36" fill="${P.sh}"/>
+  <g clip-path="url(#${k}s)">${P.stars ? '<g fill="#FFE7A3"><circle cx="30" cy="58" r="1.6"/><circle cx="68" cy="52" r="1.3"/><circle cx="76" cy="70" r="1.6"/><circle cx="22" cy="74" r="1.2"/></g>' : ''}<ellipse cx="50" cy="96" rx="41" ry="20" fill="${P.sh2}"/><path d="M8 62l14 6M92 62l-14 6M10 88l13-4M90 88l-13-4" stroke="${P.sh3}" stroke-width="3" stroke-linecap="round"/></g>
+  <ellipse cx="50" cy="74" rx="41" ry="36" fill="none" stroke="#14122A" stroke-width="4"/>
+  <rect x="31" y="98" width="15" height="14" rx="7" fill="${P.sk}" stroke="#14122A" stroke-width="3.5"/><rect x="54" y="98" width="15" height="14" rx="7" fill="${P.sk}" stroke="#14122A" stroke-width="3.5"/>
+  <ellipse cx="50" cy="82" rx="24" ry="25" fill="${P.pl}"/><g clip-path="url(#${k}p)"><path d="M20 74h60M20 90h60M50 50v60" stroke="${P.pl3}" stroke-width="2.6"/><ellipse cx="50" cy="100" rx="24" ry="10" fill="${P.pl2}"/></g>
+  <ellipse cx="50" cy="82" rx="24" ry="25" fill="none" stroke="#14122A" stroke-width="3.5"/>
+  <ellipse cx="21" cy="83" rx="7" ry="10" fill="${P.sk}" stroke="#14122A" stroke-width="3.5"/><ellipse cx="79" cy="83" rx="7" ry="10" fill="${P.sk}" stroke="#14122A" stroke-width="3.5"/>
+  <circle cx="50" cy="40" r="25" fill="${P.hd}"/><g clip-path="url(#${k}h)"><ellipse cx="50" cy="60" rx="25" ry="10" fill="${P.sk2}"/></g><circle cx="50" cy="40" r="25" fill="none" stroke="#14122A" stroke-width="4"/>
+  <ellipse cx="41" cy="41" rx="4.6" ry="5.6" fill="#14122A"/><ellipse cx="59" cy="41" rx="4.6" ry="5.6" fill="#14122A"/><circle cx="42.6" cy="39" r="1.7" fill="#fff"/><circle cx="60.6" cy="39" r="1.7" fill="#fff"/>
+  <ellipse cx="35" cy="50" rx="4.2" ry="2.6" fill="#FF9FB0" opacity=".85"/><ellipse cx="65" cy="50" rx="4.2" ry="2.6" fill="#FF9FB0" opacity=".85"/><path d="M45 51q5 4 10 0" stroke="#14122A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M23.5 36C23.5 6 76.5 6 76.5 36" fill="none" stroke="#14122A" stroke-width="7.5" stroke-linecap="round"/><path d="M23.5 36C23.5 6 76.5 6 76.5 36" fill="none" stroke="${P.ph}" stroke-width="3" stroke-linecap="round"/>
+  <rect x="17" y="30" width="12" height="18" rx="5.5" fill="${P.ph}" stroke="#14122A" stroke-width="3"/><rect x="71" y="30" width="12" height="18" rx="5.5" fill="${P.ph}" stroke="#14122A" stroke-width="3"/></svg>`; };
+const DEX_TITLE = 'Dex’s Last Student';
+const myTitleTag = () => dexDone() ? `<span class="ttl dxttl">${DEX_TITLE}</span>` : titleTag(S.albums, S.maxLoc);
+
+// ---------- cutscene music: Eli's loop plays on repeat while a story scene is on screen ----------
+// 110 BPM, 8 bars from the first sound; the file's silent tail is skipped so the repeat lands on the downbeat.
+const STORY_TRACK = { url: 'music/story.mp3', lufs: -17.2, loop: 8 * 240 / 110 };
+let storyOn = false, storySrc = null, storyG = null;
+function storyMusic(on) {
+  storyOn = on; const a = actx;
+  if (on) { if (!a) return; stopMusic(); if (musicOff()) return;
+    getBuf(STORY_TRACK.url).then(buf => { if (!storyOn || storySrc || musicOff()) return;
+      const [ls, le] = loopPoints(buf, STORY_TRACK.loop), g = a.createGain(), src = a.createBufferSource(), t = a.currentTime + 0.05, pk = trackGain(STORY_TRACK);
+      src.buffer = buf; src.loop = true; src.loopStart = ls; src.loopEnd = le;
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(pk, t + 0.8);
+      src.connect(g).connect(busMusic); src.start(t, ls); storySrc = src; storyG = g; }, () => {});
+    return; }
+  if (storySrc && a) { const t = a.currentTime; try { storyG.gain.cancelScheduledValues(t); storyG.gain.setValueAtTime(storyG.gain.value, t); storyG.gain.linearRampToValueAtTime(0.0001, t + 0.6); storySrc.stop(t + 0.65); } catch (e) {} }
+  storySrc = null; storyG = null;
+  setTimeout(() => { if (!storyOn) playMusic(); }, 1500);   // the studio's playlist comes back after the fade
+}
+
+// ---------- story scenes ----------
+const STA = p => `art/story/${p}.webp`;
+const stImg = (who, p) => `<img class="p-${who}-${p}" src="${STA(who + '-' + p)}" alt="" draggable="false">`;
+const stEnv = gold => `<svg width="210" height="146" viewBox="0 0 270 186" aria-hidden="true"><rect x="3" y="3" width="264" height="180" rx="14" fill="#FFF3D6" stroke="#14122A" stroke-width="5"/><path class="flap" d="M6 9l129 92L264 9" fill="#F6E4B9" stroke="#14122A" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="135" cy="101" r="${gold ? 25 : 18}" fill="${gold ? '#F2B636' : '#A9A3BF'}" stroke="#14122A" stroke-width="5"/>${gold ? '<circle cx="135" cy="101" r="15" fill="none" stroke="#B9780C" stroke-width="3"/><path d="M135 89l3.2 6.6 7.2 1-5.2 5 1.3 7.2-6.5-3.4-6.5 3.4 1.3-7.2-5.2-5 7.2-1z" fill="#B9780C"/>' : ''}
+  <text x="135" y="163" text-anchor="middle" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="28" fill="#2A2440">To: ${esc(cleanName(S.name) || 'You')}</text></svg>`;
+const stTort = () => `<div class="tort" style="left:50%;bottom:112px;transform:translateX(-50%);z-index:2">${TORT(96)}</div>`;
+const stDots = (n, i) => n ? `<div class="dots">${Array.from({ length: n }, (_, k) => `<i class="${k < i ? 'on' : ''}"></i>`).join('')}</div>` : '';
+const stSay = o => `${stDots(o.n, o.i)}<div class="stg">${o.solo ? `<div class="chr solo on">${o.solo}</div>` : `<div class="chr m ${o.who === 'maya' ? 'on' : 'off'}">${stImg('maya', o.m || 'explaining')}</div><div class="chr d ${o.who === 'dex' ? 'on' : 'off'}">${stImg('dex', o.d || 'calm')}</div>`}${o.extra || ''}</div>
+  <div class="card"><span class="nm ${o.who === 'dex' ? 'dex' : ''}">${o.who === 'dex' ? (o.dn || 'Dex') : 'Maya'}</span><p>${o.aside ? `<span class="aside">${o.aside}</span>` : ''}${o.text}</p><span class="next">${o.next || 'TAP TO CONTINUE ›'}</span></div>`;
+const STORY = {
+  letter: () => [
+    { bg: '', open: true, html: `<p class="cap top">Something came in the mail</p><div class="halo" style="opacity:.6"></div><div class="shadow"></div><div class="float">${stEnv(false)}</div><p class="cap bot">Tap to open</p>` },
+    { bg: '', html: `<div class="paper"><p>Your music is reaching people who matter.<br>Keep going.<br>We’ll talk when the time is right.</p><p class="sig">—</p></div><p class="cap bot" style="top:calc(57% + 140px)">Tap to continue</p>` },
+    { bg: '', html: stSay({ who: 'maya', solo: stImg('maya', 'thinking'), text: 'No name? That’s a little strange. Still… whoever sent it believes in you. Come on, album six isn’t going to make itself.', next: 'BACK TO THE TOUR ›' }) }],
+  reveal: () => [
+    { bg: 'gold', open: true, html: `<p class="cap top">Same handwriting. Gold seal.</p><div class="halo gold"></div><div class="shadow"></div><div class="float">${stEnv(true)}</div><p class="cap bot">Tap to open</p>` },
+    { bg: 'gold', html: `<div class="paper look"><p>Look up.</p></div>` },
+    { bg: '', html: `${stDots(5, 1)}<div class="door"><span class="glowd"></span><span class="frame"></span><span class="dexin"><img src="${STA('dex-calm')}" alt="" draggable="false"></span></div><div class="stg"><div class="chr m on">${stImg('maya', 'thinking')}</div></div><div class="card"><span class="nm">Maya</span><p>“Look up”? What does that… oh!</p><span class="next">TAP TO CONTINUE ›</span></div>` },
+    { bg: '', html: stSay({ n: 5, i: 2, who: 'dex', d: 'calm', m: 'thinking', dn: 'Dex Monroe', text: 'You got my note. I’m Dex. Sorry for the mystery—I thought <em>you</em> deserved a proper introduction.' }) },
+    { bg: '', html: stSay({ n: 5, i: 3, who: 'dex', d: 'open', m: 'thinking', aside: 'Maya: “So you sent the first letter?”', text: 'I did. I wanted to see what you’d build before I made you an offer. You’ve built something real.' }) },
+    { bg: '', html: stSay({ n: 5, i: 4, who: 'dex', d: 'open', m: 'explaining', text: 'So here it is. <em>Legendary</em>: the toughest version of each long event. Clear all three, and the reward is yours.' }) },
+    { bg: '', html: stSay({ n: 5, i: 5, who: 'dex', d: 'surprised', m: 'celebrating', extra: stTort(), next: 'I’M IN ›', aside: 'Maya: “Is that… a tortoise?”', text: 'Bassline. My co-producer. Great ear, and he never rushes a session.' }) }],
+  farewell: () => [
+    { bg: '', html: stSay({ n: 5, i: 1, who: 'dex', d: 'calm', m: 'explaining', text: 'Western, Island, and Galaxy. All three, on Legendary. You’re the first artist besides me to finish them.' }) },
+    { bg: '', html: stSay({ n: 5, i: 2, who: 'dex', d: 'sincere', m: 'explaining', text: 'I came here to help you find your sound. Somewhere along the way, you found it.' }) },
+    { bg: '', html: stSay({ n: 5, i: 3, who: 'dex', d: 'sincere', m: 'thinking', aside: 'Maya: “So this is goodbye?”', text: 'For the lessons, maybe. I’ll still be around.' }) },
+    { bg: '', html: stSay({ n: 5, i: 4, who: 'dex', d: 'surprised', m: 'celebrating', extra: stTort(), aside: 'Maya: “And Bassline?”', text: 'Looks like Bassline has really taken a liking to you. I’ve never seen him choose someone that quickly.' }) },
+    { bg: '', html: stSay({ n: 5, i: 5, who: 'dex', d: 'sly', m: 'celebrating', extra: stTort(), next: 'TAKE BASSLINE ›', aside: 'Maya: “He’s going with you?”', text: 'If you want him, I think he’s chosen his next partner. Keep a sandwich handy—he has standards.' }) },
+    { bg: '', reward: true, html: () => `<div class="halo" style="top:34%"></div><div class="rw"><h2>Bassline joined you</h2><div class="rwt">${TORT(170)}</div><span class="dxttl big">${DEX_TITLE}</span><p class="sub">New title · shows on your profile</p>
+      <button class="tog" data-sttog aria-pressed="${S.dex.bass !== false}">Bassline follows you in the studio <span class="sw ${S.dex.bass !== false ? 'on' : ''}"></span></button><button class="btn" data-stgo>Keep going</button></div>` }],
+};
+let storyBusy = false;
+// plays one or more scenes back to back. replay = no effects (Events > Replay story)
+function storyPlay(ids, replay) {
+  if (storyBusy) return; storyBusy = true; ids = [].concat(ids);
+  const app = $('app').getBoundingClientRect(), tabs = document.querySelector('.tabs');
+  const k = document.createElement('div'); k.id = 'storyK'; document.body.appendChild(k);
+  const m = document.createElement('div'); m.id = 'story'; m.className = 'hide'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-label', 'Story');
+  Object.assign(m.style, { left: app.left + 'px', width: app.width + 'px' }); m.style.setProperty('--tabs', (tabs ? tabs.getBoundingClientRect().height : 84) + 'px');
+  document.body.appendChild(m); closePop(); updateTut();
+  // every pose is loaded before the scene starts, so no art pops in late
+  ['dex-calm', 'dex-open', 'dex-sincere', 'dex-sly', 'dex-surprised', 'maya-thinking', 'maya-explaining', 'maya-celebrating'].forEach(p => { const i = new Image(); i.src = STA(p); });
+  let si = 0, beats = STORY[ids[0]](), bi = 0, at = 0, opening = false;
+  const finish = id => { if (replay) return; const d = dexS(); d.q = d.q.filter(x => x !== id);
+    if (id === 'letter') d.letter = 1;
+    if (id === 'reveal') { d.met = 1; d.letter = 1; d.point = 1; }
+    if (id === 'farewell') { d.done = 1; if (d.bass == null) d.bass = true; applyLook(); }
+    save(); };
+  const show = popped => { const b = beats[bi], h = typeof b.html === 'function' ? b.html() : b.html;
+    const out = popped ? `<div class="halo ${b.bg} burst"></div><div class="float envout">${stEnv(b.bg === 'gold')}</div>${Array.from({ length: 10 }, (_, i) => { const a = i / 10 * Math.PI * 2; return `<i class="stspk" style="--x:${Math.round(Math.cos(a) * 150)}px;--y:${Math.round(Math.sin(a) * 120 - 30)}px;animation-delay:${(i % 3) * 40}ms"></i>`; }).join('')}` : '';
+    m.innerHTML = `<div class="bg ${b.bg}"></div><div class="lay ${bi === 0 ? 'first' : ''} ${popped ? 'popped' : ''}">${out}${h}</div>${b.reward ? '' : '<button class="skip" data-stskip>Skip ›</button>'}`; at = Date.now(); };
+  const end = () => { finish(ids[si]);
+    if (si + 1 < ids.length) { si++; beats = STORY[ids[si]](); bi = 0; k.classList.add('on'); setTimeout(() => { show(); k.classList.remove('on'); }, 650); return; }
+    m.onclick = null; k.style.transition = 'none'; k.classList.add('on'); k.offsetWidth; k.style.transition = ''; m.classList.add('hide');
+    storyMusic(false);
+    setTimeout(() => { m.remove(); k.style.transitionDuration = '700ms'; k.classList.remove('on'); setTimeout(() => { k.remove(); storyBusy = false; render(); updateTut(); setTimeout(dexCheck, 400); }, 750); }, 650); };
+  m.onclick = e => {
+    if (Date.now() - at < 350) return;
+    if (e.target.closest('[data-stskip]')) { sfx('tap'); return end(); }
+    if (e.target.closest('[data-sttog]')) { sfx('tap'); const d = dexS(); d.bass = d.bass === false; save(); applyLook(); return show(); }
+    if (beats[bi].reward) { if (e.target.closest('[data-stgo]')) { sfx('tap'); end(); } return; }
+    if (opening) return;
+    if (beats[bi].open) { opening = true; sfx('pop'); const l = m.querySelector('.lay'); if (l) l.classList.add('opening');   // the envelope squashes and its flap opens, then the letter pops out
+      return setTimeout(() => { opening = false; bi++; show(true); }, 420); }
+    sfx('click'); if (bi + 1 < beats.length) { bi++; show(); } else end(); };
+  // fade to black (0.6 s), the scene fades up over it (0.8 s); the music fades in with the scene
+  requestAnimationFrame(() => { k.classList.add('on'); storyMusic(true);
+    setTimeout(() => { show(); m.classList.remove('hide'); setTimeout(() => { k.style.transition = 'none'; k.classList.remove('on'); k.offsetWidth; k.style.transition = ''; }, 820); }, 620); });
+}
+const storyPending = () => !!(S && S.dex && ((S.dex.q && S.dex.q.length) || (S.dex.pop && S.dex.pop.length)));
+// one place decides when a scene or the Legendary panel can show: nothing else open, loading screen gone, not mid-tutorial
+function dexCheck() {
+  if (!S || !S.onboarded || storyBusy || !storyPending() || !$('scrim').hidden || !$('boxPop').hidden || document.querySelector('.upload') || $('dxPop')) return false;
+  const sp = document.getElementById('splash'); if (sp && !sp.classList.contains('done')) return false;
+  if (tutActive()) return false;
+  const d = dexS();
+  if (d.q.length) { storyPlay(d.q.slice()); return true; }
+  if (d.pop.length) { dexPopShow(); return true; }
+  return false;
+}
+
+// ---------- "Legendary cleared!" panel ----------
+function dexPopShow() {
+  const d = dexS(), id = d.pop[0], ev = EV_DEFS[id], it = itemById(DEX_REWARD[id]); if (!ev || !it) { d.pop.shift(); save(); return; }
+  const n = dexCleared(), last = n >= 3 && !d.done && d.pop.length === 1;
+  const el = document.createElement('div'); el.id = 'dxPop';
+  el.innerHTML = `<div class="lgd" role="dialog" aria-label="Legendary cleared"><div class="lg-hd"><b>Legendary cleared!</b><small>${ev.title} · ${EV_MAX_PTS} / ${EV_MAX_PTS}</small></div><div class="lg-bd">
+    <div class="lg-rw"><span class="lg-pc">${itemArt(it, 54)}</span><span><b>${it.name}</b><span>Dex’s challenge reward · look only</span></span></div>
+    <p class="lg-prog"><em>${n} of 3</em> events cleared on Legendary</p>${last ? '<p class="lg-prog lg-word">Dex wants a word…</p>' : ''}<button class="cta" data-dxcollect>Collect</button></div></div>`;
+  $('app').appendChild(el); sfx('reward');
+}
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-dxcollect]')) { sfx('tap'); const d = dexS(), p = $('dxPop'); d.pop.shift();
+    if (dexCleared() >= 3 && !d.done && !d.pop.length && !d.q.includes('farewell')) d.q.push('farewell');
+    save(); if (p) p.remove(); setTimeout(dexCheck, 200); return; }
+  if (e.target.closest('[data-dxreplay]')) { sfx('tap'); closeSheet(); return setTimeout(() => storyPlay(['reveal', 'farewell'], true), 250); }
+  if (e.target.closest('[data-dxbass]')) { sfx('tap'); const d = dexS(); d.bass = d.bass === false; save(); applyLook(); return openTab('events'); }
+});
+
+// ---------- Events tab: Dex's challenge card (below the event cards), then one slim row once it's done ----------
+function dexCard() {
+  if (!dexMet()) return '';
+  const face = `<img src="${STA('dex-face')}" alt="" draggable="false">`;
+  if (dexDone()) return `<div class="dxdone"><span class="fc">${face}</span><span class="t"><b>Legendary Challenge</b><small>Complete ✓ · Bassline is ${dexBass() ? 'with you' : 'resting'}</small></span>
+    <span class="lk"><button data-dxreplay>Replay story</button></span></div>`;
+  const row = id => { const best = evBestOf(id), got = S.dex.clr[id], lv = got ? 4 : EV_DIFF_IDS.indexOf(best) + 1, nx = EV_DIFF_IDS[Math.min(3, lv)];
+    return `<div class="dxrow"><span class="em">${evEmblem(id, 26)}</span><span class="nm">${EV_DEFS[id].name}</span><span class="pips">${[0, 1, 2, 3].map(i => `<i class="${i < lv ? (i === 3 ? 'gold' : 'on') : ''}"></i>`).join('')}</span><span class="st ${got ? 'ok' : ''}">${got ? 'Cleared ✓' : EV_DIFF[nx].name + ' next'}</span></div>`; };
+  return `<div class="evdet dxcard"><div class="evhead"><span class="evbig">${face}</span><span class="t"><small>Dex’s challenge · long-term</small><b>Legendary Challenge</b><span>${dexCleared()} of 3 cleared on Legendary</span></span></div>
+    <div class="dxsteps">${EV_ROT.map(row).join('')}</div><div class="dxgoal">${TORT(22)}<span>Clear all three on Legendary to earn Bassline</span></div></div>`;
+}
+// after the reveal Maya points at Events once (tutorial style); it ends when Events opens
+const DEX_TIP = { id: 'dexev', force: true, text: () => say('explaining', 'Dex’s challenges live in the Events tab. Let’s take a look!'), target: () => $('eventsBtn'),
+  done: () => { if (sheetKey === 'events' || !S.dex || !S.dex.point) { if (S.dex) S.dex.point = 0; return true; } return false; } };
+// Maya's between-album note, waist-up behind the white card
+const mayaNote = (pose, text) => `<div class="maya-note v2"><span class="m2fig"><span class="mcrop"><img src="${STA('maya-' + pose)}" alt="" draggable="false"></span></span><div class="m2card"><span class="nm2">Maya</span><p>${text}</p></div></div>`;
+
+// Style > character: Bassline on/off and his colour variants (hidden until the farewell)
+function bassSec() {
+  if (!dexDone()) return '';
+  const on = dexBass(), cur = bassVar(), n = bassAlbums(), nx = BASS_IDS.find(v => n < BASS_V[v].at);
+  const pk = v => { const V = BASS_V[v], open = n >= V.at;
+    return `<button class="pk bassv ${on && cur === v ? 'on' : ''} ${open ? '' : 'lk'}" data-bassv="${v}" ${open ? '' : 'disabled'} aria-label="Bassline ${V.name}${open ? '' : ', locked'}">${TORT(44, v)}<small>${open ? V.name : LOCK_S + ' ' + V.at}</small></button>`; };
+  return `<div class="sec"><h3>Bassline</h3><div class="picks bassp" style="--n:5"><button class="pk bassv off ${on ? '' : 'on'}" data-bassv="off" aria-label="Bassline off"><span class="sw none"></span><small>Off</small></button>${BASS_IDS.map(pk).join('')}</div>
+    <p class="bassnote">${nx ? `Drop albums with Bassline out to unlock new colors · ${n} / ${BASS_V[nx].at} for ${BASS_V[nx].name}` : 'Every Bassline color unlocked!'}</p></div>`;
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-bassv]'); if (!b || b.disabled) return; sfx('tap'); const d = dexS(), v = b.dataset.bassv;
+  if (v === 'off') d.bass = false; else { d.bass = true; d.bv = v; } save(); applyLook(); openTab('style'); });
+
+// ---------- the Signature Set: Dex's three look-only pieces, one per long event cleared on Legendary ----------
+ITEMS.push({ id: 'dexponcho', rar: 'signature', slot: 'top', name: 'Dex’s Desert Poncho', gift: true, bonus: 0, perk: 'Western on Legendary', look: { style: 'dexponcho', body: '#F2E6CC', trim: '#5A3E2B' } },
+  { id: 'dexbeads', rar: 'signature', slot: 'neck', name: 'Dex’s Shell Beads', gift: true, bonus: 0, perk: 'Island on Legendary', look: { style: 'dexbeads', color: '#C99A62' } },
+  { id: 'dexspecs', rar: 'signature', slot: 'face', name: 'Dex’s Star Specs', gift: true, bonus: 0, perk: 'Galaxy on Legendary', look: { style: 'dexspecs' } });
+const DXK = '#1B1830', DXPUR = '#8E57B5', DXTEAL = '#3FA7A3', DXGOLD = '#E9B949', DXCREAM = '#F2E6CC';
+const DX_PONCHO = 'M62 95 Q80 89 98 95 Q120 98 126 108 Q131 120 130 140 Q130 146 122 147 Q80 165 38 147 Q30 146 30 140 Q29 120 34 108 Q40 98 62 95 Z';
+let DXP_N = 0;
+const dxSwirl = (cx, cy, c1, c2) => { let sw = ''; for (const [o, c] of [[0, c1], [Math.PI, c2]]) { let d = ''; for (let a = 0; a <= 2.3 * Math.PI; a += 0.25) { const r = .8 + .95 * a; d += (a ? 'L' : 'M') + (cx + r * Math.cos(a + o)).toFixed(1) + ' ' + (cy + r * Math.sin(a + o)).toFixed(1); } sw += `<path d="${d}" fill="none" stroke="${c}" stroke-width="1.9" stroke-linecap="round"></path>`; }
+  return `<circle cx="${cx}" cy="${cy}" r="8" fill="${DXCREAM}" stroke="${DXGOLD}" stroke-width="2"></circle>` + sw; };
+// the poncho replaces the shirt: its edge is the shoulder line, it drapes over the upper arms and the hands come out at the hem corners
+function dexPoncho(ln, sk, big) {
+  const id = 'dxpc' + (DXP_N++), hem = d => `M24 ${138.4 - d} Q80 ${173.6 - d} 136 ${138.4 - d}`;
+  const fr = Array.from({ length: 11 }, (_, i) => { const tt = .12 + i * .076, x = (38 + 84 * tt).toFixed(1), y = (147 + 36 * tt * (1 - tt) - 1).toFixed(1);
+    return `<path d="M${x} ${y} v5.5" stroke="${DXK}" stroke-width="5" stroke-linecap="round"></path><path d="M${x} ${y} v5.5" stroke="${i % 2 ? DXCREAM : DXGOLD}" stroke-width="2.4" stroke-linecap="round"></path>`; }).join('');
+  const [hx, hy, hr] = big ? [44, 153, 7] : [43, 152, 9];
+  return `<defs><clipPath id="${id}"><path d="${DX_PONCHO}"></path></clipPath></defs><path d="${DX_PONCHO}" fill="${DXCREAM}" ${ln}></path>
+    <g clip-path="url(#${id})"><path d="${hem(11)}" fill="none" stroke="${DXPUR}" stroke-width="4.2"></path><path d="${hem(7.2)}" fill="none" stroke="${DXGOLD}" stroke-width="2"></path><path d="${hem(3.2)}" fill="none" stroke="${DXTEAL}" stroke-width="4"></path>
+    <path d="M69 101 L63 146 M91 101 L97 146" stroke="${DXGOLD}" stroke-width="1.4" stroke-dasharray="2.4 2.4" opacity=".9"></path>
+    <path d="M37 112 Q41 118 40 126 M123 112 Q119 118 120 126" fill="none" stroke="#000" stroke-width="1.6" opacity=".12" stroke-linecap="round"></path>
+    <path d="M44 112 Q80 122 116 112" fill="none" stroke="${DXTEAL}" stroke-width="1.6" opacity=".5"></path></g>
+    ${dxSwirl(52, 129, DXPUR, DXTEAL)}${dxSwirl(108, 129, DXTEAL, DXPUR)}<path d="${DX_PONCHO}" fill="none" ${ln}></path>
+    <path d="M69 95.5 Q80 104.5 91 95.5" fill="${DXPUR}" stroke="${DXK}" stroke-width="3" stroke-linejoin="round"></path>${fr}
+    <circle ${sk} cx="${hx}" cy="${hy}" r="${hr}" ${ln}></circle><circle ${sk} cx="${160 - hx}" cy="${hy}" r="${hr}" ${ln}></circle>`;
+}
+// cream, wood and teal beads with gold spacers; the centrepiece is a tortoise-shell medallion (gold bezel, teal enamel ring)
+function dexBeads(big) {
+  const [x0, y0, cx, cy, x1, y1] = big ? [66, 99, 80, 121, 94, 99] : [64, 99, 80, 123, 96, 99];
+  const at = u => [(1 - u) * (1 - u) * x0 + 2 * (1 - u) * u * cx + u * u * x1, (1 - u) * (1 - u) * y0 + 2 * (1 - u) * u * cy + u * u * y1];
+  const seq = [[DXCREAM, 3.4], ['#B97A45', 3.6], [DXTEAL, 3.4], [DXGOLD, 2.4], [null], [DXGOLD, 2.4], [DXTEAL, 3.4], ['#B97A45', 3.6], [DXCREAM, 3.4]];
+  const pts = seq.map((_, i) => at(i / 8));
+  let o = `<path d="M${x0} ${y0} Q${cx} ${cy} ${x1} ${y1}" fill="none" stroke="${DXK}" stroke-width="1.6"></path>`;
+  o += pts.map(([x, y], i) => seq[i][0] ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${seq[i][1]}" fill="${seq[i][0]}" stroke="${DXK}" stroke-width="1.4"></circle>` : '').join('');
+  const mx = pts[4][0], my = pts[4][1] + 7.5;
+  const hx = Array.from({ length: 6 }, (_, i) => { const a = Math.PI / 6 + i * Math.PI / 3; return [mx + 2.6 * Math.cos(a), my + 2.3 * Math.sin(a)]; });
+  return o + `<path d="M${mx - 2.4} ${my - 8.6} q2.4 -3.2 4.8 0" fill="none" stroke="${DXK}" stroke-width="3.6" stroke-linecap="round"></path><path d="M${mx - 2.4} ${my - 8.6} q2.4 -3.2 4.8 0" fill="none" stroke="${DXGOLD}" stroke-width="1.6" stroke-linecap="round"></path>
+    <ellipse cx="${mx}" cy="${my}" rx="9.8" ry="8.8" fill="${DXGOLD}" stroke="${DXK}" stroke-width="1.9"></ellipse><ellipse cx="${mx}" cy="${my}" rx="8.6" ry="7.6" fill="none" stroke="#FFE7A3" stroke-width=".9" opacity=".9"></ellipse>
+    <ellipse cx="${mx}" cy="${my}" rx="7.3" ry="6.4" fill="${DXTEAL}" stroke="#9A6F1E" stroke-width=".9"></ellipse><ellipse cx="${mx}" cy="${my}" rx="5.6" ry="4.9" fill="#7A4E2A" stroke="#3E2715" stroke-width=".9"></ellipse>
+    <path d="${hx.map(([x, y], i) => (i ? 'L' : 'M') + x.toFixed(2) + ' ' + y.toFixed(2)).join('')}Z" fill="#C08A4B" stroke="#3E2715" stroke-width=".8"></path>
+    <path d="${hx.map(([x, y]) => 'M' + x.toFixed(2) + ' ' + y.toFixed(2) + 'L' + (mx + (x - mx) * 2.05).toFixed(2) + ' ' + (my + (y - my) * 2.05).toFixed(2)).join('')}" stroke="#3E2715" stroke-width=".8"></path>
+    <path d="M${mx - 4.6} ${my - 1.6} q1.4 -3 4.4 -3.4" stroke="#fff" stroke-width="1.3" fill="none" opacity=".8" stroke-linecap="round"></path>`;
+}
+// round tortoiseshell frames, rose lenses, gold bridge, a small gold star on the right frame (no ear arms, like the other glasses)
+const DEX_SPECS = `<path d="M77.5 67 Q80 64 82.5 67" fill="none" stroke="${DXGOLD}" stroke-width="2.6" stroke-linecap="round"></path>
+  <circle cx="66.5" cy="68" r="11" fill="#F29BB5" fill-opacity=".42" stroke="#8A4E2B" stroke-width="3.2"></circle><circle cx="93.5" cy="68" r="11" fill="#F29BB5" fill-opacity=".42" stroke="#8A4E2B" stroke-width="3.2"></circle>
+  <circle cx="66.5" cy="68" r="11" fill="none" stroke="#5A2F17" stroke-width="1" stroke-dasharray="2 3" opacity=".6"></circle><circle cx="93.5" cy="68" r="11" fill="none" stroke="#5A2F17" stroke-width="1" stroke-dasharray="2 3" opacity=".6"></circle>
+  <path d="M61.5 62.5 Q63.5 60.3 66.5 60.3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity=".75"></path>
+  <path transform="translate(101.4 59.4)" d="M0 -5.2 L1.5 -1.6 5.1 -1.6 2.2 .6 3.2 4.2 0 2.1 -3.2 4.2 -2.2 .6 -5.1 -1.6 -1.5 -1.6 Z" fill="${DXGOLD}" stroke="${DXK}" stroke-width="1.3" stroke-linejoin="round"></path>`;
+
+// Build 288 proposal: illustrated art for the four events that still use a plain line icon (same style as the camera / gift / gems art)
+const EVK = '#14122A';
+const EV_BURST = c => `<path d="M32 4 L36 14 L46 8 L44 19 L56 18 L48 27 L58 32 L48 37 L56 46 L44 45 L46 56 L36 50 L32 60 L28 50 L18 56 L20 45 L8 46 L16 37 L6 32 L16 27 L8 18 L20 19 L18 8 L28 14 Z" fill="${c}" opacity=".9"></path>`;
+const evStarP = (cx, cy, r, fill) => { const p = Array.from({ length: 10 }, (_, i) => { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .45 : r; return (cx + rr * Math.cos(a)).toFixed(1) + ',' + (cy + rr * Math.sin(a)).toFixed(1); }).join(' '); return `<polygon points="${p}" fill="${fill}" stroke="${EVK}" stroke-width="1.8" stroke-linejoin="round"></polygon>`; };
+const EV_ART2 = {
+  // Label Tuesday: a record with a lime label and a star (your Label), soft lime burst
+  tuesday: `<svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true">${EV_BURST('#DDF3A8')}<circle cx="32" cy="33" r="21" fill="#2B2742" stroke="${EVK}" stroke-width="3"></circle><circle cx="32" cy="33" r="15.5" fill="none" stroke="#45405F" stroke-width="1.6"></circle><circle cx="32" cy="33" r="11" fill="none" stroke="#45405F" stroke-width="1.6"></circle><circle cx="32" cy="33" r="8.5" fill="#B5E06A" stroke="${EVK}" stroke-width="2.5"></circle>${evStarP(32, 33, 5.2, '#fff')}<path d="M18 22 Q22 17 28 15.5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".55"></path></svg>`,
+  // Studio Sprint: a pink stopwatch with a gold star (race for milestone stars)
+  wed: `<svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true"><g transform="translate(0 4)">${EV_BURST('#FFD3E4')}</g><rect x="29" y="11" width="6" height="8" fill="#FF8FC0" stroke="${EVK}" stroke-width="2.6"></rect><rect x="26" y="6" width="12" height="7" rx="2.5" fill="#FF8FC0" stroke="${EVK}" stroke-width="2.6"></rect><g transform="rotate(45 32 36)"><rect x="29.5" y="12" width="5" height="7" fill="#FF8FC0" stroke="${EVK}" stroke-width="2.4"></rect><rect x="27.5" y="8" width="9" height="5.5" rx="2" fill="#FF8FC0" stroke="${EVK}" stroke-width="2.4"></rect></g><circle cx="32" cy="36" r="20" fill="#FF6FAE" stroke="${EVK}" stroke-width="3"></circle><circle cx="32" cy="36" r="14.5" fill="#FFF3F8" stroke="${EVK}" stroke-width="2.5"></circle>${evStarP(32, 37, 8, '#FFD93D')}<path d="M32 22.5 v3 M45.5 36 h-3 M32 49.5 v-3 M18.5 36 h3" stroke="${EVK}" stroke-width="2" stroke-linecap="round"></path></svg>`,
+  // Tour Rush: the tour van on the road
+  tour: `<svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true">${EV_BURST('#D6E2FF')}<path d="M8 51 H56" stroke="${EVK}" stroke-width="3" stroke-linecap="round"></path><path d="M10 44 V24 Q10 19 15 19 H42 Q47 19 50 23 L55 32 Q56 34 56 37 V44 Z" fill="#6F8FF2" stroke="${EVK}" stroke-width="3" stroke-linejoin="round"></path><path d="M10 37 H56" stroke="#FFD93D" stroke-width="3.5"></path><rect x="15" y="24" width="9" height="8" rx="2" fill="#CFE6FF" stroke="${EVK}" stroke-width="2.2"></rect><rect x="27" y="24" width="9" height="8" rx="2" fill="#CFE6FF" stroke="${EVK}" stroke-width="2.2"></rect><path d="M40 24 H45 Q47 24 48 26 L51 32 H40 Z" fill="#CFE6FF" stroke="${EVK}" stroke-width="2.2" stroke-linejoin="round"></path><circle cx="20" cy="45" r="5.5" fill="#2B2742" stroke="${EVK}" stroke-width="2.6"></circle><circle cx="20" cy="45" r="2" fill="#C9C6D3"></circle><circle cx="45" cy="45" r="5.5" fill="#2B2742" stroke="${EVK}" stroke-width="2.6"></circle><circle cx="45" cy="45" r="2" fill="#C9C6D3"></circle></svg>`,
+  // Hype Weekend: a big lightning bolt with sparks (no inner tile)
+  hype: `<svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true">${EV_BURST('#FFD9C6')}<path d="M36 6 L15 36 H29 L25 58 L49 25 H35 L39 6 Z" fill="#FF9F43" stroke="${EVK}" stroke-width="3" stroke-linejoin="round"></path><path d="M35 11 L21 32" stroke="#FFD08A" stroke-width="2.6" stroke-linecap="round"></path>${evStarP(51, 13, 4, '#FFD93D')}${evStarP(13, 50, 3.4, '#FFD93D')}</svg>`,
+};
+
 function start(data) {
   setTimeout(onAudioState, 0);   // a tap on the loading screen may already have woken the audio: start the music as soon as the game is up
   syncShine(document);
@@ -9269,6 +9670,8 @@ function start(data) {
   if (TEST) { S.test = Object.assign({ speed: 10, hype: true }, S.test); if (!S.onboarded) { S.onboarded = true; S.name = 'Test Artist'; } $('testChip').hidden = false; }
   if (S.runPlay == null) S.runPlay = S.stats.playSec;
   ITEMS.forEach(i => { if (i.album && i.album <= (S.albums || 0)) S.owned[i.id] = true; });
+  { const d = dexS(); if ((S.albums || 0) >= 10 && !d.met && !d.q.includes('reveal')) d.q.push('reveal');   // Build 288: no letter for players already past album 10
+    Object.keys(d.clr).forEach(id => { const it = DEX_REWARD[id]; if (it) S.owned[it] = true; }); }
   delete S.dLegacy; delete S.dNote; delete S.dV;   // Build 162's early tester bonus ended with the reset
   if (S.resetNote && !TEST) { let tries = 0; const t = setInterval(() => { tries++; if (!S.resetNote || tries > 40) return clearInterval(t);
     const sp = document.getElementById('splash'); if (sp && !sp.classList.contains('done')) return;   // wait for the loading screen to finish
@@ -9325,6 +9728,7 @@ function start(data) {
   setInterval(() => { if (!document.hidden && S.onboarded) frLoad(); }, 300000);   // Labels: Hype from labelmates, queued XP
   if (S.passRecap) { const r = S.passRecap; S.passRecap = null; setTimeout(() => toast('Backstage Pass season ended. Delivered: ' + rewardLine(r)), 3200); }
   render(); save(); startTracking();
+  setInterval(() => { if (!document.hidden) dexCheck(); }, 1500);   // Build 288: story scenes and the Legendary panel
   setTimeout(cloudBoot, 2500); setInterval(() => backup(), 180000);   // back up every 3 minutes when something changed
   requestAnimationFrame(t => { lastT = t; requestAnimationFrame(tick); });
   if (window.splashProgress) {   // game state and room are ready; wait for the fonts and this map's room art, nothing else
