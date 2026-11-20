@@ -520,6 +520,31 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 .item .bar { padding: 5px 4px; font: 400 12px var(--display); color: #fff; display: flex; align-items: center; justify-content: center; gap: 4px; }
 .item.locked { border: 3px dashed #9C95BC; background: #DCD7EC; }
 .item.locked .art { opacity: .5; }
+/* Build 286: blueprints */
+.item.bp { border: 3px dashed var(--rc); background: #fff; overflow: visible; }
+.item.bp .art { opacity: .6; filter: grayscale(.85); }
+.item.bp .bar { background: #fff !important; color: var(--rc); font-size: 13px; }
+.item .bpdot { position: absolute; top: -6px; right: -6px; z-index: 3; width: 15px; height: 15px; border-radius: 50%; background: #F0524A; border: 2px solid #fff; box-sizing: border-box; }
+/* the build window */
+.bp-mc { width: min(100%, 286px); border-radius: 22px; box-shadow: 0 14px 40px rgba(0,0,0,.4); padding: 14px 14px 18px !important; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.bp-mc .lb-mc-h { width: 100%; margin: 0; flex-direction: column; } .bp-mc .lb-mc-h small { font: 800 15px var(--body); color: var(--rc); margin-top: 2px; }
+.bp-hero { position: relative; display: grid; place-items: center; width: 100%; padding: 12px 0 2px; overflow: visible; }
+.bp-hero .bp-i { position: absolute; right: 8px; top: 12px; }
+.bp-info { margin: -4px 0 0; padding: 8px 10px; border-radius: 12px; background: #F1EEF8; color: #3F3868; font: 600 13px/1.35 var(--body); text-align: center; }
+.bp-need { align-self: stretch; margin: 0; color: #8A84A6; font: 800 14px var(--body); text-align: center; }
+.bp-parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; align-self: stretch; padding: 0 2px 6px; }
+/* same border, dash and corner as a blueprint card in the Style grid */
+.bp-part { position: relative; display: flex; flex-direction: column; aspect-ratio: 118 / 142; border-radius: 14px; border: 3px dashed var(--pc); background: #fff; }
+.bp-part .bp-pa { flex: 1; min-height: 0; display: grid; place-items: center; padding-top: 4px; box-sizing: border-box; }
+.bp-part .bp-pb { color: var(--pc); background: #fff; text-align: center; font: 400 10.5px/1.9 var(--display); border-radius: 0 0 10px 10px; }
+/* Eatventure style: what you still need is in full color; what you already have is greyed out under a big check */
+.bp-part.got { border-style: solid; border-color: color-mix(in srgb, var(--pc) 35%, #fff); background: #fff; }
+.bp-part.got .bp-pa { opacity: .45; filter: grayscale(1); } .bp-part.got .bp-pb { color: color-mix(in srgb, var(--pc) 45%, #fff); }
+.bp-part .bp-ck { position: absolute; right: -10px; bottom: 14px; z-index: 2; line-height: 0; }
+.bp-mc .cta { margin: 6px 0 0; align-self: stretch; }
+html .lb-modal .lb-mc.bp-mc { width: min(100%, 300px); } html .bp-mc .lb-mc-h b { font-size: 17px; padding: 0 34px; }
+html .bp-mc .bp-need { color: #6E6890 !important; opacity: 1 !important; } html .bp-mc .bp-info { color: #3F3868 !important; opacity: 1 !important; }
+.bp-mc .cta:disabled { background: #CFCBDB !important; color: #fff !important; box-shadow: 0 5px 0 #AAA5BB !important; }
 .item .eq { position: absolute; top: 4px; left: 4px; z-index: 1; background: var(--deep); color: #fff; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 2px 7px; }
 .nameinput { box-sizing: border-box; height: 50px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel-2); color: var(--text); font: 600 18px var(--body); padding: 0 14px; -webkit-user-select: text; user-select: text; }
 .nameinput:focus { outline: none; border-color: var(--gem); }
@@ -2167,6 +2192,10 @@ html .phero2 .pvipsum { margin: 8px 0 0; text-align: center; font: 600 12.5px va
 .bx-card { position: relative; display: flex; flex-direction: column; background: #fff; border: 3px solid var(--rc); border-radius: 12px; overflow: hidden; min-width: 0; }
 .bx-card .bx-c { position: absolute; top: 0; left: 0; z-index: 2; padding: 1px 6px 2px; border-radius: 0 0 9px 0; background: var(--rc); color: #fff; font: 800 10.5px var(--body); }
 .bx-card .bx-c.new { background: #2BB673; }
+.bx-card .bx-bp { position: absolute; top: 0; right: 0; z-index: 2; padding: 1px 6px 2px; border-radius: 0 0 0 9px; background: #5B8DEF; color: #fff; font: 800 10.5px var(--body); }
+.bx-card.big .bx-bp { font-size: 13px; padding: 3px 9px 4px; }
+.bx-card.bpc { border-style: dashed; } .bx-card.bpc .bx-art { opacity: .6; filter: grayscale(.85); }
+.bx-card.bpc .bx-band { background: #fff; color: var(--rc); }
 .bx-card .bx-art { display: grid; place-items: center; padding: 14px 2px 4px; aspect-ratio: 1; box-sizing: border-box; }
 .bx-card .bx-art svg { width: 100%; height: auto; max-width: 64px; }
 .bx-card .bx-band { background: var(--rc); color: #fff; text-align: center; font: 400 11px/1.9 var(--display); }
@@ -2405,7 +2434,7 @@ html .lb-mc.lb-don .lb-don-note { margin: 20px 0 0; text-align: center; font: 60
       </button>
       <button class="sbtn labels" id="labelsBtn" aria-label="Labels">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M6.5 9.2a6 6 0 0 1 2.7-2.7M17.5 14.8a6 6 0 0 1-2.7 2.7"></path></svg>
-        <span class="cap">Labels</span>
+        <span class="cap">Labels</span><span class="bang" id="labelsBang" hidden>!</span>
       </button>
       <button class="sbtn events" id="eventsBtn" aria-label="Events">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.4 21.6 8.1 6.7l9.2 9.2z" fill="currentColor"></path><path d="M5.5 16.75l1.7 1.7M7.4 12.5l4.1 4.1" stroke="#FFFDF7" stroke-width="1.3"></path><ellipse cx="12.9" cy="11.1" rx="6.4" ry="2.4" transform="rotate(45 12.9 11.1)" fill="#FFFDF7" stroke-width="2.3"></ellipse><path d="M14.3 5.4c.1-2.3 2.2-3.2 3.2-1.9.8 1.1-.4 2.3.7 3 1 .6 2.1-.2 2.4-1.5"></path><path d="M18.9 11.9c1.4-.5 2.2.4 3.3 0"></path><circle cx="21.9" cy="2.4" r="1" fill="currentColor" stroke="none"></circle><circle cx="21.3" cy="16.4" r="1" fill="currentColor" stroke="none"></circle><path d="M10.6 1.9l.6 1.5"></path></svg>
@@ -3414,7 +3443,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 285, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 286, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5249,6 +5278,11 @@ const lbMeRow = () => LB.st && LB.st.me;
 const lbIsOwner = () => !!(lbMeRow() && lbMeRow().role === 'owner');
 const lbSent = () => (lbMeRow() && lbMeRow().hype_to) || [];
 const lbHypesLeft = () => Math.max(0, LB_HYPES - lbSent().length);
+// Build 286: the "!" on Labels: a level reward to claim, an invite (not in a label), 10+ Style Tokens to donate,
+// or (once a day, until Labels is opened) Hype left to send to labelmates / Label Tuesday
+const lbAlert = () => { if (!S.onboarded || PREVIEW_LOCK || PLAYTEST || !LB.st) return false; const inL = !!lbL(), seen = S.lbSeen === dayKey();
+  if (!inL) return !!(LB.invites || []).length;
+  return !!LB.st.claim || sboxState().tokens >= 10 || (!seen && ((lbHypesLeft() > 0 && (LB.st.members || []).length >= 2) || ev() === 'tuesday')); };
 const lbSeason = () => { const d = new Date(); return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0'); };
 const lbSeasonEnd = () => { const d = new Date(); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1); };
 const lbTwo = ms => { const t = Math.max(0, ms), d = Math.floor(t / 864e5), h = Math.floor(t % 864e5 / 36e5), m = Math.floor(t % 36e5 / 6e4); return d ? d + 'd ' + h + 'h' : h + 'h ' + m + 'm'; };   // two units only
@@ -5964,11 +5998,14 @@ $('scrim').addEventListener('click', e => {
   const itb = e.target.closest('[data-item]');
   if (itb) { const it = itemById(itb.dataset.item); if (!it) return;
     if (S.owned[it.id]) { if (S.equip[it.slot] === it.id) { if (it.slot !== 'top') S.equip[it.slot] = null; } else S.equip[it.slot] = it.id; applyLook(); save(); render(); sfx('tap'); return openTab('style'); }
+    if (bpHas(it.id)) { sfx('tap'); styleModal = 'bp:' + it.id; bpInfo = false; return openTab('style'); }
     if (it.album) { sfx('denied'); toast(`Unlocks when you drop album ${it.album}`); return; }
     if (it.cm) { sfx('denied'); toast('Commons come from Style Boxes'); return; }
     if (topTier(it)) { sfx('denied'); toast(it.rar === 'mythic' ? 'Mythics come only from Label Boxes' : 'Ultimates come only from Event Boxes'); return; }
     if (it.gems) { sfx('denied'); toast(`Find it in Style Boxes (${it.rar === 'legendary' ? 'Big Box' : 'Small or Big Box'})`); return; }
     sfx('denied'); return; }
+  if (e.target.closest('[data-bpinfo]')) { sfx('tap'); bpInfo = !bpInfo; return openTab('style'); }
+  const bb = e.target.closest('[data-bpbuild]'); if (bb && !bb.disabled) { const it = itemById(bb.dataset.bpbuild); return it && bpBuild(it); }
   if (e.target.closest('[data-stymx]') || e.target.matches('[data-stymodalbg]')) { pendingName = null; styleModal = null; return openTab('style'); }
   const rn = e.target.closest('[data-rename]');
   if (rn) { renameFrom = rn.dataset.from || 'style'; return nameTab('rename'); }
@@ -6744,6 +6781,16 @@ const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 // Common ~+2% · Rare +3–5% · Epic +6–10% · Legendary +12–18% · Mythic +25% and up
 const RARITY = { vip: ['VIP', '#C99A00'], seasonal: ['Seasonal', '#B5562F'], founder: ['Founder', '#C9871A'], common: ['Common', '#7F7A99'], rare: ['Rare', '#2F7FE8'], epic: ['Epic', '#7C4FE0'], legendary: ['Legendary', '#E5650F'], ultimate: ['Ultimate', '#D4231F'], mythic: ['Mythic', '#21B4EC'] };
 const topTier = it => it && (it.rar === 'ultimate' || it.rar === 'mythic');
+// Build 286: Ultimates and Mythics from boxes arrive as blueprints (no boost, can't be worn). Build an Ultimate once you own all 3 box Legendaries of its slot;
+// build a Mythic once you've built all 3 Ultimates of its slot. The server checks the same thing (sbox_build).
+const SBOX_V = 286;
+const bpHas = id => !!(S.bp && S.bp[id]) && !S.owned[id];
+const bpNeed = it => it.rar === 'mythic' ? 'ultimate' : 'legendary';
+const bpParts = it => ITEMS.filter(i => i.slot === it.slot && i.rar === bpNeed(it) && i.gems > 0 && !i.album && !i.gift);
+const bpProg = it => { const p = bpParts(it); return [p.filter(i => S.owned[i.id]).length, p.length]; };
+const bpReady = it => { const [h, n] = bpProg(it); return n > 0 && h >= n; };
+const BP_SLOT = { top: 'tops', hat: 'hats', neck: 'necklaces', face: 'glasses' };
+const bpLine = it => { const [h, n] = bpProg(it); return `${h}/${n} ${RARITY[bpNeed(it)][0]} ${BP_SLOT[it.slot]}`; };
 const tierCls = it => it && it.rar === 'ultimate' ? 'ultimate' : 'mythic';   // Build 236: Ultimates glow red, Mythics light blue   // the shop's top tier gets the special glow
 const rarity = it => RARITY[it.rar] || RARITY.common;
 const RAR_ORDER = ['common', 'rare', 'epic', 'legendary', 'ultimate', 'mythic'];
@@ -6764,9 +6811,29 @@ function itemArt(it, size = 70, vbo) {
 let styleSlot = 'top', renameFrom = 'style', styleModal = null;
 // renaming from Style opens as a floating card over Style and always returns there (Build 231)
 function nameTab(t) { if (renameFrom === 'style') { styleModal = t === 'style' ? null : t; return openTab('style'); } return openTab(t); }
+// Build 286: one item card for the whole game (Style grid and the blueprint build window use the same markup and size)
+function styleCard(it, still) {
+        const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it), bp = bpHas(it.id), rdy = bp && bpReady(it);
+        const bar = own || bp ? rn : it.album ? `Album ${it.album}` : it.cm ? 'Style Box' : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : it.gems ? 'Style Box' : (it.perk || 'Locked');
+        const tier = topTier(it) ? tierCls(it) : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
+        return `<${still ? 'div' : 'button'} class="item ${own ? '' : 'locked'} ${bp ? 'bp' : ''} ${rdy ? 'rdy' : ''} ${tier} ${it.album ? 'album' : ''}" ${still ? '' : `data-item="${it.id}"`} ${bp ? `style="--rc:${rc}"` : ''} aria-label="${it.name}${own ? (on ? ', wearing' : '') : bp ? (rdy ? ', blueprint, ready to build' : ', blueprint, ' + bpLine(it)) : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
+          ${on ? '<span class="eq">Wearing</span>' : ''}${rdy && !still ? '<span class="bpdot"></span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
+          <span class="nm">${it.name}${it.bonus ? ` <em>+${Math.round(it.bonus * 100)}%</em>` : ''}${it.perk ? `<em class="perk">${it.perk}</em>` : ''}</span>
+          <span class="bar" style="background:${own ? rc : bp ? '#fff' : '#8C86A6'}">${bar}</span></${still ? 'div' : 'button'}>`;
+}
+let bpInfo = false;
 function styleModalHtml() {
   if (!styleModal) return '';
   const X = `<button class="lb-x" data-stymx aria-label="Close">${LB_X}</button>`;
+  if (styleModal.startsWith('bp:')) { const it = itemById(styleModal.slice(3)); if (!it || !bpHas(it.id)) { styleModal = null; return ''; }
+    const [rn, rc] = rarity(it), need = bpNeed(it), [nn, nc] = RARITY[need], parts = bpParts(it), rdy = bpReady(it);
+    const CK = '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20.5 6" stroke="#fff" stroke-width="7"/><path d="M4 12.5l5.5 5.5L20.5 6" stroke="#2BB673" stroke-width="3.6"/></svg>';
+    return `<div class="lb-modal" data-stymodalbg><div class="lb-mc bp-mc" role="dialog" aria-label="${it.name} blueprint" style="--rc:${rc}"><div class="lb-mc-h"><b>${it.name}</b><small>${rn} Blueprint</small>${X}</div>
+      <div class="bp-hero">${itemArt(it, 96)}<button class="lb-i bp-i" data-bpinfo aria-label="More info"><span>i</span></button></div>
+      ${bpInfo ? `<p class="bp-info">Blueprints give no income and can't be worn yet. Build it once you own all ${parts.length} ${nn} ${BP_SLOT[it.slot]}${need === 'ultimate' ? ' (built, not blueprints)' : ''}. It keeps all of them: nothing gets used up.</p>` : ''}
+      <p class="bp-need">Items needed to build:</p>
+      <div class="bp-parts">${parts.map(p => { const has = !!S.owned[p.id]; return `<span class="bp-part ${has ? 'got' : 'miss'}" style="--pc:${nc}" title="${p.name}${has ? ', you have it' : ', still needed'}"><span class="bp-pa">${itemArt(p, 58)}</span><span class="bp-pb">${nn}</span>${has ? `<i class="bp-ck">${CK}</i>` : ''}</span>`; }).join('')}</div>
+      <button class="cta" data-bpbuild="${it.id}" ${rdy ? '' : 'disabled'}>Build</button></div></div>`; }
   if (styleModal === 'rename-ok') { const c = nameCost();
     return `<div class="lb-modal" data-stymodalbg><div class="lb-mc sty-mc" role="dialog" aria-label="Change name"><div class="lb-mc-h"><b>Change name?</b>${X}</div>
       <p class="namecost">Change your name to <b>${esc(pendingName ? pendingName.clean : '')}</b>. You have ${Math.floor(S.gems).toLocaleString('en-US')} gems.</p>
@@ -7264,6 +7331,7 @@ document.addEventListener('click', async e => {
   if (sheetKey === 'charts' || sheetKey === 'profile' || sheetKey === 'labels') openTab(sheetKey);
 });
 function openTab(tab) {
+  if (tab === 'labels' && S.lbSeen !== dayKey()) { S.lbSeen = dayKey(); save(); }
   const inShop = !$('scrim').hidden && ['shop', 'inv'].includes(sheetKey);
   if (inShop && SHOP_FLOAT(tab)) floatNext = true;              // open as a floating card over the Shop
   else if (floatOpen() && !SHOP_FLOAT(tab)) floatClose();      // going back (or anywhere else) closes the card; the Shop keeps its place
@@ -7776,16 +7844,8 @@ function openTab(tab) {
         ${Object.keys(PHONES_X).some(k => (S.phonesX || {})[k]) ? `<div class="sec"><h3>Earned colors <small class="h3note">from long-term goals</small></h3><div class="swatches earned">${Object.entries(PHONES_X).filter(([k]) => (S.phonesX || {})[k]).map(([k, [n, c]]) => `<button class="sw ${S.phones === c ? 'on' : ''}" style="background:${c}" data-phones="${c}" aria-label="${n} headphones"></button>`).join('')}</div></div>` : ''}`;
     } else {
       const tier = i => i.id === 'basic' ? -2 : i.gift ? -1 : RAR_ORDER.indexOf(i.rar), within = i => i.album ? 1000 + i.album : i.gems || 0;
-      const rank = i => (S.owned[i.id] ? 0 : 100000) + tier(i) * 10000 + within(i);
-      grid = '<div class="items">' + ITEMS.filter(i => i.slot === styleSlot && (!i.gift || S.owned[i.id])).sort((a, b) => rank(a) - rank(b)).map(it => {
-        const own = S.owned[it.id], on = S.equip[it.slot] === it.id, [rn, rc] = rarity(it);
-        const bar = own ? rn : it.album ? `Album ${it.album}` : it.cm ? 'Style Box' : topTier(it) ? (it.rar === 'mythic' ? 'Label Box' : 'Event Box') : it.gems ? 'Style Box' : (it.perk || 'Locked');
-        const tier = topTier(it) ? tierCls(it) : ['epic', 'legendary'].includes(it.rar) ? it.rar : '', best = own && it.bonus && bestInSlot(it.slot) === it;
-        return `<button class="item ${own ? '' : 'locked'} ${tier} ${it.album ? 'album' : ''}" data-item="${it.id}" aria-label="${it.name}${own ? (on ? ', wearing' : '') : it.album ? ', unlocks with album ' + it.album : ', ' + it.gems + ' gems'}">
-          ${on ? '<span class="eq">Wearing</span>' : ''}${best ? '<span class="bestb" title="This item gives your bonus for this slot">Bonus</span>' : ''}<span class="art ${own ? 'glow' : ''}">${own && tier ? '<i class="spk" style="left:14%;top:12%"></i><i class="spk" style="left:78%;top:30%;animation-delay:-1.2s;--k:.7"></i>' : ''}${itemArt(it, 78)}</span>
-          <span class="nm">${it.name}${it.bonus ? ` <em>+${Math.round(it.bonus * 100)}%</em>` : ''}${it.perk ? `<em class="perk">${it.perk}</em>` : ''}</span>
-          <span class="bar" style="background:${own ? rc : '#8C86A6'}">${bar}</span></button>`;
-      }).join('') + '</div>';
+      const rank = i => (S.owned[i.id] ? 0 : bpHas(i.id) ? 50000 : 100000) + tier(i) * 10000 + within(i);
+      grid = '<div class="items">' + ITEMS.filter(i => i.slot === styleSlot && (!i.gift || S.owned[i.id])).sort((a, b) => rank(a) - rank(b)).map(it => styleCard(it)).join('') + '</div>';
     }
     // Build 227: full screen like Labels: blue stage up top (name, artist, slots), folder tabs, purple panel that scrolls
     const slotBox = sl => { const it = itemById(S.equip[sl]);
@@ -8000,6 +8060,7 @@ function render() {
   if (S.stats.lastDay !== dayKey()) { S.stats.lastDay = dayKey(); S.stats.days = (S.stats.days || 0) + 1; if (S.stats.days <= 30) track('days-played/' + S.stats.days); }
   $('goalsDot').hidden = !(goalsClaimable() || dailyReady());
   $('chartsDot').hidden = !(FR.inc || []).length;
+  $('labelsBang').hidden = !lbAlert();
   $('passDot').hidden = !passClaimable(); try { boxStackUpd(); } catch (e) {}
   $('vaultDot').hidden = !(!S.vaultSeen && vaultAffordable());
   $('crewBang').hidden = !(LOC().stations.some(x => lvl(x.id) && !S.crew[x.id] && S.cash >= crewCostOf(x)) || upgNewAffordable());
@@ -8136,23 +8197,37 @@ async function sboxOpenSrv(kind, n, src) {
   const out = []; let left = n, b0 = 0;
   while (left > 0) {   // the server opens up to 50 at a time
     const c = Math.min(50, left);
-    const r = await lbCall('sbox_open', { kind, n: c, src, ev: st.evId || null });
+    const r = await lbCall('sbox_open', { kind, n: c, src, ev: st.evId || null, v: SBOX_V });
     if (!r.ok) { if (!out.length) { sfx('denied'); toast(lbNet(r) ? BOX_OFFLINE : lbErr(r)); return null; } break; }
     const d = r.data; st.tokens = d.tokens; if (d.inv) st.inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, d.inv); if (d.pity) st.pity = Object.assign(st.pity || {}, d.pity);
-    d.items.forEach(x => { const it = itemById(x.id); if (!x.dup && !S.owned[it.id]) { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
-      st.opened[kind] = (st.opened[kind] || 0) + (x.k === 0 ? 1 : 0); out.push({ it, rar: x.rar, dup: x.dup, tk: x.tk, box: b0 + x.box, pity: x.pity }); });
+    d.items.forEach(x => { const it = itemById(x.id), bp = !!x.bp && !S.owned[it.id];
+      if (!x.dup && !S.owned[it.id] && !(S.bp || {})[it.id]) { if (bp) S.bp = Object.assign({}, S.bp, { [it.id]: true }); else S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
+      st.opened[kind] = (st.opened[kind] || 0) + (x.k === 0 ? 1 : 0); out.push({ it, rar: x.rar, dup: x.dup, tk: x.tk, box: b0 + x.box, pity: x.pity, bp }); });
     left -= c; b0 += c;
   }
   return out;
 }
+// Build 286: turn a blueprint into the real item
+let bpBusy = false;
+async function bpBuild(it) {
+  if (bpBusy || !bpHas(it.id) || !bpReady(it)) return; bpBusy = true;
+  try {
+    if (SRV_BOX) { const r = await lbCall('sbox_build', { item: it.id }); if (!r.ok) { sfx('denied'); toast(lbNet(r) ? BOX_OFFLINE : lbErr(r)); return; } }
+    S.owned[it.id] = true; const b = Object.assign({}, S.bp); delete b[it.id]; S.bp = b; styleModal = null; S.equip[it.slot] = it.id; applyLook();
+    sfx('bling'); toast(`${it.name} built! +${Math.round(it.bonus * 100)}% income`); track('build/' + it.id); save(); render(); openTab('style');
+  } finally { bpBusy = false; } }
+// blueprints follow the account: anything the server holds as a blueprint that this save doesn't have yet
+function sboxMine() { if (!SRV_BOX) return Promise.resolve();
+  return lbCall('sbox_mine').then(r => { if (!r.ok || !r.data) return; const add = (r.data.bp || []).filter(id => itemById(id) && !S.owned[id] && !(S.bp || {})[id]);
+    if (add.length) { S.bp = Object.assign({}, S.bp, ...add.map(id => ({ [id]: true }))); save(); render(); } }); }
 function sboxOpen(kind, n) {
   const st = sboxState(), out = [];
   for (let b = 0; b < n; b++) {
     const r = sboxRollBox(kind, st.pity[kind] || 0); if (boxPity(kind)) st.pity[kind] = r.p; st.opened[kind] = (st.opened[kind] || 0) + 1;
     r.rars.forEach((rar, k) => { const pool = sboxPool(rar), it = pool[Math.floor(Math.random() * pool.length)];
-      const dup = !!S.owned[it.id], tk = dup ? SBOX_TOKENS[rar] : 0;
-      if (dup) st.tokens += tk; else { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
-      out.push({ it, rar, dup, tk, box: b, pity: r.forced === k }); });
+      const dup = !!S.owned[it.id] || !!(S.bp || {})[it.id], tk = dup ? SBOX_TOKENS[rar] : 0, bp = !dup && topTier(it);
+      if (dup) st.tokens += tk; else { if (bp) S.bp = Object.assign({}, S.bp, { [it.id]: true }); else S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
+      out.push({ it, rar, dup, tk, box: b, pity: r.forced === k, bp }); });
   }
   return out;
 }
@@ -8230,7 +8305,7 @@ function boxStackUpd() {
   b.setAttribute('aria-label', `${n} Style Box${n === 1 ? '' : 'es'} to open`);
 }
 const boxCardHtml = (x, big) => { const [rn, rc] = RARITY[x.rar];
-  return `<div class="bx-card ${big ? 'big' : ''}" style="--rc:${rc}">${x.dup ? `<span class="bx-c">+${x.tk}</span>` : '<span class="bx-c new">New</span>'}
+  return `<div class="bx-card ${big ? 'big' : ''} ${x.bp ? 'bpc' : ''}" style="--rc:${rc}">${x.dup ? `<span class="bx-c">+${x.tk}</span>` : '<span class="bx-c new">New</span>'}
     <span class="bx-art">${itemArt(x.it, big ? 92 : 50)}</span><span class="bx-band">${rn}</span>${big ? `<b class="bx-name">${x.it.name}</b>` : ''}</div>`; };
 const boxSorted = res => [...res].sort((a, b) => sboxRank(b.rar) - sboxRank(a.rar));
 const tokenLine = (res, short) => { const t = res.reduce((a, x) => a + x.tk, 0); return t ? `+<b>${fmtN(t)} Style Token${t === 1 ? '' : 's'}</b>${short ? '' : ' from duplicates'} · you have <b>${fmtN(sboxState().tokens)}</b>` : ''; };   // short: the narrow Received Items window (Build 266)   // Build 261: every box kind
@@ -8267,7 +8342,7 @@ function boxOpenDraw() {
   const { res, kind, i, src } = BOXO, n = res.length, done = i >= n, left = Math.max(0, n - Math.max(0, i + 1));
   const B = BOXES[kind];
   let mid = '';
-  if (i >= 0 && !done) mid = `<div class="bo-one" key="${i}">${boxCardHtml(res[i], true)}<p class="bo-name">${res[i].it.name}</p><p class="bo-res">${res[i].dup ? `Duplicate · +${res[i].tk} Style Token${res[i].tk === 1 ? '' : 's'}` : 'New outfit!'}${res[i].pity ? ' · guaranteed' : ''}</p></div>`;
+  if (i >= 0 && !done) mid = `<div class="bo-one" key="${i}">${boxCardHtml(res[i], true)}<p class="bo-name">${res[i].it.name}</p><p class="bo-res">${res[i].dup ? `Duplicate · +${res[i].tk} Style Token${res[i].tk === 1 ? '' : 's'}` : res[i].bp ? `New ${RARITY[res[i].rar][0]}! Collect all ${bpProg(res[i].it)[1]} ${RARITY[bpNeed(res[i].it)][0]} ${BP_SLOT[res[i].it.slot]} to build it` : 'New outfit!'}${res[i].pity ? ' · guaranteed' : ''}</p></div>`;
   if (done) mid = `<div class="bo-all c${Math.min(n, 3)}">${res.map(x => boxCardHtml(x)).join('')}</div>${tokenLine(res) ? `<p class="bo-tk">${tokenLine(res)}</p>` : ''}`;
   const more = done ? (src === 'shop' ? (boxBuyable(kind) ? `<button class="cta gemcta bo-more" data-sbox-open="${kind}:1" ${S.gems < B.cost ? 'disabled' : ''}>Open 1 more <span class="gemprice">${GEM_MINI}${B.cost}</span></button>` : '')
     : boxOwned(kind) ? `<button class="cta bo-more" data-boxopen="${kind}:1">Open next <small>${boxOwned(kind)} left</small></button>` : '') : '';
@@ -9160,7 +9235,7 @@ function start(data) {
   // players still on the old 70 default move to the new 40; anyone who set their own level keeps it
   if (S.volV !== 3) { if ([70, 40].includes(S.vol.music)) S.vol.music = 20; S.volV = 3; }
   delete S.music; delete S.sound; delete S.hypeReady;
-  S.owned = Object.assign({ basic: true }, S.owned); S.perks = S.perks || {};
+  S.owned = Object.assign({ basic: true }, S.owned); S.perks = S.perks || {}; S.bp = S.bp || {};
   if (!S.monRefund) { if (S.perks.monitors) { S.gems = (S.gems || 0) + 300; S.perks = Object.assign({}, S.perks, { monitors: false }); S.monRefundPaid = 300; } S.monRefund = 1; }   // Build 158: Pro Monitors retired, owners get their 300 gems back once
   S.equip = Object.assign({ top: 'basic', hat: null, neck: null, face: null }, S.equip);
   S.stats = Object.assign({ upgrades: 0, unlocks: 0, hires: 0, crates: 0, hypes: 0, maxLevel: 1, lifetime: 0, payouts: 0, playSec: 0, ads: 0 }, S.stats);
@@ -9222,7 +9297,7 @@ function start(data) {
   pass();   // a new month delivers last season's unclaimed rewards
   setTimeout(loadTestAccess, 2500);
   setTimeout(startHeartbeat, 4000);
-  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); frLoad(); if (SRV_BOX) sboxSync().then(sboxFlush).then(lbRewardsCheck); else lbRewardsCheck(); }), 5000);
+  if (S.onboarded) setTimeout(() => lbLoad(true).then(() => { lbFlush(); lbRefresh(); frLoad(); if (SRV_BOX) sboxSync().then(sboxFlush).then(sboxMine).then(lbRewardsCheck); else lbRewardsCheck(); }), 5000);
   window.addEventListener('online', () => { if (SRV_BOX && S.onboarded) sboxSync().then(sboxFlush); });
   setInterval(() => { if (!document.hidden && S.onboarded) frLoad(); }, 300000);   // Labels: Hype from labelmates, queued XP
   if (S.passRecap) { const r = S.passRecap; S.passRecap = null; setTimeout(() => toast('Backstage Pass season ended. Delivered: ' + rewardLine(r)), 3200); }
