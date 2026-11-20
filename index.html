@@ -540,6 +540,16 @@ i.g { display: inline-block; width: 17px; height: 17px; background: url("art/gem
 /* Eatventure style: what you still need is in full color; what you already have is greyed out under a big check */
 .bp-part.got { border-style: solid; border-color: color-mix(in srgb, var(--pc) 35%, #fff); background: #fff; }
 .bp-part.got .bp-pa { opacity: .45; filter: grayscale(1); } .bp-part.got .bp-pb { color: color-mix(in srgb, var(--pc) 45%, #fff); }
+button.bp-part { padding: 0; font: inherit; cursor: pointer; }
+.bp-peek-bg { position: fixed; inset: 0; z-index: 81; background: rgba(20,18,42,.45); display: grid; place-items: center; padding: 16px; }
+.bp-peek { position: relative; width: min(100%, 228px); background: #fff; border: 4px solid var(--rc); border-radius: 20px; padding: 14px 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #14122A; box-shadow: 0 12px 34px rgba(0,0,0,.4); }
+.bp-peek-h { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; } .bp-peek-h b { font: 400 15px var(--display); padding: 0 36px; text-align: center; } .bp-peek-h small { font: 800 15px var(--body); color: var(--rc); }
+.bp-peek-h .lb-x { position: absolute; right: -4px; top: -4px; }
+.bp-peek-art { display: grid; place-items: center; padding-top: 6px; }
+html .bp-peek .bp-peek-inc { margin: 0; font: 800 19px var(--body); color: #1D7F35; }
+.bp-peek-rule { width: 54px; height: 3px; border-radius: 2px; background: #D6D1E4; }
+html .bp-peek .bp-peek-src { margin: 0; font: 600 13.5px/1.35 var(--body); color: #4A4470; text-align: center; } .bp-peek-src b { color: #14122A; }
+html .bp-peek .bp-peek-st { margin: 2px 0 0; font: 800 13px var(--body); color: #C4511A; } html .bp-peek .bp-peek-st.got { color: #2BB673; }
 .bp-part .bp-ck { position: absolute; right: -10px; bottom: 14px; z-index: 2; line-height: 0; }
 .bp-mc .cta { margin: 6px 0 0; align-self: stretch; }
 html .lb-modal .lb-mc.bp-mc { width: min(100%, 300px); } html .bp-mc .lb-mc-h b { font-size: 17px; padding: 0 34px; }
@@ -3443,7 +3453,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 286, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 287, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5998,12 +6008,15 @@ $('scrim').addEventListener('click', e => {
   const itb = e.target.closest('[data-item]');
   if (itb) { const it = itemById(itb.dataset.item); if (!it) return;
     if (S.owned[it.id]) { if (S.equip[it.slot] === it.id) { if (it.slot !== 'top') S.equip[it.slot] = null; } else S.equip[it.slot] = it.id; applyLook(); save(); render(); sfx('tap'); return openTab('style'); }
-    if (bpHas(it.id)) { sfx('tap'); styleModal = 'bp:' + it.id; bpInfo = false; return openTab('style'); }
+    if (bpHas(it.id)) { sfx('tap'); styleModal = 'bp:' + it.id; bpInfo = false; bpPeek = null; return openTab('style'); }
     if (it.album) { sfx('denied'); toast(`Unlocks when you drop album ${it.album}`); return; }
     if (it.cm) { sfx('denied'); toast('Commons come from Style Boxes'); return; }
     if (topTier(it)) { sfx('denied'); toast(it.rar === 'mythic' ? 'Mythics come only from Label Boxes' : 'Ultimates come only from Event Boxes'); return; }
     if (it.gems) { sfx('denied'); toast(`Find it in Style Boxes (${it.rar === 'legendary' ? 'Big Box' : 'Small or Big Box'})`); return; }
     sfx('denied'); return; }
+  const pk = e.target.closest('[data-bppeek]'); if (pk) { sfx('tap'); bpPeek = pk.dataset.bppeek; return openTab('style'); }
+  if (e.target.closest('[data-bppeekx]') && (e.target.closest('button[data-bppeekx]') || e.target.matches('.bp-peek-bg'))) { bpPeek = null; return openTab('style'); }
+  if (e.target.closest('.bp-peek')) return;
   if (e.target.closest('[data-bpinfo]')) { sfx('tap'); bpInfo = !bpInfo; return openTab('style'); }
   const bb = e.target.closest('[data-bpbuild]'); if (bb && !bb.disabled) { const it = itemById(bb.dataset.bpbuild); return it && bpBuild(it); }
   if (e.target.closest('[data-stymx]') || e.target.matches('[data-stymodalbg]')) { pendingName = null; styleModal = null; return openTab('style'); }
@@ -6821,7 +6834,17 @@ function styleCard(it, still) {
           <span class="nm">${it.name}${it.bonus ? ` <em>+${Math.round(it.bonus * 100)}%</em>` : ''}${it.perk ? `<em class="perk">${it.perk}</em>` : ''}</span>
           <span class="bar" style="background:${own ? rc : bp ? '#fff' : '#8C86A6'}">${bar}</span></${still ? 'div' : 'button'}>`;
 }
-let bpInfo = false;
+let bpInfo = false, bpPeek = null;
+// Build 287: tap a needed item in the build window to see what it is and where it comes from
+const bpSource = it => it.rar === 'mythic' ? 'Label Boxes' : it.rar === 'ultimate' ? `Event Boxes during the ${(EV_DEFS[it.ev] || {}).name || ''} event` : it.rar === 'legendary' ? 'Big Style Boxes' : it.album ? `Dropping album ${it.album}` : 'Style Boxes';
+function bpPeekHtml() { const p = bpPeek && itemById(bpPeek); if (!p) return '';
+  const [rn, rc] = rarity(p), has = !!S.owned[p.id], wip = bpHas(p.id);
+  return `<div class="bp-peek-bg" data-bppeekx><div class="bp-peek" role="dialog" aria-label="${p.name}" style="--rc:${rc}">
+    <div class="bp-peek-h"><b>${p.name}</b><small>${rn}</small><button class="lb-x" data-bppeekx aria-label="Close">${LB_X}</button></div>
+    <div class="bp-peek-art">${itemArt(p, 112)}</div>
+    <p class="bp-peek-inc">+${Math.round(p.bonus * 100)}% income</p><i class="bp-peek-rule"></i>
+    <p class="bp-peek-src">Comes from <b>${bpSource(p)}</b></p>
+    <p class="bp-peek-st ${has ? 'got' : ''}">${has ? 'Owned' : wip ? 'Blueprint: build it first' : 'Missing'}</p></div></div>`; }
 function styleModalHtml() {
   if (!styleModal) return '';
   const X = `<button class="lb-x" data-stymx aria-label="Close">${LB_X}</button>`;
@@ -6832,8 +6855,8 @@ function styleModalHtml() {
       <div class="bp-hero">${itemArt(it, 96)}<button class="lb-i bp-i" data-bpinfo aria-label="More info"><span>i</span></button></div>
       ${bpInfo ? `<p class="bp-info">Blueprints give no income and can't be worn yet. Build it once you own all ${parts.length} ${nn} ${BP_SLOT[it.slot]}${need === 'ultimate' ? ' (built, not blueprints)' : ''}. It keeps all of them: nothing gets used up.</p>` : ''}
       <p class="bp-need">Items needed to build:</p>
-      <div class="bp-parts">${parts.map(p => { const has = !!S.owned[p.id]; return `<span class="bp-part ${has ? 'got' : 'miss'}" style="--pc:${nc}" title="${p.name}${has ? ', you have it' : ', still needed'}"><span class="bp-pa">${itemArt(p, 58)}</span><span class="bp-pb">${nn}</span>${has ? `<i class="bp-ck">${CK}</i>` : ''}</span>`; }).join('')}</div>
-      <button class="cta" data-bpbuild="${it.id}" ${rdy ? '' : 'disabled'}>Build</button></div></div>`; }
+      <div class="bp-parts">${parts.map(p => { const has = !!S.owned[p.id]; return `<button class="bp-part ${has ? 'got' : 'miss'}" style="--pc:${nc}" data-bppeek="${p.id}" aria-label="${p.name}${has ? ', you have it' : ', still needed'}"><span class="bp-pa">${itemArt(p, 58)}</span><span class="bp-pb">${nn}</span>${has ? `<i class="bp-ck">${CK}</i>` : ''}</button>`; }).join('')}</div>
+      <button class="cta" data-bpbuild="${it.id}" ${rdy ? '' : 'disabled'}>Build</button></div>${bpPeekHtml()}</div>`; }
   if (styleModal === 'rename-ok') { const c = nameCost();
     return `<div class="lb-modal" data-stymodalbg><div class="lb-mc sty-mc" role="dialog" aria-label="Change name"><div class="lb-mc-h"><b>Change name?</b>${X}</div>
       <p class="namecost">Change your name to <b>${esc(pendingName ? pendingName.clean : '')}</b>. You have ${Math.floor(S.gems).toLocaleString('en-US')} gems.</p>
