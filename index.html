@@ -3580,7 +3580,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 289, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 290, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6699,7 +6699,7 @@ const CREW_HS = [['buzz', 'curly', 'dreads', 'afro', 'flattop', 'mohawk', 'curta
 let CREW_POOL = null;
 const crewPool = () => CREW_POOL || (CREW_POOL = Object.fromEntries(['top', 'hat', 'neck', 'face'].map(sl => [sl,
   ITEMS.filter(i => i.slot === sl && i.look && ['common', 'rare', 'epic', 'legendary'].includes(i.rar) && !i.album && !i.gift && !i.pass && i.id !== PASS_JACKET)])));
-function crewFigure(id) {
+function crewFigure(id, o) {
   let h = 2166136261; for (const c of id) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }   // FNV-1a seed: same crew member, same look every time
   const rnd = () => { h = (h + 0x6D2B79F5) >>> 0; let t = h; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
   const pick = arr => arr[Math.floor(rnd() * arr.length)], P = crewPool();
@@ -6708,7 +6708,7 @@ function crewFigure(id) {
   const hatR = rnd(), hat = hatR < 0.3 && P.hat.length ? pick(P.hat).look : null, beanie = !hat && hatR < 0.42 ? pick(CREW_BEANIES) : null;
   const neck = rnd() < 0.3 && P.neck.length ? pick(P.neck).look : null, face = rnd() < 0.25 && P.face.length ? pick(P.face).look : null;
   const fd = !long && rnd() < 0.35 ? pick(FACE_HAIR) : null, fm = rnd() < 0.22 ? pick(FACE_MARKS) : null, phones = rnd() < 0.2;
-  return miniFigure({ ...top, pants: pick(CREW_PANTS), skin, hair, long, hs, fd, fm, hat, beanie, neck, face, phones, phonesColor: phones ? pick(PHONES) : undefined }, 62, 83);
+  return miniFigure({ ...top, pants: pick(CREW_PANTS), skin, hair, long, hs, fd, fm, hat, beanie, neck, face, phones, phonesColor: phones ? pick(PHONES) : undefined, ...o }, 62, 83);
 }
 // ---------- the apartment rat ----------
 // every few minutes a tiny rat scurries along the gap between the bottom stations and the decor, behind both
@@ -7907,7 +7907,7 @@ function openTab(tab) {
           ${spec('goldenMic', ART.mic(), ['#F2C94C', '#B8891A', '#3B3466', '#22203A', 'dark'], 'Forever', 'x2 income on everything. Stacks with Hype')}
           <!-- Build 248: packs removed; Special offers are one-and-done forever offers only -->
           ${spec('adFree', ART.noAds(), ['#3D9BD6', '#2C78B0', '#A9DEF7', '#FFFFFF'], 'Forever', 'Skip every ad: Hype, the Backer, crates and Welcome Back 2x')}
-          ${spec('autoCrew', `<span class="crewart">${crewFigure('dayone-crew')}</span>`, ['#3BAA6A', '#2A8550', '#A8EBBE', '#FFFFFF'], 'Forever', 'Your first station runs itself on every map')}
+          ${spec('autoCrew', `<span class="crewart">${crewFigure('dayone-crew', { skin: SKINS[3], hair: HAIR_COLORS[0], beanie: null, hat: null })}</span>`, ['#3BAA6A', '#2A8550', '#A8EBBE', '#FFFFFF'], 'Forever', 'Your first station runs itself on every map')}
         </div>`; })()}
       ${(() => { // one-time perks get their own section and leave the shop once owned (like outfits)
         const perks = [];   // Pro Monitors retired in Build 158
