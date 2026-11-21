@@ -2471,8 +2471,32 @@ html .maya-note.v2 .m2card p { margin: 0; font: 700 14.5px/1.38 var(--body); col
 .bdg-row { display: flex; justify-content: space-around; gap: 4px; } .bdg-one { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; } .bdg-one small { font: 800 11px var(--body); color: #9C97B5; } .bdg-one.on small { color: #1B1830; }
 .bdg-now { margin: 6px 0 0; text-align: center; font: 800 12px var(--body); color: #9A6A00; }
 .bdg-spk { transform-box: fill-box; transform-origin: center; opacity: .2; transform: scale(.55); animation: bdgtw 3.2s ease-in-out infinite; }
-@keyframes bdgtw { 0%, 62%, 100% { opacity: .2; transform: scale(.55); } 74% { opacity: 1; transform: scale(1.18); } 84% { opacity: .55; transform: scale(.85); } }
+@keyframes bdgtw { 0%, 25%, 100% { opacity: .2; transform: scale(.55); } 10% { opacity: 1; transform: scale(1.2); } 18% { opacity: .6; transform: scale(.85); } }
 @media (prefers-reduced-motion: reduce) { .bdg-spk { animation: none; opacity: .9; transform: none; } }
+.evh-list.evq { gap: 7px; background: #F4F2FA; padding-top: 0; }
+.evq-h { position: sticky; top: 0; z-index: 3; display: grid; grid-template-columns: 1fr 60px 60px; gap: 8px; align-items: center; margin: 0 -14px; padding: 7px 22px 6px 26px; background: #6343CC; color: #fff; }
+.evq-h span { font: 400 12.5px var(--display); } .evq-h .f, .evq-h .p { text-align: center; padding: 3px 0; border-radius: 8px; background: rgba(255,255,255,.18); } .evq-h .p { background: #FFD36B; color: #14122A; }
+.evq-row { display: grid; grid-template-columns: 1fr 60px 60px; gap: 8px; align-items: center; padding: 7px 8px 7px 12px; border-radius: 14px; background: #fff; box-shadow: 0 2px 0 #E1DCEF; min-height: 60px; }
+.evq-row.done { background: #F0FAF3; } .evq-row.done .evq-t b { color: #2E7D4F; } .evq-row.next { box-shadow: 0 0 0 2.5px #6CBCF8, 0 2px 0 #E1DCEF; }
+.evq-t { min-width: 0; } .evq-t b { display: block; font: 800 13.5px/1.2 var(--body); color: #1B1830; } .evq-t small { display: block; margin-top: 3px; font: 700 11.5px var(--body); color: #8C86A6; }
+.evq-t .pb { display: block; height: 6px; margin-top: 4px; border-radius: 4px; background: #ECE8F6; overflow: hidden; } .evq-t .pb i { display: block; height: 100%; background: #6CBCF8; }
+.evq-c { position: relative; height: 54px; border-radius: 12px; display: grid; place-items: center; background: #F6F4FB; } .evq-c.p { background: #FFE7A6; }
+.evq-c img, .evq-c > svg { max-width: 40px; max-height: 40px; } .evq-c .pjk, .evq-c .pf { display: grid; place-items: center; }
+.evq-c .n { position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); min-width: 18px; padding: 0 6px; border-radius: 99px; background: #14122A; color: #fff; font: 400 11px/16px var(--display); font-style: normal; text-align: center; white-space: nowrap; }
+.evq-c.rdy .n { bottom: auto; top: -6px; } .evq-row.rdy { box-shadow: 0 0 0 2.5px #4CC37A, 0 2px 0 #E1DCEF; }
+.evq-row.med { grid-template-columns: 30px 1fr 60px 60px; padding-left: 8px; } .evq-medal { display: grid; place-items: center; }
+.evq-c .lookc { position: absolute; top: -7px; left: -7px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px #E8B84A; display: grid; place-items: center; overflow: hidden; z-index: 1; }
+.evq-pop { position: fixed; left: 50%; top: 44%; z-index: 9000; width: min(370px, calc(100vw - 24px)); translate: -50% -50%; pointer-events: none; animation: evqIn .32s cubic-bezier(.3,1.5,.5,1) both; filter: drop-shadow(0 10px 22px rgba(20,18,42,.35)); }
+.evq-pop .evq-row { background: #fff; box-shadow: none; min-height: 72px; } .evq-pop .evq-t small { color: #2E9E5B; } .evq-pop.out { animation: evqOut .3s ease-in both; }
+.evq-pop .evq-c.stamp .ck { animation: evqStamp .35s cubic-bezier(.3,1.6,.5,1) both; }
+.evq-fly { position: fixed; z-index: 9001; pointer-events: none; }
+@keyframes evqIn { from { opacity: 0; scale: .7; } to { opacity: 1; scale: 1; } }
+@keyframes evqOut { to { opacity: 0; scale: .9; translate: -50% -60%; } }
+@keyframes evqStamp { from { opacity: 0; scale: 2; } to { opacity: 1; scale: 1; } }
+.evq-c .lk { position: absolute; top: -6px; right: -5px; width: 20px; height: 20px; border-radius: 50%; background: #14122A; display: grid; place-items: center; }
+.evq-c .ck { position: absolute; inset: 0; border-radius: 12px; background: rgba(46,158,91,.16); display: grid; place-items: center; }
+.evq-c .cl { position: absolute; left: 3px; right: 3px; bottom: 3px; padding: 3px 0; border: 0; border-radius: 8px; background: #6CBCF8; box-shadow: 0 3px 0 #3E8FCB; color: #fff; font: 400 11px var(--display); z-index: 1; }
+.evq-all { border: 0; padding: 4px 10px; border-radius: 9px; background: #6CBCF8; box-shadow: 0 3px 0 #3E8FCB; color: #fff; font: 400 12px var(--display); }
 </style>
 </head>
 <body>
@@ -3279,8 +3303,8 @@ function placeStations(loc) {
 // pacing (Hype on): apartment ~11m, studio ~35m, loft ~55m, pro ~75m, mansion ~80m, stadium ~100m; all 6 maps ~6 hours. Each album makes the next tour faster
 // an album drops only after the whole tour: you must reach the last map and hit its goal
 const GEMS_PER_ALBUM = 50;   // retired in Patch 4: only paid once more, to players who were mid-album when station milestone gems arrived
-// station milestone gems: every station pays 1 gem at Lv 25, 50, 75 and 100, once per station per album run (18 stations x 4 = 72 a run)
-const MILE_GEM_AT = [25, 50, 75, 100], MILE_GEM = 1;
+// station milestone gems: every station pays 2 gems at Lv 25, 50, 75 and 100, once per station per album run (18 stations x 4 x 2 = 144 a run; Build 292, was 1)
+const MILE_GEM_AT = [25, 50, 75, 100], MILE_GEM = 2;
 function payMileGems(st, before, after) {
   if (isEv()) return 0;   // event stations pay points, not milestone gems
   const k = runKey(); if (!S.mg || S.mg.k !== k) S.mg = { k, got: {} };
@@ -3447,7 +3471,7 @@ function buyVault(id) {
   sfx('bling'); track(`vault/${id}/${vLv(id)}`); save(); render(); vaultSel = id; openTab('vitem');
 }
 // Starting Cash: enough cash to take a fresh map's (or event's) first station from Lv 1 to its Vault level (Lv 50 at max)
-function seedCash() { const L = vLv('seed'); if (!L) return; const st = LOC().stations[0]; S.cash += bulkCost(st, vaultFx('seed') - 1); }
+function seedCash() { const L = vLv('seed'); if (!L) return; const st = LOC().stations[0]; S.cash += bulkCost(st, (vaultFx('seed') - 1) * (isEv() ? 2 : 1)); }
 const CRATE_CD = 600, OFFLINE_BASE = 2 * 3600, OFFLINE_OWL = 8 * 3600;
 const OFFLINE_RATE = 0.5;
 // Night Owl was retired: longer offline time is the Vault's Night Shift
@@ -3580,7 +3604,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 290, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 292, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3888,9 +3912,9 @@ const OFFERS = {
   // time skip packs: real money buys one-hour skips to keep and use any time (1 skip = 30 gems in the shop)
   goldPass: { name: 'Backstage Pass VIP', sub: 'A second, bigger reward on every tier this season', money: '$5.99' },
   // long-event Mini Pass (one per event): during the playtest it opens the "would you buy it?" screen like the other paid items
-  evPassWestern: { name: 'Western Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Western Event: gems, time skips, Fan Frenzies, the Western Bandana and the Fringe Jacket', money: '$2.99' },
-  evPassIsland: { name: 'Island Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Island Event: gems, time skips, Fan Frenzies, the Island Lei and the Hibiscus Shirt', money: '$2.99' },
-  evPassGalaxy: { name: 'Galaxy Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tiers of this Galaxy Event: gems, time skips, Fan Frenzies, the Orbit Pendant and the Nebula Jacket', money: '$2.99' },
+  evPassWestern: { name: 'Western Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tasks of this Western Event: gems, Small Boxes and Event Boxes', money: '$2.99' },
+  evPassIsland: { name: 'Island Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tasks of this Island Event: gems, Small Boxes and Event Boxes', money: '$2.99' },
+  evPassGalaxy: { name: 'Galaxy Mini Pass', sub: 'Unlocks the Mini Pass lane on all 15 tasks of this Galaxy Event: gems, Small Boxes and Event Boxes', money: '$2.99' },
   frenzy4: { name: '4 Fan Frenzies', sub: '4 Fan Frenzies to store and use any time', money: '$0.99', frenzyOut: 4 },
   frenzy20: { name: '20 Fan Frenzies', sub: '20 Fan Frenzies to store and use any time', money: '$3.99', frenzyOut: 20 },
   frenzy50: { name: '50 Fan Frenzies', sub: '50 Fan Frenzies to store and use any time', money: '$7.99', frenzyOut: 50 },
@@ -4117,12 +4141,12 @@ function migrateUpg() {
   owned.forEach(i => { const [, kind, sid, x] = old[i];
     if (kind === 'profit') ofx.pay[sid] = (ofx.pay[sid] || 1) * x; else if (kind === 'speed') ofx.speed[sid] = (ofx.speed[sid] || 1) * x;
     else if (kind === 'crew') ofx.crew *= x; else if (kind === 'all') ofx.all *= x; else if (kind === 'fanfreq' || kind === 'fanval') ofx.all *= 1.05; });
-  const oldRate = LOC().stations.reduce((a, st) => a + (lvl(st.id) ? (ofx.pay[st.id] || 1) * (ofx.speed[st.id] || 1) * (S.crew[st.id] ? ofx.crew : 1) * ofx.all * st.base * lvl(st.id) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) / st.cycle : 0), 0);
+  const oldRate = LOC().stations.reduce((a, st) => a + (lvl(st.id) ? (ofx.pay[st.id] || 1) * (ofx.speed[st.id] || 1) * (S.crew[st.id] ? ofx.crew : 1) * ofx.all * st.base * (lvl(st.id) + (st.lvAdd || 0)) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) / st.cycle : 0), 0);
   let spent = spent0; S.upg = []; S.upgSeen = []; upgCache = null;
   upgList().map((u, i) => i).sort((a, b) => upgCost(a) - upgCost(b)).forEach(i => { if (upgCost(i) <= spent) { spent -= upgCost(i); S.upg.push(i); } });
   upgCache = null; if (spent > 0) S.cash += spent;
   // if the shorter new list stacks fewer bonuses, a catch-up boost keeps income where it was until the next move or album
-  const fx = upgFx(), newRate = LOC().stations.reduce((a, st) => a + (lvl(st.id) ? (fx.pay[st.id] || 1) * (fx.speed[st.id] || 1) * (S.crew[st.id] ? fx.crew : 1) * fx.all * st.base * lvl(st.id) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) / st.cycle : 0), 0);
+  const fx = upgFx(), newRate = LOC().stations.reduce((a, st) => a + (lvl(st.id) ? (fx.pay[st.id] || 1) * (fx.speed[st.id] || 1) * (S.crew[st.id] ? fx.crew : 1) * fx.all * st.base * (lvl(st.id) + (st.lvAdd || 0)) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) / st.cycle : 0), 0);
   if (newRate > 0 && oldRate > newRate * 1.001) S.legacyPay = { key: runKey(), x: oldRate / newRate };
   S.upgV = UPG_V; S.upgConv = { spent: spent0, refund: spent };
 }
@@ -4456,7 +4480,7 @@ const boostOn = () => bLeft(2) > 0 || bLeft(5) > 0;
 const incBoostX = () => (bLeft(2) > 0 ? 2 : 1) * (bLeft(5) > 0 ? 5 : 1);   // Build 239: gem income boosts, multiply with Hype and everything else
 const boostMult = () => micX() * incBoostX();   // Pro Monitors retired in Build 158 (owners refunded 300 gems once)
 const legacyPayX = () => (S.legacyPay && S.legacyPay.key === runKey()) ? S.legacyPay.x : 1;
-const payout = st => (isEv() ? 1 : legacyPayX()) * st.base * lvl(st.id) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) * (upgFx().pay[st.id] || 1) * upgFx().all * (isEv() ? evFame() : careerProfit()) * boostMult();
+const payout = st => (isEv() ? 1 : legacyPayX()) * st.base * (lvl(st.id) + (st.lvAdd || 0)) * Math.pow(MILE_PAY, milesHit(lvl(st.id))) * (upgFx().pay[st.id] || 1) * upgFx().all * (isEv() ? evFame() : careerProfit()) * boostMult();
 const bestRate = () => LOC().stations.filter(st => lvl(st.id)).reduce((a, st) => Math.max(a, payout(st) / cycleTime(st)), 0);
 const skipValue = secs => Math.round(Math.max(perSec(), bestRate()) * secs);
 const upCost = st => lvl(st.id) >= LV_CAP ? Infinity : Math.ceil(st.cost * (isEv() ? evDiffX() : goalScale()) * Math.pow(growthOf(), lvl(st.id) - 1));
@@ -4492,7 +4516,7 @@ const fmtX = n => n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K' : 
 const mult = () => hypeOn() ? hypeX() : 1;
 const perSec = () => LOC().stations.reduce((a, st) => a + (lvl(st.id) && S.crew[st.id] ? payout(st) / cycleTime(st) : 0), 0);
 const legacyGoal = () => S.legacyGoal === S.loc && S.legacyAlbums === (S.albums || 0);
-const movePct = () => isEv() ? evPoints() / EV_MAX_PTS * 100 : tourMet() ? 100 : Math.min(100, Math.max(stationsPct(ev() === 'tour' ? 90 : LV_CAP), legacyGoal() ? S.earned / goalOf(S.loc) * 100 : 0));
+const movePct = () => isEv() ? evProgPct() : tourMet() ? 100 : Math.min(100, Math.max(stationsPct(ev() === 'tour' ? 90 : LV_CAP), legacyGoal() ? S.earned / goalOf(S.loc) * 100 : 0));
 
 const CUR = () => isEv() ? '' : '$';   // events use the game's regular money, shown with the event's own coin instead of a $ (never named)
 let EV_COIN = { western: 'tan', island: 'aqua', galaxy: 'lilac' };   // own light colors, so the coin stands out on the blue price buttons   // coin art per event: art/evcoin-<event>-<style>.svg
@@ -5200,10 +5224,10 @@ function moveUp() {
   S.stats.lifetime = Math.max(S.stats.lifetime, 0);
   let gems = 0;
   if (firstTime) { gems = MAP_GEMS[cleared] || 0; S.gems += gems; if (gems) owe('gems'); S.mapPaid = next; track(`reach/${LOC().id}/${hrs(S.stats.playSec)}`); }
-  boxGive('small');   // Build 233: a Small Style Box with every move
+  boxGive('small', 2);   // Build 292: 2 Small Style Boxes with every move (was 1)
   applyAutoCrew();
   // the move itself is done and saved here, once; what follows is only presentation and resumes safely after a reload
-  S.arrival = { loc: next, from: cleared, first: firstTime, gems, clears: S.clears[cleared], box: 'small' };
+  S.arrival = { loc: next, from: cleared, first: firstTime, gems, clears: S.clears[cleared], box: 'small', boxN: 2 };
   closeSheet();
   buildRoom(); save(); render(); sfx('move'); syncChart(true);
   travelTo(LOC().name, () => { moving = false; showArrival(); });
@@ -5235,7 +5259,7 @@ function showArrival() {
   nextSheetKey = 'arrive';
   openSheet(`<div class="welcome arrive"><h2 class="ar-title"><small>Welcome to the</small><span>${loc.name}</span></h2>
     ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20].includes(a.clears) ? ` Its plaque is now <b style="color:${plaqueTier(a.clears)[2]}">${plaqueTier(a.clears)[1]}</b>!` : ''}</p>`}
-    ${a.box ? `<div class="arew"><span class="rchip sbchip">${boxArt('small', 30)}<b>+1 Small Style Box</b></span></div>` : ''}
+    ${a.box ? `<div class="arew"><span class="rchip sbchip">${boxArt('small', 30)}<b>+${a.boxN || 1} Small Style Box${(a.boxN || 1) > 1 ? 'es' : ''}</b></span></div>` : ''}
     ${mayaNote('celebrating', ARRIVE_LINES[loc.id] || 'New space, bigger money. Let\u2019s get to work!')}</div>
     <button class="cta" data-arrive>${stage ? 'Take the Stage' : 'Open Studio'}</button>`);
 }
@@ -5280,6 +5304,8 @@ const MAYA_ALBUM = ['Your first album is out! We started with a desk and a dream
   'Another album, another step forward. You’re building a catalogue—and a name for yourself.',
   'From apartment recordings to stadium lights. Look how far you’ve come! Let’s make the next record count.'];
 const MAYA_ALBUM_LATER = ['Another album out in the world. Let’s keep building your legacy!', 'The catalogue keeps growing. Ready for the next chapter?', 'New album, new momentum. Let’s put that boost to work!'];
+const ALBUM_BIG_EVERY = 3;   // Build 292: a free Big Style Box on albums 3, 6, 9... (was every album)
+const albumBigAt = n => n > 0 && n % ALBUM_BIG_EVERY === 0;
 function dropAlbum() {
   if (!albumReady()) return;
   S.albums = (S.albums || 0) + 1;
@@ -5298,7 +5324,7 @@ function dropAlbum() {
   const it = ITEMS.find(i => i.album === S.albums);
   const albumGems = S.oldAlbumGems === S.albums - 1 ? GEMS_PER_ALBUM * (ev() === 'gems' ? 2 : 1) : 0; S.oldAlbumGems = null; if (albumGems) { S.gems += albumGems; owe('gems'); }
   if (it) { S.owned[it.id] = true; S.newItems = [...(S.newItems || []), it.id]; }
-  boxGive('big');   // Build 233: a Big Style Box with every album
+  const bigNow = albumBigAt(S.albums); boxGive('small', 2); if (bigNow) boxGive('big');   // Build 292: 2 Small every album, a Big every third
   buildRoom(); save(); render(); sfx('move'); syncChart(true);
   // the big moment: your artist on the glowing stage with gold rays and sparkles (wearing the new exclusive if there is one)
   const prev = `<div class="dresser album-stage" style="width:100%"><span class="arays"></span><span class="spot"></span>${stageSparks(14)}${bigArtist(it ? Object.assign({}, S.equip, { [it.slot]: it.id }) : S.equip)}</div>`;
@@ -5307,7 +5333,7 @@ function dropAlbum() {
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
   const mayaNoteH = mayaLine ? mayaNote('celebrating', mayaLine) : '';
   albumUpload(S.albums, () => (setTimeout(albumTop, 0), setTimeout(albumTop, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span><small class="acap">Permanent All Profit bonus</small>
-    <div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}<span class="rchip sbchip">${boxArt('big', 30)}<b>+1 Big Style Box</b></span></div></div>
+    <div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}<span class="rchip sbchip">${boxArt('small', 30)}<b>+2 Small Style Boxes</b></span>${bigNow ? `<span class="rchip sbchip">${boxArt('big', 30)}<b>+1 Big Style Box</b></span>` : ''}</div>${bigNow ? '' : `<small class="acap">Big Style Box on album #${Math.ceil((S.albums + 1) / ALBUM_BIG_EVERY) * ALBUM_BIG_EVERY}</small>`}</div>
     ${mayaNoteH}
     ${it ? `<button class="cta" data-equip="${it.id}" data-then="close">Wear it</button>` : ''}
     <button class="ghost" data-close>Start the next run</button>`)));
@@ -5340,9 +5366,9 @@ const lbMult = L => LB_MULT.filter(([l]) => L >= l).pop()[1];
 // season rewards sit below the free Backstage Pass track in gems and skips; the multiplier is the label's main draw
 // Build 235: label rewards modeled on Eatventure's club track (their 50 levels squeezed into our 30): box stacks that grow,
 // Label Boxes (the only Mythics) every 6 levels, Big Box stacks between them, and gems that climb the higher a label gets
-const LB_TABLE = { 2: ['small', 2], 3: 50, 4: ['small', 12], 5: 'hype', 6: ['label', 2], 7: ['big', 6], 8: 150, 9: 'frenzy', 10: ['big', 9],
-  11: 300, 12: ['label', 3], 13: 'skip', 14: 450, 15: ['big', 12], 16: 'hype', 17: 600, 18: ['label', 4], 19: 'frenzy', 20: ['big', 15],
-  21: 750, 22: 'skip', 23: 900, 24: ['label', 6], 25: ['big', 18], 26: 'hype', 27: 1000, 28: ['big', 20], 29: 1200, 30: ['label', 8] };
+const LB_TABLE = { 2: ['small', 2], 3: 50, 4: ['small', 12], 5: 'hype', 6: ['label', 1], 7: ['big', 4], 8: 150, 9: 'frenzy', 10: ['big', 5],   // Build 292: fewer Big/Label Boxes per level (was 6/9/12/15/18/20 Big, 2/3/4/6/8 Label)
+  11: 300, 12: ['label', 2], 13: 'skip', 14: 450, 15: ['big', 2], 16: 'hype', 17: 600, 18: ['label', 1], 19: 'frenzy', 20: ['big', 2],
+  21: 750, 22: 'skip', 23: 900, 24: ['label', 1], 25: ['big', 2], 26: 'hype', 27: 1000, 28: ['big', 2], 29: 1200, 30: ['label', 2] };
 const LB_REWARD = L => { const v = LB_TABLE[L];
   if (Array.isArray(v)) { const [box, n] = v; return { k: 'box', box, n, t: boxCountTxt(box, n), ic: 'box:' + box + ':' + n }; }
   if (typeof v === 'number') return { k: 'gems', n: v, t: v.toLocaleString('en-US') + ' gems', ic: 'gems' };
@@ -5401,7 +5427,7 @@ async function lbRewardsCheck() {
     save(); render(); await lbCall('lb_rewards_ack', { ids: list.map(x => x.id) }); lbRwNext();
   } finally { lbRwBusy = 0; } }
 function lbRwNext() { if (!LB_RWQ.length || tutActive() || !$('boxPop').hidden || !$('scrim').hidden) return; const f = LB_RWQ.shift(); f(); }
-const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Earn an event star', '+2 XP'], ['Send a labelmate Hype', '+10 XP']];
+const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Play the long event', 'up to +600 XP'], ['Send a labelmate Hype', '+10 XP']];
 // Build 261 prototype: duplicates give Style Tokens; tokens are donated to your label at 1 token = 1 Label XP (no daily limit).
 // The server keeps the token balance (SRV_BOX): it rolls boxes, credits duplicates and deducts donations, so an edited save can't mint tokens.
 const TK_IC = (sz = 22) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#B18CFF" stroke="#1B1830" stroke-width="2"/><circle cx="12" cy="12" r="6.2" fill="#8F66F5"/><path d="M12 7.6 l1.3 2.9 3.1.3 -2.4 2 .8 3 -2.8-1.6 -2.8 1.6 .8-3 -2.4-2 3.1-.3z" fill="#fff"/></svg>`;
@@ -5573,7 +5599,7 @@ function lbModal() {
       <div class="lb-mc-row"><span>Label code: <b>${M.code}</b></span><button class="lb-ibtn" data-lbcopy aria-label="Copy label code"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div>
       <div class="lb-mc-row lb-mc-meta"><span>${M.open ? 'Open' : 'Private'} · ${M.min_albums ? M.min_albums + '+ albums to join' : 'No album minimum'}</span></div>
       <div class="lb-mc-txt">
-        <p>Everything you already do earns Label XP: albums <b>+100</b>, daily tasks <b>+30</b>, event stars <b>+2</b>, Hype <b>+10</b>.</p>
+        <p>Everything you already do earns Label XP: albums <b>+100</b>, daily tasks <b>+30</b>, the long event <b>up to +600</b>, Hype <b>+10</b>.</p>
         ${SRV_BOX ? '<p>You can also donate Style Tokens from duplicate outfits: <b>1 token = 1 XP</b>.</p>' : ''}
         <p>Every level pays every member who was in the label when it was reached.</p>
         <p>Level and Label All Profit reset each season. Rewards you collected are yours to keep.</p>
@@ -7590,7 +7616,7 @@ function openTab(tab) {
         <div class="albumline"><span class="ric" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#4A3A9E;flex:none">${svgIc('note', '#FFFFFF', 20)}</span>
           <span class="rt"><b>${S.albums || 0} dropped · Fame +${pctTxt(fameBonus())}</b><span>${nextExclusive() ? `Next exclusive outfit at album ${nextExclusive().album}` : 'Every album adds fame'}</span></span>
           ${next ? `<button class="cta pink" ${canAlbum ? '' : 'disabled'} data-album-ask>${canAlbum ? 'Drop' : 'Locked'}</button>` : ''}</div>
-        <div class="hinfo-txt" ${hinfoOpen.albums ? '' : 'hidden'}><p>Finish every map to drop an album. It restarts you in the apartment with +${pctTxt(fameBonusAt((S.albums || 0) + 1) - fameBonus())} more All Profit, forever. Fame grows with every album and levels off at +${pctTxt(fameBonusAt(1e9))}. It adds to the same All Profit pool as your outfits. Every station pays 1 gem at Lv 25, 50, 75 and 100, again on every album. Exclusive outfits unlock at albums ${ITEMS.filter(i => i.album).map(i => i.album).sort((a, b) => a - b).join(', ')}. ${canAlbum ? '<b style="color:var(--cash)">Ready to drop.</b>' : S.loc < lastLoc() ? `Reach the ${last.name} and max every station there.` : `Max every station in the ${last.name} first.`}</p></div>
+        <div class="hinfo-txt" ${hinfoOpen.albums ? '' : 'hidden'}><p>Finish every map to drop an album. It restarts you in the apartment with +${pctTxt(fameBonusAt((S.albums || 0) + 1) - fameBonus())} more All Profit, forever. Fame grows with every album and levels off at +${pctTxt(fameBonusAt(1e9))}. It adds to the same All Profit pool as your outfits. Every station pays 2 gems at Lv 25, 50, 75 and 100, again on every album. Each map move gives 2 Small Style Boxes, each album 2 more, and every third album a Big Style Box. Exclusive outfits unlock at albums ${ITEMS.filter(i => i.album).map(i => i.album).sort((a, b) => a - b).join(', ')}. ${canAlbum ? '<b style="color:var(--cash)">Ready to drop.</b>' : S.loc < lastLoc() ? `Reach the ${last.name} and max every station there.` : `Max every station in the ${last.name} first.`}</p></div>
       </div>
       <div class="sec"><h3>Plaques <button class="hinfo" data-hinfo="plaques" aria-label="About plaques" aria-expanded="${!!hinfoOpen.plaques}">i</button> <small class="h3note">${clearsOf().filter(Boolean).length} of ${allLocs.length} maps cleared</small></h3>
         ${plaqueRow(clearsOf())}
@@ -7729,7 +7755,7 @@ function openTab(tab) {
       <small>${x.label}</small><b>${x.date}</b><span class="evic ${x.e || x.hol || x.lw ? '' : 'none'} ${!x.e && x.lw ? 'lw' : ''}" ${!x.e && x.hol ? `style="--c:${x.hol.card}"` : !x.e && x.lw ? `style="--c:${EV_DEFS[x.lw.id].color}"` : ''}>${x.e ? evIcon(x.e, 15) : x.lw ? evEmblem(x.lw.id, 24) : x.hol ? evIcon('leaf', 15) : ''}</span></button>`).join('');
     const lwCard = w => { const d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       return `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
-        <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
+        <div class="evtags"><span>3-day bonus map</span><span>15 tasks, 15 rewards</span><span>Rewards are yours to keep</span></div>
         ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday. Western, Island and Galaxy take turns each week.</p>'}</div>`; };
     let detail;
     const holNote = sel.hol ? `<p class="evnote">${sel.e ? `<b>${sel.hol.name}.</b> ` : ''}${sel.hol.gift ? 'A free thank-you gift and seasonal packs are in the Shop.' : 'Seasonal packs are in the Shop.'}</p>` : '';
@@ -7737,7 +7763,7 @@ function openTab(tab) {
     else if (!sel.e && sel.lw) detail = lwCard(sel.lw);
     else if (false) { const w = sel.lw, d = EV_DEFS[w.id], live = now >= w.start && now < w.end, open = live && evUnlocked();
       detail = `<div class="evdet" style="--c:${d.color}"><div class="evhead"><span class="evbig">${evEmblem(w.id, 56)}</span><span class="t"><small>Long event · Thursday to Saturday</small><b>${d.title}</b><span>${live ? `<span class="live">Live now</span> · ends in ${cd(w.end)}` : `Starts in ${cd(w.start)}`}</span></span></div>
-        <div class="evtags"><span>3-day bonus map</span><span>15 reward tiers</span><span>Rewards are yours to keep</span></div>
+        <div class="evtags"><span>3-day bonus map</span><span>15 tasks, 15 rewards</span><span>Rewards are yours to keep</span></div>
         ${open ? `<button class="cta" data-evhub>Open the ${d.name} event</button>` : live ? '<p class="evauto">Reach Home Studio (map 2) to join long events.</p>' : '<p class="evauto">Opens automatically on Thursday. Western, Island and Galaxy take turns each week.</p>'}</div>`; }
     else if (!sel.e) { const nx = days.find(x => x.k > sel.k && x.e);
       detail = `<div class="evdet quiet"><div class="evhead"><span class="evbig none">${svgIc('star', '#8C86A6', 30)}</span><span class="t"><small>${sel.k ? sel.label + ' ' + sel.date : 'Today'}</small><b>No scheduled event</b><span>${nx ? `Next: ${EVENTS[nx.e].name}, ${nx.k === sel.k + 1 ? 'the day after' : nx.label}` : ''}</span></span></div></div>`; }
@@ -7804,7 +7830,7 @@ function openTab(tab) {
       <button class="cta" data-move>Move Up</button><button class="ghost" data-close>Not yet</button>`);
   } else if (tab === 'album-confirm') {
     openSheet(`<div class="sheet-head"><h2>Drop album #${(S.albums || 0) + 1}?</h2>${closeBtn()}</div>
-      <div class="keeps"><div class="gain"><b>You gain</b><ul><li>Fame bonus +${pctTxt(fameBonus())} → +${pctTxt(fameBonusAt((S.albums || 0) + 1))} All Profit, forever</li>${S.oldAlbumGems === (S.albums || 0) ? `<li>+${GEMS_PER_ALBUM} gems</li>` : ''}<li>Station milestone gems again on every map</li>${nextExclusive() && nextExclusive().album === (S.albums || 0) + 1 ? '<li>An exclusive outfit</li>' : ''}</ul></div>
+      <div class="keeps"><div class="gain"><b>You gain</b><ul><li>Fame bonus +${pctTxt(fameBonus())} → +${pctTxt(fameBonusAt((S.albums || 0) + 1))} All Profit, forever</li>${S.oldAlbumGems === (S.albums || 0) ? `<li>+${GEMS_PER_ALBUM} gems</li>` : ''}<li>Station milestone gems again on every map</li><li>2 Small Style Boxes${albumBigAt((S.albums || 0) + 1) ? ' + a Big Style Box' : ''}</li>${nextExclusive() && nextExclusive().album === (S.albums || 0) + 1 ? '<li>An exclusive outfit</li>' : ''}</ul></div>
         <div><b>You keep</b><ul><li>Gems &amp; inventory</li><li>Outfits &amp; style</li><li>Plaques &amp; goals</li><li>Perks &amp; Hype</li><li>Pass progress</li></ul></div>
         <div class="lose"><b>Resets</b><ul><li>Back to the Apartment</li><li>Cash to $0</li><li>Levels &amp; crew</li><li>Upgrades</li></ul></div></div>
       <button class="cta pink" data-album>Drop album #${(S.albums || 0) + 1}</button><button class="ghost" data-close>Not yet</button>`);
@@ -8165,6 +8191,9 @@ function evRules() {
   if (S && S.ev && !S.ev.lv2) { const lv = isEv() ? S.levels : S.ev.state && S.ev.state.levels;
     if (lv) Object.keys(lv).forEach(k => { if (lv[k] > 0) lv[k] = Math.min(EV_CAP, lv[k] * 2); });
     S.ev.lv2 = true; upgCache = null; save(); }
+  if (S && S.ev && !S.ev.lv4) { const lv = isEv() ? S.levels : S.ev.state && S.ev.state.levels;   // Build 291: Lv 200 -> 400
+    if (lv) Object.keys(lv).forEach(k => { if (lv[k] > 0) lv[k] = Math.min(EV_CAP, lv[k] * 2); });
+    S.ev.lv4 = true; upgCache = null; save(); }
   if (S && S.ev && !S.ev.upg3) { const loc = EV_LOCS[S.ev.id], now = ECON.UPG[loc.id] || [], st = isEv() ? S : S.ev.state;
     const old = S.ev.upg2 ? evUpgList(loc.stations, Math.sqrt(1.1135), 200, 'b200') : evUpgList(loc.stations, 1.1135, 100, 'b199');
     if (st) ['upg', 'upgSeen'].forEach(f => { if (Array.isArray(st[f])) st[f] = st[f].map(k => old[k] && now.findIndex(u => u[0] === old[k][0])).filter(k => k != null && k >= 0); });
@@ -8210,7 +8239,7 @@ function render() {
   $('sbMileLabel').title = next ? [milesNow().includes(next) ? `x${MILE_PAY} pay at level ${next}` : '', !isEv() && MILE_GEM_AT.includes(next) ? `+1 gem at level ${next}` : ''].filter(Boolean).join(', ') : 'Level ' + LV_CAP + ' is the max';
   if (isEv()) { const en = EV_PT_LV.find(m => L < m), ep = [0, ...EV_PT_LV].filter(m => L >= m).pop();
     $('sbMile').style.width = en ? ((L - ep) / (en - ep) * 100) + '%' : '100%'; $('sbMileLabel').innerHTML = en ? MILE_STAR : '';
-    $('sbMileLabel').title = en ? `Event points at level ${en}` : `Level ${EV_CAP} is the event max`; }
+    $('sbMileLabel').title = en ? `Event task at level ${en}` : `Level ${EV_CAP} is the event max`; }
   { const cap = document.querySelector('.tab[data-tab="career"] .tcap'); if (cap) cap.textContent = isEv() ? 'Rewards' : 'Career'; }
   const plan = buyPlan(st);
   $('upCost').textContent = !plan.n ? 'MAX' : fmt(plan.cost).replace(/^\$/, '');
@@ -8294,15 +8323,15 @@ function askItem(it, back) {
 }
 const slotLabel = sl => ({ top: 'top', hat: 'hat', neck: 'necklace', face: 'glasses' })[sl] || '';
 // ---------- Style Boxes (Build 233): Small, Big and Event. Odds shown before opening, pity counters, duplicates become Style Tokens ----------
-// Small: up to Epic, free with every map move. Big: up to Legendary, free with every album. Event: the only place Ultimates come from,
+// Small: up to Epic, 2 free with every map move and every album. Big: up to Legendary, free every third album (Build 292). Event: the only place Ultimates come from,
 // sold in the shop only while a long event is live, and free on the event track. Earned boxes wait in S.sbox.inv until opened.
 const BOXES = {
   small: { name: 'Small Style Box', cost: 40, cost5: 190, rolls: 2, pity: null, art: ['#3D8BFF', '#8FC1FF', '#FFFFFF'],
-    odds: [['common', 80], ['rare', 16], ['epic', 4]], top: 'Common to Epic outfits', earn: 'Free with every map move' },
+    odds: [['common', 80], ['rare', 16], ['epic', 4]], top: 'Common to Epic outfits', earn: '2 free with every map move and every album' },
   big: { name: 'Big Style Box', cost: 200, cost5: 950, rolls: 6, pity: { rar: 'legendary', n: 15 }, art: ['#7C5CFF', '#B18CFF', '#FFD93D'],
-    odds: [['common', 50], ['rare', 30], ['epic', 15], ['legendary', 5]], top: 'Common to Legendary outfits', earn: 'Free with every album' },
-  event: { name: 'Event Box', cost: 250, cost5: 1200, rolls: 6, pity: { rar: 'ultimate', n: 20 }, art: ['#D4231F', '#FF7A6B', '#FFD93D'],
-    odds: [['common', 48], ['rare', 30], ['epic', 15], ['legendary', 5], ['ultimate', 2]], top: 'The only box with Ultimates', earn: 'Event track tier 14, or the shop while an event is live' },
+    odds: [['common', 50], ['rare', 30], ['epic', 15], ['legendary', 5]], top: 'Common to Legendary outfits', earn: 'Free every third album' },
+  event: { name: 'Event Box', cost: 250, cost5: 1200, rolls: 6, pity: { rar: 'ultimate', n: 40 }, art: ['#D4231F', '#FF7A6B', '#FFD93D'],
+    odds: [['common', 48], ['rare', 30], ['epic', 15], ['legendary', 5], ['ultimate', 2]], top: 'The only box with Ultimates', earn: 'The event Finale, or the shop while an event is live' },
   // Build 235: Label Boxes come only from Label Rewards and are the only box with Mythics. Never sold.
   label: { name: 'Label Box', cost: 0, cost5: 0, rolls: 6, pity: null, noShop: true,   // Build 240: no guarantee, Label Boxes are free and come every season
     odds: [['rare', 53], ['epic', 33], ['legendary', 12], ['mythic', 2]], top: 'The only box with Mythics (0.5% each)', earn: 'Label Rewards only' }   // odds from Eatventure's Club Box
@@ -8608,9 +8637,9 @@ function offline() {
 // game's live fields (cash, levels, crew, Upgrades, timers, selection) hold the event's copy and the career's copy waits in S.ev.car;
 // leaving swaps them back. Only the map you were last on earns offline, so no time is ever paid to both.
 const EV_BAR_H = 0;   // layout B: no event bar on the event map (the event tab in the left column replaces it)   // event bar height (CSS px) + the scenery hint strip under it; the station rows clear both
-const EV_K = 13.5, EV_G = Math.sqrt(1.1135) * Math.pow(1.1, 14 / 200), EV_CAP = 200,   // Build 200: twice the levels (200), half the growth per level, so each level takes about as long as before
-  EV_MILES = [50, 100, 150, 180], EV_TIERS = 15, EV_TIER_PTS = 20, EV_MAX_PTS = 300;
-const EV_PT_LV = [50, 100, 200];   // point milestones per station (5 / 10 / 20 stars); the finale needs all five at EV_CAP
+const EV_K = 13.5, EV_G = Math.sqrt(Math.sqrt(1.1135) * Math.pow(1.1, 14 / 200)), EV_CAP = 400,   // Build 291: Lv 400, same pace as Lv 200 (half the growth per level)   // Build 200: twice the levels (200), half the growth per level, so each level takes about as long as before
+  EV_MILES = [100, 200, 300, 360], EV_TIERS = 15, EV_TIER_PTS = 20, EV_MAX_PTS = 300;
+const EV_PT_LV = [100, 200, 400];   // point milestones per station (5 / 10 / 20 stars); the finale needs all five at EV_CAP
 const EV_FIELDS = ['cash', 'levels', 'crew', 'upg', 'running', 'prog', 'selected', 'upgSeen'];
 const EV_GOAL_STATS = ['upgrades', 'unlocks', 'hires', 'payouts', 'lifetime'];   // event play counts for daily tasks, never for career goals
 const EV_DEFS = {
@@ -8628,16 +8657,16 @@ const EV_DEFS = {
 const EV_ROT = ['western', 'island', 'galaxy'];   // weekly rotation order
 const EV_BASE = [1, 9, 80, 700, 6000].map(b => b / 2), EV_CYC = [1.5, 3, 5, 8, 12], EV_C0 = [5, 70, 800, 9000, 100000].map(c => c * EV_K), EV_UNL = [0, 250, 4000, 60000, 900000].map(c => c * EV_K);
 // rewards per tier, index = tier. acc / top = that event's cosmetic (100 gems instead if already owned); badge = profile badge (placeholder)
-const EV_FREE = [null, { gems: 10 }, { skips: 1 }, { gems: 15 }, { box: 'small', n: 2 }, { frenzy: 1 }, { gems: 20 }, { box: 'small', n: 4 }, { gems: 25 }, { skips: 1 }, { gems: 30 }, { box: 'small', n: 6 }, { gems: 35 }, { skips: 1 }, { box: 'event', n: 1 }, { badge: true }];   // Build 241: rising gem curve (135); Small Boxes at 4, 7, 11; Event Box at 14; badge at 15
+const EV_FREE = [null, { gems: 10 }, { box: 'small', n: 2 }, { gems: 15 }, { box: 'small', n: 2 }, { box: 'small', n: 2 }, { gems: 20 }, { box: 'small', n: 4 }, { gems: 25 }, { box: 'small', n: 2 }, { gems: 30 }, { box: 'small', n: 6 }, { gems: 35 }, { box: 'small', n: 2 }, { box: 'small', n: 2 }, { box: 'event', n: 1, badge: true }];   // Build 291: each row pays the same kind on Free and Pass
 // 360 gems in the pass lane = 120 gems per dollar, in line with the Backstage Pass VIP (117/$) and the $2.99 Mixtape Bundle (127/$)
-const EV_PASS = [null, { gems: 40 }, { skips: 1 }, { gems: 70 }, { box: 'small', n: 5 }, { gems: 100 }, { frenzy: 1 }, { box: 'small', n: 8 }, { acc: true }, { gems: 150 }, { skips: 1 }, { box: 'small', n: 12 }, { frenzy: 1 }, { skips: 1 }, { box: 'event', n: 3 }, { top: true }];   // Build 241: Mini Pass never has less of anything than Free: 360 gems, 3 skips, 2 Frenzies, 25 Small and 3 Event Boxes
+const EV_PASS = [null, { gems: 30 }, { box: 'small', n: 4 }, { gems: 45 }, { box: 'small', n: 4 }, { box: 'small', n: 4 }, { gems: 55 }, { box: 'small', n: 8 }, { gems: 65 }, { box: 'small', n: 4 }, { gems: 75 }, { box: 'small', n: 12 }, { gems: 90 }, { box: 'small', n: 4 }, { box: 'small', n: 5 }, { box: 'event', n: 3 }];   // 360 gems, 45 Small, 3 Event Boxes. No looks: the Mini Pass is about more Event Boxes
 const EV_PRICE = 2.99;
 // Build 280: event difficulty (Eatventure-style). Chosen once when you first enter an event; Hard / Extreme unlock after you've finished
 // that event (Western, Island or Galaxy) on the difficulty below. Every event cost is multiplied (x); the reward track's gems and boxes
 // scale (free / mini pass). Event sims: completion time grows about in line with the cost multiplier, so a player whose multiplier is
 // about x times a new player's gets a similar run on that difficulty.
-const EV_DIFF = { normal: { name: 'Normal', x: 1, free: 1, pass: 1 }, hard: { name: 'Hard', x: 2.5, free: 2, pass: 1.5 }, extreme: { name: 'Extreme', x: 6, free: 3, pass: 2 },
-  legendary: { name: 'Legendary', x: 10, free: 4, pass: 2.5 } };   // Build 288: Dex's difficulty, opens after Extreme once you've met him (album 10)
+const EV_DIFF = { normal: { name: 'Normal', x: 1, free: 1, pass: 1 }, hard: { name: 'Hard', x: 2.5, free: 2, pass: 1.5, evx: 1 }, extreme: { name: 'Extreme', x: 6, free: 3, pass: 2, evx: 3 },
+  legendary: { name: 'Legendary', x: 10, free: 4, pass: 2.5, evx: 4 } };   // Build 288: Dex's difficulty, opens after Extreme once you've met him (album 10)
 const EV_DIFF_IDS = ['normal', 'hard', 'extreme', 'legendary'];
 const evDiffId = () => (S && S.ev && EV_DIFF[S.ev.diff]) ? S.ev.diff : 'normal';
 const evDiffX = () => EV_DIFF[evDiffId()].x;
@@ -8652,7 +8681,7 @@ async function evSrvSync() {
   if (!S.ev || !S.ev.diff || PLAYTEST || PREVIEW_LOCK || evSrvBusy || Date.now() < evSrvNext) return; evSrvBusy = true;
   try {
     if (!S.ev.srv) { const r = await lbCall('ev_join', { k: evSrvKey(), d: S.ev.diff }); if (!r.ok) throw 0; if (S.ev) { S.ev.srv = { grp: r.data.grp }; save(); } }
-    const pct = Math.round(evPoints() / EV_MAX_PTS * 10000) / 100;
+    const pct = Math.round(evProgPct() * 100) / 100;
     if (S.ev && pct > (S.ev.srvPct || 0)) { const r = await lbCall('ev_progress', { k: evSrvKey(), p: pct }); if (r.ok && S.ev) { S.ev.srvPct = pct; save(); } }
     evSrvNext = Date.now() + (pct >= 100 ? 5000 : 60000);
   } catch (e) { evSrvNext = Date.now() + 60000; } finally { evSrvBusy = false; }
@@ -8691,7 +8720,7 @@ function evDiffView() {
 }
 function evRaw(lane, n) {   // the track's reward, scaled for this event's difficulty (gems and box counts; skips, Frenzies, cosmetics and the badge stay as they are)
   const r = (lane === 'free' ? EV_FREE : EV_PASS)[n]; if (!r) return r; const k = EV_DIFF[evDiffId()][lane === 'free' ? 'free' : 'pass']; if (k === 1) return r;
-  const o = Object.assign({}, r); if (o.gems) o.gems = Math.round(o.gems * k / 5) * 5 || o.gems; if (o.box) o.n = Math.round((o.n || 1) * k); return o; }
+  const o = Object.assign({}, r); if (o.gems) o.gems = Math.round(o.gems * k / 5) * 5 || o.gems; if (o.box) o.n = Math.round((o.n || 1) * k); if (lane === 'pass' && o.box === 'event') o.n += EV_DIFF[evDiffId()].evx || 0; return o; }
 const EVI = { guitar: '<path d="M14 4l6 6M17 7l-5.5 5.5"/><path d="M11.5 12.5a4 4 0 1 0-1.5 6 3 3 0 0 0 4-4 4 4 0 0 0-2.5-2z"/>', mic: '<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/>',
   note: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>', disc: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/>', star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
   sliders: '<path d="M6 4v16M12 4v16M18 4v16"/><rect x="3.5" y="7" width="5" height="3" rx="1"/><rect x="9.5" y="13" width="5" height="3" rx="1"/><rect x="15.5" y="9" width="5" height="3" rx="1"/>',
@@ -9043,7 +9072,7 @@ function evUpgList(stations, G, CAP, ver) {
 const EV_LOCS = {};
 Object.entries(EV_DEFS).forEach(([key, d]) => {
   const id = 'ev_' + key;
-  const stations = d.st.map(([name, icon, crew], i) => ({ id: key.slice(0, 2) + (i + 1), name, icon, crew, unlock: EV_UNL[i], base: EV_BASE[i], cycle: EV_CYC[i], cost: EV_C0[i], growth: EV_G,
+  const stations = d.st.map(([name, icon, crew], i) => ({ id: key.slice(0, 2) + (i + 1), name, icon, crew, unlock: EV_UNL[i], base: EV_BASE[i] / 2, lvAdd: 1, cycle: EV_CYC[i], cost: EV_C0[i] / (EV_G * (1 + EV_G)), growth: EV_G,
     crewCost: EV_C0[i] * (i ? 15 : 8) /* Build 200: the first station's crew comes a bit sooner */, pos: [0, 0, 150, 112], pos0: [0, 0, 150, 112], furn: evTempFurn(d, name, i) }));
   stations.forEach((st, i) => { st.slot = i === 4 ? 5 : i % 2; st.row = Math.floor(i / 2); });
   const decor = '';   // drawn per phone by evOutside() + evGround()
@@ -9075,7 +9104,26 @@ function evPoints() {
   p += 5 * evStarUpg(s.upg); if (all) p += 40;
   return Math.min(EV_MAX_PTS, p);
 }
-const evTier = () => Math.min(EV_TIERS, Math.floor(evPoints() / EV_TIER_PTS));
+
+// Build 291: one list. 15 tasks in play order; task n unlocks Free and Mini Pass reward n (the same slots as the old 15 tiers,
+// so anything already claimed stays claimed and nothing can be claimed twice). Tasks can finish in any order.
+const EV_TASKS = [['lv', 0, 100], ['lv', 0, 200], ['crew', 2], ['upg', 30], ['unl', 4], ['lv', 0, 400], ['lv', 4, 100], ['lv', 3, 200], ['lv', 1, 400], ['lv', 4, 200], ['lv', 2, 400], ['lv', 3, 400], ['upg', 80], ['upg', -1], ['fin']];
+function evTaskInfo(n, s) {
+  s = s || evStateNow(); const loc = EV_LOCS[S.ev.id], t = EV_TASKS[n - 1], lv = (s && s.levels) || {}, crew = (s && s.crew) || {};
+  if (t[0] === 'lv') { const st = loc.stations[t[1]], L = lv[st.id] || 0; return { name: `${st.name} to Lv ${t[2]}`, done: L >= t[2], cur: L, need: t[2], lvl: true }; }
+  if (t[0] === 'crew') { const st = loc.stations[t[1]]; return { name: `Hire the ${st.crew}`, done: !!crew[st.id] }; }
+  if (t[0] === 'unl') { const st = loc.stations[t[1]]; return { name: `Unlock ${st.name}`, done: (lv[st.id] || 0) > 0 }; }
+  if (t[0] === 'upg') { const all = (ECON.UPG[loc.id] || []).length, need = t[1] < 0 ? all : t[1], have = ((s && s.upg) || []).length;
+    return { name: t[1] < 0 ? `Buy every Upgrade (${all})` : `Buy ${need} Upgrades`, done: have >= need, cur: Math.min(have, need), need }; }
+  // the Finale is always the last reward: five stations at the cap AND every other task done (the badge sits on it)
+  const at = loc.stations.filter(x => (lv[x.id] || 0) >= EV_CAP).length; let rest = 0; for (let k = 1; k < EV_TIERS; k++) if (evTaskInfo(k, s).done) rest++;
+  return { name: `Finale: all five stations Lv ${EV_CAP}`, done: at === 5 && rest === EV_TIERS - 1, cur: at, need: 5, note: at === 5 && rest < EV_TIERS - 1 ? `All five at Lv ${EV_CAP} · ${EV_TIERS - 1 - rest === 1 ? 'finish the last task' : `finish the other ${EV_TIERS - 1 - rest} tasks`}` : '' };
+}
+const evTaskOk = n => !!(S.ev && evStateNow() && n >= 1 && n <= EV_TIERS && evTaskInfo(n).done);
+const evTasksDone = () => { if (!S.ev || !evStateNow()) return 0; let c = 0; for (let n = 1; n <= EV_TIERS; n++) if (evTaskInfo(n).done) c++; return c; };
+// leaderboard and progress: tasks done out of 15. Runs started before Build 291 keep their star-based % until that event ends.
+const evProgPct = () => !S.ev ? 0 : S.ev.tq ? evTasksDone() / EV_TIERS * 100 : evPoints() / EV_MAX_PTS * 100;
+const evTier = () => evTasksDone();   // Build 291: tasks done (was star tiers)
 function evFreshState(id) { const st0 = EV_LOCS[id].stations[0].id; return { cash: 0, levels: { [st0]: 1 }, crew: {}, upg: [], running: {}, prog: {}, selected: st0, upgSeen: [] }; }
 // career goals ignore event play: what the event added to these stats is subtracted (and Lv records stay the career's)
 function gStat(k) {
@@ -9099,7 +9147,7 @@ function evRebuild() { closePop(); if (typeof stopGlide === 'function') stopGlid
 function evEnsure() {
   const w = evLive(); if (!w || !evUnlocked()) return !!(S.ev && isEv());
   if (S.ev && S.ev.key !== w.key) evFinish();
-  if (!S.ev) { S.ev = { key: w.key, id: w.id, start: w.start, end: w.end, state: evFreshState(w.id), car: null, pass: false, got: { free: {}, pass: {} }, intro: false, lv2: true, upg2: true, upg3: true }; save(); }
+  if (!S.ev) { S.ev = { key: w.key, id: w.id, start: w.start, end: w.end, state: evFreshState(w.id), car: null, pass: false, got: { free: {}, pass: {} }, intro: false, lv2: true, upg2: true, upg3: true, lv4: true, tq: true }; save(); }
   return true;
 }
 const evRunFresh = () => { if (!S.ev || isEv()) return false; const st = S.ev.state || {}, lv = st.levels || {}; return Object.values(lv).every(v => v <= 1) && Object.keys(lv).length <= 1 && !(st.upg || []).length; };
@@ -9127,12 +9175,15 @@ function evBack() { if (!isEv()) return; bumpRev(); evSwapOut(); S.ev.away = Dat
 // rewards: resolve cosmetics (never duplicated: 100 gems if already owned), then pay through the normal reward path
 function evResolve(r) { const d = EV_DEFS[S.ev.id]; if (r.acc || r.top) { const it = r.acc ? d.acc : d.top; return S.owned[it] ? { gems: 100 } : { item: it }; } return r; }
 function evClaim(lane, n) {
-  if (!S.ev || n > evTier() || S.ev.got[lane][n] || (lane === 'pass' && !S.ev.pass)) return null;
+  if (!S.ev || !evTaskOk(n) || S.ev.got[lane][n] || (lane === 'pass' && !S.ev.pass)) return null;
   const raw = evRaw(lane, n); if (!raw) return null;
-  S.ev.got[lane][n] = true;
+  S.ev.got[lane][n] = true; const id = `ev:${S.ev.key}:${lane}:${n}`, out = {};
   if (raw.badge) { const b = EV_DEFS[S.ev.id].badge, t = EV_DIFF[S.ev.diff] ? S.ev.diff : 'normal'; S.evBadges = Object.assign({}, S.evBadges, { [b]: true });
-    S.evTiers = Object.assign({}, S.evTiers, { [S.ev.id]: Object.assign({}, (S.evTiers || {})[S.ev.id], { [t]: 1 }) }); bumpRev(); return { badge: b + ' (' + BADGE_T[t][0] + ')' }; }   // Build 289: the badge for this run's difficulty
-  const r = evResolve(raw); payReward(r, `ev:${S.ev.key}:${lane}:${n}`); return r;
+    S.evTiers = Object.assign({}, S.evTiers, { [S.ev.id]: Object.assign({}, (S.evTiers || {})[S.ev.id], { [t]: 1 }) }); out.badge = b + ' (' + BADGE_T[t][0] + ')'; }   // Build 289: the badge for this run's difficulty
+  if (raw.acc || raw.top) { const x = evResolve({ acc: raw.acc, top: raw.top }); payReward(x, id + ':look'); if (x.item) out.item = x.item; else out.gems = x.gems; }   // already owned: 100 gems instead
+  const main = {}; if (raw.gems) main.gems = raw.gems; if (raw.box) { main.box = raw.box; main.n = raw.n || 1; }
+  payReward(main, id); if (main.gems) out.gems = (out.gems || 0) + main.gems; if (main.box) { out.box = main.box; out.n = main.n; }
+  bumpRev(); return out;
 }
 const evHas = (lane, n) => !!(lane === 'free' ? EV_FREE : EV_PASS)[n];
 const evRewardTxt = r => !r ? '—' : r.badge ? `${EV_DEFS[S.ev ? S.ev.id : 'western'].badge} badge` : r.acc || r.top ? (() => { const d = EV_DEFS[S.ev.id], it = itemById(r.acc ? d.acc : d.top); return S.owned[it.id] ? `${it.name} (owned: 100 gems)` : it.name + ', look-only'; })()
@@ -9141,7 +9192,7 @@ const evRewardTxt = r => !r ? '—' : r.badge ? `${EV_DEFS[S.ev ? S.ev.id : 'wes
 function evFinish() {
   if (!S.ev) return; const wasIn = isEv(); if (wasIn) evSwapOut();
   const T = evTier(), pts = evPoints(), got = { gems: 0, skips: 0, frenzy: 0, boxes: 0, items: [], badge: null };
-  for (let n = 1; n <= T; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.box) { got.boxes += r.n || 1; got.bk = got.bk || {}; got.bk[r.box] = (got.bk[r.box] || 0) + (r.n || 1); } if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
+  for (let n = 1; n <= EV_TIERS; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { got.gems += r.gems || 0; got.skips += r.skips || 0; got.frenzy += r.frenzy || 0; if (r.box) { got.boxes += r.n || 1; got.bk = got.bk || {}; got.bk[r.box] = (got.bk[r.box] || 0) + (r.n || 1); } if (r.item) got.items.push(r.item); if (r.badge) got.badge = r.badge; } }
   S.evResult = { title: EV_DEFS[S.ev.id].title, tier: T, pts, pass: S.ev.pass, got };
   S.evHist = [...(S.evHist || []), { key: S.ev.key, id: S.ev.id, start: S.ev.start, end: S.ev.end, tier: T, badge: !!S.ev.got.free[EV_TIERS] }].slice(-40);
   const carAway = wasIn && S.ev.carAway;
@@ -9153,6 +9204,7 @@ function evFinish() {
 let evResultShown = false;
 function evTick() {
   if (!S || !S.onboarded) return;
+  try { if (S.ev && !evqBusy) evAutoClaim(); } catch (e) {}
   if (S.ev && Date.now() >= S.ev.end) { const tOv = TEST && S.test && S.test.evOv; if (tOv && tOv.key === S.ev.key) S.test.evOv = null; evFinish(); }
   if (typeof backerEl !== 'undefined' && backerEl) { const bs = backerEl.style;   // event map: the Backer waits beside the bottom station, out of the centre lane
     if (isEv()) { const t = Math.round(rows().bk) + 'px'; if (bs.top !== t) { bs.left = ''; bs.top = t; } }
@@ -9160,7 +9212,7 @@ function evTick() {
   if (sheetKey === 'evhub' && !$('scrim').hidden) { if (!S.ev) closeSheet(); else { const e = $('evHubEnds'); if (e) { e.textContent = evLeft(S.ev.end).replace(' left', ''); e.parentNode.classList.toggle('warn', S.ev.end - Date.now() < 12 * 3600e3); } } }
   if (S.evResult && $('scrim').hidden && !evResultShown) { evResultShown = true; openTab('evresult'); }
   if (S.ev && !S.ev.diff && !evRunFresh()) { S.ev.diff = 'normal'; save(); }   // Build 281: runs started before Build 280 (or already under way) are Normal and join the leaderboard
-  if (S.ev && S.ev.diff && !S.ev.done && evPoints() >= EV_MAX_PTS) { S.ev.done = true; const b = evBestOf(S.ev.id);   // Build 280: a finish opens the next difficulty for this event
+  if (S.ev && S.ev.diff && !S.ev.done && evProgPct() >= 100) { S.ev.done = true; const b = evBestOf(S.ev.id);   // Build 280: a finish opens the next difficulty for this event
     if (EV_DIFF_IDS.indexOf(S.ev.diff) > EV_DIFF_IDS.indexOf(b)) S.evBest = Object.assign({}, S.evBest, { [S.ev.id]: S.ev.diff }); evSrvNext = 0;
     if (S.ev.diff === 'legendary') dexClear(S.ev.id);   // Build 288: Dex's piece for this event, and the panel when you're back
     save(); }
@@ -9175,7 +9227,7 @@ function evTick() {
     { const id = S.ev.id, style = EV_COIN[id] || 'green'; if (!document.body.classList.contains('evmode') || document.body.dataset.ev !== id || document.body.dataset.evc !== style) {
       document.body.classList.add('evmode'); document.body.dataset.ev = id; document.body.dataset.evc = style; document.body.style.setProperty('--evcoin-img', `url("art/evcoin-${id}-${style}.svg")`); } }
     $('evBarName').textContent = d.title; $('evBarTime').textContent = evLeft(S.ev.end);
-    $('evBarPts').textContent = `★ ${p} / ${EV_MAX_PTS} · Tier ${T}`; $('evBarFill').style.width = (p / EV_MAX_PTS * 100) + '%';
+    $('evBarPts').textContent = `${T} / ${EV_TIERS} tasks`; $('evBarFill').style.width = (T / EV_TIERS * 100) + '%';
     $('evBarRew').classList.toggle('dot', evClaimable());
     if (panY > OUT_H * .5) S.ev.sceneSeen = true;
     const hint = $('evHint'); hint.hidden = !!S.ev.sceneSeen || panY > 2 || !$('scrim').hidden;
@@ -9194,7 +9246,7 @@ function evTick() {
 const evEndTxt = o => o && String(o.key)[0] === 'w' ? 'Saturday at midnight' : new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' (test window)';
 const evLeft = end => { const s = Math.max(0, Math.floor((end - Date.now()) / 1000)), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
   return d ? `${d}d ${h}h left` : h ? `${h}h ${m}m left` : `${m}m ${s % 60}s left`; };
-const evClaimable = () => { if (!S.ev) return false; const T = evTier(); for (let n = 1; n <= T; n++) if ((evHas('free', n) && !S.ev.got.free[n]) || (S.ev.pass && evHas('pass', n) && !S.ev.got.pass[n])) return true; return false; };
+const evClaimable = () => { if (!S.ev) return false; for (let n = 1; n <= EV_TIERS; n++) if (evTaskOk(n) && (evHas('free', n) && !S.ev.got.free[n]) || (S.ev.pass && evHas('pass', n) && !S.ev.got.pass[n])) return true; return false; };
 // the long-event card at the top of the Events screen
 function evCard() {
   const w = evLive(), d = w && EV_DEFS[w.id], nx = !w && evNext(), nd = nx && EV_DEFS[nx.id];
@@ -9208,9 +9260,9 @@ function evCard() {
   if (w) return TEST ? test : '';   /* the live event is shown once, by the white card under the week strip */
   const here = isEv(), lock = !evUnlocked();
   const btn = lock ? `<p class="evl-lock">Reach Home Studio (map 2) to join long events.</p>` : here ? `<button class="cta" data-evhub>Open event · Exit to career</button>` : `<button class="cta" data-evhub>Open the ${d.name} event</button>`;
-  const prog = S.ev && S.ev.key === w.key ? `<span class="evl-p">★ ${evPoints()} / ${EV_MAX_PTS} · Tier ${evTier()} of ${EV_TIERS}${S.ev.pass ? ' · Mini Pass' : ''}</span>` : '';
+  const prog = S.ev && S.ev.key === w.key ? `<span class="evl-p">${evTier()} of ${EV_TIERS} tasks done${S.ev.pass ? ' · Mini Pass' : ''}</span>` : '';
   return `<div class="evlong" style="--c:${d.color}"><div class="evl-h"><span class="evl-tag">Long event · live</span><b>${d.title}</b><span>${evLeft(w.end)} · ends ${evEndTxt(w)}</span>${prog}</div>
-    <ul class="evl-pts"><li>Play a bonus map for 3 days</li><li>Earn ★ to unlock 15 reward tiers</li><li>Rewards are yours to keep</li></ul>${btn}${test}</div>`;
+    <ul class="evl-pts"><li>Play a bonus map for 3 days</li><li>Finish 15 tasks, each one unlocks a reward</li><li>Rewards are yours to keep</li></ul>${btn}${test}</div>`;
 }
 // the shortcut sits under the right column's buttons; on maps whose stations reach that corner, it takes the smallest extra gap that keeps it off every station and badge
 // ---- long-event screen (approved mockup), wired to the live event state ----
@@ -9233,19 +9285,30 @@ const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday through<br>Saturday' : 
 // event badges: one per event, earned by claiming free tier 15. Earning it again never adds a second badge or any currency.
 // symmetric rosette: everything is centred on x = 50 (viewBox 100 x 120); the medal centre is (50, 44)
 const EV_ROSETTE = (() => { const n = 24, pts = []; for (let k = 0; k < 2 * n; k++) { const a = -Math.PI / 2 + k * Math.PI / n, r = k % 2 ? 34 : 39; pts.push((50 + r * Math.cos(a)).toFixed(2) + ' ' + (44 + r * Math.sin(a)).toFixed(2)); } return 'M' + pts.join(' L') + 'Z'; })();
-const BADGE_T = { normal: ['Bronze', '#D9965B', '#9C5B2E', '#FBE6D2'], hard: ['Silver', '#BFCBE0', '#6F7FA0', '#F3F7FD'], extreme: ['Gold', '#F2C14E', '#B9780C', '#FFF4CF'], legendary: ['Legendary', '', '#6343CC', '#FFF6E0'] };
+const BADGE_T = { normal: ['Bronze'], hard: ['Silver'], extreme: ['Gold'], legendary: ['Legendary'] };
 let BDG_N = 0;
-// Legendary: Dex's colours with a soft glow and twinkling sparkles (staggered, never spinning)
-const evBadgeArt = (key, earned, sz = 84, tier = 'normal') => { const T = BADGE_T[tier] || BADGE_T.normal, g = 'bdg' + (BDG_N++), lg = tier === 'legendary' && earned;
-  const col = earned ? [lg ? `url(#${g})` : T[1], T[2], T[3]] : ['#D9D5E6', '#A9A3C2', '#F1EFF7'];
-  const tail = 'M34 62 L24 112 L32 106 L40 114 L48 66Z M66 62 L76 112 L68 106 L60 114 L52 66Z', s = 0.66, t = 50 - 32 * s, u = 44 - 32 * s;
-  return `<svg width="${sz}" height="${Math.round(sz * 1.2)}" viewBox="0 0 100 120" style="overflow:visible" aria-hidden="true">${lg ? `<defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C5CFF"/><stop offset=".5" stop-color="#E08BFF"/><stop offset="1" stop-color="#FFD36B"/></linearGradient></defs><circle cx="50" cy="44" r="46" fill="#E08BFF" opacity=".22"/><circle cx="50" cy="44" r="38" fill="#FFD36B" opacity=".18"/>` : ''}
-    <path d="${tail}" fill="${col[1]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round" ${earned ? '' : 'opacity=".65"'}/>
-    <path d="${EV_ROSETTE}" fill="${col[0]}" stroke="#14122A" stroke-width="2.5" stroke-linejoin="round"/>
-    <circle cx="50" cy="44" r="28" fill="${col[2]}" stroke="#14122A" stroke-width="2"/>
-    <g transform="translate(${t} ${u}) scale(${s})" ${earned ? '' : 'opacity=".4" style="filter:grayscale(1)"'}>${evEmblem(key, 64).replace(/<svg[^>]*>|<\/svg>/g, '')}</g>
-    ${lg ? [[12, 14, 5, 0], [88, 20, 4, 1.3], [90, 62, 3.4, 2.4], [10, 58, 3.6, .7]].map(([x, y, r, dl]) => `<polygon class="bdg-spk" style="animation-delay:-${dl}s" points="${starPts(x, y, r)}" fill="#FFF3C4" stroke="#14122A" stroke-width="1.1"/>`).join('') : ''}
-    ${earned ? '' : `<circle cx="50" cy="44" r="9.5" fill="#14122A"/><g transform="translate(43.4 37.4) scale(.55)" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">${EVI.lock}</g>`}</svg>`; };
+const BADGE_C = { normal: { rim: '#E3A56E', edge: '#B8773F', ring: '#F5CFA6', disc: '#FFF3E6', rb: '#C9803F', rb2: '#E09A5B' },
+  hard: { rim: '#D6DEEA', edge: '#97A4BA', ring: '#EDF1F7', disc: '#FFFFFF', rb: '#9FACC2', rb2: '#BDC7D8' },
+  extreme: { rim: '#F8CD58', edge: '#CF961B', ring: '#FFE59A', disc: '#FFF9E4', rb: '#EBAA2C', rb2: '#F6C651' },
+  legendary: { rim: 'G', edge: '#6A4FD6', ring: '#F2E4FF', disc: '#FFFDF7', rb: '#6E52E0', rb2: '#9C7BFF' },
+  lock: { rim: '#E2DEEC', edge: '#B9B3CC', ring: '#EEEBF4', disc: '#F7F6FA', rb: '#C6C1D6', rb2: '#D8D4E4' } };
+const BDG_SCALLOP = (() => { const r = 36, n = 14, b = 6; let d = ''; for (let i = 0; i < n; i++) { const a0 = i / n * Math.PI * 2, a1 = (i + 1) / n * Math.PI * 2, am = (a0 + a1) / 2;
+  const x0 = 50 + r * Math.cos(a0), y0 = 46 + r * Math.sin(a0), x1 = 50 + r * Math.cos(a1), y1 = 46 + r * Math.sin(a1);
+  d += (i ? '' : `M${x0.toFixed(2)} ${y0.toFixed(2)}`) + ` Q${(50 + (r + b) * Math.cos(am)).toFixed(2)} ${(46 + (r + b) * Math.sin(am)).toFixed(2)} ${x1.toFixed(2)} ${y1.toFixed(2)}`; } return d + 'Z'; })();
+const bdgGlint = (x, y, r, dl) => `<path class="bdg-spk" style="animation-delay:-${dl}s" d="M${x} ${y - r} Q${x + r * .18} ${y - r * .18} ${x + r} ${y} Q${x + r * .18} ${y + r * .18} ${x} ${y + r} Q${x - r * .18} ${y + r * .18} ${x - r} ${y} Q${x - r * .18} ${y - r * .18} ${x} ${y - r}Z" fill="#FFF6D2" stroke="#E2A93B" stroke-width=".9"/>`;
+// Build 291: the medal refresh. The event's scene sits in a round window; the outline is a darker shade of the medal itself.
+const evBadgeArt = (key, earned, sz = 84, tier = 'normal') => { const k = 'bdg' + (BDG_N++), t = BADGE_C[earned ? tier : 'lock'] || BADGE_C.normal, lg = earned && tier === 'legendary';
+  const scene = evEmblem(key, 64).replace(/<svg[^>]*>|<\/svg>/g, '').replace(/<rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"\/>/g, '');
+  return `<svg width="${sz}" height="${Math.round(sz * 1.24)}" viewBox="0 0 100 124" style="overflow:visible" aria-hidden="true"><defs><linearGradient id="${k}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8E6BFF"/><stop offset=".55" stop-color="#E59BFF"/><stop offset="1" stop-color="#FFD36B"/></linearGradient><clipPath id="${k}c"><circle cx="50" cy="46" r="20.5"/></clipPath></defs>
+    ${lg ? '<circle cx="50" cy="46" r="49" fill="#E59BFF" opacity=".18"/><circle cx="50" cy="46" r="42" fill="#FFD36B" opacity=".16"/>' : ''}
+    <path d="M28 62 L20 118 L33 110 L44 120 L50 68Z" fill="${t.rb}" stroke="${t.edge}" stroke-width="1.6" stroke-linejoin="round"/><path d="M72 62 L80 118 L67 110 L56 120 L50 68Z" fill="${t.rb}" stroke="${t.edge}" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M33 70 L28 108 M67 70 L72 108" stroke="${t.rb2}" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+    <path d="${BDG_SCALLOP}" fill="${lg ? `url(#${k}g)` : t.rim}" stroke="${t.edge}" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="50" cy="46" r="29" fill="${t.ring}" stroke="${t.edge}" stroke-width="1.6"/><circle cx="50" cy="46" r="23.5" fill="${t.disc}" stroke="${t.edge}" stroke-width="1.6"/>
+    <g clip-path="url(#${k}c)"><g transform="translate(19.5 15.5) scale(.95)" ${earned ? '' : 'style="filter:grayscale(1)" opacity=".45"'}>${scene}</g></g>
+    <circle cx="50" cy="46" r="20.5" fill="none" stroke="${t.edge}" stroke-width="1.4" opacity=".8"/><path d="M33 30 Q40 22 50 21" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
+    ${lg ? bdgGlint(13, 16, 6, 0) + bdgGlint(88, 22, 5, .8) + bdgGlint(92, 66, 4, 1.6) + bdgGlint(9, 62, 4.5, 2.4) : ''}
+    ${earned ? '' : `<circle cx="50" cy="46" r="10" fill="#6E6890"/><g transform="translate(43.4 39.4) scale(.55)" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">${EVI.lock}</g>`}</svg>`; };
 const evTierHave = (id, t) => !!(S.evTiers && S.evTiers[id] && S.evTiers[id][t]);
 // returning players: the badge they had is Bronze, plus every difficulty they have completed on that event (finished, not just picked)
 function evTiersMigrate() { if (S.evTiersV) return; S.evTiers = S.evTiers || {};
@@ -9261,17 +9324,17 @@ let passInfo = false, passTop = false;   // Backstage Pass: star help open or cl
 function evBadgesView() {   // Build 289: one card per event, its four difficulty badges in a row
   const ids = Object.keys(EV_DEFS), now = Date.now();
   const cards = ids.map(id => { const d = EV_DEFS[id], n = EV_DIFF_IDS.filter(t => evTierHave(id, t)).length, live = S.ev && S.ev.id === id && now < S.ev.end && S.ev.diff;
-    const work = live && !evTierHave(id, S.ev.diff) ? `<p class="bdg-now">Working on ${BADGE_T[S.ev.diff][0]} \u00b7 tier ${evTier()} of ${EV_TIERS}</p>` : '';
+    const work = live && !evTierHave(id, S.ev.diff) ? `<p class="bdg-now">Working on ${BADGE_T[S.ev.diff][0]} \u00b7 ${evTier()} of ${EV_TIERS} tasks</p>` : '';
     return `<div class="bdg-card"><div class="bdg-hd"><b>${d.badge}</b><small>${n} of ${EV_DIFF_IDS.length}</small></div>
       <div class="bdg-row">${EV_DIFF_IDS.filter(t => t !== 'legendary' || dexMet() || evTierHave(id, t)).map(t => `<div class="bdg-one ${evTierHave(id, t) ? 'on' : ''}">${evBadgeArt(id, evTierHave(id, t), 62, t)}<small>${BADGE_T[t][0]}</small></div>`).join('')}</div>${work}</div>`; }).join('');
   return `<div class="evh-head"><div><h2>Event badges</h2><small>${evBadgeCount()} of ${dexMet() ? evBadgeTotal() : ids.length * 3} earned</small></div>${headBtns('data-evbadgesback')}</div>
     <div class="evh-list"><div class="bdg-list">${cards}</div>
-    <div class="evh-info">Finish all 15 tiers to earn that difficulty\u2019s badge: Bronze on Normal, Silver on Hard, Gold on Extreme${dexMet() ? ', Legendary on Legendary' : ''}. Every badge is yours to keep.</div></div>`;
+    <div class="evh-info">Finish all 15 tasks to earn that difficulty\u2019s badge: Bronze on Normal, Silver on Hard, Gold on Extreme${dexMet() ? ', Legendary on Legendary' : ''}. Every badge is yours to keep.</div></div>`;
 }
 const evBadgeBtn = () => `<button class="evl-badges" data-evbadges="events">${evI('medal', 18)}<span>Event badges</span><b>${evBadgeCount()} / ${dexMet() ? evBadgeTotal() : Object.keys(EV_DEFS).length * 3}</b></button>`;
 const evDates = o => { const a = new Date(o.start), b = new Date(o.end - 1), m = x => x.toLocaleString('en-US', { month: 'short' });
   return a.toDateString() === b.toDateString() ? `${m(a)} ${a.getDate()}` : m(a) === m(b) ? `${m(a)} ${a.getDate()}–${b.getDate()}` : `${m(a)} ${a.getDate()}–${m(b)} ${b.getDate()}`; };
-const evClaimCount = () => { if (!S.ev) return 0; let c = 0; for (let n = 1; n <= evTier(); n++) { if (evHas('free', n) && !S.ev.got.free[n]) c++; if (S.ev.pass && evHas('pass', n) && !S.ev.got.pass[n]) c++; } return c; };
+const evClaimCount = () => { if (!S.ev) return 0; let c = 0; for (let n = 1; n <= EV_TIERS; n++) { if (!evTaskOk(n)) continue; if (evHas('free', n) && !S.ev.got.free[n]) c++; if (S.ev.pass && evHas('pass', n) && !S.ev.got.pass[n]) c++; } return c; };
 // every ★ source on the map as a task (300 points in all); unlocks are steps with no ★
 function evTasks() {
   const s = evStateNow(), loc = EV_LOCS[S.ev.id], lv = (s && s.levels) || {}, crew = (s && s.crew) || {}, nUpg = evStarUpg(s && s.upg), nUp = evStarList().length;
@@ -9310,14 +9373,70 @@ function evRewardsTab() {
     ${evClaimCount() ? '<button class="cta evh-all" data-evall>Claim all</button>' : ''}
 `;
 }
+function evqIcon(r) { const d = EV_DEFS[S.ev.id]; return r.box ? boxArt(r.box, 40) : r.skips ? '<img src="art/shop/boost-60.svg" width="28" height="29" alt="">' : r.frenzy ? ART.frenzy().replace('width="78" height="78"', 'width="34" height="34"') : '<img src="art/gem.webp" width="30" height="25" alt="">'; }
+function evqNum(r) { return r.box ? (r.n || 1) : r.skips ? r.skips : r.frenzy ? r.frenzy : fmtN(r.gems || 0); }
+// pre: draw the row as it was just before its rewards were collected (the pop-up stamps the checks on)
+function evqRow(n, pre) {
+  const d = EV_DEFS[S.ev.id], t = evTaskInfo(n), ok = t.done;
+  const cell = lane => { const r = evRaw(lane, n); if (!r) return '<div class="evq-c"></div>';
+    const got = !pre && S.ev.got[lane][n], need = lane === 'pass' && !S.ev.pass, look = r.acc || r.top ? itemById(r.acc ? d.acc : d.top) : null;
+    return `<div class="evq-c ${lane === 'pass' ? 'p' : ''} ${got ? 'got' : ''}" data-lane="${lane}" aria-label="${evRewardTxt({ gems: r.gems, box: r.box, n: r.n })}${look ? ' + ' + look.name : ''}">${evqIcon(r)}<i class="n">${evqNum(r)}</i>${look ? `<span class="lookc" title="${look.name}">${itemArt(look, 22)}</span>` : ''}${got ? `<span class="ck">${evI('check', 24, '#2E9E5B', 3.4)}</span>` : ''}${need ? `<span class="lk">${evI('lock', 11, '#fff', 3)}</span>` : ''}</div>`; };
+  const medal = evRaw('free', n) && evRaw('free', n).badge ? `<span class="evq-medal">${evBadgeArt(S.ev.id, true, 30, evDiffId())}</span>` : '';
+  const sub = pre ? 'Complete!' : ok ? 'Done' : t.note ? t.note : t.need ? `<span class="pv">${t.lvl ? 'Lv ' : ''}${t.cur} / ${t.need}${t.lvl ? '' : n === EV_TIERS ? ' stations' : ''}</span><span class="pb"><i style="width:${Math.min(100, t.cur / t.need * 100)}%"></i></span>` : '';
+  return `<div class="evq-row ${ok ? 'done' : ''} ${medal ? 'med' : ''}" id="${pre ? '' : 'evq' + n}">${medal}<div class="evq-t"><b>${t.name}</b>${sub ? `<small>${sub}</small>` : ''}</div>${cell('free')}${cell('pass')}</div>`;
+}
+function evQuests() {
+  let next = 0; for (let n = 1; n <= EV_TIERS; n++) if (!evTaskOk(n)) { next = n; break; }
+  const rows = Array.from({ length: EV_TIERS }, (_, k) => k + 1).map(n => evqRow(n).replace('class="evq-row ', `class="evq-row ${n === next ? 'next' : ''} `)).join('');
+  return `<div class="evq-h"><span>Task</span><span class="f">Free</span><span class="p">Pass</span></div>${rows}`;
+}
+// ---- rewards collect themselves (Eatventure-style): the finished task's bar pops up mid-screen, the checks stamp on,
+// gems fly to the top bar and boxes to the box stack. A big batch (e.g. buying the Mini Pass late) shows two bars, then one note.
+let evqQ = [], evqBusy = false;
+function evAutoClaim() {
+  if (!S || !S.ev || !S.onboarded || !evStateNow() || document.hidden) return;
+  const add = [];
+  for (let n = 1; n <= EV_TIERS; n++) { if (!evTaskOk(n)) continue;
+    const f = evHas('free', n) && !S.ev.got.free[n], p = !!S.ev.pass && evHas('pass', n) && !S.ev.got.pass[n]; if (!f && !p) continue;
+    const html = evqRow(n, true); owedArmed = true; const rf = f ? evClaim('free', n) : null, rp = p ? evClaim('pass', n) : null;
+    add.push({ n, html, f, p, r: [rf, rp].filter(Boolean) }); }
+  if (!add.length) return;
+  save(); try { render(); } catch (e) {}
+  if (add.length > 3) { const rest = add.splice(2); evqQ.push(...add, { more: rest }); } else evqQ.push(...add);
+  evqNext();
+}
+function evqFly(html, from, to) { if (!from || !to || !document.body.animate) return; const a = from.getBoundingClientRect(), b = to.getBoundingClientRect(); if (!b.width) return;
+  const el = document.createElement('span'); el.className = 'evq-fly'; el.innerHTML = html; el.style.left = a.left + a.width / 2 + 'px'; el.style.top = a.top + a.height / 2 + 'px'; document.body.appendChild(el);
+  el.animate([{ transform: 'translate(-50%,-50%) scale(1)', opacity: 1 }, { transform: `translate(calc(-50% + ${b.left + b.width / 2 - a.left - a.width / 2}px), calc(-50% + ${b.top + b.height / 2 - a.top - a.height / 2}px)) scale(.5)`, opacity: .9 }], { duration: 750, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'forwards' }).onfinish = () => el.remove(); }
+function evqNext() {
+  if (evqBusy || !evqQ.length) { if (!evqQ.length) { owedArmed = false; } return; }
+  const it = evqQ.shift();
+  if (it.more) { const g = it.more.reduce((a, x) => a + x.r.reduce((c, r) => c + (r.gems || 0), 0), 0), bx = it.more.reduce((a, x) => a + x.r.reduce((c, r) => c + (r.box ? r.n || 1 : 0), 0), 0);
+    toast(`+${it.more.length} more tasks' rewards collected${g ? ` · ${g} gems` : ''}${bx ? ` · ${bx} box${bx > 1 ? 'es' : ''}` : ''}`); if (owed.gems) flushOwed(); owedArmed = false; return evqNext(); }
+  evqBusy = true; const el = document.createElement('div'); el.className = 'evq-pop'; el.innerHTML = it.html; document.body.appendChild(el); sfx('pop');
+  setTimeout(() => { const cells = [...el.querySelectorAll('.evq-c')];
+    cells.forEach(c => { const p = c.dataset.lane === 'pass'; if (p ? it.p : it.f) { c.classList.add('stamp'); c.insertAdjacentHTML('beforeend', `<span class="ck">${evI('check', 26, '#2E9E5B', 3.6)}</span>`); } });
+    const src = cells.find(c => c.classList.contains('stamp')); if (owed.gems) { owed.from = src; flushOwed(); } else sfx('reward');
+    const box = it.r.find(r => r.box); if (box) { const c = cells.find(c => c.classList.contains('stamp') && c.querySelector('.n')); evqFly(boxArt(box.box, 34), c, $('boxStack')); }
+    if (it.r.some(r => r.badge)) setTimeout(() => toast('+' + it.r.find(r => r.badge).badge + ' badge'), 400);
+    if (it.r.some(r => r.item)) setTimeout(() => toast('New look: ' + itemById(it.r.find(r => r.item).item).name), 700); }, 700);
+  setTimeout(() => el.classList.add('out'), 2700);
+  setTimeout(() => { el.remove(); evqBusy = false; evqNext(); }, 3050);
+}
+// open the list at the first task that has something to claim, or the next one to do
+function evqScroll() { const l = document.querySelector('#sheet .evh-list'); if (!l || !S.ev) return; let k = 0;
+  for (let n = 1; n <= EV_TIERS && !k; n++) { const ok = evTaskOk(n); if (!ok || (!S.ev.got.free[n] && evRaw('free', n)) || (S.ev.pass && !S.ev.got.pass[n] && evRaw('pass', n))) k = n; }
+  const r = k && document.getElementById('evq' + k); if (r) l.scrollTop = Math.max(0, r.offsetTop - l.offsetTop - 34); }
 function evHub() {
-  const d = EV_DEFS[S.ev.id], p = evPoints(), T = evTier(), into = p - T * EV_TIER_PTS, here = isEv(), cc = evClaimCount(), left = S.ev.end - Date.now();
+  const d = EV_DEFS[S.ev.id], T = evTier(), here = isEv(), cc = evClaimCount(), left = S.ev.end - Date.now();
   const foot = here ? '<button class="cta exit" data-evexit>Exit to career</button>' : evUnlocked() ? '<button class="cta" data-eventer>Enter</button>' : '<button class="cta" disabled>Reach Home Studio (map 2)</button>';
+  const pt = EV_PASS.map((r, n) => n && evRaw('pass', n)).slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), small: a.small + (r.box === 'small' ? r.n || 1 : 0), ev: a.ev + (r.box === 'event' ? r.n || 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, small: 0, ev: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.small.cost * pt.small + BOXES.event.cost * pt.ev;
+  const pass = S.ev.pass ? '' : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>Unlocks the Pass column: ${pt.gems} gems, ${pt.ev} Event Boxes and ${pt.small} Small Boxes · ${valueTag(worth, EV_PRICE) || ''}</span></div>
+      ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${EV_DEFS[S.ev.id].name}">$${EV_PRICE}</button>`}</div>`;
   return `<div class="evh-head">${evEmblem(S.ev.id, 52)}<div><h2>${d.title}</h2><small>${S.ev.diff ? EV_DIFF[evDiffId()].name + ' · long event' : "This week's long event"}</small></div><span class="headbtns">${S.ev.diff && !PLAYTEST ? `<button class="close evlb-btn" data-evboard aria-label="Leaderboard"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><rect x="3" y="12" width="5" height="9" rx="1.2"/><rect x="9.5" y="5" width="5" height="16" rx="1.2"/><rect x="16" y="9" width="5" height="12" rx="1.2"/></svg></button>` : ''}${closeBtn()}</span></div>
-    <div class="evh-prog"><b>★ ${p} / ${EV_MAX_PTS} <button class="hinfo" data-hinfo="evrew" aria-label="About event rewards" aria-expanded="${!!hinfoOpen.evrew}">i</button></b><span>Tier ${T} of ${EV_TIERS}${T < EV_TIERS ? ` · ${EV_TIER_PTS - into}★ to next` : ' · complete'}</span><div class="bar"><i style="width:${p / EV_MAX_PTS * 100}%"></i></div><div class="evh-info hinfo-txt" ${hinfoOpen.evrew ? '' : 'hidden'}>Tier 15 is the free ${EV_DEFS[S.ev.id].badge} badge, kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>. Unclaimed rewards arrive at the end.</div></div>
+    <div class="evh-prog"><b>${T} / ${EV_TIERS} done <button class="hinfo" data-hinfo="evrew" aria-label="About event rewards" aria-expanded="${!!hinfoOpen.evrew}">i</button></b><span>${T >= EV_TIERS ? 'Complete' : ''}</span><div class="bar"><i style="width:${T / EV_TIERS * 100}%"></i></div><div class="evh-info hinfo-txt" ${hinfoOpen.evrew ? '' : 'hidden'}>Finish tasks in any order. Rewards are collected the moment a task is done: the Free one, plus the Pass one with the Mini Pass. Get the Mini Pass later and the Pass rewards of finished tasks arrive straight away. The Finale earns the ${d.badge} badge (${BADGE_T[evDiffId()][0]}), kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>.</div></div>
     <div class="evh-fx">${[Date.now() < S.hypeUntil ? 'Hype ×' + (+hypeX().toFixed(1)) : '', evFame() > 1.001 ? 'All Profit ×' + evFame().toFixed(2).replace(/\.?0+$/, '') : '', micBought() ? 'Golden Mic ×2' : ''].filter(Boolean).map(t => `<span>${t}</span>`).join('') || '<span class="off">No boosts active</span>'}</div>
-    <div class="evh-tabs"><button data-evtab="tasks" class="${evHubTab === 'tasks' ? 'on' : ''}">Tasks</button><button data-evtab="rewards" class="${evHubTab === 'rewards' ? 'on' : ''}">Rewards${cc ? ` <em>${cc}</em>` : ''}</button></div>
-    <div class="evh-list">${evHubTab === 'tasks' ? evTasks() : evRewardsTab()}</div>
+    <div class="evh-list evq">${pass}${evQuests()}</div>
     <div class="evh-foot">${foot}<div class="evh-ends ${left < 12 * 3600e3 ? 'warn' : ''}">Event ends in: <b id="evHubEnds">${evLeft(S.ev.end).replace(' left', '')}</b></div></div>`;
 }
 function evSheet(tab) {
@@ -9328,12 +9447,12 @@ function evSheet(tab) {
   if (tab === 'evdiff') return evDiffView();
   if (tab === 'sprint') return sprintView();
   if (tab === 'evintro') return `<div class="sheet-head"><h2>${d.title}</h2>${closeBtn()}</div><div class="pscroll evsheet">
-    <ul class="evl-pts big"><li>Level stations, hire crew and buy Upgrades to earn ★</li><li>Every 20★ unlocks a reward tier (15 tiers)</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
+    <ul class="evl-pts big"><li>15 tasks: level stations, hire crew and buy Upgrades</li><li>Every task you finish unlocks a reward</li><li>Your All Profit${evFame() > 1.001 ? ` (×${evFame().toFixed(2)})` : ''}, Hype and the Golden Mic boost event earnings, exactly as in your career.</li><li>Ends ${String(S.ev.key)[0] === 'w' ? 'Saturday at midnight' : evEndTxt(S.ev)} · rewards are yours to keep</li></ul></div>
     <button class="cta" data-close>Let's go</button>`;
   if (tab === 'evresult') { const r = S.evResult; S.evResult = null; save();
     const parts = [r.got.gems ? r.got.gems + ' gems' : '', r.got.skips ? r.got.skips + ' Time Skip' + (r.got.skips > 1 ? 's' : '') : '', r.got.frenzy ? r.got.frenzy + ' Fan Frenz' + (r.got.frenzy > 1 ? 'ies' : 'y') : '', r.got.bk ? Object.entries(r.got.bk).map(([k, n]) => boxCountTxt(k, n)).join(', ') : r.got.boxes ? r.got.boxes + ' Event Box' + (r.got.boxes > 1 ? 'es' : '') : '', ...r.got.items.map(i => itemById(i).name), r.got.badge ? r.got.badge + ' badge' : ''].filter(Boolean);
-    return `<div class="welcome"><h2>${r.title} is over</h2><span class="amt" style="color:var(--gem)">Tier ${r.tier} of ${EV_TIERS}</span>
-      <p>${r.pts} / ${EV_MAX_PTS} points${r.pass ? ' · Mini Pass' : ''}. ${parts.length ? 'Delivered now: ' + parts.join(', ') + '.' : 'Every reward was already claimed.'}</p>
+    return `<div class="welcome"><h2>${r.title} is over</h2><span class="amt" style="color:var(--gem)">${r.tier} of ${EV_TIERS} tasks</span>
+      <p>${r.pass ? 'Mini Pass. ' : ''} ${parts.length ? 'Delivered now: ' + parts.join(', ') + '.' : 'Every reward was already claimed.'}</p>
       <p class="evnote">Next long event: Thursday</p></div>${r.got.badge ? '<button class="ghost" data-evbadges="events">See my badges</button>' : ''}<button class="cta" data-close>Back to my career</button>`; }
   return evHub();
 }
@@ -9350,12 +9469,12 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-evboardback]')) { sfx('tap'); return openTab('evhub'); }
   if (e.target.closest('[data-evback]') || e.target.closest('[data-evexit]')) { sfx('tap'); return evBack(); }
   if (e.target.closest('#spTab') || e.target.closest('[data-sprint]')) { sfx('tap'); SPB = { rows: null, err: '', at: 0 }; openTab('sprint'); sprintBoardLoad(); return; }
-  if (e.target.closest('[data-evhub]') || e.target.closest('#evChip') || e.target.closest('#evTab')) { sfx('tap'); evHubTab = 'tasks'; return openTab('evhub'); }
+  if (e.target.closest('[data-evhub]') || e.target.closest('#evChip') || e.target.closest('#evTab')) { sfx('tap'); evHubTab = 'tasks'; openTab('evhub'); return setTimeout(evqScroll, 0); }
   if (e.target.closest('#evBarCareer')) { sfx('tap'); return evBack(); }
-  if (e.target.closest('#evBarRew')) { sfx('tap'); evHubTab = 'rewards'; return openTab('evhub'); }
+  if (e.target.closest('#evBarRew')) { sfx('tap'); evHubTab = 'rewards'; openTab('evhub'); return setTimeout(evqScroll, 0); }
   const tb = e.target.closest('[data-evtab]'); if (tb) { sfx('tap'); evHubTab = tb.dataset.evtab; sheetKey = null; $('sheet').scrollTop = 0; return openTab('evhub'); }
-  const c = e.target.closest('[data-evclaim]'); if (c) { const [lane, n] = c.dataset.evclaim.split(':'); const r = evClaim(lane, +n); if (r) { sfx(lane === 'pass' ? 'bling' : 'gems'); toast('+' + (r.badge ? r.badge + ' badge' : rewardLine(r))); save(); render(); } return openTab('evrewards'); }
-  if (e.target.closest('[data-evall]')) { let g = 0, n2 = 0, bd = null; for (let n = 1; n <= evTier(); n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { n2++; g += r.gems || 0; if (r.badge) bd = r.badge; } } if (n2) { sfx('bling'); toast(`Claimed ${n2} reward${n2 > 1 ? 's' : ''}${g ? ` · +${g} gems` : ''}${bd ? ` · ${bd} badge` : ''}`); } save(); render(); return openTab('evrewards'); }
+  const c = e.target.closest('[data-evclaim]'); if (c) { const [lane, n] = c.dataset.evclaim.split(':'); const r = evClaim(lane, +n); if (r) { sfx(lane === 'pass' ? 'bling' : 'gems'); toast('+' + (r.badge ? r.badge + ' badge' : rewardLine(r))); save(); render(); } { const l = document.querySelector('#sheet .evh-list'), y = l ? l.scrollTop : 0; openTab('evrewards'); const l2 = document.querySelector('#sheet .evh-list'); if (l2) l2.scrollTop = y; } return; }
+  if (e.target.closest('[data-evall]')) { let g = 0, n2 = 0, bd = null; for (let n = 1; n <= EV_TIERS; n++) for (const lane of ['free', 'pass']) { const r = evClaim(lane, n); if (r) { n2++; g += r.gems || 0; if (r.badge) bd = r.badge; } } if (n2) { sfx('bling'); toast(`Claimed ${n2} reward${n2 > 1 ? 's' : ''}${g ? ` · +${g} gems` : ''}${bd ? ` · ${bd} badge` : ''}`); } save(); render(); return openTab('evrewards'); }
   if (e.target.closest('[data-evbuy]')) { if (TEST && S.ev && !S.ev.pass) { S.ev.pass = true; bumpRev(); sfx('bling'); toast('Mini Pass unlocked (test purchase, no charge)'); save(); } return openTab('evrewards'); }
   const t = e.target.closest('[data-evt]'); if (t && TEST) { const k = t.dataset.evt, now = Date.now();
     if (EV_DEFS[k]) { if (S.ev) evFinish(); evResultShown = false; S.test.evOv = { key: 'test' + now, id: k, start: now - 1000, end: now + 3 * 86400000 }; toast(`Test: ${EV_DEFS[k].title} started`); }
