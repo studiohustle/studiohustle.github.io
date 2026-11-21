@@ -1599,12 +1599,12 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evh-head .close { margin-left: auto; background: rgba(255,255,255,.18); color: #fff; }
 .evlb-goal { margin: 4px 2px 12px; text-align: center; font: 700 13px var(--body, sans-serif); color: #5A5480; }
 .evbp-scrim { position: fixed; inset: 0; z-index: 9500; background: rgba(14,12,32,.45); display: grid; place-items: center; padding: 16px; animation: evqIn .2s ease-out both; }
-.evbp { position: relative; width: min(268px, 100%); background: #fff; border-radius: 20px; padding: 14px 12px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 14px 34px rgba(14,12,32,.35); }
-.evbp-x { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 10px; background: #EFEDF6 !important; color: #4A3A9E !important; box-shadow: 0 3px 0 #D6D1E8 !important; display: grid; place-items: center; }
-.evbp-nm { font: 400 17px var(--display); color: #14122A; max-width: calc(100% - 84px); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-top: 6px; }
-.evbp .evbp-art { align-self: stretch; height: 178px; min-height: 0; padding-block: 0 12px; border-radius: 14px; box-sizing: border-box; } .evbp .evbp-art > svg { height: 150px; width: auto; }
-.evbp-grid { align-self: stretch; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.evbp-none .art { height: 78px; } .evbp-na { margin: 6px 4px; text-align: center; font: 600 13.5px/1.4 var(--body, sans-serif); color: #6E6990; }
+.evbp { position: relative; width: min(330px, 100%); background: #fff; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 14px 34px rgba(14,12,32,.35); }
+.evbp-h { display: grid; grid-template-columns: 38px 1fr 38px; align-items: center; } .evbp-h b { grid-column: 2; text-align: center; font: 400 18px var(--display); color: #14122A; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.evbp-x { width: 38px; height: 38px; border-radius: 11px; background: #EFEDF6 !important; color: #4A3A9E !important; box-shadow: 0 3px 0 #D6D1E8 !important; display: grid; place-items: center; }
+.evbp-stage { border-radius: 16px; padding: 14px 10px 6px; background: radial-gradient(ellipse 80% 70% at 50% 42%, #E4F5FF 0%, #ABDDF6 48%, #78C1EA 100%); }
+html .evbp .evbp-art { height: 196px; } html .evbp .evbp-art > svg { width: 132px; } .evbp .sty-slot { width: 58px; height: 58px; } .evbp .sty-stage { grid-template-columns: 58px minmax(0, 1fr) 58px; }
+.evbp-na { margin: 6px 4px; text-align: center; font: 600 13.5px/1.4 var(--body, sans-serif); color: #6E6990; }
 .evlb-row[data-evbp] { cursor: pointer; }
 .evlb-cols, .evlb-row { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 10px; }
 .evlb-cols { padding: 0 28px 8px; margin: 0 -14px; border-bottom: 3px solid #4A3A9E; font: 800 11px var(--body, sans-serif); color: #8A84A8; text-transform: uppercase; letter-spacing: .4px; } .evlb-cols span:first-child { text-align: center; } .evlb-cols span:last-child { text-align: right; }
@@ -8747,15 +8747,15 @@ function evPassView() {
 // Build 294: a small floating card for a player on an event leaderboard: their look and the 4 items they're wearing (view only)
 function evPlayerCard(r) {
   if (!r) return; const old = $('evbp'); if (old) old.remove();
-  const p = r.profile, SL = [['top', 'Top'], ['hat', 'Hat'], ['neck', 'Necklace'], ['face', 'Glasses']];
-  const card = sl => { const it = p && itemById(p.eq[sl[0]]); if (!it) return `<div class="item locked evbp-none"><span class="art"></span><span class="nm">No ${sl[1].toLowerCase()}</span><span class="bar" style="background:#B8B3CC">${sl[1]}</span></div>`;
-    const [rn, rc] = rarity(it), tier = topTier(it) ? tierCls(it) : ['epic', 'legendary', 'signature'].includes(it.rar) ? it.rar : '';
-    return `<div class="item ${tier}"><span class="art glow">${itemArt(it, 78)}</span><span class="nm">${it.name}${it.bonus ? ` <em>+${Math.round(it.bonus * 100)}%</em>` : ''}</span><span class="bar" style="background:${rc}">${rn}</span></div>`; };
+  const p = r.profile;
+  const IC = { top: '<path d="M20.4 6.6 15 4a3 3 0 0 1-6 0L3.6 6.6 2 12l4 1v8h12v-8l4-1z"></path>', hat: '<path d="M4 15a8 7.5 0 0 1 16 0z"></path><path d="M4 15h17.5a1.5 1.5 0 0 1 0 3H4z"></path><path d="M12 7.5v7.5"></path>',
+    neck: '<path d="M6 4c0 8 3 12 6 12s6-4 6-12"></path><circle cx="12" cy="19" r="2.5"></circle>', face: '<rect x="2" y="9" width="8" height="6" rx="2"></rect><rect x="14" y="9" width="8" height="6" rx="2"></rect><path d="M10 11h4"></path>' };
+  const slot = sl => { const it = p && itemById(p.eq[sl]); return `<span class="sty-slot ${it ? '' : 'empty'}" style="--rc:${it ? rarity(it)[1] : 'transparent'}" ${it ? `title="${esc(it.name)}"` : ''}>${it ? itemArt(it, 46, SLOT_VB[sl]) : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[sl]}</svg>`}</span>`; };
   const d = document.createElement('div'); d.id = 'evbp'; d.className = 'evbp-scrim';
-  d.innerHTML = `<div class="evbp" role="dialog" aria-label="${esc(r.name)}"><button class="close evbp-x" data-evbpx aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
-    <b class="evbp-nm">${esc(r.name)}</b>
-    ${p ? `<div class="dresser prof-art evbp-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><span class="spot"></span>${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>
-      <div class="evbp-grid">${SL.map(card).join('')}</div>` : `<p class="evbp-na">This artist hasn't opened the latest version yet, so their look will show up after they do.</p>`}</div>`;
+  d.innerHTML = `<div class="evbp" role="dialog" aria-label="${esc(r.name)}"><div class="evbp-h"><b>${esc(r.name)}</b><button class="close evbp-x" data-evbpx aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div>
+    ${p ? `<div class="evbp-stage" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><div class="sty-stage"><div class="sty-col">${slot('top')}${slot('hat')}</div>
+      <div class="dresser sty-art evbp-art"><span class="spot"></span>${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>
+      <div class="sty-col">${slot('neck')}${slot('face')}</div></div></div>` : `<p class="evbp-na">This artist hasn't opened the latest version yet, so their look will show up after they do.</p>`}</div>`;
   document.body.appendChild(d);
 }
 function evBoardView() {
