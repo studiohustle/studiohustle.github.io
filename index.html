@@ -1061,7 +1061,14 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .album-pop .amt { font-size: 40px; animation: fameIn .7s cubic-bezier(.2,1.6,.4,1) both .25s; }
 .album-pop .amt { line-height: 1; margin-top: 4px; }
 .album-pop .acap { margin-top: -4px; font-size: 14px; font-weight: 700; color: var(--muted); }
+/* Build 293: the album screen stays compact so Maya's line (and the buttons) always fit on a phone */
+.album-pop .album-stage { min-height: 0; height: 200px; padding-block: 0 15px; box-sizing: border-box; } .album-pop .album-stage > svg { height: 170px; width: auto; }
+.album-pop .album-stage .spot { transform: scale(.7); transform-origin: 50% 100%; } .album-pop .album-stage::before { width: 150px; margin-left: -75px; height: 30px; bottom: 6px; }
+.album-pop .amt { font-size: 34px; }
+.album-pop .arew.acmp { flex-wrap: wrap; gap: 6px; margin-top: 6px; } .album-pop .arew.acmp .rchip { height: 34px; padding: 0 10px 0 6px; gap: 4px; } .album-pop .arew.acmp .rchip b, .album-pop .arew.acmp .rchip em { font-size: 14px; }
+.album-pop .maya-note.v2 { margin: 4px 0 2px; } .album-pop .maya-note.v2 .mcrop { height: 112px; } .album-pop .maya-note.v2 .m2card { margin-top: 100px; padding: 14px 13px 12px; }
 .arew { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+.ptier { display: inline-block; padding: 1px 9px; border-radius: 999px; background: var(--pc); color: var(--pt) !important; box-shadow: inset 0 0 0 1.5px rgba(20,18,42,.28); font: 800 14px/1.5 var(--body, sans-serif); letter-spacing: .01em; } .nowrap { white-space: nowrap; }
 .rchip { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px 0 6px; border-radius: 12px; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
 .rchip > img { flex: none; margin-left: 4px; } .rchip.notxt { padding-left: 12px; }
 .rchip b { font-size: 15px; font-weight: 700; color: var(--text); } .rchip em { font-style: normal; font-size: 15px; font-weight: 700; color: #8BF0A0; }
@@ -1646,7 +1653,7 @@ html .side .sbtn.sptab .cap { color: #E0A400 !important; }
 .evh-task .mini { height: 6px; border-radius: 6px; background: #E6E2F1; margin-top: 4px; overflow: hidden; } .evh-task .mini i { display: block; height: 100%; background: #8BF0A0; }
 .evh-pts { font: 400 12px var(--display); padding: 5px 8px; border-radius: 10px; background: #FFF1C2; color: #14122A; white-space: nowrap; } .evh-task.done .evh-pts { background: #E5F4E4; color: #2E9E5B; }
 .evh-pts.none { background: #EFEDF6; color: #8C86A6; font: 700 11px var(--body, sans-serif); }
-.evh-foot { flex: none; padding: 10px 16px max(16px, calc(env(safe-area-inset-bottom, 0px) + 8px)); background: #fff; border-top: 1px solid #E6E2F1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.evh-foot { flex: none; padding: 10px 16px max(16px, calc(env(safe-area-inset-bottom, 0px) + 8px)); background: #fff; border-top: 1px solid #E6E2F1; display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .evh-foot .cta { width: 230px; } .evh-foot .cta.exit { background: #FF6FAE; box-shadow: 0 3px 0 #C2457F; color: #fff; } .evh-foot .cta:disabled { background: #D9D5E6; box-shadow: none; color: #6E6990; font-size: 13px; }
 .evh-ends { font: 700 13px var(--body, sans-serif); color: #6E6990; } .evh-ends b { color: #2E9E5B; } .evh-ends.warn b { color: #E0475B; }
 .evh-pass { margin: 2px 0 4px; border: 2px solid #14122A; border-radius: 14px; background: #FFF4D6; padding: 8px 10px; display: flex; align-items: center; gap: 10px; font: 700 12px var(--body, sans-serif); }
@@ -1696,7 +1703,24 @@ html .side .sbtn.sptab .cap { color: #E0A400 !important; }
 .evbob { animation: evbob 2.8s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; } @keyframes evbob { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-2.5px) rotate(1.5deg); } }
 .evwig { animation: evwig 2.4s ease-in-out infinite alternate; } @keyframes evwig { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
 @media (prefers-reduced-motion: reduce) { .evsway, .evsun, .evbob, .evwig { animation: none; } }
-.evh-fx { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px 0; } .evh-fx span { font: 700 11.5px var(--body, sans-serif); color: #2E9E5B; background: #E5F4E4; border-radius: 999px; padding: 3px 9px; } .evh-fx span.off { color: #8C86A6; background: #EFEDF6; }
+.evh-top { display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 16px; background: #fff; }
+.evh-top p { flex: 1; margin: 0; text-align: center; font: 700 14.5px var(--body, sans-serif); color: #6E6990; }
+.evp-act { flex: none; width: 92px; height: 34px; margin-right: -4px; border: 0; border-radius: 10px; background: #6CBCF8; color: #fff; font: 400 13px var(--display); box-shadow: 0 4px 0 #4F95D2; cursor: pointer; }
+.evh-top-info { margin: 0; padding: 0 16px 10px; background: #fff; }
+.evq-h .cnt { display: flex; align-items: center; font-size: 13.5px !important; } .evq-h .cnt .hinfo { border-color: rgba(255,255,255,.85); color: #fff; width: 18px; height: 18px; font-size: 11px; margin-left: 6px; display: inline-grid; place-items: center; border-radius: 50%; border: 1.8px solid; background: none; font-weight: 800; }
+.evq-h .cnt .hinfo[aria-expanded="true"] { background: #fff; color: #6343CC; }
+.sheet.float:has(.evp2) { width: min(calc(100% - 32px), 300px); padding: 0; gap: 0; overflow: hidden; }
+.evp2 { position: relative; display: flex; flex-direction: column; align-items: center; background: #fff; }
+.evp2 h2 { margin: 20px 0 6px; font: 800 24px var(--body, sans-serif); color: #14122A; }
+html .evp2 .evp2-x { position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; border-radius: 11px; background: #EFEDF6 !important; color: #4A3A9E !important; box-shadow: 0 3px 0 #D6D1E8 !important; display: grid; place-items: center; }
+.evp-left { font: 800 13px var(--body, sans-serif); color: #fff; background: #E0475B; border-radius: 999px; padding: 3px 12px; position: relative; z-index: 1; margin-bottom: -10px; }
+.evp2-band { position: relative; align-self: stretch; overflow: hidden; background: #EEEDF2; padding: 26px 18px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.evp2-rays { position: absolute; left: 50%; top: 40%; width: 420px; height: 420px; margin: -210px 0 0 -210px; background: repeating-conic-gradient(from 0deg, rgba(255,255,255,.85) 0 9deg, rgba(255,255,255,0) 9deg 22deg); -webkit-mask: radial-gradient(circle, #000 18%, transparent 62%); mask: radial-gradient(circle, #000 18%, transparent 62%); pointer-events: none; }
+.evp2-tk { position: relative; filter: drop-shadow(0 4px 3px rgba(20,18,42,.18)); }
+.evp2-band p { position: relative; margin: 0; font: 700 15px/1.4 var(--body, sans-serif); color: #8C86A6; text-align: center; }
+.evp2-foot { align-self: stretch; display: flex; justify-content: center; padding: 16px 18px 20px; background: #fff; }
+.evp2-foot .cta { width: 150px; height: 50px; font-size: 20px; }
+.evh-fx { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px 10px; } .evh-fx span { font: 700 11.5px var(--body, sans-serif); color: #2E9E5B; background: #E5F4E4; border-radius: 999px; padding: 3px 9px; } .evh-fx span.off { color: #8C86A6; background: #EFEDF6; }
 .evh-empty { text-align: center; padding: 18px 10px; font: 600 13px var(--body, sans-serif); color: #6E6990; }
 .evr-c em { font-style: normal; font-size: 11px; opacity: .65; } .evr-c em.ok { color: #2E9E5B; opacity: 1; font-weight: 700; } .evr-c .hire { align-self: flex-start; padding: 3px 12px; }
 
@@ -3604,7 +3628,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 292, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 293, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5258,7 +5282,7 @@ function showArrival() {
   const loc = LOC(), stage = loc.id === 'stadium';
   nextSheetKey = 'arrive';
   openSheet(`<div class="welcome arrive"><h2 class="ar-title"><small>Welcome to the</small><span>${loc.name}</span></h2>
-    ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20].includes(a.clears) ? ` Its plaque is now <b style="color:${plaqueTier(a.clears)[2]}">${plaqueTier(a.clears)[1]}</b>!` : ''}</p>`}
+    ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20].includes(a.clears) ? ` <span class="nowrap">Its plaque is now <b class="ptier" style="--pc:${plaqueTier(a.clears)[2]};--pt:${plaqueTier(a.clears)[1] === 'Wood' ? '#fff' : '#14122A'}">${plaqueTier(a.clears)[1]}</b>!</span>` : ''}</p>`}
     ${a.box ? `<div class="arew"><span class="rchip sbchip">${boxArt('small', 30)}<b>+${a.boxN || 1} Small Style Box${(a.boxN || 1) > 1 ? 'es' : ''}</b></span></div>` : ''}
     ${mayaNote('celebrating', ARRIVE_LINES[loc.id] || 'New space, bigger money. Let\u2019s get to work!')}</div>
     <button class="cta" data-arrive>${stage ? 'Take the Stage' : 'Open Studio'}</button>`);
@@ -5333,7 +5357,7 @@ function dropAlbum() {
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
   const mayaNoteH = mayaLine ? mayaNote('celebrating', mayaLine) : '';
   albumUpload(S.albums, () => (setTimeout(albumTop, 0), setTimeout(albumTop, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span><small class="acap">Permanent All Profit bonus</small>
-    <div class="arew">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}<span class="rchip sbchip">${boxArt('small', 30)}<b>+2 Small Style Boxes</b></span>${bigNow ? `<span class="rchip sbchip">${boxArt('big', 30)}<b>+1 Big Style Box</b></span>` : ''}</div>${bigNow ? '' : `<small class="acap">Big Style Box on album #${Math.ceil((S.albums + 1) / ALBUM_BIG_EVERY) * ALBUM_BIG_EVERY}</small>`}</div>
+    <div class="arew acmp">${it ? `<span class="rchip notxt"><b>${it.name}</b><em>+${Math.round(it.bonus * 100)}%</em></span>` : ''}${albumGems + plaqueGems ? `<span class="rchip">${GEM_MINI}<b>+${albumGems + plaqueGems}</b></span>` : ''}<span class="rchip sbchip" aria-label="2 Small Style Boxes">${boxArt('small', 26)}<b>×2</b></span>${bigNow ? `<span class="rchip sbchip" aria-label="1 Big Style Box">${boxArt('big', 26)}<b>×1</b></span>` : ''}</div></div>
     ${mayaNoteH}
     ${it ? `<button class="cta" data-equip="${it.id}" data-then="close">Wear it</button>` : ''}
     <button class="ghost" data-close>Start the next run</button>`)));
@@ -5878,7 +5902,7 @@ $('sheet').addEventListener('scroll', moreBelow, { passive: true });
 const MAIN_SHEETS = ['vault', 'career', 'crew', 'upgrades', 'goals', 'daily', 'pass', 'events', 'charts', 'settings', 'feedback', 'testaccess'];
 window.addEventListener('keydown', e => { if (e.key === 'Tab') document.documentElement.classList.add('kbd'); });
 window.addEventListener('pointerdown', () => document.documentElement.classList.remove('kbd'));
-const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad', 'evboard', 'sprint'];   // small centered cards: one ad button, closes after the ad
+const FLOAT_SHEETS = ['hype', 'away', 'crate', 'backer', 'ad', 'evboard', 'evpass', 'sprint'];   // small centered cards: one ad button, closes after the ad
 const DARK_SHEETS = ['shop', 'style', 'studio', 'profile', 'inv'];   // shop and style keep their dark backgrounds
 // ---------- Build 238: things opened from inside the Shop float over it as a card; the Shop stays underneath, in place ----------
 // Build 251: section notes live behind an "i" on the section bar
@@ -5912,7 +5936,7 @@ function openSheet(html) {
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
   $('sheet').classList.toggle('shopmode', ['shop', 'inv'].includes(nextSheetKey));
   $('sheet').classList.toggle('lbfull', nextSheetKey === 'labels'); $('sheet').classList.toggle('stylefull', nextSheetKey === 'style'); $('sheet').classList.toggle('shopfull', ['shop', 'inv'].includes(nextSheetKey)); $('app').classList.toggle('lbopen', ['labels', 'shop', 'inv', 'style'].includes(nextSheetKey));   // full-screen screens close from the red X on the top bar
-  $('sheet').classList.toggle('evhub', ['evhub', 'evbadges', 'evboard', 'evdiff', 'sprint'].includes(nextSheetKey)); $('sheet').classList.toggle('evsmall', nextSheetKey === 'evdiff');
+  $('sheet').classList.toggle('evhub', ['evhub', 'evbadges', 'evboard', 'evpass', 'evdiff', 'sprint'].includes(nextSheetKey)); $('sheet').classList.toggle('evsmall', nextSheetKey === 'evdiff');
   $('sheet').classList.toggle('dailymode', nextSheetKey === 'daily');
   const flt = FLOAT_SHEETS.includes(nextSheetKey); $('sheet').classList.toggle('float', flt); $('scrim').classList.toggle('float', flt);
   const sh = $('sheet'), refresh = !$('scrim').hidden && nextSheetKey && nextSheetKey === sheetKey;
@@ -7530,7 +7554,7 @@ function openTab(tab) {
   if (tab === 'career' && isEv()) { tab = 'evhub'; evHubTab = 'rewards'; }
   if (tab === 'evrewards') { evHubTab = 'rewards'; tab = 'evhub'; }
   if (tab === 'evhub' && !evEnsure()) return;
-  if (['evintro', 'evhub', 'evresult', 'evbadges', 'evboard', 'evdiff', 'sprint'].includes(tab)) { if (tab === 'sprint' ? !sprintState() : tab === 'evresult' ? !S.evResult : tab === 'evbadges' ? false : !S.ev) return; nextSheetKey = tab;
+  if (['evintro', 'evhub', 'evresult', 'evbadges', 'evboard', 'evpass', 'evdiff', 'sprint'].includes(tab)) { if (tab === 'sprint' ? !sprintState() : tab === 'evresult' ? !S.evResult : tab === 'evbadges' ? false : !S.ev) return; nextSheetKey = tab;
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', tab === 'evhub' && isEv() && t.dataset.tab === 'career'));
     const ol = sheetKey === tab && !$('scrim').hidden && document.querySelector('#sheet .evh-list'), keep = ol ? ol.scrollTop : 0;   // claiming keeps your place in the list
     openSheet(evSheet(tab)); const nl = document.querySelector('#sheet .evh-list'); if (nl) nl.scrollTop = keep; return; }
@@ -7785,7 +7809,7 @@ function openTab(tab) {
             <span class="evprog">${c.mins ? `${Math.floor(c.v / 60)} / ${c.target / 60} min` : `${c.v} / ${c.target}`} · ${PASS_STARS.encore} pass stars, once this weekend</span>
             <button class="cta" data-encore ${c.ready && !c.got ? '' : 'disabled'}>${c.got ? 'Claimed' : c.ready ? `Claim ${PASS_STARS.encore} stars` : 'In progress'}</button>`
             : `<span class="evprog">${PASS_STARS.encore} pass stars · once per weekend</span>`}</div>`; }
-      const lnote = sel.lw ? `<button class="evlnote" data-evday="${days.find(x => x.lw === sel.lw).k}" style="--c:${EV_DEFS[sel.lw.id].color}">${evEmblem(sel.lw.id, 20)}<span>Also on: <b>${EV_DEFS[sel.lw.id].title}</b> (long event)</span></button>` : '';
+      const lnote = '';   // Build 293: dropped; the long event's own card sits right below and it has a home-screen button
       detail = `<div class="evdet" style="--c:${E.color}"><div class="evhead"><span class="evbig">${evArt(sel.e)}</span><span class="t"><small>${span}</small><b>${E.name}</b><span>${when}</span></span></div>${body}${holNote}${lnote}</div>`; }
     openSheet(`<div class="sheet-head"><h2>Events</h2>${closeBtn()}</div>
       ${strip}
@@ -8693,6 +8717,21 @@ async function evBoardLoad() {
   if (sheetKey === 'evboard' && !$('scrim').hidden) openTab('evboard');
 }
 const durTxt = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return h ? `${h}h ${m}m` : m ? `${m}m ${x}s` : `${x}s`; };
+// Build 293: the Mini Pass card (Eatventure-style): what it unlocks, the time left, and one price button that goes to the store
+const EVP_TICKET = `<svg class="evp2-tk" viewBox="0 0 220 132" width="176" height="106" aria-hidden="true"><defs><clipPath id="evpclip"><path d="M12 14H208A8 8 0 0 1 216 22V52A14 14 0 0 0 216 80V110A8 8 0 0 1 208 118H12A8 8 0 0 1 4 110V80A14 14 0 0 0 4 52V22A8 8 0 0 1 12 14Z"/></clipPath></defs>
+  <g transform="rotate(-8 110 66)">
+  <g clip-path="url(#evpclip)"><rect x="0" y="0" width="220" height="132" fill="#F2C14E"/><rect x="162" y="0" width="60" height="132" fill="#E5B13F"/></g>
+  <text x="104" y="84" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="800" font-size="50" fill="#14122A">Pass</text>
+  <path d="M190 26l2.4 6 6 2.4-6 2.4-2.4 6-2.4-6-6-2.4 6-2.4z" fill="#fff"/><path d="M198 46l1.2 3 3 1.2-3 1.2-1.2 3-1.2-3-3-1.2 3-1.2z" fill="#fff"/><path d="M36 100l3 7.5 7.5 3-7.5 3-3 7.5-3-7.5-7.5-3 7.5-3z" fill="#fff"/></g></svg>`;
+// Build 293: the Mini Pass pop-up, modeled on Eatventure's event pass window
+function evPassView() {
+  const d = EV_DEFS[S.ev.id];
+  const buy = S.ev.pass ? '<button class="cta" disabled>Active</button>' : TEST ? `<button class="cta" data-evbuy>$${EV_PRICE}</button>` : `<button class="cta" data-buy="evPass${d.name}">$${EV_PRICE}</button>`;
+  return `<div class="evp2"><button class="close evp2-x" data-evboardback aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+    <h2>Mini Pass</h2><span class="evp-left">${evLeft(S.ev.end).replace(' left', '')}</span>
+    <div class="evp2-band"><span class="evp2-rays"></span>${EVP_TICKET}<p>The Mini Pass gives you additional rewards for this event!</p></div>
+    <div class="evp2-foot">${buy}</div></div>`;
+}
 function evBoardView() {
   const d = EV_DEFS[S.ev.id], df = EV_DIFF[evDiffId()];
   const rows = EVB.rows ? `<div class="evlb-tbl">${EVB.rows.map((r, i) => `<div class="evlb-row ${r.mine ? 'me' : ''}"><b>${i + 1}</b><span class="nm">${esc(r.name)}<i class="ondot ${r.online ? 'on' : ''}"></i></span><span class="pc">${r.secs != null ? `100%<small>${durTxt(r.secs)}</small>` : (Math.floor(r.pct * 100) / 100).toFixed(2) + '%'}</span></div>`).join('')}</div>`
@@ -9388,7 +9427,8 @@ function evqRow(n, pre) {
 function evQuests() {
   let next = 0; for (let n = 1; n <= EV_TIERS; n++) if (!evTaskOk(n)) { next = n; break; }
   const rows = Array.from({ length: EV_TIERS }, (_, k) => k + 1).map(n => evqRow(n).replace('class="evq-row ', `class="evq-row ${n === next ? 'next' : ''} `)).join('');
-  return `<div class="evq-h"><span>Task</span><span class="f">Free</span><span class="p">Pass</span></div>${rows}`;
+  const T = evTasksDone();
+  return `<div class="evq-h"><span class="cnt">Rewards ${T}/${EV_TIERS}<button class="hinfo" data-hinfo="evrew" aria-label="About event rewards" aria-expanded="${!!hinfoOpen.evrew}">i</button></span><span class="f">Free</span><span class="p">Pass</span></div>${rows}`;
 }
 // ---- rewards collect themselves (Eatventure-style): the finished task's bar pops up mid-screen, the checks stamp on,
 // gems fly to the top bar and boxes to the box stack. A big batch (e.g. buying the Mini Pass late) shows two bars, then one note.
@@ -9431,11 +9471,10 @@ function evHub() {
   const d = EV_DEFS[S.ev.id], T = evTier(), here = isEv(), cc = evClaimCount(), left = S.ev.end - Date.now();
   const foot = here ? '<button class="cta exit" data-evexit>Exit to career</button>' : evUnlocked() ? '<button class="cta" data-eventer>Enter</button>' : '<button class="cta" disabled>Reach Home Studio (map 2)</button>';
   const pt = EV_PASS.map((r, n) => n && evRaw('pass', n)).slice(1).reduce((a, r) => ({ gems: a.gems + (r.gems || 0), skips: a.skips + (r.skips || 0), frenzy: a.frenzy + (r.frenzy || 0), small: a.small + (r.box === 'small' ? r.n || 1 : 0), ev: a.ev + (r.box === 'event' ? r.n || 1 : 0) }), { gems: 0, skips: 0, frenzy: 0, small: 0, ev: 0 }), worth = pt.gems + 30 * pt.skips + 20 * pt.frenzy + BOXES.small.cost * pt.small + BOXES.event.cost * pt.ev;
-  const pass = S.ev.pass ? '' : `<div class="evh-pass">${evI('star', 20, '#9A6A00')}<div>Mini Pass · this event only<span>Unlocks the Pass column: ${pt.gems} gems, ${pt.ev} Event Boxes and ${pt.small} Small Boxes · ${valueTag(worth, EV_PRICE) || ''}</span></div>
-      ${TEST ? `<button data-evbuy>$${EV_PRICE}<small>TEST · NO CHARGE</small></button>` : `<button data-buy="evPass${EV_DEFS[S.ev.id].name}">$${EV_PRICE}</button>`}</div>`;
+  const pass = '';   // Build 293: the Mini Pass lives behind the Activate button (evPassView)
   return `<div class="evh-head">${evEmblem(S.ev.id, 52)}<div><h2>${d.title}</h2><small>${S.ev.diff ? EV_DIFF[evDiffId()].name + ' · long event' : "This week's long event"}</small></div><span class="headbtns">${S.ev.diff && !PLAYTEST ? `<button class="close evlb-btn" data-evboard aria-label="Leaderboard"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><rect x="3" y="12" width="5" height="9" rx="1.2"/><rect x="9.5" y="5" width="5" height="16" rx="1.2"/><rect x="16" y="9" width="5" height="12" rx="1.2"/></svg></button>` : ''}${closeBtn()}</span></div>
-    <div class="evh-prog"><b>${T} / ${EV_TIERS} done <button class="hinfo" data-hinfo="evrew" aria-label="About event rewards" aria-expanded="${!!hinfoOpen.evrew}">i</button></b><span>${T >= EV_TIERS ? 'Complete' : ''}</span><div class="bar"><i style="width:${T / EV_TIERS * 100}%"></i></div><div class="evh-info hinfo-txt" ${hinfoOpen.evrew ? '' : 'hidden'}>Finish tasks in any order. Rewards are collected the moment a task is done: the Free one, plus the Pass one with the Mini Pass. Get the Mini Pass later and the Pass rewards of finished tasks arrive straight away. The Finale earns the ${d.badge} badge (${BADGE_T[evDiffId()][0]}), kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>.</div></div>
-    <div class="evh-fx">${[Date.now() < S.hypeUntil ? 'Hype ×' + (+hypeX().toFixed(1)) : '', evFame() > 1.001 ? 'All Profit ×' + evFame().toFixed(2).replace(/\.?0+$/, '') : '', micBought() ? 'Golden Mic ×2' : ''].filter(Boolean).map(t => `<span>${t}</span>`).join('') || '<span class="off">No boosts active</span>'}</div>
+    <div class="evh-top"><p>Welcome to the ${d.title}!</p>${!S.ev.pass ? '<button class="evp-act" data-evpass>Activate</button>' : ''}</div>
+    <div class="evh-info hinfo-txt evh-top-info" ${hinfoOpen.evrew ? '' : 'hidden'}>Finish tasks in any order. Rewards are collected the moment a task is done. The Finale earns the ${d.badge} badge (${BADGE_T[evDiffId()][0]}), kept in <button class="evh-link" data-evbadges="evhub">Event badges</button>.</div>
     <div class="evh-list evq">${pass}${evQuests()}</div>
     <div class="evh-foot">${foot}<div class="evh-ends ${left < 12 * 3600e3 ? 'warn' : ''}">Event ends in: <b id="evHubEnds">${evLeft(S.ev.end).replace(' left', '')}</b></div></div>`;
 }
@@ -9444,6 +9483,7 @@ function evSheet(tab) {
   if (tab === 'evhub') return evHub();
   if (tab === 'evbadges') return evBadgesView();
   if (tab === 'evboard') return evBoardView();
+  if (tab === 'evpass') return evPassView();
   if (tab === 'evdiff') return evDiffView();
   if (tab === 'sprint') return sprintView();
   if (tab === 'evintro') return `<div class="sheet-head"><h2>${d.title}</h2>${closeBtn()}</div><div class="pscroll evsheet">
@@ -9467,6 +9507,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-evdiffgo]') && S.ev && !S.ev.diff && evDiffOpen(S.ev.id, evDiffPick || 'normal')) { sfx('tap'); S.ev.diff = evDiffPick || 'normal'; evDiffPick = null; save(); return evTravel(); }
   if (e.target.closest('[data-evboard]')) { sfx('tap'); EVB = { rows: null, err: '', at: 0 }; openTab('evboard'); evBoardLoad(); return; }
   if (e.target.closest('[data-evboardback]')) { sfx('tap'); return openTab('evhub'); }
+  if (e.target.closest('[data-evpass]')) { sfx('tap'); return openTab('evpass'); }
   if (e.target.closest('[data-evback]') || e.target.closest('[data-evexit]')) { sfx('tap'); return evBack(); }
   if (e.target.closest('#spTab') || e.target.closest('[data-sprint]')) { sfx('tap'); SPB = { rows: null, err: '', at: 0 }; openTab('sprint'); sprintBoardLoad(); return; }
   if (e.target.closest('[data-evhub]') || e.target.closest('#evChip') || e.target.closest('#evTab')) { sfx('tap'); evHubTab = 'tasks'; openTab('evhub'); return setTimeout(evqScroll, 0); }
