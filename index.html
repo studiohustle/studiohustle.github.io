@@ -3648,7 +3648,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 295, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 296, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7118,6 +7118,22 @@ const inPreview = !!window.claude || /claude/i.test(location.hostname);
 // ---------- play tracking: anonymous event counts in GoatCounter (no cookies, nothing personal) ----------
 const GOAT = 'studiohustle';
 const trackQueue = [];
+// Build 296: progress milestones (first open, named, tutorial, maps, albums, days played, events) saved once per player on our server.
+// Steps already reached when a save first sees this build are sent together and marked late, so old progress isn't mistaken for new.
+const FUNNEL = () => { const a = S.albums || 0, d = S.stats.days || 1, ml = Math.max(S.maxLoc || 0, S.loc || 0), out = ['open'];
+  if (S.onboarded) out.push('named'); if (S.tut != null && S.tut >= TUT.length) out.push('tut');
+  for (let m = 1; m <= 5; m++) if (ml >= m || a > 0) out.push('map' + (m + 1));
+  [1, 2, 3, 5, 10, 20].forEach(n => { if (a >= n) out.push('album' + n); }); [2, 3, 7, 14, 30].forEach(n => { if (d >= n) out.push('day' + n); });
+  const eh = S.evHist || []; if (eh.length || S.ev) out.push('ev1'); if (eh.some(e => e.tier >= 15)) out.push('evdone'); return out; };
+let funnelBusy = false, funnelNext = 0;
+async function funnelCheck() {
+  if (TEST || PLAYTEST || PREVIEW_LOCK || inPreview || funnelBusy || Date.now() < funnelNext || !S) return;
+  S.fn = S.fn || {}; const late = !S.fnV; const todo = FUNNEL().filter(k => !S.fn[k]); if (!todo.length) { if (late) { S.fnV = 1; save(); } return; }
+  funnelBusy = true; funnelNext = Date.now() + 60000;
+  try { const meta = { late, mic: micBought() ? 1 : 0, paid: Object.keys(S.perks || {}).filter(k => S.perks[k]).length, play: Math.round(S.stats.playSec || 0), albums: S.albums || 0 };
+    const r = await lbCall('funnel_mark', { steps: todo, b: BUILD, meta });
+    if (r.ok) { todo.forEach(k => { S.fn[k] = 1; }); S.fnV = 1; save(); } } finally { funnelBusy = false; }
+}
 function track(path) {
   if (TEST || PLAYTEST || inPreview || !GOAT) return;
   const send = () => window.goatcounter.count({ path: 'event/' + path, title: path, event: true });
@@ -8296,6 +8312,9 @@ function render() {
   if (!TEST && !S.fbPrompted && S.stats.playSec > 2700 && $('scrim').hidden && S.onboarded) { S.fbPrompted = true; if ((S.evHist || []).some(e => e.tier > 0)) S.fbPrompted2 = true; save(); openTab('feedback'); }
   else if (!TEST && S.fbPrompted && !S.fbPrompted2 && (S.evHist || []).some(e => e.tier > 0) && $('scrim').hidden && S.onboarded) { S.fbPrompted2 = true; save(); openTab('feedback'); }   // one more time after their first event
   if (TEST) $('testChip').textContent = `TEST · ${S.test.speed}x${S.test.hype ? ' · Hype' : ''}`;
+  funnelCheck();
+  if (!TEST && S.onboarded && $('scrim').hidden && !S.fbA5 && (S.albums || 0) >= 5 && !moving) { S.fbA5 = S.fbA1 = S.fbPrompted = true; save(); openTab('feedback'); }
+  else if (!TEST && S.onboarded && $('scrim').hidden && !S.fbA1 && (S.albums || 0) >= 1 && !moving) { S.fbA1 = S.fbPrompted = true; save(); openTab('feedback'); }
   if (S.stats.lastDay !== dayKey()) { S.stats.lastDay = dayKey(); S.stats.days = (S.stats.days || 0) + 1; if (S.stats.days <= 30) track('days-played/' + S.stats.days); }
   $('goalsDot').hidden = !(goalsClaimable() || dailyReady());
   $('chartsDot').hidden = !(FR.inc || []).length;
@@ -9567,7 +9586,7 @@ document.addEventListener('click', e => {
 
 // Build 163 alpha reset: every career from before this build starts again at album 0 on the normal curve.
 // Kept: account, email sign-in, friend code and friends, name and look, settings, cosmetic-only items and badges.
-const RESET_KEEP = ['name', 'skin', 'hc', 'hs', 'fd', 'phones', 'country', 'vol', 'volV', 'tipsOff', 'coach', 'coinHint', 'fanHint', 'fb', 'fbPrompted', 'fbPrompted2', 'fbSent', 'nameChanges', 'intent', 'buyMode', 'badges', 'evBadges', 'evSeen', 'upgSeen', 'upgOpened', 'vaultSeen'];
+const RESET_KEEP = ['name', 'skin', 'hc', 'hs', 'fd', 'phones', 'country', 'vol', 'volV', 'tipsOff', 'coach', 'coinHint', 'fanHint', 'fb', 'fbPrompted', 'fbPrompted2', 'fbA1', 'fbA5', 'fbSent', 'fn', 'fnV', 'nameChanges', 'intent', 'buyMode', 'badges', 'evBadges', 'evSeen', 'upgSeen', 'upgOpened', 'vaultSeen'];
 // thank-you gems, by account id (the save's cloud uid). Every other alpha career that resets gets RESET_GEMS_DEFAULT.
 const RESET_GEMS = { '40010cbe-83f6-45a0-8a21-d1211abb9973': 2000, 'b6edaa2b-ba54-4d09-b8eb-cfc12e0a99aa': 2000 };   // DJ Yummm, IntricatePlays
 const RESET_GEMS_DEFAULT = 1000;
