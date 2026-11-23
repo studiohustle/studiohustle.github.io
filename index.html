@@ -1645,6 +1645,32 @@ html .evbp .evbp-art { height: 196px; } html .evbp .evbp-art > svg { width: 132p
 .sheet.evhub.evsmall { height: auto; max-height: 88%; } .sheet.evhub.evsmall .evh-list { padding-bottom: 18px; }
 .evlb-info { margin: -4px 0 8px; text-align: center; } .sheet.evhub.float .evlb-info:not([hidden]) ~ .evlb-tbl { height: 296px; }
 html .side .sbtn.sptab .cap { color: #E0A400 !important; }
+.evdf.qqb { pointer-events: none; background: #D9D5E6; color: #7C7798; box-shadow: 0 7px 0 #C4BFD6; text-shadow: none; overflow: hidden; }
+.evdf.qqb { box-sizing: border-box; } .evdf.qqb b { letter-spacing: 2px; }
+.evdf.qqb.gold { background: linear-gradient(90deg, #E39B2C, #F2C14E); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(150,90,10,.35), 0 7px 0 #B3711A, 0 0 18px rgba(255,200,90,.6); text-shadow: 0 2px 0 #9A5E10; }
+.evdf.qqb .qtw { width: 11px; height: 11px; }
+.evdf-sp { flex: none; width: 26px; }
+.qq-trail { display: flex; gap: 10px; align-items: center; }
+.qq-dot { position: relative; width: 26px; height: 26px; border-radius: 7px; } .qq-dot > svg { width: 26px; height: 26px; display: block; }
+.qq-dot:not(.ok) > svg { filter: grayscale(1); opacity: .45; }
+.qq-dot .qck { position: absolute; right: -5px; bottom: -5px; width: 14px; height: 14px; border-radius: 50%; background: #2E9E5B; border: 2px solid #fff; display: grid; place-items: center; } .qq-dot .qck svg { width: 9px; height: 9px; }
+.qq-prog { display: flex; align-items: center; justify-content: center; gap: 12px; margin: -2px 36px 0 0; padding: 8px 12px; border-radius: 10px; background: #F1EEFB; } .qq-prog span { font: 800 12.5px var(--body, sans-serif); color: #4A3A9E; }
+.qq-evrow { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: #F1EEFB; } .qq-evrow .qq-trail { gap: 8px; } .qq-evrow .h { flex: 1; min-width: 0; text-align: right; white-space: nowrap; font: 800 12px var(--body, sans-serif); color: #4A3A9E; }
+.qq-pill { flex: none; padding: 3px 10px; border-radius: 8px; background: #D9D5E6; color: #7C7798; font: 400 15px var(--display); letter-spacing: 2px; box-shadow: 0 3px 0 #C4BFD6; }
+.qq-pill.gold { background: linear-gradient(90deg, #E39B2C, #F2C14E); color: #fff; box-shadow: 0 3px 0 #B3711A, 0 0 10px rgba(255,200,90,.6); text-shadow: 0 1px 0 #9A5E10; }
+/* the focused pop-up: everything behind dims and blurs, the ??? stamps in, holds, then fades (3.2 s) */
+.qqfx { position: fixed; inset: 0; z-index: 9400; display: grid; place-items: center; padding: 24px; background: rgba(14,12,32,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); animation: qqBg 3.4s ease-in-out both; }
+.qqcard { position: relative; width: min(300px, 100%); background: #fff; border-radius: 20px; padding: 18px 18px 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 14px 34px rgba(14,12,32,.45); animation: qqIn 3.4s ease-in-out both; will-change: opacity, transform; }
+.qqcard.gold { box-shadow: 0 0 0 3px #F2C14E, 0 0 40px rgba(255,200,90,.55), 0 14px 34px rgba(14,12,32,.45); }
+.qqcard .evdf { flex: none; align-self: stretch; width: auto; box-sizing: border-box; padding-inline: 16px; min-height: 64px; margin-bottom: 7px; }
+.qqcard p { margin: 0; font: 800 14px var(--body, sans-serif); color: #6E6990; text-align: center; }
+.qq-shine { position: absolute; left: 18px; right: 18px; top: 18px; height: 64px; border-radius: 8px; overflow: hidden; pointer-events: none; }
+.qq-shine::after { content: ''; position: absolute; top: 0; bottom: 0; width: 40%; left: -45%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.75), transparent); animation: qqSweep 1.3s ease-in-out .7s 1; }
+@keyframes qqBg { 0% { opacity: 0; } 18% { opacity: 1; } 78% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes qqIn { 0% { opacity: 0; transform: translateY(10px) scale(.92); } 20% { opacity: 1; transform: none; } 78% { opacity: 1; transform: none; } 100% { opacity: 0; transform: scale(.97); } }
+@keyframes qqSweep { 0% { left: -45%; } 100% { left: 110%; } }
+@media (prefers-reduced-motion: reduce) { .qqcard { animation: qqFade 3.4s ease-in-out both !important; } .qq-shine::after { animation: none !important; } }
+@keyframes qqFade { 0%, 100% { opacity: 0; } 20%, 78% { opacity: 1; }  }
 .evdf-list { display: flex; flex-direction: column; gap: 9px; } .evdf-list .evlb-goal { margin-bottom: 2px; } .evdf-list .cta { margin-top: 6px; }
 .evdf-row { display: flex; align-items: center; gap: 10px; }
 .evdf { position: relative; flex: 1; min-height: 56px; border: 0; border-radius: 8px; padding: 7px 44px; margin-bottom: 7px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
@@ -3667,7 +3693,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 300, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 301, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5405,7 +5431,7 @@ function dropAlbum() {
   // the big moment: your artist on the glowing stage with gold rays and sparkles (wearing the new exclusive if there is one)
   const prev = `<div class="dresser album-stage" style="width:100%"><span class="arays"></span><span class="spot"></span>${stageSparks(14)}${bigArtist(it ? Object.assign({}, S.equip, { [it.slot]: it.id }) : S.equip)}</div>`;
   dexAlbum();   // Build 288: the album 5 letter / album 10 reveal play when this panel closes
-  const mayaLine = S.albums > (S.mayaAlbum || 0) ? (S.albums === 9 && !dexMet() ? DEX_TEASE : S.albums <= 3 ? MAYA_ALBUM[S.albums - 1] : MAYA_ALBUM_LATER[(S.albums - 4) % MAYA_ALBUM_LATER.length]) : '';
+  const mayaLine = S.albums > (S.mayaAlbum || 0) ? (S.albums <= 3 ? MAYA_ALBUM[S.albums - 1] : MAYA_ALBUM_LATER[(S.albums - 4) % MAYA_ALBUM_LATER.length]) : '';
   if (mayaLine) { S.mayaAlbum = S.albums; save(); }
   const mayaNoteH = mayaLine ? mayaNote('celebrating', mayaLine) : '';
   albumUpload(S.albums, () => (setTimeout(albumTop, 0), setTimeout(albumTop, 60), setTimeout(moreBelow, 700), openSheet(`<div class="welcome album-pop"><h2>Album #${S.albums} is out!</h2>${prev}<span class="amt" style="color:var(--gem)">Fame +${pctTxt(fameBonus())}</span><small class="acap">Permanent All Profit bonus</small>
@@ -6127,6 +6153,8 @@ function claimDaily() {
   S.daily = { last: dayKey(), streak: day };
   // Build 273: no confirm pop-up. The rewards fly to the top bar and the card turns to Claimed right where you tapped
   sfx('claim'); save(); render(); dailyJust = day; openTab('daily');
+  // Build 301: the window closes by itself once you've seen the card turn to Claimed
+  setTimeout(() => { if (sheetKey === 'daily') closeSheet(); }, 1100);
 }
 $('scrim').addEventListener('click', e => {
   if ((e.target === $('scrim') || e.target.closest('[data-close]')) && sheetKey === 'confirm-buy') { const pb = pendingBuy; pendingBuy = null; return pb ? backFromBuy(pb) : closeSheet(); }
@@ -7875,7 +7903,7 @@ function openTab(tab) {
     openSheet(`<div class="sheet-head"><h2>Events</h2>${closeBtn()}</div>
       ${strip}
       <div class="evweekw"><div class="evweek2">${week}</div>${lrow ? `<div class="evlrow">${lrow}</div>` : ''}</div>
-      ${detail}${(() => { const lw = evLive(); return lw && !/data-evhub|Reach Home Studio/.test(detail) ? lwCard(lw) : ''; })()}${dexCard()}${evBadgeBtn()}
+      ${detail}${(() => { const lw = evLive(); return lw && !/data-evhub|Reach Home Studio/.test(detail) ? lwCard(lw) : ''; })()}${dexCard()}${qqEventsRow()}${evBadgeBtn()}
 `);
   } else if (tab === 'reset-note') {
     S.resetNote = 0; save();
@@ -8833,7 +8861,7 @@ function evDiffView() {
       ${evDiffInfo === k ? `<p class="evdf-info">${info(k)}</p>` : ''}`; };
   return `<div class="evh-head">${evEmblem(id, 44)}<div><h2>Event difficulty</h2><small>${d.title}</small></div>${closeBtn()}</div>
     <div class="evh-list evdf-list"><p class="evlb-goal">You've finished this event before. Get more rewards on a harder difficulty!</p>
-    ${EV_DIFF_IDS.filter(k => k !== 'legendary' || dexMet()).map(opt).join('')}
+    ${EV_DIFF_IDS.filter(k => k !== 'legendary' || dexMet()).map(opt).join('')}${qqPicker()}
     <button class="cta" data-evdiffgo>Start on ${EV_DIFF[evDiffPick].name}</button></div>`;
 }
 function evRaw(lane, n) {   // the track's reward, scaled for this event's difficulty (gems and box counts; skips, Frenzies, cosmetics and the badge stay as they are)
@@ -9666,7 +9694,37 @@ function dexAlbum() {
   const d = dexS(), n = S.albums || 0;
   if (dexBass()) d.ba = (d.ba || 0) + 1;   // albums dropped with Bassline out unlock his colours
   if (n >= 5 && n < 10 && !d.letter && !d.q.includes('letter')) d.q.push('letter');
-  if (n >= 10 && !d.met && !d.q.includes('reveal')) { if (!d.letter && !d.q.includes('letter')) d.q.push('letter'); d.q.push('reveal'); }
+}
+// Build 301: the ??? trail. 0 nothing yet, 1 Normal everywhere (gray), 2 Hard everywhere (gold), 3 Extreme everywhere (Dex)
+const QQ_REQ = ['', 'hard', 'extreme'];
+const qqStage = () => { const ids = Object.keys(EV_DEFS); let n = 0; for (const t of ['normal', 'hard', 'extreme']) { if (ids.every(id => evTierHave(id, t))) n++; else break; } return n; };
+const QQ_TW = (x, y, z, dl) => `<i class="spk qtw" style="left:${x};top:${y};--k:${z};animation-delay:${dl}s"></i>`;
+const qqTwinkles = () => QQ_TW('9%', '16%', .9, 0) + QQ_TW('87%', '20%', .75, .7) + QQ_TW('80%', '62%', .65, 1.3) + QQ_TW('15%', '60%', .6, 1.9);
+const qqBtn = gold => `<span class="evdf qqb ${gold ? 'gold' : ''}" role="img" aria-label="Unknown difficulty">${gold ? qqTwinkles() : ''}<b>???</b></span>`;
+const qqTrail = st => `<span class="qq-trail">${Object.keys(EV_DEFS).map(id => { const ok = evTierHave(id, QQ_REQ[st]);
+  return `<span class="qq-dot ${ok ? 'ok' : ''}" title="${EV_DEFS[id].title}">${evEmblem(id, 26)}${ok ? '<i class="qck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></i>' : ''}</span>`; }).join('')}</span>`;
+const qqHint = st => `Clear ${st === 1 ? 'Hard' : 'Extreme'} on every event`;
+const qqProg = st => `<div class="qq-prog">${qqTrail(st)}<span>${qqHint(st)}</span></div>`;
+function qqPicker() { if (dexMet()) return ''; const st = qqStage(); if (st < 1 || st > 2) return '';
+  return `<div class="evdf-row">${qqBtn(st === 2)}<span class="evdf-sp"></span></div>${qqProg(st)}`; }
+function qqEventsRow() { if (dexMet()) return ''; const st = qqStage(); if (st < 1 || st > 2) return '';
+  return `<div class="qq-evrow"><span class="qq-pill ${st === 2 ? 'gold' : ''}">???</span>${qqTrail(st)}<span class="h">${qqHint(st)}</span></div>`; }
+const QQ_LINE = { 1: () => 'Wait… did you see that? Something just appeared in Events.',
+  2: () => S.dex && S.dex.letter ? 'It’s glowing now… Remember that letter? I don’t think that was a coincidence.' : 'It’s glowing now… Somebody out there is paying attention.' };
+let qqBusy = false;
+function qqCheck() {
+  if (!S || !S.onboarded || qqBusy || storyBusy || dexMet() || S.inEv || tipNow || evqBusy || !$('scrim').hidden || !$('boxPop').hidden || $('dxPop') || document.querySelector('.upload')) return;
+  const sp = document.getElementById('splash'); if (sp && !sp.classList.contains('done')) return; if (tutActive()) return;
+  const d = dexS(), st = qqStage();
+  if (st >= 3) { if (!d.q.includes('reveal')) { if (!d.letter && !d.q.includes('letter')) d.q.push('letter'); d.q.push('reveal'); save(); } return dexCheck(); }
+  if (st < 1 || (d.qq || 0) >= st) return;
+  d.qq = st; save(); qqBusy = true;
+  const el = document.createElement('div'); el.className = 'qqfx'; el.setAttribute('role', 'status');
+  el.innerHTML = `<div class="qqcard ${st === 2 ? 'gold' : ''}">${qqBtn(st === 2)}${st === 2 ? '<i class="qq-shine"></i>' : ''}<p>${st === 1 ? 'Something new appeared in Events' : 'It’s glowing now…'}</p></div>`;
+  document.body.appendChild(el); sfx(st === 2 ? 'reward' : 'pop');
+  setTimeout(() => { el.remove(); qqBusy = false;   // the pop-up runs 3.4 s
+
+    tipNow = { id: 'qq' + st, force: true, noTarget: true, info: 'Got it', text: () => say('thinking', QQ_LINE[st]()) }; tutShownAt = 0; updateTut(); }, 3450);
 }
 const DEX_TEASE = 'People in the industry are starting to notice you. Someone I trust wants to meet after your next album.';
 // Bassline: front-facing tortoise in the character style (stand-in until final art). Clip ids are unique per drawing.
@@ -9735,7 +9793,7 @@ const STORY = {
     { bg: 'gold', html: `<div class="paper look"><p>Look up.</p></div>` },
     { bg: '', html: `${stDots(5, 1)}<div class="door"><span class="glowd"></span><span class="frame"></span><span class="dexin"><img src="${STA('dex-calm')}" alt="" draggable="false"></span></div><div class="stg"><div class="chr m on">${stImg('maya', 'thinking')}</div></div><div class="card"><span class="nm">Maya</span><p>“Look up”? What does that… oh!</p><span class="next">TAP TO CONTINUE ›</span></div>` },
     { bg: '', html: stSay({ n: 5, i: 2, who: 'dex', d: 'calm', m: 'thinking', dn: 'Dex Monroe', text: 'You got my note. I’m Dex. Sorry for the mystery—I thought <em>you</em> deserved a proper introduction.' }) },
-    { bg: '', html: stSay({ n: 5, i: 3, who: 'dex', d: 'open', m: 'thinking', aside: 'Maya: “So you sent the first letter?”', text: 'I did. I wanted to see what you’d build before I made you an offer. You’ve built something real.' }) },
+    { bg: '', html: stSay({ n: 5, i: 3, who: 'dex', d: 'open', m: 'thinking', aside: 'Maya: “So you sent the first letter?”', text: 'I did. I wanted to see how far you’d push. Every event, on Extreme? You’ve built something real.' }) },
     { bg: '', html: stSay({ n: 5, i: 4, who: 'dex', d: 'open', m: 'explaining', text: 'So here it is. <em>Legendary</em>: the toughest version of each long event. Clear all three, and the reward is yours.' }) },
     { bg: '', html: stSay({ n: 5, i: 5, who: 'dex', d: 'surprised', m: 'celebrating', extra: stTort(), next: 'I’M IN ›', aside: 'Maya: “Is that… a tortoise?”', text: 'Bassline. My co-producer. Great ear, and he never rushes a session.' }) }],
   farewell: () => [
@@ -9931,7 +9989,7 @@ function start(data) {
   if (S.runPlay == null) S.runPlay = S.stats.playSec;
   ITEMS.forEach(i => { if (i.album && i.album <= (S.albums || 0)) S.owned[i.id] = true; });
   evTiersMigrate();   // Build 289: badges per difficulty
-  { const d = dexS(); if ((S.albums || 0) >= 10 && !d.met && !d.q.includes('reveal')) d.q.push('reveal');   // Build 288: no letter for players already past album 10
+  { const d = dexS();   // Build 301: Dex now arrives through the ??? trail (Extreme on all three long events), not album 10
     Object.keys(d.clr).forEach(id => { const it = DEX_REWARD[id]; if (it) S.owned[it] = true; }); }
   delete S.dLegacy; delete S.dNote; delete S.dV;   // Build 162's early tester bonus ended with the reset
   if (S.resetNote && !TEST) { let tries = 0; const t = setInterval(() => { tries++; if (!S.resetNote || tries > 40) return clearInterval(t);
@@ -9989,7 +10047,7 @@ function start(data) {
   setInterval(() => { if (!document.hidden && S.onboarded) frLoad(); }, 300000);   // Labels: Hype from labelmates, queued XP
   if (S.passRecap) { const r = S.passRecap; S.passRecap = null; setTimeout(() => toast('Backstage Pass season ended. Delivered: ' + rewardLine(r)), 3200); }
   render(); save(); startTracking();
-  setInterval(() => { if (!document.hidden) dexCheck(); }, 1500);   // Build 288: story scenes and the Legendary panel
+  setInterval(() => { if (!document.hidden) { dexCheck(); qqCheck(); } }, 1500);   // Build 288: story scenes and the Legendary panel
   setTimeout(cloudBoot, 2500); setInterval(() => backup(), 180000);   // back up every 3 minutes when something changed
   requestAnimationFrame(t => { lastT = t; requestAnimationFrame(tick); });
   if (window.splashProgress) {   // game state and room are ready; wait for the fonts and this map's room art, nothing else
