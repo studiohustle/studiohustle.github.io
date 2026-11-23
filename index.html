@@ -1894,6 +1894,9 @@ html .tour { padding: 8px 8px; } html .tour .tstop { position: relative; z-index
 html .tour .tstop.now { width: 34px; height: 34px; font-size: 14px; padding-top: 2.8px; } html .tour .tstop.done { padding-top: 0; }
 html .tour .tstop.now::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 3px solid rgba(99,67,204,.55); animation: tourPulse 1.8s ease-out infinite; pointer-events: none; }
 @keyframes tourPulse { 0% { transform: scale(.85); opacity: 1; } 100% { transform: scale(1.45); opacity: 0; } }
+html .tour .tstop, html .tour .tstop.now, html .tour .tstop.done { padding: 0; }
+html .tour .tstop.now { margin: 0 -2px; }
+html .tour .tnum { display: flex; gap: .06em; } html .tour .tdig, html .tour .tstop .ckm { display: block; overflow: visible; }
 @media (prefers-reduced-motion: reduce) { html .tour .tstop.now::after { animation: none; opacity: .5; } }
 
 /* Build 171: the paid side of the Backstage Pass keeps its black-and-gold premium look (gold hero card, black Unlock VIP with gold text, gold VIP tiles);
@@ -3664,7 +3667,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 299, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 300, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4528,6 +4531,9 @@ function shuffleOutfit() {
   }
   applyLook(); save(); render();
 }
+// Build 300: tour stop digits as shapes, so they sit dead-center in the bubble on every phone
+const TOUR_DIG = {"0":[602,728,"M302 728Q217 728 148 682Q79 636 40 554Q0 471 0 363Q0 254 39 172Q78 91 146 46Q214 0 300 0Q387 0 455 46Q523 91 562 173Q602 255 602 364Q602 473 562 555Q523 637 456 682Q388 728 302 728ZM301 589Q345 589 377 564Q409 538 426 488Q444 437 444 364Q444 290 426 240Q409 190 377 164Q345 139 300 139Q257 139 224 164Q192 189 175 239Q158 289 158 363Q158 437 175 487Q192 537 224 563Q257 589 301 589Z"],"1":[292,706,"M136 706V133H0V0H292V706Z"],"2":[509,717,"M1 717V629L272 349Q297 324 312 303Q327 282 334 264Q341 245 341 226Q341 185 314 162Q288 138 245 138Q203 138 170 160Q136 183 105 234L0 143Q42 72 107 36Q172 0 256 0Q329 0 382 27Q436 54 466 104Q495 154 495 221Q495 263 484 298Q473 334 448 368Q424 403 383 444L243 583H509V717Z"],"3":[512,717,"M237 717Q164 717 103 692Q42 666 0 618L101 517Q120 545 156 562Q193 580 234 580Q271 580 298 567Q325 554 340 530Q356 506 356 473Q356 440 340 416Q325 393 296 380Q266 367 225 367Q206 367 186 370Q165 372 151 377V290L285 133H44V0H499V87L337 272Q381 275 418 296Q461 322 486 368Q512 415 512 479Q512 549 478 603Q443 657 382 687Q320 717 237 717Z"],"4":[566,706,"M0 461 232 0H403L189 416H333V269H487V416H566V549H487V706H333V549H0Z"],"5":[519,717,"M242 717Q169 717 106 692Q42 666 0 618L102 517Q121 545 158 562Q194 580 237 580Q275 580 303 566Q331 553 347 528Q363 502 363 468Q363 433 347 408Q331 383 302 370Q274 356 238 356Q202 356 172 366Q142 375 117 394L49 331L83 0H480V133H210L196 254Q208 250 220 247Q245 241 279 241Q357 241 410 273Q464 305 492 358Q519 411 519 475Q519 545 484 600Q450 655 388 686Q326 717 242 717Z"],"6":[524,717,"M262 717Q188 717 128 684Q69 651 34 596Q0 540 0 471Q0 381 63 289L262 0H439L270 236Q279 235 289 235Q355 235 408 266Q460 296 492 348Q524 401 524 469Q524 538 489 594Q454 651 395 684Q336 717 262 717ZM262 580Q293 580 318 565Q343 550 357 524Q371 498 371 466Q371 433 357 408Q343 382 318 368Q293 353 262 353Q230 353 206 368Q181 382 167 408Q153 433 153 466Q153 498 167 524Q181 550 206 565Q230 580 262 580Z"],"7":[487,706,"M94 706 317 133H0V0H487V88L256 706Z"],"8":[504,729,"M252 729Q176 729 120 702Q63 675 32 628Q0 581 0 521Q0 471 20 431Q39 391 75 364Q91 351 110 343Q97 335 86 325Q58 301 43 266Q28 231 28 193Q28 137 56 94Q85 50 136 25Q187 0 252 0Q318 0 368 25Q419 50 448 94Q476 137 476 193Q476 231 462 266Q447 301 419 325Q408 335 395 343Q414 351 431 364Q466 391 485 431Q504 471 504 521Q504 581 473 628Q442 675 386 702Q329 729 252 729ZM252 595Q282 595 305 582Q328 570 342 548Q355 526 355 499Q355 471 342 450Q328 428 305 416Q282 403 252 403Q222 403 199 416Q176 428 163 450Q150 471 150 499Q150 526 163 548Q176 570 199 582Q222 595 252 595ZM252 289Q287 289 310 266Q332 244 332 210Q332 175 310 152Q287 130 252 130Q218 130 195 152Q172 174 172 209Q172 243 195 266Q218 289 252 289Z"],"9":[523,717,"M84 717 254 480Q245 481 234 481Q170 481 116 450Q63 420 32 368Q0 315 0 248Q0 178 35 122Q70 66 129 33Q188 0 262 0Q336 0 395 32Q454 65 488 120Q523 176 523 246Q523 336 461 427L262 717ZM262 364Q293 364 318 349Q343 334 357 308Q371 283 371 251Q371 218 357 192Q343 166 318 152Q293 137 262 137Q230 137 206 152Q181 166 166 192Q152 218 152 251Q152 283 166 308Q181 334 206 349Q231 364 262 364Z"]};
+const tourNum = n => String(n).split('').map(c => { const [w, h, d] = TOUR_DIG[c]; return `<svg class="tdig" viewBox="0 0 ${w} ${h}" width="${w / 1000}em" height="${h / 1000}em" aria-hidden="true"><path d="${d}" fill="currentColor"/></svg>`; }).join('');
 const bestInSlot = sl => ITEMS.filter(i => i.slot === sl && S.owned && S.owned[i.id]).sort((a, b) => b.bonus - a.bonus)[0];
 const gearMult = () => 1 + SLOTS.reduce((a, [sl]) => { const it = bestInSlot(sl); return a + (it ? it.bonus : 0); }, 0);
 const wearingUlt = () => SLOTS.some(([sl]) => { const it = itemById(S.equip && S.equip[sl]); return it && it.rar === 'ultimate'; });
@@ -7684,7 +7690,7 @@ function openTab(tab) {
     const moveBtn = next
       ? `<button class="cta" ${pct < 100 ? 'disabled' : ''} data-move-ask>${pct < 100 ? 'Keep grinding' : 'Move to ' + next.name}</button>`
       : '';
-    const tourStops = allLocs.map((l, i) => `${i ? `<span class="tline ${i <= S.loc ? 'done' : ''}"></span>` : ''}<span class="tstop ${i === S.loc ? 'now' : i < S.loc ? 'done' : ''}" title="${l}">${i < S.loc ? '<svg class="ckm" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>' : i + 1}</span>`).join('');
+    const tourStops = allLocs.map((l, i) => `${i ? `<span class="tline ${i <= S.loc ? 'done' : ''}"></span>` : ''}<span class="tstop ${i === S.loc ? 'now' : i < S.loc ? 'done' : ''}" title="${l}">${i < S.loc ? '<svg class="ckm" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>' : `<span class="tnum" aria-label="Stop ${i + 1}">${tourNum(i + 1)}</span>`}</span>`).join('');
     const goalLine = next ? `Max every station${ev() === 'tour' ? ' (level 90 during Tour Rush)' : ''} to move up` : `Max every station${ev() === 'tour' ? ' (level 90 during Tour Rush)' : ''} to finish the tour`;
     openSheet(`<div class="sheet-head"><h2>Career</h2>${closeBtn()}</div>
       <div class="nextmove">
