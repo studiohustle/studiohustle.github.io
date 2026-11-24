@@ -3609,8 +3609,8 @@ const ITEMS = (() => { const list = [
   { id: 'goldchain', rar: 'epic', slot: 'neck', name: 'Gold Chain', album: 3, bonus: 0.08, look: { color: '#FFD93D' } },
   { id: 'platinum', rar: 'legendary', slot: 'top', name: 'Platinum Jacket', album: 5, bonus: 0.15, look: { body: '#CDD3DE', trim: '#7D8499', style: 'jacket' } },
   { id: 'bucket', rar: 'epic', slot: 'hat', name: 'Studio Trilby', album: 10, bonus: 0.08, look: { color: '#EADCBB', band: '#5A3E2B', style: 'trilby' } },   // Build 288: was the Bucket Hat
-  { id: 'starshades', rar: 'epic', slot: 'face', name: 'Star Shades', album: 20, bonus: 0.08, look: { color: '#FF6FAE', style: 'star' } },
-  { id: 'crown', rar: 'legendary', slot: 'hat', name: 'Diamond Crown', album: 30, bonus: 0.25, look: { color: '#FFD93D', style: 'crown' } },
+  { id: 'starshades', rar: 'epic', slot: 'face', name: 'Star Shades', album: 20, bonus: 0.08, look: { color: '#FF4FAE', lens: '#B8136E', style: 'star' } },
+  { id: 'crown', rar: 'legendary', slot: 'hat', name: 'Diamond Crown', album: 30, bonus: 0.25, look: { color: '#E8F7FF', edge: '#2E9CD6', style: 'crown' } },   // Build 305: icy diamond crown (was gold)
   { id: 'backstage', rar: 'vip', slot: 'top', name: 'Backstage Jacket', gift: true, bonus: 0, perk: 'VIP · November', look: { style: 'varsity', body: '#1C1A2E', sleeve: '#FFD93D', trim: '#FFD93D' } },
   // seasonal cosmetics from holiday packs and gifts: no income bonus, and they may come back in future years
   { id: 'harvest', rar: 'seasonal', slot: 'top', name: 'Harvest Jacket', gift: true, bonus: 0, perk: 'Seasonal · Thanksgiving', look: { body: '#B5562F', trim: '#F2B544', style: 'jacket' } },
@@ -3703,7 +3703,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 304, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 305, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6402,6 +6402,21 @@ const PRISM = { pearl: '#F6F3FC', pink: '#FF8FC8', lilac: '#B9A6FF', cyan: '#9FE
 const lookOf = (eq, slot) => { const it = itemById(eq[slot]); return it ? it.look : null; };
 
 // ---------- clothing shapes shared by the small and big figures ----------
+// Build 305: icier crown and glossier star shades
+const ICE_CROWN = h => { const E = h.edge || '#2E9CD6', C = h.color, cy = x => { const t = (x - 50) / 60; return 42.5 - 10 * t * (1 - t); };
+  const crown = 'M51 46 L51 21 L63 31 L70 10 L80 25 L90 10 L97 31 L109 21 L109 46 Q80 41 51 46 Z', band = 'M50 38 Q80 33 110 38 L110 47 Q80 42 50 47 Z';
+  const tw = (x, y, r) => `<path d="M${x} ${y - r}Q${x} ${y} ${x + r} ${y}Q${x} ${y} ${x} ${y + r}Q${x} ${y} ${x - r} ${y}Q${x} ${y} ${x} ${y - r}Z" fill="#fff"></path>`;
+  return `<g transform="translate(0 3)"><path d="M53 48 Q80 43.5 107 48" fill="none" stroke="#1B1830" stroke-width="4" stroke-linecap="round" opacity=".18"></path>
+    <path d="${crown}" fill="${E}" stroke="${E}" stroke-width="5" stroke-linejoin="round"></path><path d="${crown}" fill="${C}" stroke="${C}" stroke-width="1" stroke-linejoin="round"></path>
+    <path d="M58 26 L66 33 M73 16 L79 27 M88 15 L84 24" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".9"></path>
+    <path d="${band}" fill="${C}" stroke="${E}" stroke-width="2.6" stroke-linejoin="round"></path>
+    ${[60, 70, 80, 90, 100].map((x, i) => { const y = cy(x); return `<path d="M${x} ${y - 3.4} L${x + 3.2} ${y} L${x} ${y + 3.4} L${x - 3.2} ${y} Z" fill="${i === 2 ? '#7FDCFF' : '#fff'}" stroke="${E}" stroke-width="1.2" stroke-linejoin="round"></path>`; }).join('')}
+    <circle cx="70" cy="10" r="2.6" fill="#fff" stroke="${E}" stroke-width="1.4"></circle><circle cx="90" cy="10" r="2.6" fill="#fff" stroke="${E}" stroke-width="1.4"></circle><circle cx="51" cy="21" r="2.2" fill="#fff" stroke="${E}" stroke-width="1.3"></circle><circle cx="109" cy="21" r="2.2" fill="#fff" stroke="${E}" stroke-width="1.3"></circle>
+    ${tw(117, 15, 4.5)}${tw(44, 30, 3.2)}${tw(97, 5, 2.6)}</g>`; };
+const STAR_SHADES = (f, ln, cx1, cx2, cy, r) => [cx1, cx2].map(x => `<polygon points="${starPts(x, cy, r)}" fill="${f.color}" ${ln}></polygon>
+    <polygon points="${starPts(x - r * .08, cy + r * .1, r * .58)}" fill="${f.lens || '#C2187A'}"></polygon>
+    <path d="M${x - r * .5} ${cy - r * .05} L${x - r * .1} ${cy - r * .45}" stroke="#fff" stroke-width="${r * .2}" stroke-linecap="round" opacity=".85"></path><circle cx="${x + r * .22}" cy="${cy - r * .38}" r="${r * .09}" fill="#fff"></circle>`).join('')
+  + `<path d="M${cx1 + r * .62} ${cy - r * .2} Q80 ${cy - r * .55} ${cx2 - r * .62} ${cy - r * .2}" fill="none" stroke="#1B1830" stroke-width="2.6" stroke-linecap="round"></path>`;
 const FONT = 'font-family="Arial Black, Arial, sans-serif" font-weight="900" text-anchor="middle"';
 // arms: tees show forearms, jerseys show whole arms, varsity has its own sleeve color
 function armPair(t, ln, sk, xl, xr, w, h, y) {
@@ -6428,7 +6443,7 @@ function topExtra(t, ln, sk, big) {
     : t.graphic !== 'tour' ? '' : `<g opacity=".8"><circle cx="80" cy="129" r="14" fill="none" stroke="${t.trim}" stroke-width="3"></circle><polygon points="${starPts(80, 129, 8)}" fill="${t.trim}"></polygon><rect x="65" y="146" width="30" height="4" rx="2" fill="${t.trim}"></rect></g>`);
   if (t.style === 'jersey') return `<path d="M69 99 L80 113 L91 99 Z" ${sk} stroke="${t.trim}" stroke-width="3" stroke-linejoin="round"></path>
     <path d="M57 104 Q64 117 58 130 M103 104 Q96 117 102 130" fill="none" stroke="${t.trim}" stroke-width="3" stroke-linecap="round"></path>`
-    + (t.star ? `<polygon points="${starPts(80, 136, 17)}" fill="${t.trim}" stroke="${K}" stroke-width="2"></polygon><text x="80" y="144" ${FONT} font-size="17" fill="${t.body}">${t.num}</text>`
+    + (t.star ? `<polygon points="${starPts(80, 136, 17)}" fill="${t.trim}" stroke="${K}" stroke-width="2"></polygon>${t.num === '1' ? `<polygon points="76.9,131.6 82,129.2 82,140.6 78.8,140.6 78.8,133.6 76.9,134.2" fill="${t.body}"></polygon>` : `<text x="80" y="144" ${FONT} font-size="17" fill="${t.body}">${t.num}</text>`}`
       : `<text x="80" y="149" ${FONT} font-size="24" fill="${t.trim}" stroke="${K}" stroke-width="1.2">${t.num}</text>`);
   if (t.style === 'varsity') return `<path d="M64 101 Q80 113 96 101" fill="none" stroke="${t.trim}" stroke-width="5" stroke-linecap="round"></path>
     ${[116, 127, 138, 149].map(y => `<circle cx="80" cy="${y}" r="2" fill="${t.trim}"></circle>`).join('')}
@@ -6548,8 +6563,9 @@ const haloHat = (h, ln, big) => `<path d="M44 52 Q44 15 80 15 Q116 15 116 52 Z" 
   <path d="M46 47 Q80 39 114 47 Q118 48 118 52 Q118 56 114 56 Q80 49 46 56 Q42 56 42 52 Q42 48 46 47 Z" fill="${h.brim}" ${ln}></path><path d="M50 47 Q80 41 110 47" fill="none" stroke="${PRISM.pink}" stroke-width="2.5" stroke-linecap="round"></path>
   <path d="M80 24 L86 31 L80 38 L74 31 Z" fill="#fff" stroke="${PRISM.deep}" stroke-width="2" stroke-linejoin="round"></path>
   <ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="#1B1830" stroke-width="${big ? 6 : 8}"></ellipse><ellipse cx="80" cy="9" rx="24" ry="5" fill="none" stroke="${PRISM.cyan}" stroke-width="${big ? 3.5 : 5}"></ellipse><path d="M62 6.5 Q69 4 77 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>`;
-const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar', 'stetson', 'bucketd', 'racing', 'toque', 'tophat', 'planet', 'platsnap', 'fedora', 'fisher', 'trilby'];
+const TUCK = ['cap', 'halo', 'trucker', 'leather', 'straw', 'capstar', 'stetson', 'bucketd', 'racing', 'toque', 'tophat', 'planet', 'platsnap', 'fedora', 'fisher', 'trilby', 'crown'];
 const HATS = {
+  crown: h => ICE_CROWN(h),   // Build 305: icy crown sits over the headphone band like the other hats
   cap: (h, ln) => capHat(h, ln),
   capstar: (h, ln) => capHat(h, ln) + `<polygon points="${starPts(80, 31, 8.5)}" fill="${h.star}" stroke="#1B1830" stroke-width="1.6" stroke-linejoin="round" stroke-linejoin="round"></polygon><path d="M52 38 Q60 30 66 33" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".18"></path>`,
   // sunset straw hat (Build 236): round crown that sits around the whole head and over the headphone band, wide brim,
@@ -6598,16 +6614,18 @@ const HATS = {
     <path d="M47.5 36 Q80 30 112.5 36 L113 45 Q80 39 47 45 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
     <path d="M104 37 Q114 24 122 19 Q118 31 108 40 Z" fill="${h.feather}" stroke="#1B1830" stroke-width="1.8" stroke-linejoin="round"></path><path d="M106 38 Q113 29 120 22" fill="none" stroke="#1B1830" stroke-width="1" opacity=".6"></path>`,
   // Epic: chef's toque: puffy pleated top over a tall band
-  toque: (h, ln) => `<path d="M48 50 L50 28 Q34 25 39 13 Q44 3 59 8 Q65 1 80 3 Q95 1 101 8 Q116 3 121 13 Q126 25 110 28 L112 50 Z" fill="${h.color}" ${ln}></path>
-    <path d="M60 10 Q62 19 62 29 M80 5 V29 M100 10 Q98 19 98 29" fill="none" stroke="${h.shade}" stroke-width="2.4" stroke-linecap="round"></path>
-    <path d="M46 34 Q80 29 114 34 L114 52 Q80 47 46 52 Z" fill="${h.band}" ${ln}></path><path d="M50 43 Q80 38.5 110 43" fill="none" stroke="${h.shade}" stroke-width="2"></path>`,
+  toque: (h, ln) => { const P = [[54, 29, 10], [65, 20, 11], [80, 16.5, 12], [95, 20, 11], [106, 29, 10], [70, 27, 11], [90, 27, 11]], body = f => `<path d="M50 42 L50.5 29 H109.5 L110 42 Z" ${f}></path>` + P.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" ${f}></circle>`).join('');
+    const w = 2 * +((ln.match(/stroke-width="([\d.]+)"/) || [0, 3])[1]);   // same outline weight as the band, in the small and large drawings
+    return `<g>${body(`fill="#1B1830" stroke="#1B1830" stroke-width="${w}" stroke-linejoin="round"`)}${body(`fill="${h.color}"`)}</g>
+    <path d="M58 26 Q61 21 66 19 M75 13 Q80 9.5 86 12 M98 19 Q102 21 103 26" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"></path>
+    <path d="M46 34 Q80 29 114 34 L114 52 Q80 47 46 52 Z" fill="${h.band}" ${ln}></path><path d="M50 43 Q80 38.5 110 43" fill="none" stroke="${h.shade}" stroke-width="2"></path>`; },
   // Epic: lucky top hat: green top hat, black band with a gold buckle, a little clover
-  tophat: (h, ln) => `<path d="M30 48 Q80 38 130 48 Q132 56 120 56 Q80 49 40 56 Q28 56 30 48 Z" fill="${h.color}" ${ln}></path>
-    <path d="M52 47 L55 6 Q80 1 105 6 L108 47 Q80 42 52 47 Z" fill="${h.color}" ${ln}></path>
-    <path d="M53.5 31 Q80 26 106.5 31 L107.6 42 Q80 37 52.6 42 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
-    <rect x="72" y="28" width="16" height="13" rx="2" fill="none" stroke="#1B1830" stroke-width="5"></rect><rect x="72" y="28" width="16" height="13" rx="2" fill="none" stroke="${h.buckle}" stroke-width="2.6"></rect>
-    <g transform="translate(97 17)">${[0, 120, 240].map(a => `<circle cx="0" cy="-3" r="3" fill="${h.clover}" stroke="#1B1830" stroke-width="1.2" transform="rotate(${a})"></circle>`).join('')}<path d="M0 0 q1 4 3 5" fill="none" stroke="#1B1830" stroke-width="1.4" stroke-linecap="round"></path></g>
-    <ellipse cx="64" cy="14" rx="3" ry="7" fill="#fff" opacity=".18"></ellipse>`,
+  tophat: (h, ln) => `<path d="M27 50 Q27 44 80 44 Q133 44 133 50 Q133 57 80 57 Q27 57 27 50 Z" fill="${h.color}" ${ln}></path>
+    <path d="M49 49 L52 6 Q80 1 108 6 L111 49 Q80 45 49 49 Z" fill="${h.color}" ${ln}></path>
+    <path d="M50.4 31 Q80 26 109.6 31 L110.4 43 Q80 38 49.6 43 Z" fill="${h.band}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>
+    <rect x="71" y="28" width="18" height="14" rx="2" fill="none" stroke="#1B1830" stroke-width="5"></rect><rect x="71" y="28" width="18" height="14" rx="2" fill="none" stroke="${h.buckle}" stroke-width="2.6"></rect>
+    <g transform="translate(99 17)">${[0, 120, 240].map(a => `<circle cx="0" cy="-3" r="3" fill="${h.clover}" stroke="#1B1830" stroke-width="1.2" transform="rotate(${a})"></circle>`).join('')}<path d="M0 0 q1 4 3 5" fill="none" stroke="#1B1830" stroke-width="1.4" stroke-linecap="round"></path></g>
+    <ellipse cx="62" cy="15" rx="3" ry="7" fill="#fff" opacity=".18"></ellipse>`,
   // Epic: racing cap, white crown with a red side panel and a checkered brim edge
   racing: (h, ln) => capDome(h.color, ln) + `<path d="M44 52 Q44 30 58 21 Q66 34 66 50 Z" fill="${h.side}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path><path d="M116 52 Q116 30 102 21 Q94 34 94 50 Z" fill="${h.side}" stroke="#1B1830" stroke-width="2.5" stroke-linejoin="round"></path>`
     + capBrim(h.brim, ln) + `<path d="M50 50.5 Q80 44.5 110 50.5" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="3.5 3.5"></path>`,
@@ -6821,7 +6839,6 @@ function miniFigure(f, w, h, vb = '0 0 160 214') {
   const hat = f.hat;
   if (hat && hat.style === 'beanie') o += beanie(hat.color, hat.cuff);
   if (hat && hat.style === 'bucket') o += `<ellipse cx="80" cy="42" rx="44" ry="10" fill="${hat.color}" ${ln}></ellipse><path d="M54 41 Q55 16 80 16 Q105 16 106 41 Z" fill="${hat.color}" ${ln}></path>`;
-  if (hat && hat.style === 'crown') o += `<polygon points="54,34 59,8 70,24 80,3 90,24 101,8 106,34" fill="${hat.color}" ${ln}></polygon>`;
   const tuck = hat && TUCK.includes(hat.style);
   if (tuck && f.phones) o += `<path d="M43 66 Q43 14 80 14 Q117 14 117 66" fill="none" stroke="${K}" stroke-width="9" stroke-linecap="round"></path>`;
   if (hat && HATS[hat.style]) o += HATS[hat.style](hat, ln, false);
@@ -6830,7 +6847,7 @@ function miniFigure(f, w, h, vb = '0 0 160 214') {
   const face = f.face, miniEyes = `<ellipse cx="69" cy="68" rx="5.5" ry="9" fill="${K}"></ellipse><ellipse cx="91" cy="68" rx="5.5" ry="9" fill="${K}"></ellipse>` + (f.long ? lashes(K, false) : '');
   if (face && faceExtra(face, miniEyes) !== null) o += faceExtra(face, miniEyes);
   else if (face && face.style === 'plain') o += `<rect x="56" y="58" width="23" height="16" rx="6" fill="${face.color}" ${ln}></rect><rect x="81" y="58" width="23" height="16" rx="6" fill="${face.color}" ${ln}></rect>`;
-  else if (face && face.style === 'star') o += `<polygon points="${starPts(68, 66, 13)}" fill="${face.color}" ${ln}></polygon><polygon points="${starPts(92, 66, 13)}" fill="${face.color}" ${ln}></polygon>`;
+  else if (face && face.style === 'star') o += STAR_SHADES(face, ln, 68, 92, 66, 13);
   else o += miniEyes;
   return o + '</svg>';
 }
@@ -7015,7 +7032,6 @@ function bigArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
   o += faceDetail(lk.fd, lk.hc);   // facial hair over the necklace
   if (hat && hat.style === 'beanie') o += `<path d="M48 50 Q48 20 80 20 Q112 20 112 50 Z" fill="${hat.color}" ${ln}></path><rect x="46" y="43" width="68" height="12" rx="6" fill="${hat.cuff || hat.color}" ${ln}></rect><path d="M56 46 V52 M64 46 V52 M72 46 V52 M80 46 V52 M88 46 V52 M96 46 V52 M104 46 V52" stroke="#000" stroke-opacity=".15" stroke-width="2"></path><circle cx="80" cy="16" r="8" fill="${hat.color}" ${ln}></circle>`;
   if (hat && hat.style === 'bucket') o += `<ellipse cx="80" cy="42" rx="41" ry="8" fill="${hat.color}" ${ln}></ellipse><path d="M55 41 Q56 18 80 18 Q104 18 105 41 Z" fill="${hat.color}" ${ln}></path><path d="M57 34 H103" stroke="#000" stroke-opacity=".15" stroke-width="4"></path>`;
-  if (hat && hat.style === 'crown') o += `<polygon points="55,34 60,10 70,25 80,5 90,25 100,10 105,34" fill="${hat.color}" ${ln}></polygon><circle cx="80" cy="22" r="4" fill="#6FD3FF" ${ln}></circle><circle cx="64" cy="27" r="3" fill="#FF6FAE"></circle><circle cx="96" cy="27" r="3" fill="#FF6FAE"></circle>`;
   const tuck = hat && TUCK.includes(hat.style), phOn = lk.ph !== false;
   if (tuck && phOn) o += `<path d="M45 66 Q45 16 80 16 Q115 16 115 66" fill="none" stroke="#1E1B33" stroke-width="7" stroke-linecap="round"></path>`;
   if (hat && HATS[hat.style]) o += HATS[hat.style](hat, ln, true);
@@ -7025,7 +7041,7 @@ function bigArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
   const bigEyes = `<ellipse cx="69" cy="68" rx="4.5" ry="7.5" fill="${K}"></ellipse><ellipse cx="91" cy="68" rx="4.5" ry="7.5" fill="${K}"></ellipse><circle cx="70.5" cy="65" r="1.7" fill="#fff"></circle><circle cx="92.5" cy="65" r="1.7" fill="#fff"></circle>` + (bt === 'b' ? lashes(K, true) : '');
   if (face && faceExtra(face, bigEyes) !== null) o += faceExtra(face, bigEyes);
   else if (face && face.style === 'plain') o += `<rect x="58" y="60" width="21" height="14" rx="5" fill="${face.color}" ${ln}></rect><rect x="81" y="60" width="21" height="14" rx="5" fill="${face.color}" ${ln}></rect><path d="M62 63 L66 63" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"></path><path d="M85 63 L89 63" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"></path>`;
-  else if (face && face.style === 'star') o += `<polygon points="${starPts(69, 67, 11)}" fill="${face.color}" ${ln}></polygon><polygon points="${starPts(91, 67, 11)}" fill="${face.color}" ${ln}></polygon>`;
+  else if (face && face.style === 'star') o += STAR_SHADES(face, ln, 69, 91, 67, 11);
   else o += bigEyes;
   return o + '</svg>';
 }
