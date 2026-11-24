@@ -1094,6 +1094,8 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .rchip b { font-size: 15px; font-weight: 700; color: var(--text); } .rchip em { font-style: normal; font-size: 15px; font-weight: 700; color: #8BF0A0; }
 @keyframes fameIn { from { transform: scale(.4); opacity: 0; } }
 .sec { display: flex; flex-direction: column; gap: 10px; }
+.sec.ctr > p { text-align: center; margin: 0; } .sfoot { text-align: center; font-size: 12.5px; color: var(--muted); margin: 4px 0 0; }
+.ghost.danger { color: #C8323F; }
 .sec + .sec { border-top: 1px solid var(--line); padding-top: 14px; }
 .sec h3 { margin: 0; font-size: 16px; font-weight: 700; }
 .soon { font-size: 12px; font-weight: 700; color: var(--muted); background: var(--line); border-radius: 999px; padding: 6px 10px; flex: none; }
@@ -1614,11 +1616,11 @@ body.evmode .lockspot .price::before, body.evmode .hire[data-hire]::before, body
 .evr-c.pass { background: rgba(255,201,74,.22); } .evr.done .evr-c { outline: 2px solid rgba(79,203,148,.6); }
 /* long-event screen (approved mockup): header, progress, Tasks / Rewards tabs, fixed Enter / Exit with the countdown; badge collection */
 .sheet.evhub { height: min(88%, 740px); overflow: hidden; padding: 0 !important; gap: 0; }
-.evh-head { background: linear-gradient(180deg, #7A5BE0, #6343CC); color: #fff; padding: 14px 16px 10px; display: flex; align-items: center; gap: 12px; border-radius: 24px 24px 0 0; }
+.evh-head { background: #3A336F;   /* Build 306: same dark purple as every other panel title (was a bright purple gradient) */ color: #fff; padding: 14px 16px 10px; display: flex; align-items: center; gap: 12px; border-radius: 24px 24px 0 0; }
 .evh-head h2 { font: 400 21px var(--display); letter-spacing: .3px; line-height: 1.05; margin: 0; color: #fff; } .evh-head small { display: block; font: 700 12px var(--body, sans-serif); opacity: .9; margin-top: 3px; }
 .evh-head .close { margin-left: auto; background: rgba(255,255,255,.18); color: #fff; }
 .evlb-goal { margin: 4px 2px 12px; text-align: center; font: 700 13px var(--body, sans-serif); color: #5A5480; }
-.evbp-scrim { position: fixed; inset: 0; z-index: 9500; background: rgba(14,12,32,.45); display: grid; place-items: center; padding: 16px; animation: evqIn .2s ease-out both; }
+.evbp-scrim { position: fixed; inset: 0; z-index: 9500; background: rgba(14,12,32,.45); display: grid; place-items: center; padding: 16px; }   /* Build 306: instant, no zoom/shadow trail */
 .evbp { position: relative; width: min(330px, 100%); background: #fff; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 14px 34px rgba(14,12,32,.35); }
 .evbp-h { display: grid; grid-template-columns: 38px 1fr 38px; align-items: center; } .evbp-h b { grid-column: 2; text-align: center; font: 400 18px var(--display); color: #14122A; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .evbp-x { width: 38px; height: 38px; border-radius: 11px; background: #EFEDF6 !important; color: #4A3A9E !important; box-shadow: 0 3px 0 #D6D1E8 !important; display: grid; place-items: center; }
@@ -1634,6 +1636,7 @@ html .evbp .evbp-art { height: 196px; } html .evbp .evbp-art > svg { width: 132p
 .ckm { display: inline-block; vertical-align: -.14em; }
 .evlb-row.me { background: #ECE7FF; } .evlb-row b { font: 400 15px var(--display); color: #2E2266; text-align: center; }
 .evlb-row .nm { font: 800 14px var(--body, sans-serif); color: #14122A; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; }
+.evlb-row .pc small.live { color: #3FA66A; }
 .evlb-row .pc { text-align: right; font: 800 14px var(--body, sans-serif); color: #2E2266; line-height: 1.15; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; } .evlb-row .pc small { display: block; font: 700 11.5px var(--body, sans-serif); color: #7A5BE0; }
 .evlb-note { text-align: center; color: #5A5480; font: 700 14px var(--body, sans-serif); padding: 24px 8px; }
 .evlb-btn svg { display: block; margin: auto; }
@@ -3703,7 +3706,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 305, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 306, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -8259,12 +8262,12 @@ function openTab(tab) {
         <p>Chat with other players, share your best runs and get a first look at new updates. Follow us @playstudiohustle.</p>
         <a class="cta discord" href="${DISCORD}" target="_blank" rel="noopener" data-discord><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5z" fill="#fff" stroke="#14122A" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="9.6" r="1.4" fill="#14122A"/><circle cx="15" cy="9.6" r="1.4" fill="#14122A"/></svg>Join our Discord</a>
         <div class="socials">${[['ig', 'Instagram', 'https://www.instagram.com/playstudiohustle/', '<rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="16.8" cy="7.2" r="1.3" fill="currentColor"/>'], ['tt', 'TikTok', 'https://www.tiktok.com/@playstudiohustle', '<path d="M10 9.5v6.2a2.6 2.6 0 1 1-2.6-2.6M10 15.7V4h3.2a4.2 4.2 0 0 0 4.3 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'], ['mail', 'Email us', 'mailto:' + CONTACT, '<rect x="3.5" y="6" width="17" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>']].map(([k, l, u, d]) => `<a class="soc" href="${u}" target="_blank" rel="noopener" data-social="${k}"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">${d}</svg><span>${l}</span></a>`).join('')}</div></div>
-      <div class="sec"><h3>Playtest feedback</h3>
-        <p>Help shape the game: ${FB_QS.length} quick questions.</p>
+      <div class="sec ctr"><h3>Playtest feedback</h3>
+        <p>${FB_QS.length} quick questions to help shape the game.</p>
         <button class="cta" data-tab-go="feedback">Give feedback</button>
       </div>
-      <div class="sec"><h3>Tutorial</h3>
-        <p>Walk through the basics again. Your progress and rewards stay as they are.</p>
+      <div class="sec ctr"><h3>Tutorial</h3>
+        <p>Your progress stays as it is.</p>
         <button class="ghost" data-tut-replay>Replay tutorial</button>
       </div>
       ${TESTG ? `<div class="sec"><h3>Test access</h3><p>Simulated test grants for this test account only.</p><button class="ghost" data-tab-go="testaccess">Open test access</button></div>` : ''}
@@ -8276,11 +8279,12 @@ function openTab(tab) {
         <div class="row"><span class="rt"><b>Pacing check</b><span>Restart on Map 1 as if this many albums were dropped. Switches to 1x with Hype off so you can time a real run; your Vault and outfits stay${S.testRunAt ? ` · this run: ${Math.round(((S.stats.playSec || 0) - (S.testRunPlay || 0)) / 60)} min played` : ''}</span></span>
           <span class="tjump">${[8, 9, 10].map(n => `<button class="hire" data-test-albums="${n}">${n}</button>`).join('')}</span></div>
         ${PREVIEW_LOCK ? '' : '<button class="ghost" data-test-exit>Back to my real career</button>'}</div>` : ''}
-      <p data-build-tap>Studio Hustle · Build ${BUILD} · Music by Elijah Gray</p>
-      <p class="vpinfo">${window.__vp || ""}</p>
-      <p>${cloud().email ? 'Starting over wipes everything on this device and in your cloud save, including albums and fame.' : 'Starting over wipes everything, including albums and fame.'}</p>
-      ${NATIVE ? '<button class="ghost" data-native-restore>Restore purchases</button>' : ''}
-      <button class="ghost" data-reset-ask>Start a new career</button>`);
+      ${NATIVE ? '<div class="sec ctr"><button class="ghost" data-native-restore>Restore purchases</button></div>' : ''}
+      <div class="sec ctr"><h3>Start over</h3>
+        <p>${cloud().email ? 'Erases everything here and in your cloud save.' : 'Erases everything, including albums and fame.'}</p>
+        <button class="ghost danger" data-reset-ask>Start a new career</button></div>
+      <p class="sfoot" data-build-tap>Studio Hustle · Build ${BUILD} · Music by Elijah Gray</p>
+      ${TEST ? `<p class="vpinfo sfoot">${window.__vp || ''}</p>` : ''}`);
   } else if (tab === 'feedback') {
     const d = fbDraft();
     openSheet(`<div class="sheet-head"><h2>Playtest feedback</h2>${closeBtn()}</div>
@@ -8834,7 +8838,7 @@ async function evSrvSync() {
     if (!S.ev.srv) { const r = await lbCall('ev_join', { k: evSrvKey(), d: S.ev.diff }); if (!r.ok) throw 0; if (S.ev) { S.ev.srv = { grp: r.data.grp }; save(); } }
     const pct = Math.round(evProgPct() * 100) / 100;
     if (S.ev && pct > (S.ev.srvPct || 0)) { const r = await lbCall('ev_progress', { k: evSrvKey(), p: pct }); if (r.ok && S.ev) { S.ev.srvPct = pct; save(); } }
-    evSrvNext = Date.now() + (pct >= 100 ? 5000 : 60000);
+    evSrvNext = Date.now() + (pct >= 100 ? 5000 : 20000);   // Build 306: every 20 s so others see your % move
   } catch (e) { evSrvNext = Date.now() + 60000; } finally { evSrvBusy = false; }
 }
 async function evBoardLoad() {
@@ -8876,7 +8880,7 @@ function evPlayerCard(r) {
 }
 function evBoardView() {
   const d = EV_DEFS[S.ev.id], df = EV_DIFF[evDiffId()];
-  const rows = EVB.rows ? `<div class="evlb-tbl">${EVB.rows.map((r, i) => `<div class="evlb-row ${r.mine ? 'me' : ''}" data-evbp="${i}" role="button" tabindex="0"><b>${i + 1}</b><span class="nm">${esc(r.name)}<i class="ondot ${r.online ? 'on' : ''}"></i></span><span class="pc">${r.secs != null ? `100%<small>${durTxt(r.secs)}</small>` : (Math.floor(r.pct * 100) / 100).toFixed(2) + '%'}</span></div>`).join('')}</div>`
+  const rows = EVB.rows ? `<div class="evlb-tbl">${EVB.rows.map((r, i) => `<div class="evlb-row ${r.mine ? 'me' : ''}" data-evbp="${i}" role="button" tabindex="0"><b>${i + 1}</b><span class="nm">${esc(r.name)}<i class="ondot ${r.online ? 'on' : ''}"></i></span><span class="pc">${r.secs != null ? `100%<small>${durTxt(r.secs)}</small>` : (Math.floor(r.pct * 100) / 100).toFixed(2) + '%' + (r.el != null ? `<small class="live" data-evel="${r.el}">${durTxt(r.el + (Date.now() - EVB.at) / 1000)}</small>` : '')}</span></div>`).join('')}</div>`
     : `<p class="evlb-note">${EVB.err || 'Loading…'}</p>`;
   const mine = EVB.rows && EVB.my != null ? EVB.my + (EVB.done ? 0 : (Date.now() - EVB.at) / 1000) : null;
   return `<div class="evh-head"><div><h2>Leaderboard</h2><small>${df.name} · ${d.title}</small></div>${headBtns('data-evboardback')}</div>
@@ -9400,7 +9404,7 @@ function evTick() {
   if (S.ev && S.ev.diff && (isEv() || S.ev.srv)) evSrvSync();
   sprintSync();
   if (sheetKey === 'sprint' && !$('scrim').hidden && SPB.at && Date.now() - SPB.at > 30000) { SPB.at = Date.now(); sprintBoardLoad(); }
-  if (sheetKey === 'evboard' && !$('scrim').hidden) { const t = $('evLbTime'); if (t && EVB.rows && EVB.my != null && !EVB.done) t.textContent = durTxt(EVB.my + (Date.now() - EVB.at) / 1000); if (Date.now() - EVB.at > 30000 && EVB.at) { EVB.at = Date.now(); evBoardLoad(); } }
+  if (sheetKey === 'evboard' && !$('scrim').hidden) { const t = $('evLbTime'); if (t && EVB.rows && EVB.my != null && !EVB.done) t.textContent = durTxt(EVB.my + (Date.now() - EVB.at) / 1000); document.querySelectorAll('[data-evel]').forEach(x => { x.textContent = durTxt(+x.dataset.evel + (Date.now() - EVB.at) / 1000); }); if (Date.now() - EVB.at > 15000 && EVB.at) { EVB.at = Date.now(); evBoardLoad(); } }
   // HUD: event bar on the event map, a small chip in the career while an event is live
   const bar = $('evBar'), chip = $('evChip'); if (!bar) return;
   if (isEv()) { const d = evDef(), p = evPoints(), T = evTier();
