@@ -918,6 +918,10 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .plaques { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
 .plq-art { position: relative; display: inline-block; line-height: 0; }
 .plq-art.shine svg { filter: drop-shadow(0 0 6px rgba(159,230,255,.6)); }
+.pq-gleam { transform: skewX(-20deg); animation: pqGleam 3.6s ease-in-out infinite; } @keyframes pqGleam { 0% { transform: translateX(0) skewX(-20deg); } 45%, 100% { transform: translateX(118px) skewX(-20deg); } }
+@media (prefers-reduced-motion: reduce) { .pq-gleam { animation: none; opacity: 0; } }
+.plq-art.champ svg { animation: champGlow 2.4s ease-in-out infinite; } @keyframes champGlow { 0%, 100% { filter: drop-shadow(0 0 5px rgba(255,63,164,.55)); } 50% { filter: drop-shadow(0 0 11px rgba(255,63,164,.9)); } }
+@media (prefers-reduced-motion: reduce) { .plq-art.champ svg { animation: none; filter: drop-shadow(0 0 7px rgba(255,63,164,.7)); } }
 .plq-n, .plq .plq-art .plq-n { position: absolute; top: -6px; right: -7px; min-width: 20px; height: 20px; padding: 0 4px; box-sizing: border-box; border-radius: 999px; background: #14122A; border: 2px solid #FFD93D; color: #FFD93D; font: 400 11px/1 var(--display); display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
 .plq { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
 .plq span { font-size: 9.5px; font-weight: 700; line-height: 1.15; color: var(--muted); }
@@ -1088,7 +1092,7 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .album-pop .arew.acmp { flex-wrap: wrap; gap: 6px; margin-top: 6px; } .album-pop .arew.acmp .rchip { height: 34px; padding: 0 10px 0 6px; gap: 4px; } .album-pop .arew.acmp .rchip b, .album-pop .arew.acmp .rchip em { font-size: 14px; }
 .album-pop .maya-note.v2 { margin: 4px 0 2px; } .album-pop .maya-note.v2 .mcrop { height: 112px; } .album-pop .maya-note.v2 .m2card { margin-top: 100px; padding: 14px 13px 12px; }
 .arew { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
-.ptier { display: inline-block; padding: 1px 9px; border-radius: 999px; background: var(--pc); color: var(--pt) !important; box-shadow: inset 0 0 0 1.5px rgba(20,18,42,.28); font: 800 14px/1.5 var(--body, sans-serif); letter-spacing: .01em; } .nowrap { white-space: nowrap; }
+.nowrap { white-space: nowrap; }
 .rchip { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px 0 6px; border-radius: 12px; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
 .rchip > img { flex: none; margin-left: 4px; } .rchip.notxt { padding-left: 12px; }
 .rchip b { font-size: 15px; font-weight: 700; color: var(--text); } .rchip em { font-style: normal; font-size: 15px; font-weight: 700; color: #8BF0A0; }
@@ -3706,7 +3710,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 308, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 309, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3978,11 +3982,12 @@ const tasksClaimable = () => { const ts = dailyTasks(); return ts.some(t => t.re
 // first time you move out of a map: gems plus a plaque for that map
 const MAP_GEMS = [10, 20, 30, 40, 50, 75];
 // plaque frames upgrade with clears, on the same ladder as albums
-const PLAQUE_TIERS = [[1, 'Wood', '#7A4A26'], [3, 'Silver', '#C9CED9'], [5, 'Gold', '#FFD93D'], [10, 'Platinum', '#E4E7F0'], [20, 'Diamond', '#9FE6FF']];
+// Build 309: Bronze/Silver/Gold, bright icy Platinum, purple Diamond; 4th value = readable text colour on light panels
+const PLAQUE_TIERS = [[1, 'Bronze', '#D08A4E', '#A9642C'], [3, 'Silver', '#C9CED9', '#5F687C'], [5, 'Gold', '#FFD93D', '#C99700'], [10, 'Platinum', '#9BF1F7', '#1A9DB8'], [20, 'Emerald', '#3FD98A', '#16995A'], [50, 'Diamond', '#A57BFF', '#7346E0'], [100, 'Champion', '#FF3FA4', '#D3127A']];   // Champion: the top tier, with a crown
 const plaqueTier = n => PLAQUE_TIERS.filter(t => n >= t[0]).pop();
 // titles shown on the charts, earned by maps reached and albums dropped
 const TITLES = [[0, 0, 'Bedroom Producer', '#B7B0D4'], [0, 1, 'Local Act', '#6FD3FF'], [0, 2, 'Rising Star', '#8BF0A0'], [1, 0, 'Signed Artist', '#FF9E57'],
-  [3, 0, 'Charting Artist', '#FF6FAE'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#E4E7F0'], [20, 0, 'Diamond Artist', '#9FE6FF'], [30, 0, 'Headliner', '#FF8FC8'], [50, 0, 'Studio Icon', '#C9A6FF']];   // Build 288: renamed so "Legendary" only means the difficulty
+  [3, 0, 'Charting Artist', '#FF6FAE'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#9BF1F7'], [20, 0, 'Diamond Artist', '#A57BFF'], [30, 0, 'Headliner', '#FF8FC8'], [50, 0, 'Studio Icon', '#FF3FA4']];   // Build 288: renamed so "Legendary" only means the difficulty
 // title ladder follows the plaque ladder: Gold at 5, Platinum at 10, Diamond at 20
 const GRIND_IC = '<svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M7 0 L1 7.5 H5.5 L4.5 13 L11 5 H6.5 Z" fill="#FFD93D" stroke="#14122A" stroke-width="1"></path></svg>';
 const LIFER_IC = '<svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M8 5 C6 1.5 1.5 1.5 1.5 5 S6 8.5 8 5 S14.5 1.5 14.5 5 S10 8.5 8 5 Z" fill="none" stroke="#14122A" stroke-width="2"></path></svg>';
@@ -5373,7 +5378,7 @@ function showArrival() {
   const loc = LOC(), stage = loc.id === 'stadium';
   nextSheetKey = 'arrive';
   openSheet(`<div class="welcome arrive"><h2 class="ar-title"><small>Welcome to the</small><span>${loc.name}</span></h2>
-    ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20].includes(a.clears) ? ` <span class="nowrap">Its plaque is now <b class="ptier" style="--pc:${plaqueTier(a.clears)[2]};--pt:${plaqueTier(a.clears)[1] === 'Wood' ? '#fff' : '#14122A'}">${plaqueTier(a.clears)[1]}</b>!</span>` : ''}</p>`}
+    ${a.first ? `<div class="plaque-win">${plaqueArt(a.from, 1, 64)}<span><b>${LOCATIONS[a.from].name} cleared</b><em>Plaque earned \u00b7 +${a.gems} gems</em></span></div>` : `<p>${LOCATIONS[a.from].name} cleared ${a.clears} times.${[3, 5, 10, 20, 50, 100].includes(a.clears) ? ` <span class="nowrap">Its plaque is now <b style="color:${plaqueTier(a.clears)[3]}">${plaqueTier(a.clears)[1]}</b>!</span>` : ''}</p>`}
     ${a.box ? `<div class="arew"><span class="rchip sbchip">${boxArt('small', 30)}<b>+${a.boxN || 1} Small Style Box${(a.boxN || 1) > 1 ? 'es' : ''}</b></span></div>` : ''}
     ${mayaNote('celebrating', ARRIVE_LINES[loc.id] || 'New space, bigger money. Let\u2019s get to work!')}</div>
     <button class="cta" data-arrive>${stage ? 'Take the Stage' : 'Open Studio'}</button>`);
@@ -7090,14 +7095,32 @@ Object.assign(ART, {
 });
 // a framed record for each map you've cleared; one color per map
 const PLAQUE = ['#C9CED9', '#FFD93D', '#9FE6FF', '#FF6FAE', '#8BF0A0', '#C9A6FF'];
+// Build 309: crown accents climb the ladder: Emerald tiny crown, Diamond medium crown + small wings, Champion big crown + bigger wings
+// Clash-of-Clans-style wings: solid blocks in the tier colour, angled up and out behind the plaque
+const plqWingSide = (pts, col, mirror) => `<path d="M${pts.map(([x, y]) => (mirror ? 50 - x : x).toFixed(1) + ' ' + y).join(' L')} Z" fill="${col}" stroke="#14122A" stroke-width="2.2" stroke-linejoin="round"></path><path d="M${pts.slice(0, 2).map(([x, y]) => (mirror ? 50 - x : x).toFixed(1) + ' ' + (y + 2.2)).join(' L')}" stroke="#fff" stroke-opacity=".45" stroke-width="1.6" stroke-linecap="round"></path>`;
+const PLQ_WING_SHAPES = {
+  Diamond: [[[5, 12], [-6, 5], [-6, 22], [5, 27]]],
+  Champion: [[[5, 9], [-9, 0], [-9, 19], [5, 24]], [[5, 28], [-6, 24], [-6, 38], [5, 42]]] };
+const plqWings = (tier, col) => (PLQ_WING_SHAPES[tier] || []).map(p => plqWingSide(p, col, false) + plqWingSide(p, col, true)).join('');
+// gold crown that breaks the bottom of the frame, with a gem in the tier's colour (bigger up the ladder)
+const plqCrown = (w, h, gem, side) => { const L = 25 - w / 2, R = 25 + w / 2, by = 61, bh = h * .34, ty = by - h;
+  const pts = `M${L} ${by} L${L} ${ty + h * .3} L${25 - w / 4} ${ty + h * .52} L25 ${ty} L${25 + w / 4} ${ty + h * .52} L${R} ${ty + h * .3} L${R} ${by} Z`;
+  const ball = (x, y) => `<circle cx="${x}" cy="${y}" r="${(w / 14).toFixed(2)}" fill="#FFE27A" stroke="#14122A" stroke-width="1.3"></circle>`;
+  const g = (x, r) => `<path d="M${x} ${by - bh / 2 - r} L${x + r} ${by - bh / 2} L${x} ${by - bh / 2 + r} L${x - r} ${by - bh / 2} Z" fill="${gem}" stroke="#14122A" stroke-width="1.1" stroke-linejoin="round"></path><path d="M${x - r * .35} ${by - bh / 2 - r * .35} L${x} ${by - bh / 2 - r * .7}" stroke="#fff" stroke-width="1" stroke-linecap="round"></path>`;
+  return `<path d="${pts}" fill="#FFD23F" stroke="#14122A" stroke-width="2" stroke-linejoin="round"></path>
+    <path d="M${L + 1} ${by - bh} L${R - 1} ${by - bh} L${R - 1} ${by - 1} L${L + 1} ${by - 1} Z" fill="#E7A915"></path>
+    <path d="M${L + 2} ${ty + h * .36} L${25 - w / 4} ${ty + h * .58}" stroke="#fff" stroke-opacity=".75" stroke-width="1.4" stroke-linecap="round"></path>
+    ${ball(L, ty + h * .3)}${ball(25, ty)}${ball(R, ty + h * .3)}${g(25, bh * .62)}${side ? g(25 - w * .3, bh * .42) + g(25 + w * .3, bh * .42) : ''}`; };
+const PLQ_CROWN = {};   // crowns removed; wings, glow and shine carry the top tiers
+let plqGid = 0;
 function plaqueArt(i, n, size = 46) {
   n = n === true ? 1 : (+n || 0);
   const c = PLAQUE[i] || '#FFD93D';
   if (!n) return `<span class="plq-art"><svg width="${size}" height="${size * 1.2}" viewBox="0 0 50 60" aria-hidden="true"><rect x="3" y="3" width="44" height="54" rx="6" fill="none" stroke="#5C5680" stroke-width="3" stroke-dasharray="5 4"></rect><circle cx="25" cy="27" r="11" fill="none" stroke="#5C5680" stroke-width="3"></circle></svg></span>`;
   const t = plaqueTier(n), shine = n >= 10;
-  return `<span class="plq-art ${shine ? 'shine' : ''}" title="${t[1]} plaque · cleared ${n} time${n === 1 ? '' : 's'}"><svg width="${size}" height="${size * 1.2}" viewBox="0 0 50 60" aria-hidden="true"><rect x="2" y="2" width="46" height="56" rx="6" fill="${t[2]}" stroke="#14122A" stroke-width="3"></rect><rect x="7" y="7" width="36" height="42" rx="3" fill="#1E1B33"></rect>
+  return `<span class="plq-art ${shine ? 'shine' : ''} ${t[1] === 'Champion' ? 'champ' : ''}" title="${t[1]} plaque · cleared ${n} time${n === 1 ? '' : 's'}"><svg width="${size}" height="${size * 1.2}" viewBox="0 0 50 60" aria-hidden="true" style="overflow:visible">${plqWings(t[1], t[2])}<rect x="2" y="2" width="46" height="56" rx="6" fill="${t[2]}" stroke="#14122A" stroke-width="3"></rect><rect x="7" y="7" width="36" height="42" rx="3" fill="#1E1B33"></rect>${n >= 10 ? (k => `<defs><clipPath id="pqc${k}"><rect x="3.5" y="3.5" width="43" height="53" rx="5"></rect></clipPath><linearGradient id="pqg${k}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"></stop><stop offset=".5" stop-color="#fff" stop-opacity=".55"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient></defs><g clip-path="url(#pqc${k})"><rect class="pq-gleam" style="animation-delay:${(k % 7) * .45}s" x="-34" y="-12" width="16" height="84" fill="url(#pqg${k})"></rect></g>`)(++plqGid) : ''}
     <circle cx="25" cy="27" r="14" fill="${c}" stroke="#14122A" stroke-width="2"></circle><circle cx="25" cy="27" r="9" fill="none" stroke="#000" stroke-opacity=".15" stroke-width="1.5"></circle><circle cx="25" cy="27" r="4" fill="#1E1B33"></circle>
-    <path d="M15 20 Q19 15 25 14" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2.4" stroke-linecap="round"></path><rect x="14" y="51" width="22" height="4" rx="2" fill="${n >= 3 ? '#14122A' : '#FFD93D'}"></rect></svg>${n >= 2 ? `<span class="plq-n">${n}</span>` : ''}</span>`;
+    <path d="M15 20 Q19 15 25 14" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2.4" stroke-linecap="round"></path>${PLQ_CROWN[t[1]] ? PLQ_CROWN[t[1]]() : `<rect x="14" y="51" width="22" height="4" rx="2" fill="${n >= 3 ? '#14122A' : '#FFD93D'}"></rect>`}</svg>${n >= 2 ? `<span class="plq-n">${n}</span>` : ''}</span>`;
 }
 const clearsOf = () => LOCATIONS.map((_, i) => (S.clears && S.clears[i]) || 0);
 function plaqueRow(cl) {
@@ -7778,7 +7801,7 @@ function openTab(tab) {
       <div class="sec"><h3>Plaques <button class="hinfo" data-hinfo="plaques" aria-label="About plaques" aria-expanded="${!!hinfoOpen.plaques}">i</button> <small class="h3note">${clearsOf().filter(Boolean).length} of ${allLocs.length} maps cleared</small></h3>
         ${plaqueRow(clearsOf())}
         ${MAP_GEMS[S.mapPaid || 0] && LOCATIONS[S.mapPaid || 0] ? `<p class="cnote">Next first clear: the ${allLocs[S.mapPaid || 0]} pays ${MAP_GEMS[S.mapPaid || 0]} gems.</p>` : ''}
-        <div class="hinfo-txt" ${hinfoOpen.plaques ? '' : 'hidden'}><p>Every time you clear a map its plaque counts it. Frames upgrade to Silver, Gold, Platinum and Diamond at 3, 5, 10 and 20 clears.</p></div></div>
+        <div class="hinfo-txt" ${hinfoOpen.plaques ? '' : 'hidden'}><p>Every time you clear a map its plaque counts it. Frames upgrade to Silver, Gold, Platinum, Emerald, Diamond and Champion at 3, 5, 10, 20, 50 and 100 clears.</p></div></div>
       <div class="sec"><h3>Career stats <small class="h3note">all-time</small></h3>
         <div class="statgrid">
           <div class="wide"><b>${myTitleTag()}</b><span>Your title on The Charts${(() => { const nx = TITLES[TITLES.indexOf(titleOf(S.albums, S.maxLoc)) + 1]; return nx ? ` · next: ${nx[2]} at ${nx[0] ? 'album ' + nx[0] : 'the ' + allLocs[nx[1]]}` : ''; })()}</span></div>
