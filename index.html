@@ -213,6 +213,8 @@ button:focus-visible { outline: 3px solid var(--gem); outline-offset: 2px; }
 .artist.working svg { animation: bob .45s ease-in-out infinite alternate; }
 @keyframes bob { from { transform: translateY(0) } to { transform: translateY(-4px) } }
 .skin { fill: var(--skin); } .phones { fill: var(--phones); }
+/* Build 310: Champion headphones get a gold rim and a white star (shown only where the Champion colour is worn) */
+.ph-trim { display: var(--phtrim, none); }
 
 .floater { position: absolute; z-index: 8; font-family: var(--display); font-size: 17px; color: var(--cash); pointer-events: none;
   text-shadow: 0 2px 0 rgba(0,0,0,.45); animation: rise 1s ease-out forwards; white-space: nowrap; }
@@ -3710,7 +3712,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 309, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 311, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -3888,7 +3890,7 @@ function updateTut() {
   ptr.style.height = (r.height + pad * 2) + 'px';
   ptr.style.borderRadius = (Math.max(10, parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0) + pad) + 'px';
 }
-// 40 career goals in three tiers. Moving maps is rewarded by plaques only, so there are no "move into" goals.
+// 40 career goals in three tiers (Build 310: plaque goals folded into the album ladder). Moving maps is rewarded by plaques only, so there are no "move into" goals.
 const maxClears = () => Math.max(0, ...((S.clears) || [0]));
 const ownedCount = () => Object.keys(S.owned || {}).filter(k => S.owned[k] && k !== 'basic').length;
 const GOALS = [
@@ -3905,7 +3907,7 @@ const GOALS = [
   { id: 'earn10m', tier: 1, text: 'Earn $10M in total', target: 1e7, val: () => S.stats.lifetime, gems: 20, money: true },
   { id: 'album1', tier: 1, text: 'Drop your first album', target: 1, val: () => S.albums || 0, gems: 30 },
   { id: 'lv100', tier: 1, text: 'Get any station to Lv 100', target: 100, val: () => S.stats.maxLevel, gems: 30 },
-  { id: 'album3', tier: 1, text: 'Drop 3 albums', target: 3, val: () => S.albums || 0, gems: 50 },
+  { id: 'album3', tier: 1, text: 'Drop 3 albums (Silver)', target: 3, val: () => S.albums || 0, gems: 50 },
   // mid-term: the next few weeks
   { id: 'crates25', tier: 2, text: 'Open 25 crates', target: 25, val: () => S.stats.crates, gems: 20 },
   { id: 'up2500', tier: 2, text: 'Buy 2,500 upgrades', target: 2500, val: () => S.stats.upgrades, gems: 20 },
@@ -3914,30 +3916,31 @@ const GOALS = [
   { id: 'hire25', tier: 2, text: 'Hire 25 crew in total', target: 25, val: () => S.stats.hires, gems: 25 },
   { id: 'own10', tier: 2, text: 'Own 10 outfit pieces', target: 10, val: ownedCount, gems: 30 },
   { id: 'days7', tier: 2, text: 'Play on 7 different days', target: 7, val: () => S.stats.days || 1, gems: 30 },
-  { id: 'silver', tier: 2, text: 'Get a Silver plaque (clear a map 3 times)', target: 3, val: maxClears, gems: 30 },
   { id: 'tasks10', tier: 2, text: 'Finish all 3 daily tasks 10 times', target: 10, val: () => S.stats.taskSets || 0, gems: 40 },
   { id: 'crates100', tier: 2, text: 'Open 100 crates', target: 100, val: () => S.stats.crates, gems: 40 },
   { id: 'lv200', tier: 2, text: 'Get any station to Lv 200', target: 200, val: () => S.stats.maxLevel, gems: 40 },
   { id: 'earn50qa', tier: 2, text: 'Earn $50Qa in total', target: 5e16, val: () => S.stats.lifetime, gems: 40, money: true },
-  { id: 'album5', tier: 2, text: 'Drop 5 albums', target: 5, val: () => S.albums || 0, gems: 50 },
-  { id: 'goldplq', tier: 2, text: 'Get a Gold plaque (clear a map 5 times)', target: 5, val: maxClears, gems: 50 },
+  { id: 'album5', tier: 2, text: 'Drop 5 albums (Gold)', target: 5, val: () => S.albums || 0, gems: 100 },
   // long-term: months of grinding, with the biggest rewards and a few things money can't buy
   { id: 'up25k', tier: 3, text: 'Buy 25,000 upgrades', target: 25000, val: () => S.stats.upgrades, gems: 250 },
   { id: 'hype100', tier: 3, text: 'Turn on Hype 100 times', target: 100, val: () => S.stats.hypes, gems: 250 },
   { id: 'crates500', tier: 3, text: 'Open 500 crates', target: 500, val: () => S.stats.crates, gems: 300 },
   { id: 'tracks10m', tier: 3, text: 'Make 500,000 tracks', target: 500000, val: () => S.stats.payouts, gems: 500 },   /* Build 208: was 10M tracks for 300 gems (years of play); now about two months for a regular player */
   { id: 'own20', tier: 3, text: 'Own 20 outfit pieces', target: 20, val: ownedCount, gems: 300 },
-  { id: 'album10', tier: 3, text: 'Drop 10 albums', target: 10, val: () => S.albums || 0, gems: 300 },
+  { id: 'album10', tier: 3, text: 'Drop 10 albums (Platinum)', target: 10, val: () => S.albums || 0, gems: 300 },
   { id: 'hype500', tier: 3, text: 'Turn on Hype 500 times', target: 500, val: () => S.stats.hypes, gems: 400 },
   { id: 'tasks50', tier: 3, text: 'Finish all 3 daily tasks 50 times', target: 50, val: () => S.stats.taskSets || 0, gems: 400 },
-  { id: 'album20', tier: 3, text: 'Drop 20 albums', target: 20, val: () => S.albums || 0, gems: 400, reward: { phones: 'ruby' } },
+  { id: 'album20', tier: 3, text: 'Drop 20 albums (Emerald)', target: 20, val: () => S.albums || 0, gems: 600, reward: { phones: 'emerald' } },
   { id: 'days30', tier: 3, text: 'Play on 30 different days', target: 30, val: () => S.stats.days || 1, gems: 500, reward: { title: 'Lifer' } },
   { id: 'up100k', tier: 3, text: 'Buy 50,000 upgrades', target: 50000, val: () => S.stats.upgrades, gems: 500, reward: { title: 'Grinder' } },   /* Build 209: was 100,000 (about 50 albums, longer than Drop 30 albums for the same reward) */
-  { id: 'diamondplq', tier: 3, text: 'Get a Diamond plaque (clear a map 20 times)', target: 20, val: maxClears, gems: 500, reward: { phones: 'diamond' } },
-  { id: 'album30', tier: 3, text: 'Drop 30 albums', target: 30, val: () => S.albums || 0, gems: 500, reward: { phones: 'gold' } },
+  { id: 'album30', tier: 3, text: 'Drop 30 albums (Headliner)', target: 30, val: () => S.albums || 0, gems: 600, reward: { phones: 'gold' } },
+  { id: 'album50', tier: 3, text: 'Drop 50 albums (Diamond)', target: 50, val: () => S.albums || 0, gems: 1000, reward: { phones: 'diamond' } },
+  { id: 'album75', tier: 3, text: 'Drop 75 albums (Studio Icon)', target: 75, val: () => S.albums || 0, gems: 1200, reward: { phones: 'ruby' } },
+  { id: 'album100', tier: 3, text: 'Drop 100 albums (Champion)', target: 100, val: () => S.albums || 0, gems: 2000, reward: { phones: 'champion' } },
 ];
 // headphone colors that can only be earned
-const PHONES_X = { ruby: ['Ruby', '#D7263D'], diamond: ['Diamond', '#BFF3FF'], gold: ['Gold', '#FFD93D'] };
+const phTrim = c => c === '#FF3FA4' ? 'inline' : 'none';   // Champion headphones trim
+const PHONES_X = { ruby: ['Ruby', '#D7263D'], diamond: ['Diamond', '#A57BFF'], gold: ['Gold', '#FFD93D'], emerald: ['Emerald', '#3FD98A'], champion: ['Champion', '#FF3FA4'] };
 const rewardText = r => !r ? '' : r.phones ? `${PHONES_X[r.phones][0]} headphones` : `"${r.title}" badge`;
 function goalRows() {
   const pct = g => Math.min(1, g.val() / g.target);
@@ -3987,8 +3990,8 @@ const PLAQUE_TIERS = [[1, 'Bronze', '#D08A4E', '#A9642C'], [3, 'Silver', '#C9CED
 const plaqueTier = n => PLAQUE_TIERS.filter(t => n >= t[0]).pop();
 // titles shown on the charts, earned by maps reached and albums dropped
 const TITLES = [[0, 0, 'Bedroom Producer', '#B7B0D4'], [0, 1, 'Local Act', '#6FD3FF'], [0, 2, 'Rising Star', '#8BF0A0'], [1, 0, 'Signed Artist', '#FF9E57'],
-  [3, 0, 'Charting Artist', '#FF6FAE'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#9BF1F7'], [20, 0, 'Diamond Artist', '#A57BFF'], [30, 0, 'Headliner', '#FF8FC8'], [50, 0, 'Studio Icon', '#FF3FA4']];   // Build 288: renamed so "Legendary" only means the difficulty
-// title ladder follows the plaque ladder: Gold at 5, Platinum at 10, Diamond at 20
+  [3, 0, 'Silver Artist', '#A9B1C2'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#9BF1F7'], [20, 0, 'Emerald Artist', '#3FD98A'], [30, 0, 'Headliner', '#FF7A6B'], [50, 0, 'Diamond Artist', '#A57BFF'], [75, 0, 'Studio Icon', '#FFA53D'], [100, 0, 'Champion', '#FF3FA4']];   // Build 288: renamed so "Legendary" only means the difficulty
+// Build 310: one ladder. Album goals, chart titles and plaque tiers all line up: Silver 3, Gold 5, Platinum 10, Emerald 20, Diamond 50, Champion 100 (Headliner 30, Studio Icon 75 in between)
 const GRIND_IC = '<svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M7 0 L1 7.5 H5.5 L4.5 13 L11 5 H6.5 Z" fill="#FFD93D" stroke="#14122A" stroke-width="1"></path></svg>';
 const LIFER_IC = '<svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M8 5 C6 1.5 1.5 1.5 1.5 5 S6 8.5 8 5 S14.5 1.5 14.5 5 S10 8.5 8 5 Z" fill="none" stroke="#14122A" stroke-width="2"></path></svg>';
 const titleOf = (albums, loc) => TITLES.filter(([a, l]) => (albums || 0) >= a && (loc || 0) >= l).pop();
@@ -4551,7 +4554,8 @@ const fameNext = () => fameAt((S.albums || 0) + 1) - fameAt(S.albums || 0);
 // Option D: Fame is no longer its own multiplier. Its bonus (Fame - 1) joins the wardrobe in one All Profit pool, weighted x1.5.
 // Events still use plain Fame (evFame), so event pacing is unchanged.
 const FAME_POOL_W = 1.5;
-const fameBonusAt = a => FAME_POOL_W * (fameAt(a) - 1);   // e.g. 30 albums: +501% All Profit
+const FAME_BONUS_MAX = 4;   // Build 311: Fame tops out at +4 All Profit (reached at album 20); albums 1-10 unchanged
+const fameBonusAt = a => Math.min(FAME_BONUS_MAX, FAME_POOL_W * (fameAt(a) - 1));   // e.g. 30 albums: +501% All Profit
 const fameBonus = () => fameBonusAt(S.albums || 0);
 function labelProfitX() { const x = S.lbx, d = new Date(), s = d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0'); return x && x.season === s && x.x > 1 ? x.x : 1; }   // Label All Profit (Labels)
 const allProfit = () => gearMult() + fameBonus();   // 1 + wardrobe + Fame bonus
@@ -4561,7 +4565,12 @@ const allProfit = () => gearMult() + fameBonus();   // 1 + wardrobe + Fame bonus
 const careerProfit = () => allProfit() * labelProfitX();   // 1 + outfits + Fame bonus (Build 163: the early tester bonus ended with the alpha reset)
 // every album raises the money goals a little so tours level off at about 30 minutes instead of shrinking to nothing
 // Option H (Build 158): album prices rise from 1.36 and level off at 2.00, so they never drop. a = albums dropped before the run
-const goalScale = (a = S.albums || 0) => Math.round((2 - 0.64 * Math.pow(0.6, Math.max(0, a))) * 1000) / 1000;
+const goalScaleBase = a => Math.round((2 - 0.64 * Math.pow(0.6, Math.max(0, a))) * 1000) / 1000;
+// Build 311: after album 10, prices rise at the same rate Fame raises income, so new albums no longer shorten runs on their own
+// (outfits, Vault, label, Hype and the Golden Mic still make you faster)
+let PRICE_FAME = 1;
+const PRICE_FAME_FROM = 10, PRICE_GEAR = 3;   // 3 = a typical wardrobe's share of All Profit, so Fame's gain is cancelled for an average outfit
+const goalScale = (a = S.albums || 0) => goalScaleBase(a) * (PRICE_FAME && a > PRICE_FAME_FROM ? (PRICE_GEAR + fameBonusAt(a)) / (PRICE_GEAR + fameBonusAt(PRICE_FAME_FROM)) : 1);
 const goalOf = i => LOCATIONS[i].goal * goalScale() * (S && ev() === 'tour' ? 0.75 : 1);
 const nextExclusive = () => ITEMS.filter(i => i.album && i.album > (S.albums || 0)).sort((a, b) => a.album - b.album)[0];
 const pctTxt = x => Math.round(x * 100) + '%';
@@ -5783,7 +5792,7 @@ function lbModal() {
     const slot = sl => { const it = itemById(eq[sl]); return `<span class="lb-ps" style="--rc:${it ? RARITY[it.rar][1] : '#CFCADF'}">${it ? itemArt(it, 44) : ''}</span>`; };
     return `<div class="lb-modal" data-lbmodalbg><div class="lb-mc lb-pm" role="dialog" aria-label="${esc(lbNm(m))}"><div class="lb-mc-h">${me ? '' : lbFrBtn(m)}<b>${esc(me ? cleanName(S.name) : cleanName(m.name))}</b><button class="lb-x" data-lbmodalx aria-label="Close">${LB_X}</button></div>
       <div class="lb-pm-sub">${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums · #${rank} in the label</div>
-      <div class="lb-pm-colm"><div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : p.skin || '#C68B5E'};--phones:${me ? S.phones : (p.ph && p.ph !== 'none' ? p.ph : PHONES[0])}">${bigArtist(eq, me ? S.bt : bt, lk)}</div>
+      <div class="lb-pm-colm"><div class="dresser prof-art lb-pm-art" style="--skin:${me ? S.skin || '#C68B5E' : p.skin || '#C68B5E'};--phtrim:${phTrim(me ? S.phones : p.ph)};--phones:${me ? S.phones : (p.ph && p.ph !== 'none' ? p.ph : PHONES[0])}">${bigArtist(eq, me ? S.bt : bt, lk)}</div>
       <div class="lb-pm-stats"><div><b>${fmtN(m.xp)}</b><span>Label XP</span></div><div><b>${m.today}/${lbCap()}</b><span>XP today</span></div></div>
       ${me ? '' : `<button class="lb-big blue" data-lbhype="${esc(m.uid)}" ${sent || !lbHypesLeft() ? 'disabled' : ''}>${sent ? 'Hype sent' : lbHypesLeft() ? `Send Hype · ${lbHypesLeft()}/${LB_HYPES} left` : 'No Hypes left today'}</button>`}
       ${canKick ? `<button class="lb-big red" data-lbkick>Kick</button>` : ''}${me ? `<button class="lb-big red" data-lbleave>Leave Label</button>` : ''}</div></div></div>`;
@@ -6853,7 +6862,7 @@ function miniFigure(f, w, h, vb = '0 0 160 214') {
   if (tuck && f.phones) o += `<path d="M43 66 Q43 14 80 14 Q117 14 117 66" fill="none" stroke="${K}" stroke-width="9" stroke-linecap="round"></path>`;
   if (hat && HATS[hat.style]) o += HATS[hat.style](hat, ln, false);
   if (f.phones) o += (tuck ? '' : `<path d="M43 66 Q43 14 80 14 Q117 14 117 66" fill="none" stroke="${K}" stroke-width="9" stroke-linecap="round"></path>`) + `
-    <ellipse class="phones"${f.phonesColor ? ` style="fill:${f.phonesColor}"` : ''} cx="45" cy="68" rx="11" ry="15" ${ln}></ellipse><ellipse class="phones"${f.phonesColor ? ` style="fill:${f.phonesColor}"` : ''} cx="115" cy="68" rx="11" ry="15" ${ln}></ellipse>`;
+    <ellipse class="phones"${f.phonesColor ? ` style="fill:${f.phonesColor}"` : ''} cx="45" cy="68" rx="11" ry="15" ${ln}></ellipse><ellipse class="phones"${f.phonesColor ? ` style="fill:${f.phonesColor}"` : ''} cx="115" cy="68" rx="11" ry="15" ${ln}></ellipse><g class="ph-trim"><ellipse cx="45" cy="68" rx="7" ry="10.5" fill="none" stroke="#FFD23F" stroke-width="2.6"></ellipse><path d="M45 63.5 L46.4 66.7 L49.5 68 L46.4 69.3 L45 72.5 L43.6 69.3 L40.5 68 L43.6 66.7 Z" fill="#fff"></path><ellipse cx="115" cy="68" rx="7" ry="10.5" fill="none" stroke="#FFD23F" stroke-width="2.6"></ellipse><path d="M115 63.5 L116.3 66.7 L119.5 68 L116.3 69.3 L115 72.5 L113.7 69.3 L110.5 68 L113.7 66.7 Z" fill="#fff"></path></g>`;
   const face = f.face, miniEyes = `<ellipse cx="69" cy="68" rx="5.5" ry="9" fill="${K}"></ellipse><ellipse cx="91" cy="68" rx="5.5" ry="9" fill="${K}"></ellipse>` + (f.long ? lashes(K, false) : '');
   if (face && faceExtra(face, miniEyes) !== null) o += faceExtra(face, miniEyes);
   else if (face && face.style === 'plain') o += `<rect x="56" y="58" width="23" height="16" rx="6" fill="${face.color}" ${ln}></rect><rect x="81" y="58" width="23" height="16" rx="6" fill="${face.color}" ${ln}></rect>`;
@@ -7046,7 +7055,7 @@ function bigArtist(eq = S.equip, bt = S.bt, lk = myLook(bt)) {
   if (tuck && phOn) o += `<path d="M45 66 Q45 16 80 16 Q115 16 115 66" fill="none" stroke="#1E1B33" stroke-width="7" stroke-linecap="round"></path>`;
   if (hat && HATS[hat.style]) o += HATS[hat.style](hat, ln, true);
   if (phOn) o += (tuck ? '' : `<path d="M45 66 Q45 16 80 16 Q115 16 115 66" fill="none" stroke="#1E1B33" stroke-width="7" stroke-linecap="round"></path>`) + `
-    <ellipse class="phones" cx="47" cy="68" rx="9" ry="13" ${ln}></ellipse><ellipse class="phones" cx="113" cy="68" rx="9" ry="13" ${ln}></ellipse>
+    <ellipse class="phones" cx="47" cy="68" rx="9" ry="13" ${ln}></ellipse><ellipse class="phones" cx="113" cy="68" rx="9" ry="13" ${ln}></ellipse><g class="ph-trim"><ellipse cx="47" cy="68" rx="5.5" ry="8.5" fill="none" stroke="#FFD23F" stroke-width="2.6"></ellipse><path d="M47 64.4 L48.1 66.9 L50.6 68 L48.1 69.1 L47 71.6 L45.9 69.1 L43.4 68 L45.9 66.9 Z" fill="#fff"></path><ellipse cx="113" cy="68" rx="5.5" ry="8.5" fill="none" stroke="#FFD23F" stroke-width="2.6"></ellipse><path d="M113 64.4 L114.1 66.9 L116.6 68 L114.1 69.1 L113 71.6 L111.9 69.1 L109.4 68 L111.9 66.9 Z" fill="#fff"></path></g>
     <ellipse cx="44" cy="68" rx="3" ry="6" fill="#fff" opacity="0.25"></ellipse>`;
   const bigEyes = `<ellipse cx="69" cy="68" rx="4.5" ry="7.5" fill="${K}"></ellipse><ellipse cx="91" cy="68" rx="4.5" ry="7.5" fill="${K}"></ellipse><circle cx="70.5" cy="65" r="1.7" fill="#fff"></circle><circle cx="92.5" cy="65" r="1.7" fill="#fff"></circle>` + (bt === 'b' ? lashes(K, true) : '');
   if (face && faceExtra(face, bigEyes) !== null) o += faceExtra(face, bigEyes);
@@ -7814,7 +7823,7 @@ function openTab(tab) {
           <div><b>${S.stats.payouts.toLocaleString()}</b><span>Tracks made</span></div>
           <div><b>Lv ${S.stats.maxLevel}</b><span>Highest station</span></div>
           <div><b>${playTime(S.stats.playSec)}</b><span>Time in the studio</span></div>
-          <div><b>${Object.keys(S.goalsDone).length} / ${GOALS.length}</b><span>Goals completed</span></div>
+          <div><b>${GOALS.filter(g => S.goalsDone[g.id]).length} / ${GOALS.length}</b><span>Goals completed</span></div>
         </div>
       </div>`);
   } else if (tab === 'welcome') {
@@ -7868,7 +7877,7 @@ function openTab(tab) {
     const t = titleOf(albums, loc), pcl = p && p.clears ? p.clears : maps.map((_, i) => i < loc ? 1 : 0);
     openSheet(`<div class="sheet-head"><h2>${esc(name)}${me ? ' <small class="h3note">you</small>' : ''}</h2>${headBtns('data-back-charts')}</div>
       <div class="prof-top"><span class="ptags"><span class="ttl-pill" style="color:${t[3]};border-color:${t[3]}">${t[2]}</span>${p && p.dex ? `<span class="ttl-pill dxttl">${DEX_TITLE}</span>` : ''}${p && p.founder ? '<span class="founder-pill">★ Founding Tester</span>' : ''}${p ? p.badges.map(b => `<span class="founder-pill grind b-${b.toLowerCase()}">${b === 'Lifer' ? LIFER_IC : GRIND_IC}${b}</span>`).join('') : ''}</span></div>
-      ${p ? `<div class="dresser prof-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><span class="spot"></span>${stageSparks()}${country ? `<span class="pcountry">${esc(countryName(country))}</span>` : ''}${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>` : `<p class="cnote">This artist hasn't opened the latest version yet, so their outfit, plaques and stats will show up after they do.</p>`}
+      ${p ? `<div class="dresser prof-art" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph};--phtrim:${phTrim(p.ph)}"><span class="spot"></span>${stageSparks()}${country ? `<span class="pcountry">${esc(countryName(country))}</span>` : ''}${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>` : `<p class="cnote">This artist hasn't opened the latest version yet, so their outfit, plaques and stats will show up after they do.</p>`}
       ${lbProfCard(me, r)}
       ${p ? `<div class="sec"><h3>Plaques <small class="h3note">${pcl.filter(Boolean).length} of ${maps.length} maps cleared</small></h3>${plaqueRow(pcl)}</div>` : ''}
       <div class="sec"><h3>Career</h3><div class="statgrid">
@@ -7949,7 +7958,7 @@ function openTab(tab) {
       let body = '';
       if (sel.e === 'wed') { const sp = live && sprintState();   // Build 283: Studio Sprint replaces the single Wednesday goal
         body = `<div class="evobj"><b>Level up stations to earn stars <button class="hinfo" data-hinfo="sprintev" aria-label="How Studio Sprint works" aria-expanded="${!!hinfoOpen.sprintev}">i</button></b><span class="evprog">Top 5 win gems</span><div class="hinfo-txt" ${hinfoOpen.sprintev ? '' : 'hidden'}><p>Stars come from station milestones (Lv 25, 50, 75 and 100). You race 9 other artists: the top 5 win ${SPRINT_PRIZE.join(' / ')} gems. Reach ${SPRINT_PASS_AT} stars for +${PASS_STARS.wed} Pass stars.</p></div>${sp ? `<span class="evprog"><b>Your stars: ${sp.n.toLocaleString('en-US')}</b>${sp.pass ? ' · Pass stars earned' : ''}</span>` : ''}</div>
-          ${sp ? '<button class="cta" data-sprint>Open the leaderboard</button>' : ''}<div class="evtags"><span>Career maps</span><span>All day Wednesday</span></div>`; }
+          ${sp ? '<button class="cta" data-sprint>Leaderboard</button>' : ''}<div class="evtags"><span>Career maps</span><span>All day Wednesday</span></div>`; }
       else { body = `<div class="evtags">${EV_TAGS[sel.e].map(t => `<span>${t}</span>`).join('')}</div><p class="evauto">${live ? 'Active now · nothing to turn on' : 'Starts automatically'}</p>`;
         if (live && sel.e === 'hype') { const fl = freeHypeLeft(), room = hypeLeftToFill(), mins = x => Math.round(x / 60000);
           body += !freeHypeReady() ? '<p class="evauto">Free Hype boost used this weekend.</p>'
@@ -8357,7 +8366,7 @@ function applyLook() {
   const oldHair = { '#5A3A22': '#6E4A2E', '#C98F3E': '#E6C36A' }; if (oldHair[S.hc]) S.hc = oldHair[S.hc];
   if (S.hs === 'short') S.hs = 'buzz';
   document.documentElement.style.setProperty('--skin', S.skin);
-  document.documentElement.style.setProperty('--phones', S.phones === 'none' ? PHONES[0] : S.phones);
+  document.documentElement.style.setProperty('--phones', S.phones === 'none' ? PHONES[0] : S.phones); document.documentElement.style.setProperty('--phtrim', phTrim(S.phones));
   artist.innerHTML = smallArtist() + (dexBass() ? `<span class="bassl">${TORT(34, bassVar())}</span>` : '');   // Build 288: Bassline at your hip
   artist.classList.toggle('mythic', wearingMythic() && !wearingUlt()); artist.classList.toggle('ultimate', wearingUlt());
 }
@@ -8898,7 +8907,7 @@ function evPlayerCard(r) {
   const slot = sl => { const it = p && itemById(p.eq[sl]); return `<span class="sty-slot ${it ? '' : 'empty'}" style="--rc:${it ? rarity(it)[1] : 'transparent'}" ${it ? `title="${esc(it.name)}"` : ''}>${it ? itemArt(it, 46, SLOT_VB[sl]) : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[sl]}</svg>`}</span>`; };
   const d = document.createElement('div'); d.id = 'evbp'; d.className = 'evbp-scrim';
   d.innerHTML = `<div class="evbp" role="dialog" aria-label="${esc(r.name)}"><div class="evbp-h"><b>${esc(r.name)}</b><button class="close evbp-x" data-evbpx aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div>
-    ${p ? `<div class="evbp-stage" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph}"><div class="sty-stage"><div class="sty-col">${slot('top')}${slot('hat')}</div>
+    ${p ? `<div class="evbp-stage" style="--skin:${p.skin};--phones:${p.ph === 'none' ? PHONES[0] : p.ph};--phtrim:${phTrim(p.ph)}"><div class="sty-stage"><div class="sty-col">${slot('top')}${slot('hat')}</div>
       <div class="dresser sty-art evbp-art"><span class="spot"></span>${bigArtist(p.eq, p.bt, { hs: p.hs || defaultHair(p.bt), hc: p.hc || HAIR_COLORS[0], fd: p.fd, ph: p.ph !== 'none' })}</div>
       <div class="sty-col">${slot('neck')}${slot('face')}</div></div></div>` : `<p class="evbp-na">This artist hasn't opened the latest version yet, so their look will show up after they do.</p>`}</div>`;
   document.body.appendChild(d);
@@ -9484,11 +9493,10 @@ const evEmblem = (key, sz = 52) => key === 'galaxy' ? evGalaxyEmblem(sz) : key =
   ? `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#F6A66A"/><path d="M4 44 H60 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4 44Z" fill="#E6BE85"/><path d="M10 44 V32 H20 L23 26 H34 L37 34 H54 V44Z" fill="#B5523B" stroke="#6E2A1E" stroke-width="2"/><circle cx="46" cy="18" r="6" fill="#FFF1C1"/><g transform="translate(18 52)" stroke="#2C4A22" stroke-width="1.6"><rect x="-3" y="-18" width="6" height="20" rx="3" fill="#5E9A43"/><path d="M-3 -8 H-7 V-13 M3 -11 H7 V-16" fill="none"/></g><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`
   : `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="4" width="56" height="56" rx="16" fill="#BDEBF5"/><rect x="4" y="26" width="56" height="20" fill="#2DB4C2"/><path d="M4.1 46 H59.9 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4.1 46Z" fill="#F5E6C0"/><path d="M22 26 Q32 14 42 26Z" fill="#3F8F5A"/><circle cx="46" cy="15" r="5" fill="#FFF6C8"/><path d="M20 50 Q22 40 18 32" stroke="#8B5A2B" stroke-width="3" fill="none"/><path d="M18 32 q-8 0 -10 5 M18 32 q8 -2 10 4 M18 32 q-2 -8 4 -10" stroke="#2F8F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/><rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 // Studio Sprint patch (Wednesday race): checkered flag on the Wednesday pink, same rounded-square patch as the event emblems
-const sprintEmblem = (sz = 44) => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="spFlag"><path d="M21 13 Q30 8 39 13 Q47 17 55 13 V35 Q47 39 39 35 Q30 31 21 35 Z"/></clipPath></defs>
-  <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFB3D1"/><path d="M4.1 46 H59.9 A16 16 0 0 1 44 60 H20 A16 16 0 0 1 4.1 46Z" fill="#7A5BE0"/><path d="M10 53 H18 M26 53 H34 M42 53 H50" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>
-  <g clip-path="url(#spFlag)"><rect x="18" y="6" width="40" height="34" fill="#fff"/>${Array.from({ length: 30 }, (_, i) => { const c = i % 6, r = Math.floor(i / 6); return (c + r) % 2 ? '' : `<rect x="${21 + c * 6}" y="${7 + r * 6}" width="6" height="6" fill="#14122A"/>`; }).join('')}</g>
-  <path d="M21 13 Q30 8 39 13 Q47 17 55 13 V35 Q47 39 39 35 Q30 31 21 35 Z" fill="none" stroke="#14122A" stroke-width="2.4" stroke-linejoin="round"/>
-  <path d="M20 10 V50" stroke="#14122A" stroke-width="5" stroke-linecap="round"/><path d="M20 10 V50" stroke="#C9A06A" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="9" r="3.2" fill="#FFD93D" stroke="#14122A" stroke-width="2"/>
+// Build 311: Studio Sprint patch uses the stopwatch from the Events tab (was a checkered flag), on the same rounded-square patch
+const sprintEmblem = (sz = 44) => `<svg width="${sz}" height="${sz}" viewBox="0 0 64 64" aria-hidden="true">
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFD3E4"/>
+  <g transform="translate(32 35) scale(.82) translate(-32 -36)"><rect x="29" y="11" width="6" height="8" fill="#FF8FC0" stroke="#14122A" stroke-width="2.6"></rect><rect x="26" y="6" width="12" height="7" rx="2.5" fill="#FF8FC0" stroke="#14122A" stroke-width="2.6"></rect><g transform="rotate(45 32 36)"><rect x="29.5" y="12" width="5" height="7" fill="#FF8FC0" stroke="#14122A" stroke-width="2.4"></rect><rect x="27.5" y="8" width="9" height="5.5" rx="2" fill="#FF8FC0" stroke="#14122A" stroke-width="2.4"></rect></g><circle cx="32" cy="36" r="20" fill="#FF6FAE" stroke="#14122A" stroke-width="3"></circle><circle cx="32" cy="36" r="14.5" fill="#FFF3F8" stroke="#14122A" stroke-width="2.5"></circle>${evStarP(32, 37, 8, '#FFD93D')}<path d="M32 22.5 v3 M45.5 36 h-3 M32 49.5 v-3 M18.5 36 h3" stroke="#14122A" stroke-width="2" stroke-linecap="round"></path></g>
   <rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
 const evMoney = n => fmt(n);
 const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday through<br>Saturday' : 'Test window<br>ends ' + new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
@@ -10094,6 +10102,9 @@ function start(data) {
   if (S.tutV < 5) { if (S.tut != null) S.tut = S.tut >= TUT.length - 1 ? TUT.length : S.tut + 1; S.tutV = 5; }
   if (S.tut == null) S.tut = (S.stats.hires > 0 || S.loc > 0 || S.albums > 0) ? TUT.length : 0;
   if ((S.econV || 1) < 2) migrateEcon();
+  if (S.phones === '#BFF3FF') S.phones = '#A57BFF';   // Build 310: Diamond headphones now match the purple Diamond tier
+  // Build 310: album 20 now pays Emerald headphones; anyone who claimed it earlier (for Ruby) gets Emerald too
+  if (S.goalsDone && S.goalsDone.album20 && !(S.phonesX || {}).emerald) S.phonesX = Object.assign({}, S.phonesX, { emerald: true });
   if ((S.upgV || 1) < UPG_V) migrateUpg();
   S.stats.maxLevel = Math.max(S.stats.maxLevel, ...Object.values(S.levels));
   if (evWas && Date.now() < S.ev.end) evSwapIn();
