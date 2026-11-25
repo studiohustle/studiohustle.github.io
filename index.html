@@ -1654,7 +1654,12 @@ html .evbp .evbp-art { height: 196px; } html .evbp .evbp-art > svg { width: 132p
 .sheet.evhub.float .evh-list { flex: none; overflow: visible; } .sheet.evhub.float .evlb-tbl { height: 412px; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 4px; box-sizing: border-box; } .sheet.evhub.float .evlb-note { height: 412px; box-sizing: border-box; display: grid; place-items: center; margin: 0; } .sheet.evhub.float .evh-foot { padding-bottom: 14px; border-radius: 0 0 20px 20px; }
 .sheet.evhub.evsmall { height: auto; max-height: 88%; } .sheet.evhub.evsmall .evh-list { padding-bottom: 18px; }
 .evlb-info { margin: -4px 0 8px; text-align: center; } .sheet.evhub.float .evlb-info:not([hidden]) ~ .evlb-tbl { height: 296px; }
-html .side .sbtn.sptab .cap { color: #E0A400 !important; }
+/* Build 313: Studio Sprint shortcut like Eatventure's race button: icon, time left under it, and a tinted strip with the star count */
+html .side .sbtn.sptab { overflow: visible; margin-bottom: 20px; }   /* same size and layout as Free and Pass: icon up top, timer along the bottom edge */
+html .side .sbtn.sptab .evt-ic, html .side .sbtn.sptab .evt-ic > * { width: 28px !important; height: 28px !important; }
+html .side .sbtn.sptab .sp-time { position: absolute; left: 0; right: 0; bottom: 4px; text-align: center; font: 800 11px/1 'Outfit', system-ui, sans-serif; color: #3FB86A; white-space: nowrap; }
+html .side .sbtn.sptab .sp-stars { position: absolute; left: 0; right: 0; top: 100%; height: 19px; display: flex; align-items: center; justify-content: center; gap: 3px; background: rgba(20,18,42,.5); border-radius: 0 0 10px 10px; font: 800 12px/1 'Outfit', system-ui, sans-serif; color: #fff; pointer-events: none; }
+html .side .sbtn.sptab .sp-stars i { font-style: normal; color: #FFD93D; font-size: 12.5px; }
 .evdf.qqb { pointer-events: none; background: #D9D5E6; color: #7C7798; box-shadow: 0 7px 0 #C4BFD6; text-shadow: none; overflow: hidden; }
 .evdf.qqb { box-sizing: border-box; } .evdf.qqb b { letter-spacing: 2px; }
 .evdf.qqb.gold { background: linear-gradient(90deg, #E39B2C, #F2C14E); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(150,90,10,.35), 0 7px 0 #B3711A, 0 0 18px rgba(255,200,90,.6); text-shadow: 0 2px 0 #9A5E10; }
@@ -2710,7 +2715,7 @@ html .maya-note.v2 .m2card p { margin: 0; font: 700 14.5px/1.38 var(--body); col
         <span class="cap">Events</span><span class="bang evdot" id="eventsBang" hidden>!</span>
       </button>
       <button class="sbtn evtab" id="evTab" aria-label="Long event" hidden><span class="evt-ic" id="evTabIc"></span><span class="cap" id="evTabTime"></span></button>
-      <button class="sbtn evtab sptab" id="spTab" aria-label="Studio Sprint" hidden><span class="evt-ic" id="spTabIc"></span><span class="cap" id="spTabTxt"></span></button>
+      <button class="sbtn evtab sptab" id="spTab" aria-label="Studio Sprint" hidden><span class="evt-ic" id="spTabIc"></span><span class="sp-time" id="spTabTime"></span><span class="sp-stars" id="spTabTxt"></span></button>
     </div>
     <div class="stage" id="stage">
       <div id="roomArt"></div>
@@ -3712,7 +3717,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 312, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 313, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -7103,7 +7108,8 @@ Object.assign(ART, {
   monitors: () => shopArt('monitors', 96, 70),
 });
 // a framed record for each map you've cleared; one color per map
-const PLAQUE = ['#C9CED9', '#FFD93D', '#9FE6FF', '#FF6FAE', '#8BF0A0', '#C9A6FF'];
+// Build 313: same soft shades as before, reordered to follow the rank ladder (silver, gold, platinum, emerald, diamond, champion)
+const PLAQUE = ['#C9CED9', '#FFD93D', '#9FE6FF', '#8BF0A0', '#C9A6FF', '#FF6FAE'];
 // Build 309: crown accents climb the ladder: Emerald tiny crown, Diamond medium crown + small wings, Champion big crown + bigger wings
 // Clash-of-Clans-style wings: solid blocks in the tier colour, angled up and out behind the plaque
 const plqWingSide = (pts, col, mirror) => `<path d="M${pts.map(([x, y]) => (mirror ? 50 - x : x).toFixed(1) + ' ' + y).join(' L')} Z" fill="${col}" stroke="#14122A" stroke-width="2.2" stroke-linejoin="round"></path><path d="M${pts.slice(0, 2).map(([x, y]) => (mirror ? 50 - x : x).toFixed(1) + ' ' + (y + 2.2)).join(' L')}" stroke="#fff" stroke-opacity=".45" stroke-width="1.6" stroke-linecap="round"></path>`;
@@ -9455,7 +9461,7 @@ function evTick() {
   } else { bar.hidden = true; $('evHint').hidden = true; const cash = $('cash').closest('.pill'); cash.classList.remove('evcash'); const sym = cash.querySelector('.hud-ic.coin span'); if (sym.textContent !== '$') sym.textContent = '$'; document.querySelectorAll('.coin-s').forEach(c => { if (c.textContent !== '$') c.textContent = '$'; }); document.body.classList.remove('evmode'); delete document.body.dataset.ev;
     chip.hidden = true; }   // replaced by the event tab in the left column
   { const t = $('spTab'), sp = S.onboarded && !PLAYTEST && !tutActive() && sprintState(); if (t) { t.hidden = !sp;   // Build 283: Studio Sprint shortcut (Wednesdays)
-    if (sp) { if (!t.dataset.on) { t.dataset.on = 1; $('spTabIc').innerHTML = sprintEmblem(38); } const tx = '★ ' + sp.n.toLocaleString('en-US'); if ($('spTabTxt').textContent !== tx) $('spTabTxt').textContent = tx; } } }
+    if (sp) { if (!t.dataset.on) { t.dataset.on = 1; $('spTabIc').innerHTML = sprintGlyph(28); } const tx = sp.n.toLocaleString('en-US'); if ($('spTabTxt').dataset.n !== tx) { $('spTabTxt').dataset.n = tx; $('spTabTxt').innerHTML = '<i>★</i>' + tx; } const tm = sprintEndsTxt(); if ($('spTabTime').textContent !== tm) $('spTabTime').textContent = tm; } } }
   { const t = $('evTab'), w = isEv() ? S.ev : evLive(), on = !!(w && evUnlocked()); if (t) { t.hidden = !on;
     if (on) { const id = w.id, end = isEv() ? S.ev.end : w.end, own = S.ev && S.ev.key === w.key;
       if (t.dataset.id !== id) { t.dataset.id = id; $('evTabIc').innerHTML = evEmblem(id, 38); t.setAttribute('aria-label', EV_DEFS[id].title + ' · open the event'); }
@@ -9498,6 +9504,8 @@ const sprintEmblem = (sz = 44) => `<svg width="${sz}" height="${sz}" viewBox="0 
   <rect x="4" y="4" width="56" height="56" rx="16" fill="#FFD3E4"/>
   <g transform="translate(32 35) scale(.82) translate(-32 -36)"><rect x="29" y="11" width="6" height="8" fill="#FF8FC0" stroke="#14122A" stroke-width="2.6"></rect><rect x="26" y="6" width="12" height="7" rx="2.5" fill="#FF8FC0" stroke="#14122A" stroke-width="2.6"></rect><g transform="rotate(45 32 36)"><rect x="29.5" y="12" width="5" height="7" fill="#FF8FC0" stroke="#14122A" stroke-width="2.4"></rect><rect x="27.5" y="8" width="9" height="5.5" rx="2" fill="#FF8FC0" stroke="#14122A" stroke-width="2.4"></rect></g><circle cx="32" cy="36" r="20" fill="#FF6FAE" stroke="#14122A" stroke-width="3"></circle><circle cx="32" cy="36" r="14.5" fill="#FFF3F8" stroke="#14122A" stroke-width="2.5"></circle>${evStarP(32, 37, 8, '#FFD93D')}<path d="M32 22.5 v3 M45.5 36 h-3 M32 49.5 v-3 M18.5 36 h3" stroke="#14122A" stroke-width="2" stroke-linecap="round"></path></g>
   <rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"/></svg>`;
+// Build 313: the same stopwatch without its pink tile, cropped tight, for the white side button
+const sprintGlyph = (sz = 28) => sprintEmblem(sz).replace(/<rect x="4" y="4" width="56" height="56" rx="16" fill="#FFD3E4"\/>/, '').replace(/\n  <rect x="4" y="4" width="56" height="56" rx="16" fill="none" stroke="#14122A" stroke-width="3"\/>/, '').replace('viewBox="0 0 64 64"', 'viewBox="5 4 54 54"').replace('scale(.82)', 'scale(1)');
 const evMoney = n => fmt(n);
 const evWhen = o => String(o.key)[0] === 'w' ? 'Thursday through<br>Saturday' : 'Test window<br>ends ' + new Date(o.end).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
 // event badges: one per event, earned by claiming free tier 15. Earning it again never adds a second badge or any currency.
