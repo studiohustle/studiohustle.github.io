@@ -1012,7 +1012,8 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .rk-strip { width: 100%; display: flex; align-items: center; gap: 10px; margin: -2px 0 10px; padding: 9px 12px; border: 0; border-radius: 14px; background: #F1EEFB; text-align: left; cursor: pointer; } .rk-strip:active { transform: scale(.98); }
 .rk-strip .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; } .rk-strip b { font: 800 14px var(--body); color: #1E1A33; } .rk-strip b span { font-weight: 800; } .rk-strip .rt > span { font: 700 12px var(--body); color: var(--muted); }
 .rk-all { flex: none; display: inline-flex; align-items: center; gap: 3px; font: 800 13px var(--body); color: #4A3A9E; }
-.rk-grid { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 4px 0 12px; }
+.rk-h { display: flex; align-items: center; gap: 10px; } .rk-i { width: 24px; height: 24px; border: 0; border-radius: 50%; background: rgba(255,255,255,.18); color: #fff; font: 800 13px/1 var(--body); display: grid; place-items: center; padding: 0; }
+.rk-grid { margin-top: 6px; display: grid; grid-template-columns: 1fr; gap: 10px; padding: 4px 0 12px; }
 .rkc { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 14px 12px; border-radius: 16px; background: linear-gradient(#352C66, #2A2452); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); text-align: center; }
 .rkc.cur { background: linear-gradient(#5B4AA8, #3A2F78); box-shadow: 0 0 0 3px #FFD93D, 0 6px 16px rgba(30,26,51,.3); }
 .rkc-em { position: relative; width: 120px; height: 90px; margin: 8px 0 12px; display: grid; place-items: center; }
@@ -4291,7 +4292,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 324, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 325, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4512,9 +4513,9 @@ const GOALS = [
   { id: 'album20', tier: 3, text: 'Drop 20 albums (Emerald)', target: 20, val: () => S.albums || 0, gems: 600, reward: { phones: 'emerald' } },
   { id: 'days30', tier: 3, text: 'Play on 30 different days', target: 30, val: () => S.stats.days || 1, gems: 500, reward: { title: 'Lifer' } },
   { id: 'up100k', tier: 3, text: 'Buy 50,000 upgrades', target: 50000, val: () => S.stats.upgrades, gems: 500, reward: { title: 'Grinder' } },   /* Build 209: was 100,000 (about 50 albums, longer than Drop 30 albums for the same reward) */
-  { id: 'album30', tier: 3, text: 'Drop 30 albums (Headliner)', target: 30, val: () => S.albums || 0, gems: 600, reward: { phones: 'gold' } },
+  { id: 'album30', tier: 3, text: 'Drop 30 albums (Emerald II)', target: 30, val: () => S.albums || 0, gems: 600, reward: { phones: 'gold' } },
   { id: 'album50', tier: 3, text: 'Drop 50 albums (Diamond)', target: 50, val: () => S.albums || 0, gems: 1000, reward: { phones: 'diamond' } },
-  { id: 'album75', tier: 3, text: 'Drop 75 albums (Studio Icon)', target: 75, val: () => S.albums || 0, gems: 1200, reward: { phones: 'ruby' } },
+  { id: 'album75', tier: 3, text: 'Drop 75 albums', target: 75, val: () => S.albums || 0, gems: 1200, reward: { phones: 'ruby' } },
   { id: 'album100', tier: 3, text: 'Drop 100 albums (Champion)', target: 100, val: () => S.albums || 0, gems: 2000, reward: { phones: 'champion' } },
 ];
 // headphone colors that can only be earned
@@ -4569,7 +4570,7 @@ const PLAQUE_TIERS = [[1, 'Bronze', '#D08A4E', '#A9642C'], [3, 'Silver', '#C9CED
 const plaqueTier = n => PLAQUE_TIERS.filter(t => n >= t[0]).pop();
 // titles shown on the charts, earned by maps reached and albums dropped
 const TITLES = [[0, 0, 'Bedroom Producer', '#B7B0D4'], [0, 1, 'Local Act', '#6FD3FF'], [0, 2, 'Rising Star', '#8BF0A0'], [1, 0, 'Signed Artist', '#FF9E57'],
-  [3, 0, 'Silver Artist', '#A9B1C2'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#9BF1F7'], [20, 0, 'Emerald Artist', '#3FD98A'], [30, 0, 'Headliner', '#FF7A6B'], [50, 0, 'Diamond Artist', '#A57BFF'], [75, 0, 'Studio Icon', '#FFA53D'], [100, 0, 'Champion I', '#FF3FA4'], [200, 0, 'Champion II', '#FF3FA4'], [300, 0, 'Champion III', '#FF3FA4'], [400, 0, 'Champion IV', '#FF3FA4'], [500, 0, 'Mythic', '#4FB6E6']];   // Build 316: Champion I-IV every 100 albums, then Mythic for good   // Build 288: renamed so "Legendary" only means the difficulty
+  [3, 0, 'Silver Artist', '#A9B1C2'], [5, 0, 'Gold Artist', '#FFD93D'], [10, 0, 'Platinum Artist', '#9BF1F7'], [20, 0, 'Emerald I', '#3FD98A'], [30, 0, 'Emerald II', '#3FD98A'], [40, 0, 'Emerald III', '#3FD98A'], [50, 0, 'Diamond I', '#A57BFF'], [65, 0, 'Diamond II', '#A57BFF'], [80, 0, 'Diamond III', '#A57BFF'], [100, 0, 'Champion I', '#FF3FA4'], [200, 0, 'Champion II', '#FF3FA4'], [300, 0, 'Champion III', '#FF3FA4'], [400, 0, 'Champion IV', '#FF3FA4'], [500, 0, 'Mythic', '#4FB6E6']];   // Build 316: Champion I-IV every 100 albums, then Mythic for good   // Build 288: renamed so "Legendary" only means the difficulty
 // Build 310: one ladder. Album goals, chart titles and plaque tiers all line up: Silver 3, Gold 5, Platinum 10, Emerald 20, Diamond 50, Champion 100 (Headliner 30, Studio Icon 75 in between)
 const GRIND_IC = '<svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="true"><path d="M7 0 L1 7.5 H5.5 L4.5 13 L11 5 H6.5 Z" fill="#FFD93D" stroke="#14122A" stroke-width="1"></path></svg>';
 const LIFER_IC = '<svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M8 5 C6 1.5 1.5 1.5 1.5 5 S6 8.5 8 5 S14.5 1.5 14.5 5 S10 8.5 8 5 Z" fill="none" stroke="#14122A" stroke-width="2"></path></svg>';
@@ -4577,15 +4578,16 @@ const titleOf = (albums, loc) => TITLES.filter(([a, l]) => (albums || 0) >= a &&
 const titleTag = (albums, loc) => { const t = titleOf(albums, loc); return `<span class="ttl" style="color:${t[3]}">${t[2]}</span>`; };
 // Build 315: a rank emblem for The Charts rows (like a league badge): a plaque-shaped frame in the title's colour with a star,
 // and the same wings as the plaque ladder (Emerald / Headliner 1, Diamond / Studio Icon 2, Champion 3)
-const RANK_WING = { 'Emerald Artist': 'Emerald', 'Headliner': 'Emerald', 'Diamond Artist': 'Diamond', 'Studio Icon': 'Diamond' };
+const RANK_WING = { Emerald: 'Emerald', Diamond: 'Diamond' };   // Build 325: Emerald I-III and Diamond I-III replace Headliner and Studio Icon
+const rkTier = nm => (nm.match(/ (I|II|III|IV)$/) || [])[1] || '';
 // Build 316: Champion I-IV carry a numeral tag; Mythic (500+) is icy, never changes again, and shows the album count.
 // Every emblem shares the same 4.5 s shine; Mythic only adds a breathing star and icy sparkles.
 const rkGlint = (x, y, r) => `<path d="M${x} ${y - r} Q${x + r * .2} ${y - r * .2} ${x + r} ${y} Q${x + r * .2} ${y + r * .2} ${x} ${y + r} Q${x - r * .2} ${y + r * .2} ${x - r} ${y} Q${x - r * .2} ${y - r * .2} ${x} ${y - r}Z" fill="#F4FDFF"></path>`;
 const rankEmblem = (albums, loc, sz = 30) => { const t = titleOf(albums, loc), nm = t[2], champ = nm.startsWith('Champion'), myth = nm === 'Mythic', k = ++plqGid;
-  const wingT = champ || myth ? 'Champion' : RANK_WING[nm], c = myth ? `url(#rki${k})` : t[3], wc = myth ? `url(#rkw${k})` : t[3];
+  const wingT = champ || myth ? 'Champion' : RANK_WING[nm.split(' ')[0]], c = myth ? `url(#rki${k})` : t[3], wc = myth ? `url(#rkw${k})` : t[3];
   const defs = `<defs>${myth ? `<linearGradient id="rki${k}" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset=".35" stop-color="#CFF6FF"></stop><stop offset=".7" stop-color="#7FD9F5"></stop><stop offset="1" stop-color="#4FB6E6"></stop></linearGradient><linearGradient id="rkw${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9FBFF"></stop><stop offset="1" stop-color="#8ADDF7"></stop></linearGradient>` : ''}<clipPath id="rkc${k}"><rect x="3.6" y="3.6" width="42.8" height="52.8" rx="5.5"></rect></clipPath><linearGradient id="rkg${k}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"></stop><stop offset=".5" stop-color="#fff" stop-opacity=".6"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient></defs>`;
   const star = evStarP(25, 31, 14, myth ? '#E6FBFF' : t[3]);
-  return `<span class="crk ${champ ? 'champ' : ''} ${myth ? 'myth' : ''}" title="${nm}"><svg width="${Math.round(sz * 1.44)}" height="${Math.round(sz * 1.24)}" viewBox="-11 -1 72 62" aria-hidden="true">${defs}${wingT ? plqWings(wingT, wc) : ''}<rect x="2" y="2" width="46" height="56" rx="7" fill="${c}" stroke="#14122A" stroke-width="3.2"></rect><rect x="8" y="8" width="34" height="44" rx="4" fill="${myth ? '#10223F' : '#1E1B33'}"></rect>${myth ? `<g class="rk-star">${star}</g>` : star}<path d="M11.5 16.5 Q11.5 11.5 16.5 11.5" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"></path><g clip-path="url(#rkc${k})"><rect class="rk-gleam" style="animation-delay:-${(performance.now() % RK_GLEAM_MS / 1000).toFixed(3)}s" x="-34" y="-12" width="18" height="84" fill="url(#rkg${k})"></rect></g>${myth ? `<g class="rk-tw"><g>${rkGlint(-5, 7, 4.6)}</g><g>${rkGlint(56, 45, 4)}</g><g>${rkGlint(47, 4, 3.6)}</g><g>${rkGlint(-3, 52, 3.4)}</g></g>` : ''}</svg>${myth ? `<i class="crk-n">${(albums || 0).toLocaleString('en-US')}</i>` : champ ? `<i class="crk-r">${nm.slice(9)}</i>` : ''}</span>`; };
+  return `<span class="crk ${champ ? 'champ' : ''} ${myth ? 'myth' : ''}" title="${nm}"><svg width="${Math.round(sz * 1.44)}" height="${Math.round(sz * 1.24)}" viewBox="-11 -1 72 62" aria-hidden="true">${defs}${wingT ? plqWings(wingT, wc) : ''}<rect x="2" y="2" width="46" height="56" rx="7" fill="${c}" stroke="#14122A" stroke-width="3.2"></rect><rect x="8" y="8" width="34" height="44" rx="4" fill="${myth ? '#10223F' : '#1E1B33'}"></rect>${myth ? `<g class="rk-star">${star}</g>` : star}<path d="M11.5 16.5 Q11.5 11.5 16.5 11.5" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"></path><g clip-path="url(#rkc${k})"><rect class="rk-gleam" style="animation-delay:-${(performance.now() % RK_GLEAM_MS / 1000).toFixed(3)}s" x="-34" y="-12" width="18" height="84" fill="url(#rkg${k})"></rect></g>${myth ? `<g class="rk-tw"><g>${rkGlint(-5, 7, 4.6)}</g><g>${rkGlint(56, 45, 4)}</g><g>${rkGlint(47, 4, 3.6)}</g><g>${rkGlint(-3, 52, 3.4)}</g></g>` : ''}</svg>${myth ? `<i class="crk-n">${(albums || 0).toLocaleString('en-US')}</i>` : rkTier(nm) ? `<i class="crk-r" style="border-color:${t[3]}">${rkTier(nm)}</i>` : ''}</span>`; };
 const rkNeed = t => t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}` + (t[2] === 'Mythic' ? ' · the final rank' : '') : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts';
 const rkNextStrip = () => { const i = TITLES.indexOf(titleOf(S.albums, S.maxLoc)), nx = TITLES[i + 1];
   return `<button class="rk-strip" data-ranks><span class="rt"><b>${nx ? `Next: <span style="color:${nx[3]}">${nx[2]}</span>` : 'Top rank reached'}</b><span>${nx ? (nx[0] ? `${(nx[0] - (S.albums || 0)).toLocaleString('en-US')} more album${nx[0] - (S.albums || 0) === 1 ? '' : 's'}` : `Reach the ${USA_LOCS[nx[1]].name}`) : 'You’re Mythic'}</span></span><span class="rk-all">All ranks<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>`; };
@@ -4593,7 +4595,7 @@ const RK_GLEAM_MS = 4500;
 // Build 324: the Ranks page draws each emblem as a plain image (iOS Safari skipped painting many live, filtered SVGs in a
 // scrolling list) and lays the shine over it as its own layer, on the same page clock as every other emblem
 const RK_IMG_CSS = '<style>.rk-star{transform-box:fill-box;transform-origin:center;animation:s 2.25s ease-in-out infinite}@keyframes s{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}.rk-tw>g{transform-box:fill-box;transform-origin:center;opacity:0;animation:t 2.4s ease-in-out infinite}.rk-tw>g:nth-child(2){animation-delay:-.6s}.rk-tw>g:nth-child(3){animation-delay:-1.2s}.rk-tw>g:nth-child(4){animation-delay:-1.8s}@keyframes t{0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}50%{opacity:1;transform:scale(1) rotate(45deg)}}</style>';
-const rkImgEmblem = (albums, loc, sz) => { const h = rankEmblem(albums, loc, sz), cls = (h.match(/^<span class="([^"]*)"/) || [])[1] || 'crk', pill = (h.match(/<i class="crk-[nr]">[^<]*<\/i>/) || [''])[0];
+const rkImgEmblem = (albums, loc, sz) => { const h = rankEmblem(albums, loc, sz), cls = (h.match(/^<span class="([^"]*)"/) || [])[1] || 'crk', pill = (h.match(/<i class="crk-[nr]"[^>]*>[^<]*<\/i>/) || [''])[0];
   const svg = h.match(/<svg[\s\S]*<\/svg>/)[0].replace(/<g clip-path="url\(#rkc\d+\)">[\s\S]*?<\/g>/, '').replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/<\/svg>$/, RK_IMG_CSS + '</svg>');
   const w = Math.round(sz * 1.44), hh = Math.round(sz * 1.24);
   return `<span class="${cls} rkimg" style="width:${w}px;height:${hh}px"><img src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}" width="${w}" height="${hh}" alt="" decoding="sync"><span class="rk-gl"><i style="animation-delay:-${(performance.now() % RK_GLEAM_MS / 1000).toFixed(3)}s"></i></span>${pill}</span>`; };   // every emblem shares one clock (negative delay from page time), so they all sweep together
@@ -7041,6 +7043,7 @@ $('scrim').addEventListener('click', e => {
   const pf = e.target.closest('[data-prof]');
   if (pf) { Charts.view = pf.dataset.prof === 'me' ? 'me' : Charts.rows[+pf.dataset.prof]; if (Charts.view) { sfx('tap'); openTab('profile'); } return; }
   if (e.target.closest('[data-back-charts]')) return openTab('charts');
+  if (e.target.closest('[data-rkinfo]')) { toast('Drop albums to climb. Your rank shows by your name.'); return; }
   if (e.target.closest('[data-ranks]')) { sfx('tap'); return openTab('ranks'); }
   if (e.target.closest('[data-tut-replay]')) { startTutorial(); track('tutorial-replay'); return; }
   const vb = e.target.closest('[data-vault]'); if (vb) return buyVault(vb.dataset.vault);
@@ -8634,11 +8637,10 @@ function openTab(tab) {
     const cards = TITLES.map((t, i) => { const st = i < cur ? 'done' : i === cur ? 'cur' : 'next', myth = t[2] === 'Mythic';
       const foot = st === 'done' ? `<span class="rkc-st ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reached</span>`
         : st === 'cur' ? '<span class="rkc-st here">You’re here</span>' : t[0] > al ? `<span class="rkc-st go"><b>${(t[0] - al).toLocaleString('en-US')}</b> album${t[0] - al === 1 ? '' : 's'} to go</span>` : `<span class="rkc-st go">${t[1] ? 'Next map' : ''}</span>`;
-      const em = TITLES.findIndex(x => x[2] === 'Emerald Artist'), g = i < em ? 0 : (i - em + 1) / (TITLES.length - em), hx = a => Math.round(a * 255).toString(16).padStart(2, '0');   // back glow from Emerald up, stronger every rank
+      const em = TITLES.findIndex(x => x[2] === 'Emerald I'), g = i < em ? 0 : (i - em + 1) / (TITLES.length - em), hx = a => Math.round(a * 255).toString(16).padStart(2, '0');   // back glow from Emerald up, stronger every rank
       return `<div class="rkc ${st} ${g ? 'rkglow' : ''}" style="--rc:${t[3]};--rg:${t[3]}${hx(.16 + .34 * g)};--ro:${(.45 + .5 * g).toFixed(2)};--rs:${(1 + .5 * g).toFixed(2)}" ${st === 'cur' ? 'id="rkCur"' : ''}><div class="rkc-em">${rkImgEmblem(myth ? 500 : t[0], t[1], 72)}</div><b class="rkc-nm">${t[2]}</b>
         <span class="rkc-req">${t[0] ? disc : ''}${t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}${myth ? ' · the final rank' : ''}` : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts'}</span>${foot}</div>`; }).reverse().join('');
-    openSheet(`<div class="sheet-head"><h2>Ranks</h2>${headBtns('data-back-charts')}</div>
-      <p class="cnote">Your rank shows next to your name on The Charts, in your label and on your profile. Drop albums to climb. The best ranks are at the top.</p>
+    openSheet(`<div class="sheet-head"><h2 class="rk-h">Ranks<button class="rk-i" data-rkinfo aria-label="About ranks">i</button></h2>${headBtns('data-back-charts')}</div>
       <div class="rk-grid">${cards}</div>`);
     setTimeout(() => { const c = $('rkCur'); if (c) c.scrollIntoView({ block: 'center' }); }, 30);
   } else if (tab === 'labels' || tab.startsWith('label-')) { lbOpen(tab);
