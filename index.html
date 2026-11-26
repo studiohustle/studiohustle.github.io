@@ -867,7 +867,7 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .lb-bar { height: 12px; border-radius: 99px; overflow: hidden; } .lb-bar i { display: block; height: 100%; background: #7C5CFF; border-radius: 99px; }
 .lb-next { display: flex; align-items: center; gap: 10px; } .lb-next .rt { display: flex; flex-direction: column; gap: 1px; min-width: 0; } .lb-next .rt b { font-size: 13.5px; } .lb-next .rt span { font-size: 12px; color: var(--muted); font-weight: 600; }
 .lb-nic, .lb-ric-w { width: 36px; height: 36px; flex: none; display: grid; place-items: center; }
-.lb-ric { display: grid; place-items: center; border-radius: 10px; border: 2px solid #14122A; } .lb-ric.mult { display: inline-grid; place-items: center; border-radius: 9px; background: #6343CC; color: #fff; font-family: var(--display); }
+.lb-ric { display: grid; place-items: center; border-radius: 10px; border: 2px solid #14122A; } .lb-ric.lbmx { display: inline-grid; place-items: center; border-radius: 9px; background: #6343CC; color: #fff; font-family: var(--display); }
 .lb-ric.hype { background: #6CBCF8; } .lb-ric.cos { background: #FFD93D; }
 .lb-today { margin-top: 10px; display: flex; align-items: center; gap: 10px; background: var(--panel-2); border-radius: 16px; padding: 10px 12px; }
 .lb-today .rt { flex: 1; display: flex; flex-direction: column; gap: 1px; } .lb-today .rt b { font-size: 14px; } .lb-today .rt span { font-size: 12px; color: var(--muted); font-weight: 600; }
@@ -922,6 +922,8 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .plq-art.shine svg { filter: drop-shadow(0 0 6px rgba(159,230,255,.6)); }
 .pq-gleam { transform: skewX(-20deg); animation: pqGleam 3.6s ease-in-out infinite; } @keyframes pqGleam { 0% { transform: translateX(0) skewX(-20deg); } 45%, 100% { transform: translateX(118px) skewX(-20deg); } }
 @media (prefers-reduced-motion: reduce) { .pq-gleam { animation: none; opacity: 0; } }
+.rk-gleam { transform: skewX(-20deg); animation: rkGleam 3.5s linear infinite; } @keyframes rkGleam { 0% { transform: translateX(0) skewX(-20deg); } 22%, 100% { transform: translateX(124px) skewX(-20deg); } }   /* Build 315: a quick wipe, then a pause, every 3.5 s */
+@media (prefers-reduced-motion: reduce) { .rk-gleam { animation: none; opacity: 0; } }
 .plq-art.champ svg { animation: champGlow 2.4s ease-in-out infinite; } @keyframes champGlow { 0%, 100% { filter: drop-shadow(0 0 5px rgba(255,63,164,.55)); } 50% { filter: drop-shadow(0 0 11px rgba(255,63,164,.9)); } }
 @media (prefers-reduced-motion: reduce) { .plq-art.champ svg { animation: none; filter: drop-shadow(0 0 7px rgba(255,63,164,.7)); } }
 .plq-n, .plq .plq-art .plq-n { position: absolute; top: -6px; right: -7px; min-width: 20px; height: 20px; padding: 0 4px; box-sizing: border-box; border-radius: 999px; background: #14122A; border: 2px solid #FFD93D; color: #FFD93D; font: 400 11px/1 var(--display); display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
@@ -973,6 +975,7 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .crow { display: flex; align-items: center; gap: 10px; background: var(--panel-2); border-radius: 14px; padding: 8px 12px 8px 8px; }
 .crow.me { box-shadow: inset 0 0 0 2px var(--gem); }
 .crow .cr { width: 32px; text-align: center; font: 400 15px var(--display); color: var(--muted); }
+.crk { flex: none; width: 34px; display: grid; place-items: center; } .crk svg { display: block; filter: drop-shadow(0 2px 0 rgba(20,18,42,.18)); } .crk.champ svg { filter: drop-shadow(0 0 5px rgba(255,63,164,.55)); }
 .crow:nth-child(1) .cr { color: #FFD93D; } .crow:nth-child(2) .cr { color: #D9DCE6; } .crow:nth-child(3) .cr { color: #E0A070; }
 .crow .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .crow .rt b { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .crow .rt span { font-size: 12px; color: var(--muted); }
@@ -3718,7 +3721,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 314, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 315, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4002,6 +4005,12 @@ const GRIND_IC = '<svg width="12" height="13" viewBox="0 0 12 13" aria-hidden="t
 const LIFER_IC = '<svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><path d="M8 5 C6 1.5 1.5 1.5 1.5 5 S6 8.5 8 5 S14.5 1.5 14.5 5 S10 8.5 8 5 Z" fill="none" stroke="#14122A" stroke-width="2"></path></svg>';
 const titleOf = (albums, loc) => TITLES.filter(([a, l]) => (albums || 0) >= a && (loc || 0) >= l).pop();
 const titleTag = (albums, loc) => { const t = titleOf(albums, loc); return `<span class="ttl" style="color:${t[3]}">${t[2]}</span>`; };
+// Build 315: a rank emblem for The Charts rows (like a league badge): a plaque-shaped frame in the title's colour with a star,
+// and the same wings as the plaque ladder (Emerald / Headliner 1, Diamond / Studio Icon 2, Champion 3)
+const RANK_WING = { 'Emerald Artist': 'Emerald', 'Headliner': 'Emerald', 'Diamond Artist': 'Diamond', 'Studio Icon': 'Diamond', 'Champion': 'Champion' };
+const rankEmblem = (albums, loc, sz = 30) => { const t = titleOf(albums, loc), c = t[3], w = RANK_WING[t[2]];
+  return `<span class="crk ${t[2] === 'Champion' ? 'champ' : ''}" title="${t[2]}"><svg width="${sz}" height="${Math.round(sz * 1.2)}" viewBox="0 0 50 60" style="overflow:visible" aria-hidden="true">${w ? plqWings(w, c) : ''}<rect x="2" y="2" width="46" height="56" rx="7" fill="${c}" stroke="#14122A" stroke-width="3.2"></rect><rect x="8" y="8" width="34" height="44" rx="4" fill="#1E1B33"></rect>${evStarP(25, 31, 14, c)}<path d="M12 14 Q16 10 22 10" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.6" stroke-linecap="round"></path>${(k => `<defs><clipPath id="rkc${k}"><rect x="3.6" y="3.6" width="42.8" height="52.8" rx="5.5"></rect></clipPath><linearGradient id="rkg${k}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"></stop><stop offset=".5" stop-color="#fff" stop-opacity=".6"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient></defs><g clip-path="url(#rkc${k})"><rect class="rk-gleam" style="animation-delay:-${(performance.now() % RK_GLEAM_MS / 1000).toFixed(3)}s" x="-34" y="-12" width="18" height="84" fill="url(#rkg${k})"></rect></g>`)(++plqGid)}</svg></span>`; };
+const RK_GLEAM_MS = 3500;   // every emblem shares one clock (negative delay from page time), so they all sweep together
 // money: real-money price shown (test purchase in this build). gems: gem price.
 // bonus over the base rate (80 gems per dollar), rounded down: same formula as every value ribbon
 const gemPackSub = (g, price) => `${g.toLocaleString('en-US')} gems · ${Math.floor((g / (price * 80) - 1) * 100)}% bonus`;
@@ -5663,7 +5672,7 @@ function lbPay(season, level) {
   if (r.k === 'hype') S.hypeUntil = Math.max(Date.now(), S.hypeUntil || 0) + 3600000 * (r.n || 1);
   save(); render(); return r;
 }
-const lbRewardIc = (ic, sz = 30) => ic.startsWith('mult:') ? `<span class="lb-ric mult" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz * .36)}px">x${ic.slice(5)}</span>`
+const lbRewardIc = (ic, sz = 30) => ic.startsWith('mult:') ? `<span class="lb-ric lbmx" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz * .36)}px">x${ic.slice(5)}</span>`
   : /^(skip|frenzy|hype):\d+$/.test(ic) ? (([k, n]) => `<span class="pf pbox lbbox">${lbRewardIc(k, sz)}${+n > 1 ? `<i class="pbn">${n}</i>` : ''}</span>`)(ic.split(':'))
   : ic.startsWith('box:') ? (([, b, n]) => `<span class="pf pbox lbbox">${boxArt(b, Math.round(sz * 1.2))}${+n > 1 ? `<i class="pbn">${n}</i>` : ''}</span>`)(ic.split(':')) : ic === 'gems' ? `<img src="art/gem.webp" width="${sz}" height="${Math.round(sz * .82)}" alt="">`
   : ic === 'skip' ? `<img src="art/shop/boost-60.svg" width="${sz}" height="${sz}" alt="">`
@@ -5726,7 +5735,7 @@ function lbMembers() {
       tiles.push(`<button class="lb-act hype ${left && !solo ? '' : 'spent'}" data-lbhypehint><span class="lb-act-ic">${LB_IC.bolt}</span><span><b>Send Hype</b>${solo ? 'No labelmates yet' : left ? `${left}/${LB_HYPES} left today` : `Back in ${lbHypeLeft()}`}</span></button>`);
       return tiles.length ? `<div class="lb-acts">${tiles.join('')}</div>` : ''; })()}
     <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
-      return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>
+      return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>${rankEmblem(me ? S.albums || 0 : m.albums, me ? S.maxLoc : (m.loc != null ? m.loc : m.profile && m.profile.loc) || 0)}
         <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i>${st === 'sent' && !me ? `<span class="lb-hyped" title="You sent Hype today">${LB_IC.bolt}</span>` : ''}</b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
         <span class="lb-mx">${fmtN(m.xp)} XP</span></div>`; }).join('')}
 </div>`;
@@ -7847,11 +7856,11 @@ function openTab(tab) {
     const weekly = Charts.period === 'week' && Charts.hasWeek !== false, wk = thisWeek();
     const resetIn = (() => { const ms = Date.parse(wk.id + 'T00:00:00Z') + 7 * 864e5 - Date.now(), h = Math.floor(ms / 36e5); return h >= 24 ? Math.floor(h / 24) + 'd ' + (h % 24) + 'h' : h + 'h ' + Math.floor(ms % 36e5 / 6e4) + 'm'; })();
     const list = Charts.rows.map((r, i) => { const me = r.friend_code === c.code;
-      if (weekly) return `<div class="crow ${me ? 'me' : ''}" data-prof="${me ? 'me' : i}" role="button" tabindex="0" aria-label="See ${esc(r.name)}'s profile"><span class="cr">${i + 1}</span>
-        <span class="rt"><b><span class="nm">${esc(r.name)}${me ? ' (you)' : ''}</span><i class="ondot ${isOnline(r) ? 'on' : ''}" data-seen="${r.seen_at || ''}" title="Recently active" aria-label="${isOnline(r) ? 'Recently active' : ''}"></i></b><span>${(r.profile && r.profile.dex ? `<span class="ttl dxttl">${DEX_TITLE}</span>` : titleTag(r.albums, r.profile ? r.profile.loc : 0))}${r.country ? ' · ' + r.country : ''} · ${fmt(r.week_earned || 0)} earned</span></span>
+      if (weekly) return `<div class="crow ${me ? 'me' : ''}" data-prof="${me ? 'me' : i}" role="button" tabindex="0" aria-label="See ${esc(r.name)}'s profile"><span class="cr">${i + 1}</span>${rankEmblem(r.albums, r.profile ? r.profile.loc : 0)}
+        <span class="rt"><b><span class="nm">${esc(r.name)}${me ? ' (you)' : ''}</span><i class="ondot ${isOnline(r) ? 'on' : ''}" data-seen="${r.seen_at || ''}" title="Recently active" aria-label="${isOnline(r) ? 'Recently active' : ''}"></i></b><span>${(r.profile && r.profile.dex ? `<span class="ttl dxttl">${DEX_TITLE}</span>` : titleTag(r.albums, r.profile ? r.profile.loc : 0))}${r.country ? ' · ' + r.country : ''}</span></span>
         <span class="ca">${r.week_albums || 0}<small>${(r.week_albums || 0) === 1 ? 'album' : 'albums'}<br>this week</small></span></div>`;
-      return `<div class="crow ${me ? 'me' : ''}" data-prof="${me ? 'me' : i}" role="button" tabindex="0" aria-label="See ${esc(r.name)}'s profile"><span class="cr">${i + 1}</span>
-        <span class="rt"><b><span class="nm">${esc(r.name)}${me ? ' (you)' : ''}</span><i class="ondot ${isOnline(r) ? 'on' : ''}" data-seen="${r.seen_at || ''}" title="Recently active" aria-label="${isOnline(r) ? 'Recently active' : ''}"></i></b><span>${(r.profile && r.profile.dex ? `<span class="ttl dxttl">${DEX_TITLE}</span>` : titleTag(r.albums, r.profile ? r.profile.loc : 0))}${r.country ? ' · ' + r.country : ''} · ${fmt(r.lifetime)}</span></span>
+      return `<div class="crow ${me ? 'me' : ''}" data-prof="${me ? 'me' : i}" role="button" tabindex="0" aria-label="See ${esc(r.name)}'s profile"><span class="cr">${i + 1}</span>${rankEmblem(r.albums, r.profile ? r.profile.loc : 0)}
+        <span class="rt"><b><span class="nm">${esc(r.name)}${me ? ' (you)' : ''}</span><i class="ondot ${isOnline(r) ? 'on' : ''}" data-seen="${r.seen_at || ''}" title="Recently active" aria-label="${isOnline(r) ? 'Recently active' : ''}"></i></b><span>${(r.profile && r.profile.dex ? `<span class="ttl dxttl">${DEX_TITLE}</span>` : titleTag(r.albums, r.profile ? r.profile.loc : 0))}${r.country ? ' · ' + r.country : ''}</span></span>
         <span class="ca">${r.albums}<small>albums</small></span></div>`; }).join('');
     let body;
     if (Charts.status === 'offline') body = `<p class="cnote">${PLAYTEST ? 'The Charts are switched off in the playtest, so test progress never mixes with real players.' : inPreview ? "The Charts can't load inside this preview. Open the real game link to see them." : "Couldn't reach the charts. Check your connection, then try again."}</p><button class="ghost" data-chart-retry>Try again</button>`;
@@ -7862,7 +7871,7 @@ function openTab(tab) {
       ${FR.inc.length ? `<div class="sec frreqs"><h3>Friend requests</h3>${FR.inc.map(x => `<div class="row frreq"><span class="rt"><b>${esc(cleanName(x.name))}</b><span>${x.albums || 0} albums</span></span><button class="hire" data-fracc="${esc(x.code)}">Accept</button><button class="lb-dec" data-frdec="${esc(x.code)}" aria-label="Decline">${LB_X}</button></div>`).join('')}</div>` : ''}
       <div class="stabs period-tabs">${[['week', 'This week'], ['all', 'All time']].map(([k, l]) => `<button class="stab ${Charts.period === k ? 'on' : ''}" data-period="${k}">${l}</button>`).join('')}</div>
       ${Charts.period === 'week' ? (Charts.hasWeek === false ? `<p class="cnote">Weekly Charts need a quick database update. Showing all-time until then.</p>` : `<p class="cnote">New week in <b>${resetIn}</b></p>`) : ''}
-      <div class="row chartme" data-prof="me" role="button" tabindex="0" aria-label="See your profile"><span class="rank">${Charts.rank ? '#' + Charts.rank : '–'}</span><span class="rt"><b>${esc(cleanName(S.name))}</b><span>${myTitleTag()} · ${fmt(weekly ? wk.earned : S.stats.lifetime)}${weekly ? ' this week' : ''}</span></span><span class="xv">${weekly ? wk.albums : S.albums || 0} <small>${weekly ? 'this week' : 'albums'}</small></span></div>
+      <div class="row chartme" data-prof="me" role="button" tabindex="0" aria-label="See your profile"><span class="rank">${Charts.rank ? '#' + Charts.rank : '–'}</span>${rankEmblem(S.albums, S.maxLoc)}<span class="rt"><b>${esc(cleanName(S.name))}</b><span>${myTitleTag()}</span></span><span class="xv">${weekly ? wk.albums : S.albums || 0} <small>${weekly ? 'this week' : 'albums'}</small></span></div>
       ${Charts.syncError ? `<p class="cerr">Your rank isn't updated yet. ${esc(Charts.syncError)} Your progress is safe on this phone. <button class="hire" data-chart-retry>Try again</button></p>` : ''}
       <div class="stabs charts-tabs">${tabs.map(([k, l]) => `<button class="stab ${Charts.tab === k ? 'on' : ''}" data-ctab="${k}">${esc(l)}</button>`).join('')}</div>
       <div class="clist ${Charts.status === 'loading' && Charts.rows.length ? 'dim' : ''}">${body}</div>
