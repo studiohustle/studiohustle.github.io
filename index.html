@@ -1013,20 +1013,24 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .rk-strip .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; } .rk-strip b { font: 800 14px var(--body); color: #1E1A33; } .rk-strip b span { font-weight: 800; } .rk-strip .rt > span { font: 700 12px var(--body); color: var(--muted); }
 .rk-all { flex: none; display: inline-flex; align-items: center; gap: 3px; font: 800 13px var(--body); color: #4A3A9E; }
 .rk-grid { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 4px 0 12px; }
-.rkc { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 14px 10px; border-radius: 16px; background: linear-gradient(#352C66, #2A2452); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); text-align: center; }
+.rkc { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 14px 12px; border-radius: 16px; background: linear-gradient(#352C66, #2A2452); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); text-align: center; }
 .rkc.cur { background: linear-gradient(#5B4AA8, #3A2F78); box-shadow: 0 0 0 3px #FFD93D, 0 6px 16px rgba(30,26,51,.3); }
-.rkc-em { position: relative; width: 120px; height: 90px; margin-bottom: 12px; display: grid; place-items: center; }
+.rkc-em { position: relative; width: 120px; height: 90px; margin: 8px 0 12px; display: grid; place-items: center; }
 .rkc-em::before { content: ''; position: absolute; inset: 8px 18px; border-radius: 50%; background: radial-gradient(closest-side, var(--rc), transparent); opacity: var(--ro, .4); transform: scale(var(--rs, 1)); }
 .rkc { overflow: hidden; } .rkc.rkglow::after { content: ''; position: absolute; left: 50%; top: -30px; width: 340px; height: 230px; transform: translateX(-50%); background: radial-gradient(closest-side, var(--rg), transparent); pointer-events: none; }
 .rkc > * { position: relative; z-index: 1; } .rkc-em { position: relative; }
-.rkc-em::before { left: 50% !important; top: 50% !important; right: auto !important; bottom: auto !important; width: 96px; height: 96px; margin: -48px 0 0 -48px; }
-.rkc-em .crk { width: auto; position: relative; } .rkc-em .crk svg { margin: 0; }   /* drawn at full size: iOS Safari misplaces zoomed SVGs inside a scroller */
-.rkc-em .crk-r { transform: scale(2.3); transform-origin: 100% 100%; right: 10px; bottom: 6px; } .rkc-em .crk-n { transform: translateX(-50%) scale(2.3); transform-origin: 50% 100%; bottom: -2px; }
-.rkc.next .rkc-em .crk { filter: saturate(.55) brightness(.85); }
+.rkc-em::before { left: 50% !important; top: 50% !important; right: auto !important; bottom: auto !important; width: 110px; height: 110px; margin: -55px 0 0 -55px; }
+.rkc-em .crk { position: relative; display: block; } .rkc-em .crk img { display: block; filter: drop-shadow(0 3px 0 rgba(20,18,42,.25)); } .rkc-em .crk.myth img { filter: drop-shadow(0 0 8px rgba(120,220,255,.75)); } .rkc-em .crk.champ img { filter: drop-shadow(0 0 8px rgba(255,63,164,.55)); }
+.rk-gl { position: absolute; left: 20.3%; top: 7.4%; width: 59.4%; height: 85.2%; border-radius: 10px; overflow: hidden; pointer-events: none; transform: translateZ(0); }
+.rk-gl i { position: absolute; top: -10%; left: 0; width: 42%; height: 120%; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.6), rgba(255,255,255,0)); transform: translateX(-260%) skewX(-20deg); animation: rkGl 4.5s linear infinite; }
+@keyframes rkGl { 0% { transform: translateX(-260%) skewX(-20deg); } 17%, 100% { transform: translateX(300%) skewX(-20deg); } }
+@media (prefers-reduced-motion: reduce) { .rk-gl i { animation: none; opacity: 0; } }
+.rkc-em .crk-r { transform: scale(2.2); transform-origin: 100% 100%; right: 6px; bottom: 6px; } .rkc-em .crk-n { transform: translateX(-50%) scale(1.7); transform-origin: 50% 100%; bottom: 2px; }
+.rkc.next .rkc-em .crk img { filter: saturate(.55) brightness(.85); }
 .rkc-nm { font: 400 18px/1.1 var(--display); color: #FFF6D6; text-shadow: 0 2px 0 rgba(0,0,0,.35); text-wrap: balance; height: 22px; display: grid; place-items: center; }
 .rkc-req { display: flex; align-items: center; justify-content: center; gap: 5px; height: 18px; font: 800 13px/1.25 var(--body); color: #fff; }
 .rkc-sub { font: 700 11px var(--body); color: #B9B2DA; height: 13px; margin: -2px 0 4px; }
-.rkc-st { margin-top: auto; width: 100%; box-sizing: border-box; padding: 5px 6px; border-radius: 10px; background: rgba(0,0,0,.25); font: 800 12.5px var(--body); color: #D9D4F0; display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 30px; max-width: 200px; font-size: 12.5px; }
+.rkc-st { margin-top: 8px; width: 100%; box-sizing: border-box; padding: 5px 6px; border-radius: 10px; background: rgba(0,0,0,.25); font: 800 12.5px var(--body); color: #D9D4F0; display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 30px; max-width: 200px; font-size: 12.5px; }
 .rkc-st.ok { color: #8BF0A0; } .rkc-st.here { background: #FFD93D; color: #2A2450; } .rkc-st.go b { font: 400 14px var(--display); color: #FFD93D; }
 .buyart { position: relative; overflow: hidden; display: grid; place-items: center; min-height: 160px; border-radius: 18px; background: #EEF7FC; }
 .buyart::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.7) 48%, transparent 60%) no-repeat; background-size: 250% 100%; animation: sheen 7s ease-in-out infinite; }
@@ -4287,7 +4291,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 323, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 324, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4585,7 +4589,14 @@ const rankEmblem = (albums, loc, sz = 30) => { const t = titleOf(albums, loc), n
 const rkNeed = t => t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}` + (t[2] === 'Mythic' ? ' · the final rank' : '') : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts';
 const rkNextStrip = () => { const i = TITLES.indexOf(titleOf(S.albums, S.maxLoc)), nx = TITLES[i + 1];
   return `<button class="rk-strip" data-ranks><span class="rt"><b>${nx ? `Next: <span style="color:${nx[3]}">${nx[2]}</span>` : 'Top rank reached'}</b><span>${nx ? (nx[0] ? `${(nx[0] - (S.albums || 0)).toLocaleString('en-US')} more album${nx[0] - (S.albums || 0) === 1 ? '' : 's'}` : `Reach the ${USA_LOCS[nx[1]].name}`) : 'You’re Mythic'}</span></span><span class="rk-all">All ranks<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>`; };
-const RK_GLEAM_MS = 4500;   // every emblem shares one clock (negative delay from page time), so they all sweep together
+const RK_GLEAM_MS = 4500;
+// Build 324: the Ranks page draws each emblem as a plain image (iOS Safari skipped painting many live, filtered SVGs in a
+// scrolling list) and lays the shine over it as its own layer, on the same page clock as every other emblem
+const RK_IMG_CSS = '<style>.rk-star{transform-box:fill-box;transform-origin:center;animation:s 2.25s ease-in-out infinite}@keyframes s{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}.rk-tw>g{transform-box:fill-box;transform-origin:center;opacity:0;animation:t 2.4s ease-in-out infinite}.rk-tw>g:nth-child(2){animation-delay:-.6s}.rk-tw>g:nth-child(3){animation-delay:-1.2s}.rk-tw>g:nth-child(4){animation-delay:-1.8s}@keyframes t{0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}50%{opacity:1;transform:scale(1) rotate(45deg)}}</style>';
+const rkImgEmblem = (albums, loc, sz) => { const h = rankEmblem(albums, loc, sz), cls = (h.match(/^<span class="([^"]*)"/) || [])[1] || 'crk', pill = (h.match(/<i class="crk-[nr]">[^<]*<\/i>/) || [''])[0];
+  const svg = h.match(/<svg[\s\S]*<\/svg>/)[0].replace(/<g clip-path="url\(#rkc\d+\)">[\s\S]*?<\/g>/, '').replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/<\/svg>$/, RK_IMG_CSS + '</svg>');
+  const w = Math.round(sz * 1.44), hh = Math.round(sz * 1.24);
+  return `<span class="${cls} rkimg" style="width:${w}px;height:${hh}px"><img src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}" width="${w}" height="${hh}" alt="" decoding="sync"><span class="rk-gl"><i style="animation-delay:-${(performance.now() % RK_GLEAM_MS / 1000).toFixed(3)}s"></i></span>${pill}</span>`; };   // every emblem shares one clock (negative delay from page time), so they all sweep together
 // money: real-money price shown (test purchase in this build). gems: gem price.
 // bonus over the base rate (80 gems per dollar), rounded down: same formula as every value ribbon
 const gemPackSub = (g, price) => `${g.toLocaleString('en-US')} gems · ${Math.floor((g / (price * 80) - 1) * 100)}% bonus`;
@@ -8624,8 +8635,8 @@ function openTab(tab) {
       const foot = st === 'done' ? `<span class="rkc-st ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reached</span>`
         : st === 'cur' ? '<span class="rkc-st here">You’re here</span>' : t[0] > al ? `<span class="rkc-st go"><b>${(t[0] - al).toLocaleString('en-US')}</b> album${t[0] - al === 1 ? '' : 's'} to go</span>` : `<span class="rkc-st go">${t[1] ? 'Next map' : ''}</span>`;
       const em = TITLES.findIndex(x => x[2] === 'Emerald Artist'), g = i < em ? 0 : (i - em + 1) / (TITLES.length - em), hx = a => Math.round(a * 255).toString(16).padStart(2, '0');   // back glow from Emerald up, stronger every rank
-      return `<div class="rkc ${st} ${g ? 'rkglow' : ''}" style="--rc:${t[3]};--rg:${t[3]}${hx(.16 + .34 * g)};--ro:${(.45 + .5 * g).toFixed(2)};--rs:${(1 + .5 * g).toFixed(2)}" ${st === 'cur' ? 'id="rkCur"' : ''}><div class="rkc-em">${rankEmblem(myth ? 500 : t[0], t[1], 69)}</div><b class="rkc-nm">${t[2]}</b>
-        <span class="rkc-req">${t[0] ? disc : ''}${t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}` : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts'}</span>${myth ? '<span class="rkc-sub">The final rank</span>' : t[2].startsWith('Champion') ? '<span class="rkc-sub">Every 100 albums</span>' : '<span class="rkc-sub"></span>'}${foot}</div>`; }).reverse().join('');
+      return `<div class="rkc ${st} ${g ? 'rkglow' : ''}" style="--rc:${t[3]};--rg:${t[3]}${hx(.16 + .34 * g)};--ro:${(.45 + .5 * g).toFixed(2)};--rs:${(1 + .5 * g).toFixed(2)}" ${st === 'cur' ? 'id="rkCur"' : ''}><div class="rkc-em">${rkImgEmblem(myth ? 500 : t[0], t[1], 72)}</div><b class="rkc-nm">${t[2]}</b>
+        <span class="rkc-req">${t[0] ? disc : ''}${t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}${myth ? ' · the final rank' : ''}` : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts'}</span>${foot}</div>`; }).reverse().join('');
     openSheet(`<div class="sheet-head"><h2>Ranks</h2>${headBtns('data-back-charts')}</div>
       <p class="cnote">Your rank shows next to your name on The Charts, in your label and on your profile. Drop albums to climb. The best ranks are at the top.</p>
       <div class="rk-grid">${cards}</div>`);
