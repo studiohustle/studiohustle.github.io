@@ -937,7 +937,7 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .sheet.albumfull { height: 100%; border-radius: 0; display: flex; flex-direction: column; justify-content: center; }
 .tw-pop { position: fixed; inset: 0; z-index: 9400; display: grid; place-items: center; padding: 24px; background: rgba(10,9,22,.55); animation: flIn .2s ease-out; }
 .tw-card { width: min(300px, 100%); box-sizing: border-box; background: #fff; border-radius: 22px; padding: 24px 22px 22px; display: flex; flex-direction: column; align-items: center; gap: 16px; box-shadow: 0 14px 34px rgba(10,9,22,.35); animation: twPop .32s cubic-bezier(.34,1.56,.64,1); }
-.tw-card h2 { margin: 0; font: 800 26px/1.15 var(--body); color: var(--ink, #14122A); text-align: center; }
+.tw-card h2 { margin: 0; font: 800 23.5px/1.15 var(--body); color: var(--ink, #14122A); text-align: center; }
 .tw-card .tw-badge svg { width: 140px; height: 140px; display: block; }
 .tw-card .cta { width: 100%; }
 @keyframes twPop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -1121,6 +1121,7 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .adrop-fame small { font: 800 11.5px var(--body, sans-serif); letter-spacing: .5px; text-transform: uppercase; color: #3E8E5A; }
 .adrop-fame b { font: 400 26px var(--display); color: #14122A; display: flex; align-items: center; gap: 8px; } .adrop-fame b i { font-style: normal; color: #3E8E5A; font-size: 20px; }
 .adrop-fame span { font: 700 13.5px var(--body, sans-serif); color: #4A4766; }
+.adrop-next { margin: 0; text-align: center; font: 700 14px var(--body, sans-serif); color: #4A4766; } .adrop-next b { color: #3A336F; }
 .adrop-rew { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .adc { display: inline-flex; align-items: center; gap: 5px; height: 38px; padding: 0 12px 0 7px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 2px #E6E2F1; } .adc b { font: 800 14.5px var(--body, sans-serif); color: #14122A; } .adc img { width: 22px; height: auto; }
 .adrop-l { align-self: stretch; margin: 0; display: flex; gap: 8px; align-items: baseline; justify-content: center; font: 600 13.5px/1.35 var(--body, sans-serif); color: #4A4766; text-align: center; }
@@ -3434,7 +3435,7 @@ const EU_SCENE = {
     for (let i = 0; i < 4; i++) { const f0 = .64 + i * .08, f1 = f0 + .08, w0 = 18 + (f0 - .6) * 70, w1 = 18 + (f1 - .6) * 70; s += `<path d="M${cx - w0} ${y(f0)} L${cx - w1 + 12} ${y(f1)} M${cx + w0} ${y(f0)} L${cx + w1 - 12} ${y(f1)}" stroke="${L}" stroke-width="1.2"/>`; }
     return s; };
   const dome = (cx, base) => `<path d="M${cx - 46} ${base} V${base - 40} H${cx + 46} V${base}Z" fill="#C6D0E6"/><path d="M${cx - 30} ${base - 40} Q${cx - 30} ${base - 88} ${cx} ${base - 92} Q${cx + 30} ${base - 88} ${cx + 30} ${base - 40}Z" fill="#D2DBEE"/><rect x="${cx - 4}" y="${base - 108}" width="8" height="18" fill="#D2DBEE"/><path d="M${cx - 56} ${base - 40} Q${cx - 56} ${base - 64} ${cx - 44} ${base - 66} Q${cx - 34} ${base - 64} ${cx - 34} ${base - 40}Z M${cx + 34} ${base - 40} Q${cx + 34} ${base - 64} ${cx + 44} ${base - 66} Q${cx + 56} ${base - 64} ${cx + 56} ${base - 40}Z" fill="#CAD4EA"/>`;
-  const H = OH, cafeTop = H - 380, swY = cafeTop + 150, rdY = swY + 20, rdB = rdY + 170;   // storefronts, sidewalk, a two-lane road, then the terrace
+  const H = OH, cafeTop = H - 400, swY = cafeTop + 150, rdY = swY + 40, rdB = rdY + 170;   // storefronts, sidewalk, a two-lane road, then the terrace
   // white basilica on its hill (left) and the iron tower (right), both clear of the rooftops
   const storeSign = (x, w, y, bg, txt) => `<rect x="${x}" y="${y}" width="${w}" height="20" fill="${bg}" ${sw}/><text x="${x + w / 2}" y="${y + 14.5}" text-anchor="middle" font-family="Bungee, sans-serif" font-size="${txt.length > 8 ? 9.5 : 11}" fill="#FFF6D6" letter-spacing="${txt.length > 8 ? .4 : 1}">${txt}</text>`;
   const up = `<svg class="abs" style="left:-390px;top:0" width="1170" height="${H}" viewBox="-390 0 1170 ${H}" aria-hidden="true">
@@ -3464,10 +3465,16 @@ const EU_SCENE = {
     ${Array.from({ length: 8 }, (_, i) => `<path d="M${106 + i * 23.75} ${cafeTop + 24} H${117.9 + i * 23.75} L${111 + i * 26.25} ${cafeTop + 54} H${96 + i * 26.25}Z" fill="#E0474C"/>`).join('')}
     <path d="M96 ${cafeTop + 54} ${Array.from({ length: 8 }, () => 'q13.1 12 26.25 0').join(' ')}" fill="#E0474C" ${sw}/>
     <!-- sidewalk, then the road the cars use -->
-    <rect x="-390" y="${swY}" width="1170" height="20" fill="#ECE5D9"/><path d="M-390 ${swY}  H780" stroke="${N}" stroke-width="3"/>
+    <rect x="-390" y="${swY}" width="1170" height="40" fill="#ECE5D9"/><path d="M-390 ${swY}  H780" stroke="${N}" stroke-width="3"/>
+    ${[-60, 0, 60, 120, 180, 240, 300, 360, 420].map(x => `<path d="M${x} ${swY + 2} V${swY + 38}" stroke="#DCD3C4" stroke-width="2"/>`).join('')}
+    ${[20, 100, 290, 370].map(x => `<ellipse cx="${x}" cy="${swY + 33}" rx="6" ry="2" fill="#000" opacity=".18"/><rect x="${x - 3.5}" y="${swY + 14}" width="7" height="19" rx="3.5" fill="#2A2840"/><circle cx="${x}" cy="${swY + 14}" r="4" fill="#2A2840"/><path d="M${x - 3.5} ${swY + 20} H${x + 3.5}" stroke="#E9C46A" stroke-width="1.6"/>`).join('')}
+    ${[56, 336].map(x => `<ellipse cx="${x}" cy="${swY + 34}" rx="9" ry="2.6" fill="#000" opacity=".2"/><path d="M${x} ${swY + 32} V${swY - 52}" stroke="#2A2840" stroke-width="4.5"/><path d="M${x - 7} ${swY + 33} H${x + 7}" stroke="#2A2840" stroke-width="5" stroke-linecap="round"/><path d="M${x} ${swY - 40} q-12 0 -14 -8 M${x} ${swY - 40} q12 0 14 -8" fill="none" stroke="#2A2840" stroke-width="2.4"/><path d="M${x - 7} ${swY - 66} H${x + 7} L${x + 5} ${swY - 50} H${x - 5}Z" fill="#FFE7A0" ${sw}/><path d="M${x - 9} ${swY - 66} L${x} ${swY - 74} L${x + 9} ${swY - 66}Z" fill="#2A2840" ${sw}/>`).join('')}
+    <ellipse cx="236" cy="${swY + 34}" rx="12" ry="2.6" fill="#000" opacity=".18"/><path d="M226 ${swY + 33} L231 ${swY + 4} M246 ${swY + 33} L241 ${swY + 4}" stroke="#8A5A3A" stroke-width="2.6" stroke-linecap="round"/><rect x="226" y="${swY + 2}" width="20" height="22" rx="2" fill="#2A2840" stroke="#8A5A3A" stroke-width="2"/><path d="M230 ${swY + 9} H242 M230 ${swY + 14} H239 M230 ${swY + 19} H241" stroke="#F4EFE6" stroke-width="1.6" stroke-linecap="round"/>
     <rect x="-390" y="${rdY}" width="1170" height="${rdB - rdY}" fill="#6E6A85"/><path d="M-390 ${rdY}  H780" stroke="#B9AC98" stroke-width="5"/>
     <path d="M-390 ${(rdY + rdB) / 2}  H780" stroke="#F4EFE6" stroke-width="4" stroke-dasharray="26 22"/>
     <rect x="-390" y="${rdB}" width="1170" height="${H - rdB}" fill="#ECE5D9"/><path d="M-390 ${rdB}  H780" stroke="#B9AC98" stroke-width="5"/>
+    ${[[22, 64], [304, 64]].map(([x, w]) => `<ellipse cx="${x + w / 2}" cy="${rdB + 34}" rx="${w / 2 + 2}" ry="3" fill="#000" opacity=".15"/><rect x="${x}" y="${rdB + 16}" width="${w}" height="16" rx="3" fill="#8A5A3A" ${sw}/>` + Array.from({ length: 6 }, (_, k) => `<circle cx="${x + 6 + k * 10.4}" cy="${rdB + 14 - (k % 2) * 2}" r="5.2" fill="${k % 3 === 1 ? '#5FAE63' : k % 2 ? '#FF6FAE' : '#E0474C'}" stroke="${N}" stroke-width="1.3"/>`).join('')).join('')}
+    ${[118, 146, 246, 274].map(x => `<ellipse cx="${x}" cy="${rdB + 33}" rx="5" ry="1.8" fill="#000" opacity=".18"/><rect x="${x - 3}" y="${rdB + 14}" width="6" height="19" rx="3" fill="#2A2840"/><circle cx="${x}" cy="${rdB + 14}" r="3.6" fill="#2A2840"/><path d="M${x - 3} ${rdB + 20} H${x + 3}" stroke="#E9C46A" stroke-width="1.4"/>`).join('')}
     <rect x="-390" y="0" width="1170" height="${H}" fill="#FF7A3C" opacity=".12"/>
   </svg>
   <div class="lane" data-rev="0" data-night="0" style="top:${rdY}px"></div><div class="lane" data-rev="1" data-night="0" style="top:${rdY + 84}px"></div>`;
@@ -3490,6 +3497,7 @@ const EU_SCENE = {
   const down = `<svg class="abs" style="left:-390px;top:0" width="1170" height="${R + 60}" viewBox="-390 0 1170 ${R + 60}" aria-hidden="true">
     <rect x="-390" width="1170" height="${R + 60}" fill="#DDD3C4"/>${stones}
     <rect x="-390" y="0" width="1170" height="26" fill="#ECE5D9"/><path d="M-390 26  H780" stroke="#B9AC98" stroke-width="3"/>
+    ${[[8, 60], [100, 56], [234, 56], [322, 60]].map(([x, w]) => `<rect x="${x}" y="6" width="${w}" height="22" rx="4" fill="#E7E2D8" ${sw}/><rect x="${x + 3}" y="2" width="${w - 6}" height="14" rx="7" fill="#5FAE63" stroke="${N}" stroke-width="1.8"/><path d="M${x + 10} 7 q5 -3 10 0 M${x + w - 22} 7 q5 -3 10 0" stroke="#8FD08F" stroke-width="2" fill="none" stroke-linecap="round"/>`).join('')}
     <rect x="167" y="26" width="56" height="${R - 120}" fill="#8E2F45" stroke="#1B1830" stroke-width="2.6"/><path d="M174 26 V${R - 94} M216 26 V${R - 94}" stroke="#E9C46A" stroke-width="2.4"/>
     ${bulbs(82, 66, 308, 66, 30)}
     ${lamp(82)}${lamp(308)}
@@ -3680,6 +3688,9 @@ const EU_SCENE = {
     <rect x="-390" y="${rdY}" width="1170" height="${rdB - rdY}" fill="#62607A"/><path d="M-390 ${rdY}  H780" stroke="#A9A4B6" stroke-width="5"/>
     <path d="M-390 ${(rdY + rdB) / 2}  H780" stroke="#F4EFE6" stroke-width="4" stroke-dasharray="26 22"/>
     <rect x="-390" y="${rdB}" width="1170" height="${H - rdB}" fill="#D3D0D8"/><path d="M-390 ${rdB}  H780" stroke="#A9A4B6" stroke-width="5"/>
+    ${[34, 70, 120, 270, 380].map(x => `<ellipse cx="${x}" cy="${rdB + 33}" rx="5" ry="1.8" fill="#000" opacity=".18"/><rect x="${x - 3}" y="${rdB + 14}" width="6" height="19" rx="3" fill="#1B1830"/><circle cx="${x}" cy="${rdB + 14}" r="3.6" fill="#1B1830"/><path d="M${x - 3} ${rdB + 20} H${x + 3}" stroke="#E9C46A" stroke-width="1.4"/>`).join('')}
+    <ellipse cx="322" cy="${rdB + 35}" rx="12" ry="2.6" fill="#000" opacity=".2"/><rect x="311" y="${rdB + 6}" width="22" height="29" rx="4" fill="#D7263D" ${sw}/><path d="M309 ${rdB + 8} Q322 ${rdB - 4} 335 ${rdB + 8}Z" fill="#D7263D" ${sw}/><rect x="315" y="${rdB + 12}" width="14" height="3" rx="1.5" fill="#1B1830"/><rect x="316" y="${rdB + 19}" width="12" height="7" rx="1" fill="#F4EFE6"/>
+    <ellipse cx="196" cy="${rdB + 35}" rx="26" ry="2.6" fill="#000" opacity=".16"/><rect x="170" y="${rdB + 16}" width="52" height="16" rx="3" fill="#1F4D3A" ${sw}/><path d="M174 ${rdB + 22} H218 M174 ${rdB + 27} H218" stroke="#2F6B52" stroke-width="2"/>
   </svg>
   <div class="lane" data-rev="0" data-night="0" style="top:${rdY}px"></div><div class="lane" data-rev="1" data-night="0" style="top:${rdY + 84}px"></div>`;
   const clouds = [[60, H * .08, 64, 70, -10], [200, H * .16, 50, 84, -40]]
@@ -3705,10 +3716,15 @@ const EU_SCENE = {
   const down = `<svg class="abs" style="left:-390px;top:0" width="1170" height="${R + 80}" viewBox="-390 0 1170 ${R + 80}" aria-hidden="true">
     <rect x="-390" width="1170" height="${R + 80}" fill="#C7C3CF"/>${slabs}
     <rect x="-390" y="0" width="1170" height="20" fill="#D3D0D8"/><path d="M-390 20  H780" stroke="#A9A4B6" stroke-width="3"/>
+    ${[[-390, 160], [230, 550]].map(([x0, x1]) => `<path d="M${x0} 8 H${x1} M${x0} 24 H${x1}" stroke="#1B1830" stroke-width="3"/>` + Array.from({ length: Math.floor((x1 - x0) / 12) + 1 }, (_, k) => { const x = x0 + k * 12; return `<path d="M${x} 4 V28" stroke="#1B1830" stroke-width="2.4"/><path d="M${x - 2.5} 6 L${x} 1 L${x + 2.5} 6Z" fill="#1B1830"/>`; }).join('')).join('')}
+    <path d="M160 2 V30 M230 2 V30" stroke="#1B1830" stroke-width="5" stroke-linecap="round"/><circle cx="160" cy="2" r="4" fill="#E9C46A" stroke="#1B1830" stroke-width="1.6"/><circle cx="230" cy="2" r="4" fill="#E9C46A" stroke="#1B1830" stroke-width="1.6"/>
     <rect x="167" y="20" width="56" height="${R - 140}" fill="#26325E" ${sw}/><path d="M174 20 V${R - 120} M216 20 V${R - 120}" stroke="#E0474C" stroke-width="3"/><path d="M179 20 V${R - 120} M211 20 V${R - 120}" stroke="#FBF7F0" stroke-width="2"/>
     ${bunting(92, 298, 50, 26)}${post(92)}${post(298)}
     ${stall(14, 290, 92, '#E0474C')}${stall(284, 290, 92, '#3D6FA8')}
-    ${barrel(40, 566)}${bench(300, 560)}${barrel(350, 640)}${barrel(30, 640)}
+    ${[[18, 592], [312, 592]].map(([x, y]) => `<ellipse cx="${x + 30}" cy="${y + 34}" rx="36" ry="4.5" fill="#000" opacity=".16"/>
+      <rect x="${x - 4}" y="${y + 2}" width="8" height="28" rx="3" fill="#1B1830"/><rect x="${x + 56}" y="${y + 2}" width="8" height="28" rx="3" fill="#1B1830"/>
+      <rect x="${x + 2}" y="${y}" width="56" height="9" rx="2" fill="#B0773F" ${sw}/><rect x="${x + 2}" y="${y + 11}" width="56" height="8" rx="2" fill="#C98B4E" ${sw}/><rect x="${x + 2}" y="${y + 21}" width="56" height="8" rx="2" fill="#C98B4E" ${sw}/>
+      <path d="M${x - 4} ${y + 4} q-4 4 0 8 M${x + 64} ${y + 4} q4 4 0 8" fill="none" stroke="#1B1830" stroke-width="2.4" stroke-linecap="round"/>`).join('')}
   </svg>`;
   return { up: up + (typeof clouds === 'string' ? clouds : ''), down }; },
   ibiza: (OH, RH) => {
@@ -3723,7 +3739,9 @@ const EU_SCENE = {
     <rect x="-390" width="1170" height="${sea}" fill="url(#iSky)"/>
     <!--SUN:196|${sea + 4}|40|#FFB347|rgba(255,180,90,.85)-->
     <rect x="-390" y="${sea}" width="1170" height="${H - sea}" fill="url(#iSea)"/>
-    ${[[196, 10, 64], [196, 22, 46], [196, 36, 30], [196, 52, 18]].map(([x, dy, w]) => `<rect x="${x - w / 2}" y="${sea + dy}" width="${w}" height="4" rx="2" fill="#FFD27A" opacity=".75"/>`).join('')}
+    ${(() => { const rr = k => { const v = Math.sin(k * 12.9898 + 4.1) * 43758.5453; return v - Math.floor(v); };   // Build 319: the sun's glitter path on the sea, like the Island event
+      return `<defs><radialGradient id="ibzPath" cx=".5" cy="0" r="1" gradientTransform="translate(.5 0) scale(.5 1) translate(-.5 0)"><stop offset="0" stop-color="#FFD27A" stop-opacity=".45"/><stop offset=".7" stop-color="#FFD27A" stop-opacity="0"/></radialGradient></defs><rect x="126" y="${sea}" width="140" height="${H * .24}" fill="url(#ibzPath)"/>` + Array.from({ length: 22 }, (_, i) => { const t = (i + rr(i + 90) * .6) / 22, y = sea + 4 + (H * .2) * Math.pow(t, 1.5), w = 10 + 44 * t * (.4 + .6 * rr(i)), h = 2.2 + 2.2 * t, x = 196 - w / 2 + (rr(i + 30) - .5) * (14 + 70 * t);
+        return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="${(h / 2).toFixed(1)}" fill="#FFE29A" opacity="${(1 - .45 * t).toFixed(2)}"/>`; }).join(''); })()}
     ${[[-40, 40], [60, 70], [300, 56], [380, 96], [20, 110], [140, 120], [250, 100]].map(([x, dy]) => `<path d="M${x} ${sea + dy} q8 -4 16 0 t16 0" fill="none" stroke="#A9B7EE" stroke-width="2.2" stroke-linecap="round" opacity=".8"/>`).join('')}
     <!-- the lone rock island -->
     <path d="M238 ${sea + 2} L252 ${sea - 40} L266 ${sea - 74} L278 ${sea - 96} L288 ${sea - 70} L302 ${sea - 44} L320 ${sea - 18} L332 ${sea + 2}Z" fill="#7A5A86"/><path d="M278 ${sea - 96} L288 ${sea - 70} L302 ${sea - 44} L320 ${sea - 18} L332 ${sea + 2} H294 L286 ${sea - 40}Z" fill="#634873"/>
@@ -3752,7 +3770,7 @@ const EU_SCENE = {
   const clouds = [[30, H * .06, 60, 72, -10], [250, H * .12, 50, 84, -40]]
     .map(([l, t, w, d, dl]) => `<div class="abs cloud2" style="left:${l}px;top:${Math.round(t)}px;width:${w}px;height:${Math.round(w * .38)}px;opacity:.9;background:#fff;animation-duration:${d}s;animation-delay:${dl}s"></div>`).join('');
   // ---------- lower screen: the terrace ----------
-  const P0 = R - 170, P1 = R - 30;   // infinity pool band
+  const P0 = R - 104, P1 = R - 30;   // infinity pool band (Build 319: lower, so the bottom stations and crew stand on the terrace)
   const tiles = (() => { let s = ''; for (let y = 0; y < P0; y += 40) for (let x = -400; x < 800; x += 40) s += `<rect x="${x + 1.5}" y="${y + 1.5}" width="37" height="37" rx="3" fill="#F6EEE2" stroke="#E6DACA" stroke-width="1.2"/>`; return s; })();
   const lantern = (x, len) => `<path d="M${x} 22 V${len}" stroke="#8A5A3A" stroke-width="2"/><path d="M${x - 8} ${len} H${x + 8} L${x + 10} ${len + 18} Q${x} ${len + 26} ${x - 10} ${len + 18}Z" fill="#FFD27A" ${sw}/><circle cx="${x}" cy="${len + 12}" r="16" fill="#FFD27A" opacity=".25"/>`;
   const wall = (x, y, h) => `<rect x="${x}" y="${y}" width="22" height="${h}" rx="4" fill="#FBF4EA" ${sw}/>` + bloom(x - 4, y + 6, 8) + bloom(x - 2, y + h - 30, 8);
@@ -3764,15 +3782,15 @@ const EU_SCENE = {
     <rect x="-390" width="1170" height="${R + 80}" fill="#F1E7D8"/>${tiles}
     <rect x="-390" y="${P1}" width="1170" height="${R + 80 - P1}" fill="url(#iSea2)"/>
     <rect x="-390" y="${P0}" width="1170" height="${P1 - P0}" fill="url(#iPool)"/><path d="M-390 ${P0}  H780" stroke="#FBF4EA" stroke-width="8"/><path d="M-390 ${P0 + 4}  H780" stroke="${N}" stroke-width="2"/>
-    ${[[30, 34], [300, 34], [256, 108], [30, 110]].map(([x, dy]) => `<path d="M${x} ${P0 + dy} q8 -5 16 0 t16 0" fill="none" stroke="#B5F1F3" stroke-width="2.4" stroke-linecap="round"/>`).join('')}
+    ${[[30, 20], [300, 20], [270, 54], [28, 56]].map(([x, dy]) => `<path d="M${x} ${P0 + dy} q8 -5 16 0 t16 0" fill="none" stroke="#B5F1F3" stroke-width="2.4" stroke-linecap="round"/>`).join('')}
     <path d="M-390 ${P1}  H780" stroke="#FFD27A" stroke-width="3" opacity=".8"/>
-    <ellipse cx="122" cy="${P0 + 72}" rx="22" ry="9" fill="#1F7F9E" opacity=".35"/>
-    <g class="eu-bob"><ellipse cx="120" cy="${P0 + 64}" rx="21" ry="15" fill="#FF7AB2" ${sw}/><ellipse cx="120" cy="${P0 + 64}" rx="9" ry="6" fill="#3FB8C9" stroke="${N}" stroke-width="2"/>
-    <path d="M104 ${P0 + 54} l5 5 M134 ${P0 + 53} l-4 6 M106 ${P0 + 74} l5 -4 M135 ${P0 + 74} l-5 -4" stroke="#FBF4EA" stroke-width="4" stroke-linecap="round"/>
-    <path d="M106 ${P0 + 56} Q112 ${P0 + 51} 120 ${P0 + 50}" fill="none" stroke="#FFD1E5" stroke-width="3" stroke-linecap="round"/></g>
-    <path d="M97 ${P0 + 70} Q108 ${P0 + 82} 120 ${P0 + 80} Q132 ${P0 + 82} 143 ${P0 + 70} L145 ${P0 + 80} Q120 ${P0 + 92} 95 ${P0 + 80}Z" fill="#45C3CF" opacity=".8"/>
-    <path d="M92 ${P0 + 80} q6 -3 12 0 M136 ${P0 + 80} q6 -3 12 0" fill="none" stroke="#B5F1F3" stroke-width="2.4" stroke-linecap="round"/>${[[195, 20, 90], [195, 44, 64], [195, 70, 40]].map(([x, dy, w]) => `<rect x="${x - w / 2}" y="${P0 + dy}" width="${w}" height="5" rx="2.5" fill="#FFD27A" opacity=".7"/>`).join('')}
-    <rect x="170" y="0" width="50" height="${P0}" fill="#D98B5F"/>${Array.from({ length: Math.ceil(P0 / 25) }, (_, i) => `<path d="M170 ${i * 25} H220" stroke="#C47450" stroke-width="2"/><path d="M195 ${i * 25} V${i * 25 + 25}" stroke="#C47450" stroke-width="${i % 2 ? 2 : 0}"/>`).join('')}<path d="M170 0 V${P0} M220 0 V${P0}" stroke="#B5643F" stroke-width="2.4"/>
+    <ellipse cx="122" cy="${P0 + 42.0}" rx="22" ry="9" fill="#1F7F9E" opacity=".35"/>
+    <g class="eu-bob"><ellipse cx="120" cy="${P0 + 34.0}" rx="21" ry="15" fill="#FF7AB2" ${sw}/><ellipse cx="120" cy="${P0 + 34.0}" rx="9" ry="6" fill="#3FB8C9" stroke="${N}" stroke-width="2"/>
+    <path d="M111.5 ${P0 + 27.9} L107.3 ${P0 + 25.1} M128.5 ${P0 + 27.9} L132.7 ${P0 + 25.1} M128.5 ${P0 + 40.1} L132.7 ${P0 + 42.9} M111.5 ${P0 + 40.1} L107.3 ${P0 + 42.9}" stroke="#FBF4EA" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M106 ${P0 + 26.0} Q112 ${P0 + 21.0} 120 ${P0 + 20.0}" fill="none" stroke="#FFD1E5" stroke-width="3" stroke-linecap="round"/></g>
+    <path d="M97 ${P0 + 40.0} Q108 ${P0 + 52.0} 120 ${P0 + 50.0} Q132 ${P0 + 52.0} 143 ${P0 + 40.0} L145 ${P0 + 50.0} Q120 ${P0 + 62.0} 95 ${P0 + 50.0}Z" fill="#45C3CF" opacity=".8"/>
+    <path d="M92 ${P0 + 50.0} q6 -3 12 0 M136 ${P0 + 50.0} q6 -3 12 0" fill="none" stroke="#B5F1F3" stroke-width="2.4" stroke-linecap="round"/>
+    <rect x="170" y="0" width="50" height="${P0}" fill="#D98B5F"/>${Array.from({ length: Math.floor(P0 / 25) }, (_, i) => `<path d="M170 ${i * 25} H220" stroke="#C47450" stroke-width="2"/><path d="M195 ${i * 25} V${i * 25 + 25}" stroke="#C47450" stroke-width="${i % 2 ? 2 : 0}"/>`).join('')}<path d="M170 0 V${P0} M220 0 V${P0}" stroke="#B5643F" stroke-width="2.4"/>
     ${[64, 326].map(x => `<ellipse cx="${x}" cy="150" rx="10" ry="3.5" fill="#000" opacity=".15"/><rect x="${x - 5}" y="12" width="10" height="138" rx="2" fill="#8A5A3A" ${sw}/>`).join('')}<rect x="56" y="12" width="278" height="12" rx="2" fill="#A8744C" ${sw}/>${[100, 160, 222, 284].map(x => `<rect x="${x - 4}" y="6" width="8" height="24" rx="2" fill="#8A5A3A" ${sw}/>`).join('')}
     ${lantern(90, 50)}${lantern(150, 34)}${lantern(240, 34)}${lantern(300, 50)}
     ${daybed(26, 318, '#E8478F')}${daybed(304, 318, '#3FB8C9')}
@@ -3833,7 +3851,7 @@ const EU_SCENE = {
     <rect x="167" y="0" width="56" height="${R - 110}" fill="#1E1B33" ${sw}/><path d="M174 0 V${R - 110} M216 0 V${R - 110}" stroke="${G}" stroke-width="3"/>
     ${bulbs(92, 298, 54, 30)}${lampG(92)}${lampG(298)}
     ${sofa(16, 318, '#7A2E4A')}${sofa(306, 318, '#2E3F7A')}
-    ${tower(50, 548)}${cone(350, 560)}
+    ${cone(40, 560)}${cone(350, 560)}
     <rect x="-390" y="${R - 72}" width="1170" height="10" rx="2" fill="${G}" ${sw}/>${Array.from({ length: 28 }, (_, k) => { const bx = -74 + k * 20; return k % 5 === 0 ? `<rect x="${bx - 2}" y="${R - 62}" width="14" height="44" fill="#F3E6CC" ${sw}/><circle cx="${bx + 5}" cy="${R - 76}" r="5" fill="${G}" ${sw}/>` : `<path d="M${bx + 1} ${R - 62} H${bx + 9} Q${bx + 12} ${R - 48} ${bx + 7} ${R - 40} Q${bx + 12} ${R - 30} ${bx + 9} ${R - 20} H${bx + 1} Q${bx - 2} ${R - 30} ${bx + 3} ${R - 40} Q${bx - 2} ${R - 48} ${bx + 1} ${R - 62}Z" fill="#F3E6CC" stroke="${N}" stroke-width="1.6"/>`; }).join('')}
     <rect x="-390" y="0" width="1170" height="${R + 80}" fill="#0E0C28" opacity=".24"/>
     ${[[195, 300], [195, 600]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="90" ry="34" fill="#FFE7A0" opacity=".12"/>`).join('')}
@@ -4216,7 +4234,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 318, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 319, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4579,7 +4597,7 @@ const HOLIDAYS = [
     win: y => [[y, 10, thanksDay(y) + 1], [y, 10, thanksDay(y) + 4]] },
   { id: 'thanks', bundle: 'Harvest', name: 'Thanksgiving', packs: 'std', names: ['Thank-You Encore', 'Harvest Headliner'], outfit: 'harvest', colors: ['#D9772E', '#F2B544', '#7A3B1D'], card: '#F6C58F',
     win: y => [[y, 10, thanksDay(y) - 1], [y, 10, thanksDay(y) + 3]], day: y => [y, 10, thanksDay(y)],
-    gift: { name: 'Thank-You Gift', line: 'Thanks for playing Studio Hustle', gems: 50, skips: 1, item: 'harvestbeanie', win: y => [[y, 10, thanksDay(y)], [y, 10, thanksDay(y) + 4]] } },
+    gift: { name: 'Thank-You Gift', line: 'Thanks for playing Studio Hustle', gems: 50, box: 'big', item: 'harvestbeanie', win: y => [[y, 10, thanksDay(y)], [y, 10, thanksDay(y) + 4]] } },
   { id: 'xmas', bundle: 'Holiday', name: 'Christmas', packs: 'std', names: ['Stocking Session', 'Holiday Headliner'], outfit: null, colors: ['#D6453D', '#3DAA6A', '#FFD93D'], card: '#F4A3A0', win: y => [[y, 11, 20], [y, 11, 27]], day: y => [y, 11, 25] },
   { id: 'newyear', bundle: 'New Year', name: "New Year's", packs: 'std', names: ['Fresh Start', 'Midnight Encore'], outfit: null, colors: ['#C9CED9', '#FFD93D', '#2A2733'], card: '#E4E7F0', win: y => [[y, 11, 30], [y + 1, 0, 3]], day: y => [y + 1, 0, 1] },
   { id: 'valentine', bundle: 'Sweetheart', name: "Valentine's Day", packs: 'std', names: ['Love Notes', 'Heartbreak Headliner'], outfit: null, colors: ['#E0307A', '#FF8FB8', '#FFE0EC'], card: '#FFB3CC', win: y => [[y, 1, 12], [y, 1, 16]], day: y => [y, 1, 14] },
@@ -5198,6 +5216,9 @@ function euScene(loc) {   // Build 317
   const H = Math.round(OUT_H), R = Math.round(600 + roomExtra), sc = EU_SCENE[loc.scene](H, R); sc.up = euSun(sc.up);
   return `<div class="abs outside eu-out" style="left:0;top:${-H}px;width:390px;height:${H}px;overflow:visible;pointer-events:none">${sc.up}</div><div class="abs" style="left:0;top:0;width:390px;height:1px;pointer-events:none">${sc.down}</div>`;
 }
+// Build 319: a strip of the sky's top colour above every scenery screen, so iPhones never show a thin light seam at the top when panned all the way up
+function skyCap() { const ra = $('roomArt'), out = ra && ra.querySelector('.outside'), st = out && out.querySelector('stop'); if (!st) return;
+  const d = document.createElement('div'); d.className = 'abs sky-cap'; d.style.cssText = `left:-390px;top:${out.offsetTop - 120}px;width:1170px;height:124px;background:${st.getAttribute('stop-color')};pointer-events:none`; ra.prepend(d); }
 function buildRoom() {
   const loc = LOC();
   wrap.style.setProperty('--floor', loc.floor);
@@ -5235,6 +5256,7 @@ function buildRoom() {
     }
     else if (t >= 470 && h > 3) el.style.top = (t + Rw.decorShift) + 'px';
   });
+  skyCap();
   els = {};
   loc.stations.forEach(st => {
     const b = $('st-' + st.id);
@@ -5978,7 +6000,7 @@ function tourWelcome(f) {
   el.className = 'tw-pop'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Welcome to ' + TOUR_PLACE[to]);
   el.innerHTML = `<div class="tw-card"><h2>${to === 'eu' ? 'Welcome to<br>Europe' : 'Welcome back to<br>the USA'}</h2><div class="tw-badge">${FLIGHT_ART[to]}</div><button class="cta" data-tw-ok>Okay</button></div>`;
   document.body.appendChild(el);
-  el.querySelector('[data-tw-ok]').addEventListener('click', () => { el.remove(); sfx('pop'); setTimeout(confetti, 120); closeSheet(); });
+  el.querySelector('[data-tw-ok]').addEventListener('pointerdown', () => { if (!el.isConnected) return; el.remove(); sfx('pop'); confetti(); setTimeout(closeSheet, 0); });
 }
 let pendingArrive = false;
 function showArrival() {
@@ -6879,7 +6901,7 @@ $('scrim').addEventListener('click', e => {
     S.freeHype = { wk: weekendKey(), left: left - add }; S.hypeUntil = Math.max(Date.now(), S.hypeUntil) + add; S.stats.hypes++; sfx('hype'); save(); render();
     toast('+' + Math.round(add / 60000) + ' min of free Hype' + (left - add >= 60000 ? ` · ${Math.round((left - add) / 60000)} min saved until Sunday midnight` : '')); return openTab('events'); }
   if (e.target.closest('[data-hol-gift]')) { const g = liveHols(Date.now(), 'gift')[0]; if (!g) return; const k = g.key + ':gift', G = g.h.gift;
-    if ((S.hol || {})[k]) return; bumpRev(); S.hol = Object.assign({}, S.hol, { [k]: true }); S.gems += G.gems; owe('gems'); addInv('skips', G.skips, 'hol:' + k + ':s');
+    if ((S.hol || {})[k]) return; bumpRev(); S.hol = Object.assign({}, S.hol, { [k]: true }); S.gems += G.gems; owe('gems'); if (G.box) boxGive(G.box, 1, 'gift'); if (G.skips) addInv('skips', G.skips, 'hol:' + k + ':s');
     if (G.item && itemById(G.item) && !S.owned[G.item]) { S.owned[G.item] = true; S.newItems = [...(S.newItems || []), G.item]; }
     sfx('bling'); toast(G.name + ' claimed'); save(); render(); return openTab('shop'); }
   if (e.target.closest('[data-ev-crate]')) { if (Date.now() >= S.crateReady) { closeSheet(); setTimeout(() => $('crateBtn').click(), 60); } return; }
@@ -8623,7 +8645,9 @@ function openTab(tab) {
       <button class="cta" data-move>Move Up</button><button class="ghost" data-close>Not yet</button>`);
   } else if (tab === 'album-confirm') {
     openSheet(`<div class="sheet-head"><h2>Drop album #${(S.albums || 0) + 1}?</h2>${closeBtn()}</div>
-      <div class="adrop"><div class="adrop-fame"><small>Fame bonus</small><b>+${pctTxt(fameBonus())}<i>→</i>+${pctTxt(fameBonusAt((S.albums || 0) + 1))}</b><span>All Profit, forever</span></div>
+      <div class="adrop">${fameBonusAt((S.albums || 0) + 1) > fameBonus() + 1e-9 ? `<div class="adrop-fame"><small>Fame bonus</small><b>+${pctTxt(fameBonus())}<i>→</i>+${pctTxt(fameBonusAt((S.albums || 0) + 1))}</b><span>All Profit, forever</span></div>`
+          : `<div class="adrop-fame"><small>Fame bonus · maxed</small><b>+${pctTxt(fameBonus())}</b><span>All Profit, forever</span></div>`}
+        ${(S.albums || 0) + 1 >= 10 ? `<p class="adrop-next">Next run: the <b>${TOUR_NAME[nextTour((S.albums || 0) + 1)]}</b></p>` : ''}
         <div class="adrop-rew">${S.oldAlbumGems === (S.albums || 0) ? `<span class="adc">${GEM_MINI}<b>+${GEMS_PER_ALBUM}</b></span>` : ''}<span class="adc" aria-label="2 Small Style Boxes">${boxArt('small', 26)}<b>×2</b></span>${albumBigAt((S.albums || 0) + 1) ? `<span class="adc" aria-label="1 Big Style Box">${boxArt('big', 26)}<b>×1</b></span>` : ''}${nextExclusive() && nextExclusive().album === (S.albums || 0) + 1 ? `<span class="adc" aria-label="Exclusive outfit">${itemArt(nextExclusive(), 28)}<b>New look</b></span>` : ''}</div>
         <p class="adrop-l"><b>Keep</b>gems, items, outfits, plaques, perks &amp; Pass</p><p class="adrop-l lose"><b>Reset</b>cash, levels, crew &amp; upgrades</p></div>
       <button class="cta pink" data-album>Drop album #${(S.albums || 0) + 1}</button><button class="ghost" data-close>Not yet</button>`);
@@ -8682,7 +8706,7 @@ function openTab(tab) {
           return `<div class="specs holgifts"><button class="spec holgift" data-hol-gift style="--a:${ac};--d:${gsh(ac, .8)};--p:${H.card};--t:#fff" aria-label="${G.name}, free">
             <span class="spec-in"><span class="wall bubbles"></span><span class="spec-art">${sparks(4, 9)}${ART.gift(...H.colors)}</span>
             <span class="spec-body"><em>Free · ${ends(gift.ends).replace('Ends in ', '')} left</em><span class="spec-line">${G.line}</span>
-              <span class="spec-items"><span class="bof-it gem"><span class="bof-ic">${GEM_ICON}</span><i>${G.gems}</i></span><span class="spec-chip">${G.skips} Time Skip${G.skips === 1 ? '' : 's'}</span>${it ? `<span class="spec-chip">${it.name}</span>` : ''}</span></span>
+              <span class="spec-items"><span class="bof-it gem"><span class="bof-ic">${GEM_ICON}</span><i>${G.gems}</i></span>${G.box ? `<span class="spec-chip">1 ${BOXES[G.box].name.replace(' Style Box', ' Box')}</span>` : ''}${G.skips ? `<span class="spec-chip">${G.skips} Time Skip${G.skips === 1 ? '' : 's'}</span>` : ''}${it ? `<span class="spec-chip">${it.name}</span>` : ''}</span></span>
             <span class="spec-foot"><b>${G.name}</b><span class="spec-btn">Free</span></span></span></button></div>`; })() : '';
         // Build 249: holiday Box Offers, same card as the Box Offers in the holiday's colors
         const shade = (hex, f) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * f).toString(16).padStart(2, '0')).join('');
