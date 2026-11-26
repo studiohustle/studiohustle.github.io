@@ -1009,6 +1009,21 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .charts-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .charts-tabs .stab { font-size: 12px; font-weight: 700; }
 .chartme { border: 2px solid var(--gem); }
+.rk-strip { width: 100%; display: flex; align-items: center; gap: 10px; margin: -2px 0 10px; padding: 9px 12px; border: 0; border-radius: 14px; background: #F1EEFB; text-align: left; cursor: pointer; } .rk-strip:active { transform: scale(.98); }
+.rk-strip .rt { flex: 1; min-width: 0; display: flex; flex-direction: column; } .rk-strip b { font: 800 14px var(--body); color: #1E1A33; } .rk-strip b span { font-weight: 800; } .rk-strip .rt > span { font: 700 12px var(--body); color: var(--muted); }
+.rk-all { flex: none; display: inline-flex; align-items: center; gap: 3px; font: 800 13px var(--body); color: #4A3A9E; }
+.rk-grid { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 4px 0 12px; }
+.rkc { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 14px 10px; border-radius: 16px; background: linear-gradient(#352C66, #2A2452); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); text-align: center; }
+.rkc.cur { background: linear-gradient(#5B4AA8, #3A2F78); box-shadow: 0 0 0 3px #FFD93D, 0 6px 16px rgba(30,26,51,.3); }
+.rkc-em { position: relative; width: 120px; height: 90px; margin-bottom: 12px; display: grid; place-items: center; }
+.rkc-em::before { content: ''; position: absolute; inset: 8px 18px; border-radius: 50%; background: radial-gradient(closest-side, var(--rc), transparent); opacity: .4; }
+.rkc-em .crk { zoom: 2.3; position: relative; }
+.rkc.next .rkc-em .crk { filter: saturate(.55) brightness(.85); }
+.rkc-nm { font: 400 18px/1.1 var(--display); color: #FFF6D6; text-shadow: 0 2px 0 rgba(0,0,0,.35); text-wrap: balance; height: 22px; display: grid; place-items: center; }
+.rkc-req { display: flex; align-items: center; justify-content: center; gap: 5px; height: 18px; font: 800 13px/1.25 var(--body); color: #fff; }
+.rkc-sub { font: 700 11px var(--body); color: #B9B2DA; height: 13px; margin: -2px 0 4px; }
+.rkc-st { margin-top: auto; width: 100%; box-sizing: border-box; padding: 5px 6px; border-radius: 10px; background: rgba(0,0,0,.25); font: 800 12.5px var(--body); color: #D9D4F0; display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 30px; max-width: 200px; font-size: 12.5px; }
+.rkc-st.ok { color: #8BF0A0; } .rkc-st.here { background: #FFD93D; color: #2A2450; } .rkc-st.go b { font: 400 14px var(--display); color: #FFD93D; }
 .buyart { position: relative; overflow: hidden; display: grid; place-items: center; min-height: 160px; border-radius: 18px; background: #EEF7FC; }
 .buyart::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.7) 48%, transparent 60%) no-repeat; background-size: 250% 100%; animation: sheen 7s ease-in-out infinite; }
 .buyart .spk { background: #C9B3FF; z-index: 1; }
@@ -4268,7 +4283,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 321, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 322, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -4563,6 +4578,9 @@ const rankEmblem = (albums, loc, sz = 30) => { const t = titleOf(albums, loc), n
   const defs = `<defs>${myth ? `<linearGradient id="rki${k}" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset=".35" stop-color="#CFF6FF"></stop><stop offset=".7" stop-color="#7FD9F5"></stop><stop offset="1" stop-color="#4FB6E6"></stop></linearGradient><linearGradient id="rkw${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9FBFF"></stop><stop offset="1" stop-color="#8ADDF7"></stop></linearGradient>` : ''}<clipPath id="rkc${k}"><rect x="3.6" y="3.6" width="42.8" height="52.8" rx="5.5"></rect></clipPath><linearGradient id="rkg${k}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"></stop><stop offset=".5" stop-color="#fff" stop-opacity=".6"></stop><stop offset="1" stop-color="#fff" stop-opacity="0"></stop></linearGradient></defs>`;
   const star = evStarP(25, 31, 14, myth ? '#E6FBFF' : t[3]);
   return `<span class="crk ${champ ? 'champ' : ''} ${myth ? 'myth' : ''}" title="${nm}"><svg width="${Math.round(sz * 1.44)}" height="${Math.round(sz * 1.24)}" viewBox="-11 -1 72 62" aria-hidden="true">${defs}${wingT ? plqWings(wingT, wc) : ''}<rect x="2" y="2" width="46" height="56" rx="7" fill="${c}" stroke="#14122A" stroke-width="3.2"></rect><rect x="8" y="8" width="34" height="44" rx="4" fill="${myth ? '#10223F' : '#1E1B33'}"></rect>${myth ? `<g class="rk-star">${star}</g>` : star}<path d="M11.5 16.5 Q11.5 11.5 16.5 11.5" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"></path><g clip-path="url(#rkc${k})"><rect class="rk-gleam" style="animation-delay:-${(performance.now() % RK_GLEAM_MS / 1000).toFixed(3)}s" x="-34" y="-12" width="18" height="84" fill="url(#rkg${k})"></rect></g>${myth ? `<g class="rk-tw"><g>${rkGlint(-5, 7, 4.6)}</g><g>${rkGlint(56, 45, 4)}</g><g>${rkGlint(47, 4, 3.6)}</g><g>${rkGlint(-3, 52, 3.4)}</g></g>` : ''}</svg>${myth ? `<i class="crk-n">${(albums || 0).toLocaleString('en-US')}</i>` : champ ? `<i class="crk-r">${nm.slice(9)}</i>` : ''}</span>`; };
+const rkNeed = t => t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}` + (t[2] === 'Mythic' ? ' · the final rank' : '') : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts';
+const rkNextStrip = () => { const i = TITLES.indexOf(titleOf(S.albums, S.maxLoc)), nx = TITLES[i + 1];
+  return `<button class="rk-strip" data-ranks><span class="rt"><b>${nx ? `Next: <span style="color:${nx[3]}">${nx[2]}</span>` : 'Top rank reached'}</b><span>${nx ? (nx[0] ? `${(nx[0] - (S.albums || 0)).toLocaleString('en-US')} more album${nx[0] - (S.albums || 0) === 1 ? '' : 's'}` : `Reach the ${USA_LOCS[nx[1]].name}`) : 'You’re Mythic'}</span></span><span class="rk-all">All ranks<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>`; };
 const RK_GLEAM_MS = 4500;   // every emblem shares one clock (negative delay from page time), so they all sweep together
 // money: real-money price shown (test purchase in this build). gems: gem price.
 // bonus over the base rate (80 gems per dollar), rounded down: same formula as every value ribbon
@@ -6765,7 +6783,7 @@ function openSheet(html) {
   clearBoost();
   $('scrim').classList.remove('more-below');
   try { setHudH(); } catch (e) {}
-  $('sheet').classList.toggle('tall', nextSheetKey === 'charts');
+  $('sheet').classList.toggle('tall', nextSheetKey === 'charts' || nextSheetKey === 'ranks');
   $('sheet').classList.toggle('pinned', nextSheetKey === 'crew' || nextSheetKey === 'upgrades');
   $('sheet').classList.toggle('light', !!nextSheetKey && !DARK_SHEETS.includes(nextSheetKey));
   $('sheet').classList.toggle('std', MAIN_SHEETS.includes(nextSheetKey));   // main panels share one size, so headers sit in the same place   // light panels everywhere except the Shop and Style screens
@@ -7008,6 +7026,7 @@ $('scrim').addEventListener('click', e => {
   const pf = e.target.closest('[data-prof]');
   if (pf) { Charts.view = pf.dataset.prof === 'me' ? 'me' : Charts.rows[+pf.dataset.prof]; if (Charts.view) { sfx('tap'); openTab('profile'); } return; }
   if (e.target.closest('[data-back-charts]')) return openTab('charts');
+  if (e.target.closest('[data-ranks]')) { sfx('tap'); return openTab('ranks'); }
   if (e.target.closest('[data-tut-replay]')) { startTutorial(); track('tutorial-replay'); return; }
   const vb = e.target.closest('[data-vault]'); if (vb) return buyVault(vb.dataset.vault);
   const vo = e.target.closest('[data-vopen]'); if (vo) { vaultSel = vo.dataset.vopen; return openTab('vitem'); }
@@ -8581,6 +8600,7 @@ function openTab(tab) {
       <div class="stabs period-tabs">${[['week', 'This week'], ['all', 'All time']].map(([k, l]) => `<button class="stab ${Charts.period === k ? 'on' : ''}" data-period="${k}">${l}</button>`).join('')}</div>
       ${Charts.period === 'week' ? (Charts.hasWeek === false ? `<p class="cnote">Weekly Charts need a quick database update. Showing all-time until then.</p>` : `<p class="cnote">New week in <b>${resetIn}</b></p>`) : ''}
       <div class="row chartme" data-prof="me" role="button" tabindex="0" aria-label="See your profile"><span class="rank">${Charts.rank ? '#' + Charts.rank : '–'}</span>${rankEmblem(S.albums, S.maxLoc)}<span class="rt"><b>${esc(cleanName(S.name))}</b><span>${myTitleTag()}</span></span><span class="xv">${weekly ? wk.albums : S.albums || 0} <small>${weekly ? 'this week' : 'albums'}</small></span></div>
+      ${rkNextStrip()}
       ${Charts.syncError ? `<p class="cerr">Your rank isn't updated yet. ${esc(Charts.syncError)} Your progress is safe on this phone. <button class="hire" data-chart-retry>Try again</button></p>` : ''}
       <div class="stabs charts-tabs">${tabs.map(([k, l]) => `<button class="stab ${Charts.tab === k ? 'on' : ''}" data-ctab="${k}">${esc(l)}</button>`).join('')}</div>
       <div class="clist ${Charts.status === 'loading' && Charts.rows.length ? 'dim' : ''}">${body}</div>
@@ -8593,6 +8613,18 @@ function openTab(tab) {
         <div class="row"><span class="rt"><label for="countrySel"><b>Country</b></label><span>Shown on the charts</span></span>
           <select id="countrySel" class="csel"><option value="">Other / prefer not to say</option>${COUNTRIES.map(([k, n]) => `<option value="${k}" ${S.country === k ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
         <p class="cnote">Tap any artist to see their profile. Your name, country, outfit and career stats are public. This week ranks albums dropped since Monday; All time ranks every album you've dropped.</p></div>`);
+  } else if (tab === 'ranks') {   // Build 322: the whole rank ladder, so players can see what's ahead
+    const cur = TITLES.indexOf(titleOf(S.albums, S.maxLoc)), al = S.albums || 0;
+    const disc = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#2A2450" stroke="#8C86A6" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#FFD93D"/></svg>';
+    const cards = TITLES.map((t, i) => { const st = i < cur ? 'done' : i === cur ? 'cur' : 'next', myth = t[2] === 'Mythic';
+      const foot = st === 'done' ? `<span class="rkc-st ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reached</span>`
+        : st === 'cur' ? '<span class="rkc-st here">You’re here</span>' : t[0] > al ? `<span class="rkc-st go"><b>${(t[0] - al).toLocaleString('en-US')}</b> album${t[0] - al === 1 ? '' : 's'} to go</span>` : `<span class="rkc-st go">${t[1] ? 'Next map' : ''}</span>`;
+      return `<div class="rkc ${st}" style="--rc:${t[3]}" ${st === 'cur' ? 'id="rkCur"' : ''}><div class="rkc-em">${rankEmblem(myth ? 500 : t[0], t[1], 30)}</div><b class="rkc-nm">${t[2]}</b>
+        <span class="rkc-req">${t[0] ? disc : ''}${t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}` : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts'}</span>${myth ? '<span class="rkc-sub">The final rank</span>' : t[2].startsWith('Champion') ? '<span class="rkc-sub">Every 100 albums</span>' : '<span class="rkc-sub"></span>'}${foot}</div>`; }).reverse().join('');
+    openSheet(`<div class="sheet-head"><h2>Ranks</h2>${headBtns('data-back-charts')}</div>
+      <p class="cnote">Your rank shows next to your name on The Charts, in your label and on your profile. Drop albums to climb. The best ranks are at the top.</p>
+      <div class="rk-grid">${cards}</div>`);
+    setTimeout(() => { const c = $('rkCur'); if (c) c.scrollIntoView({ block: 'center' }); }, 30);
   } else if (tab === 'labels' || tab.startsWith('label-')) { lbOpen(tab);
   } else if (tab === 'profile') {
     const me = Charts.view === 'me', r = me ? null : Charts.view;
