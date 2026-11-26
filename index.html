@@ -932,7 +932,7 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .flight .fl-b { position: absolute; width: 118px; display: flex; flex-direction: column; align-items: center; gap: 8px; transform-origin: 59px 59px; }
 .flight .fl-b b { font: 800 24px var(--body); color: #fff; white-space: nowrap; }
 .flight .fl-path { position: absolute; left: 0; top: 0; }
-.flight .fl-pl { position: absolute; left: 0; top: 0; width: 76px; height: 76px; margin: -38px 0 0 -38px; }
+.flight .fl-pl { position: absolute; left: 0; top: 0; width: 96px; height: 96px; margin: -48px 0 0 -48px; }
 /* the album panel takes the whole screen; the Welcome card after a flight floats in the middle */
 .sheet.albumfull { height: 100%; border-radius: 0; display: flex; flex-direction: column; justify-content: center; }
 .tw-pop { position: fixed; inset: 0; z-index: 9400; display: grid; place-items: center; padding: 24px; background: rgba(10,9,22,.55); animation: flIn .2s ease-out; }
@@ -3387,12 +3387,12 @@ LOCATIONS.forEach(l => l.stations.forEach((st, i) => { st.slot = LAYOUT[l.statio
 // Each European map is a copy of the USA map at the same stop: same id, economy, upgrades, crew, music and station layout.
 // Only the look changes: its name, its station names and a two-screen scene (scenery above, stations below).
 const EU_MAPS = [
-  ['paris', 'Paris Café Terrace', '#DDD3C4', ['Café Piano', 'Terrace Busker'], 'Paris! A café terrace, string lights and a crowd that came for coffee. Let\u2019s give them a show.'],
-  ['amsterdam', 'Amsterdam Canal Boat', '#5FA8C9', ['Houseboat Mixer', 'Cabin Vocal Booth'], 'A studio on a houseboat! The whole canal is listening.'],
+  ['paris', 'Paris Café', '#DDD3C4', ['Café Piano', 'Terrace Busker'], 'Paris! A café terrace, string lights and a crowd that came for coffee. Let\u2019s give them a show.'],
+  ['amsterdam', 'Amsterdam Houseboat', '#5FA8C9', ['Houseboat Mixer', 'Cabin Vocal Booth'], 'A studio on a houseboat! The whole canal is listening.'],
   ['berlin', 'Berlin Warehouse', '#8E8CA0', ['Warehouse Decks', 'Merch Stall', 'Rave Stream'], 'Berlin after dark. Halle 9 is ours tonight. Turn it up.'],
-  ['london', 'London Market Stage', '#C7C3CF', ['Sound Desk', 'Market Stage', 'Record Deal'], 'London! A market full of people who didn\u2019t know they were coming to a show.'],
-  ['ibiza', 'Ibiza Cliff Club', '#F1E7D8', ['Sunset Piano', 'Podcast Lounge', 'Brand Collab', 'Tour Documentary'], 'Casa Sol at sunset. Cliffs, a pool and the whole island watching.'],
-  ['monaco', 'Monaco Palace Terrace', '#F2E9DA', ['Gala Stage', 'Rooftop Light Show', 'Big Screen', 'World Tour'], 'A palace rooftop in Monaco. Fireworks, gold and the biggest night of the tour.']];
+  ['london', 'London Market', '#C7C3CF', ['Sound Desk', 'Market Stage', 'Record Deal'], 'London! A market full of people who didn\u2019t know they were coming to a show.'],
+  ['ibiza', 'Ibiza Cliffs', '#F1E7D8', ['Sunset Piano', 'Podcast Lounge', 'Brand Collab', 'Tour Documentary'], 'Casa Sol at sunset. Cliffs, a pool and the whole island watching.'],
+  ['monaco', 'Monaco Palace', '#F2E9DA', ['Gala Stage', 'Rooftop Light Show', 'Big Screen', 'World Tour'], 'A palace rooftop in Monaco. Fireworks, gold and the biggest night of the tour.']];
 const EU_LOCS = USA_LOCS.map((l, i) => { const [scene, name, floor, sts, line] = EU_MAPS[i];
   return Object.assign({}, l, { eu: true, scene, name, floor, plank: 'transparent', wall: 'transparent', tiles: false, checker: '', arrive: line,
     stations: l.stations.map((st, k) => Object.assign({}, st, { name: sts[k] || st.name })) }); });
@@ -4216,7 +4216,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 317, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 318, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5926,13 +5926,18 @@ const FLIGHT_ART = (() => {
     <g fill="#14122A" opacity=".75"><rect x="20" y="72" width="7" height="8" rx="3"/><rect x="39" y="78" width="7" height="8" rx="3"/><rect x="73" y="76" width="7" height="8" rx="3"/><rect x="92" y="68" width="7" height="8" rx="3"/><rect x="20" y="86" width="7" height="8" rx="3"/><rect x="92" y="82" width="7" height="8" rx="3"/></g>
     <rect x="-5" y="98" width="130" height="30" fill="#C9B79A" stroke="${NAVY}" stroke-width="2.2"/><path d="M0 108 H120 M10 98 V128 M30 108 V128 M50 98 V108 M70 108 V128 M90 98 V108 M110 108 V128" stroke="#A8957A" stroke-width="1.6"/>
     </g><circle cx="60" cy="60" r="56" fill="none" stroke="${NAVY}" stroke-width="3.5"/></svg>`;
-  const plane = `<svg viewBox="-40 -40 80 80" width="76" height="76" style="overflow:visible"><g id="pl">
-    <g transform="translate(5 7)" opacity=".22" fill="#000"><path d="M0 -30 Q5 -30 5 -20 V4 L32 14 V20 L5 14 V22 L13 28 V32 L0 29 L-13 32 V28 L-5 22 V14 L-32 20 V14 L-5 4 V-20 Q-5 -30 0 -30Z"/></g>
-    <path d="M-5 0 L-32 14 V20 L-5 13Z M5 0 L32 14 V20 L5 13Z" fill="#9FB4D9" stroke="${NAVY}" stroke-width="1.8" stroke-linejoin="round"/>
-    <rect x="-24" y="6" width="6" height="9" rx="3" fill="#fff" stroke="${NAVY}" stroke-width="1.6"/><rect x="18" y="6" width="6" height="9" rx="3" fill="#fff" stroke="${NAVY}" stroke-width="1.6"/>
-    <path d="M-4 20 L-13 27 V31 L-3 28Z M4 20 L13 27 V31 L3 28Z" fill="#9FB4D9" stroke="${NAVY}" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M0 -31 Q6 -31 6 -20 V22 Q6 30 0 31 Q-6 30 -6 22 V-20 Q-6 -31 0 -31Z" fill="#fff" stroke="${NAVY}" stroke-width="2"/>
-    <path d="M-3.4 -22 Q0 -25 3.4 -22" fill="none" stroke="#6CBCF8" stroke-width="2.2" stroke-linecap="round"/></g></svg>`;
+  // Build 318: a silver airliner seen from above (nose up): long slim body, wide swept wings with engines, small swept tail; soft shading, no heavy outline
+  const plane = `<svg viewBox="-50 -50 100 100" width="96" height="96" style="overflow:visible"><defs>
+      <linearGradient id="plB" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#C9CED9"/><stop offset=".45" stop-color="#F7F8FB"/><stop offset="1" stop-color="#AEB5C4"/></linearGradient>
+      <linearGradient id="plW" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#E2E6EE"/><stop offset="1" stop-color="#A7AEBE"/></linearGradient></defs>
+    <g transform="translate(7 9)" opacity=".2" fill="#000"><path d="M0 -44 C4 -44 5.5 -38 5.5 -30 V-6 L44 12 V19 L5.5 9 V28 L18 37 V42 L0 38 L-18 42 V37 L-5.5 28 V9 L-44 19 V12 L-5.5 -6 V-30 C-5.5 -38 -4 -44 0 -44Z"/></g>
+    <path d="M-5 -7 L-44 11 Q-46 13 -44 19 L-5 8Z M5 -7 L44 11 Q46 13 44 19 L5 8Z" fill="url(#plW)" stroke="#8C94A6" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M-5 -2 L-40 14 M5 -2 L40 14" stroke="#FFFFFF" stroke-opacity=".6" stroke-width="1.4" stroke-linecap="round"/>
+    <rect x="-24.5" y="0" width="7" height="13" rx="3.2" fill="#8C94A6"/><rect x="17.5" y="0" width="7" height="13" rx="3.2" fill="#8C94A6"/><rect x="-23.5" y="0" width="5" height="3" rx="1.5" fill="#5E6578"/><rect x="18.5" y="0" width="5" height="3" rx="1.5" fill="#5E6578"/>
+    <path d="M-4.5 27 L-18 36 Q-19 38 -18 41 L-3.5 36Z M4.5 27 L18 36 Q19 38 18 41 L3.5 36Z" fill="url(#plW)" stroke="#8C94A6" stroke-width="1" stroke-linejoin="round"/>
+    <path d="M0 -45 C4.2 -45 6 -38 6 -29 V30 Q6 40 0 44 Q-6 40 -6 30 V-29 C-6 -38 -4.2 -45 0 -45Z" fill="url(#plB)" stroke="#8C94A6" stroke-width="1"/>
+    <path d="M-3.6 -35 Q0 -39 3.6 -35 L3 -31 Q0 -33 -3 -31Z" fill="#4E6FA8"/>
+    <path d="M0 30 V43" stroke="#9AA2B4" stroke-width="2.4" stroke-linecap="round"/></svg>`;
   return { usa, eu, plane };
 })();
 const TOUR_PLACE = { usa: 'USA', eu: 'Europe' };
