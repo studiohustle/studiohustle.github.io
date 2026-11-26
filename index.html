@@ -1016,8 +1016,12 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .rkc { position: relative; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 14px 10px; border-radius: 16px; background: linear-gradient(#352C66, #2A2452); box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); text-align: center; }
 .rkc.cur { background: linear-gradient(#5B4AA8, #3A2F78); box-shadow: 0 0 0 3px #FFD93D, 0 6px 16px rgba(30,26,51,.3); }
 .rkc-em { position: relative; width: 120px; height: 90px; margin-bottom: 12px; display: grid; place-items: center; }
-.rkc-em::before { content: ''; position: absolute; inset: 8px 18px; border-radius: 50%; background: radial-gradient(closest-side, var(--rc), transparent); opacity: .4; }
-.rkc-em .crk { zoom: 2.3; position: relative; }
+.rkc-em::before { content: ''; position: absolute; inset: 8px 18px; border-radius: 50%; background: radial-gradient(closest-side, var(--rc), transparent); opacity: var(--ro, .4); transform: scale(var(--rs, 1)); }
+.rkc { overflow: hidden; } .rkc.rkglow::after { content: ''; position: absolute; left: 50%; top: -30px; width: 340px; height: 230px; transform: translateX(-50%); background: radial-gradient(closest-side, var(--rg), transparent); pointer-events: none; }
+.rkc > * { position: relative; z-index: 1; } .rkc-em { position: relative; }
+.rkc-em::before { left: 50% !important; top: 50% !important; right: auto !important; bottom: auto !important; width: 96px; height: 96px; margin: -48px 0 0 -48px; }
+.rkc-em .crk { width: auto; position: relative; } .rkc-em .crk svg { margin: 0; }   /* drawn at full size: iOS Safari misplaces zoomed SVGs inside a scroller */
+.rkc-em .crk-r { transform: scale(2.3); transform-origin: 100% 100%; right: 10px; bottom: 6px; } .rkc-em .crk-n { transform: translateX(-50%) scale(2.3); transform-origin: 50% 100%; bottom: -2px; }
 .rkc.next .rkc-em .crk { filter: saturate(.55) brightness(.85); }
 .rkc-nm { font: 400 18px/1.1 var(--display); color: #FFF6D6; text-shadow: 0 2px 0 rgba(0,0,0,.35); text-wrap: balance; height: 22px; display: grid; place-items: center; }
 .rkc-req { display: flex; align-items: center; justify-content: center; gap: 5px; height: 18px; font: 800 13px/1.25 var(--body); color: #fff; }
@@ -4283,7 +4287,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 322, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 323, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -8619,7 +8623,8 @@ function openTab(tab) {
     const cards = TITLES.map((t, i) => { const st = i < cur ? 'done' : i === cur ? 'cur' : 'next', myth = t[2] === 'Mythic';
       const foot = st === 'done' ? `<span class="rkc-st ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reached</span>`
         : st === 'cur' ? '<span class="rkc-st here">You’re here</span>' : t[0] > al ? `<span class="rkc-st go"><b>${(t[0] - al).toLocaleString('en-US')}</b> album${t[0] - al === 1 ? '' : 's'} to go</span>` : `<span class="rkc-st go">${t[1] ? 'Next map' : ''}</span>`;
-      return `<div class="rkc ${st}" style="--rc:${t[3]}" ${st === 'cur' ? 'id="rkCur"' : ''}><div class="rkc-em">${rankEmblem(myth ? 500 : t[0], t[1], 30)}</div><b class="rkc-nm">${t[2]}</b>
+      const em = TITLES.findIndex(x => x[2] === 'Emerald Artist'), g = i < em ? 0 : (i - em + 1) / (TITLES.length - em), hx = a => Math.round(a * 255).toString(16).padStart(2, '0');   // back glow from Emerald up, stronger every rank
+      return `<div class="rkc ${st} ${g ? 'rkglow' : ''}" style="--rc:${t[3]};--rg:${t[3]}${hx(.16 + .34 * g)};--ro:${(.45 + .5 * g).toFixed(2)};--rs:${(1 + .5 * g).toFixed(2)}" ${st === 'cur' ? 'id="rkCur"' : ''}><div class="rkc-em">${rankEmblem(myth ? 500 : t[0], t[1], 69)}</div><b class="rkc-nm">${t[2]}</b>
         <span class="rkc-req">${t[0] ? disc : ''}${t[0] ? `${t[0].toLocaleString('en-US')} album${t[0] === 1 ? '' : 's'}` : t[1] ? `Reach the ${USA_LOCS[t[1]].name}` : 'Where everyone starts'}</span>${myth ? '<span class="rkc-sub">The final rank</span>' : t[2].startsWith('Champion') ? '<span class="rkc-sub">Every 100 albums</span>' : '<span class="rkc-sub"></span>'}${foot}</div>`; }).reverse().join('');
     openSheet(`<div class="sheet-head"><h2>Ranks</h2>${headBtns('data-back-charts')}</div>
       <p class="cnote">Your rank shows next to your name on The Charts, in your label and on your profile. Drop albums to climb. The best ranks are at the top.</p>
