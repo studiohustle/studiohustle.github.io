@@ -941,6 +941,33 @@ html body .sheet .lb-hype.sent, html body .lb-hype.sent:disabled { background: #
 .tw-card .tw-badge svg { width: 140px; height: 140px; display: block; }
 .tw-card .cta { width: 100%; }
 @keyframes twPop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+/* Build 320: Quick Chat */
+.qc-feed { display: flex; flex-direction: column; gap: 10px; padding-bottom: 10px; }
+.qc-m { display: flex; gap: 8px; align-items: flex-end; max-width: 86%; cursor: pointer; } .qc-m.me { align-self: flex-end; flex-direction: row-reverse; }
+.qc-av { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--c); color: #fff; font: 400 13px var(--display); display: grid; place-items: center; box-shadow: 0 0 0 2px #fff; }
+.qc-b { background: #fff; border-radius: 16px 16px 16px 4px; padding: 7px 12px 8px; box-shadow: 0 1px 3px rgba(30,26,51,.1); position: relative; }
+.qc-m.me .qc-b { background: #6CBCF8; border-radius: 16px 16px 4px 16px; } .qc-m.me .qc-b p, .qc-m.me .qc-b small { color: #fff; }
+.qc-b small { display: block; font: 700 11px var(--body); color: #8C86A6; } .qc-b p { margin: 1px 0 0; font: 700 15px var(--body); color: #1E1A33; }
+.qc-r { position: absolute; right: 8px; bottom: -11px; background: #fff; border-radius: 999px; padding: 1px 7px; font: 700 11px var(--body); color: #4A4766; box-shadow: 0 1px 3px rgba(30,26,51,.18); white-space: nowrap; }
+.qc-m:has(.qc-r) { margin-bottom: 8px; }
+.qc-act { align-self: center; display: flex; gap: 8px; align-items: center; background: #E9E6F4; border-radius: 999px; padding: 4px 12px; font: 700 12px var(--body); color: #5E5980; max-width: 92%; } .qc-act em { font-style: normal; color: #3E8E5A; } .qc-act small { color: #9C97B5; }
+.qc-new { display: flex; align-items: center; gap: 8px; margin: 2px 0; } .qc-new::before, .qc-new::after { content: ''; flex: 1; height: 2px; background: #FF8A8A; opacity: .7; } .qc-new span { font: 800 11.5px var(--body); color: #FFB3B3; letter-spacing: .04em; text-transform: uppercase; }
+.qc-bar { flex: none; background: #fff; border-top: 1px solid #E6E2F1; padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 8px; box-shadow: 0 -4px 14px rgba(30,26,51,.08); }
+.qc-cw { position: relative; } .qc-cw::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 56px; background: linear-gradient(90deg, rgba(255,255,255,0), #fff 70%); pointer-events: none; }
+.qc-more { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); z-index: 1; width: 26px; height: 26px; border-radius: 50%; background: #3A336F; color: #fff; display: grid; place-items: center; pointer-events: none; }
+.qc-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-right: 48px; } .qc-chips::-webkit-scrollbar { display: none; }
+.qc-chips button { flex: none; height: 40px; padding: 0 14px; border: 0; border-radius: 999px; background: #F3F1FA; font: 800 14px var(--body); color: #3A336F; white-space: nowrap; } .qc-chips button:active { background: #6CBCF8; color: #fff; }
+.qc-bar.cool .qc-chips button { opacity: .4; } .qc-note { margin: 0; text-align: center; font: 700 11px var(--body); color: #9C97B5; } .qc-note b { color: #3E8E5A; }
+.qc-mute { display: inline-flex; align-items: center; gap: 5px; border: 0; background: rgba(255,255,255,.14); color: #fff; font: 800 12px var(--body); border-radius: 999px; padding: 5px 10px; } .qc-mute.on { background: #fff; color: #3A336F; }
+.qc-mnote { margin: 0 0 10px; padding: 8px 12px; border-radius: 12px; background: #FFFFFF; color: #5E5980; font: 700 12.5px var(--body); text-align: center; }
+.lb-ft { position: relative; } .qc-dot { position: absolute; top: 6px; right: calc(50% - 20px); width: 10px; height: 10px; border-radius: 50%; background: #E24B4B; box-shadow: 0 0 0 2px #fff; }
+.qc-peek { width: 100%; display: flex; align-items: center; gap: 10px; background: #fff; border: 0; border-radius: 14px; padding: 8px 12px; margin: 0 0 8px; box-shadow: 0 1px 3px rgba(30,26,51,.1); text-align: left; }
+.qc-peek .t { flex: 1; min-width: 0; font: 700 14px var(--body); color: #4A4766; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .qc-peek .t b { color: #1E1A33; margin-right: 4px; }
+.qc-peek .n { background: #E24B4B; color: #fff; font: 800 12px var(--body); border-radius: 999px; padding: 2px 8px; }
+.qc-m.sel { position: relative; z-index: 61; }
+.qc-dim { position: fixed; inset: 0; z-index: 60; background: rgba(10,9,22,.4); }
+.qc-menu { position: fixed; z-index: 61; left: 50%; bottom: calc(140px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: #fff; border-radius: 18px; padding: 10px; box-shadow: 0 10px 30px rgba(10,9,22,.35); }
+.qc-mr { display: flex; gap: 6px; } .qc-mr button { width: 46px; height: 46px; border: 0; border-radius: 12px; background: #F3F1FA; font-size: 23px; } .qc-mr button.on { background: #DDEFFF; box-shadow: inset 0 0 0 2px #6CBCF8; }
 /* Build 317: European Tour: plaque row labels, Monaco's fireworks pop open and fade on a loop */
 .plq-tour { margin: 10px 0 2px; font: 800 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .eu-out .fwr { opacity: 0; animation: fwRise 3.3s linear infinite; }
@@ -1925,6 +1952,7 @@ html .tab.on { color: #14122A !important; } html .tab.on .tcap { background: #14
 html .tab.on::after { content: ""; position: absolute; left: 50%; bottom: 1px; width: 26px; height: 5px; margin-left: -13px; border-radius: 3px; background: #6CBCF8; box-shadow: 0 0 0 1.5px #14122A; z-index: 3; }
 /* secondary highlights: neutral or deep purple, so blue is kept for the Shop, main actions, Hype and the selected-tab bar */
 html .tab-pct, html .tab-pct.full, html .tab-pct.album { background: #FFFFFF !important; color: #14122A !important; box-shadow: 0 0 0 1.5px #14122A !important; }
+html .tab-pct.full, html .tab-pct.album { background: #8BF0A0 !important; }   /* Build 320: ready to move on = money green */
 html .newtag, html .evh-tabs em, html .tagw, html .frenzy-chip { background: #6343CC !important; color: #FFFFFF !important; }
 html .station.sel .badge { background: #6343CC !important; }
 html .sel-ring { border-color: #FFFDF7 !important; }
@@ -4234,7 +4262,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 319, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 320, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6150,7 +6178,7 @@ function lbRwPop(title, items, note, badge) {
     <div class="bp-body">${badge || ''}<div class="rw-art"><span class="bx-rays"></span><span class="sbp-sun"></span>
       <span class="rw-items ${items.length > 3 ? 'many' : ''}">${items.map(([ic, n]) => `<span class="rw-it"><span class="rw-ic">${lbRewardIc(ic, items.length > 4 ? 38 : items.length > 3 ? 46 : 58)}</span><i>${ic === 'gems' ? '+' + fmtN(n) : 'x' + n}</i></span>`).join('')}</span></div>
       <p class="rw-note">${note}</p><button class="cta" data-boxpop-x>Collect</button></div></div>`;
-  $('boxPop').hidden = false; sfx('bling');
+  $('boxPop').dataset.fly = items.some(([ic]) => ic === 'gems') ? 'gems' : ''; $('boxPop').hidden = false; sfx('bling');
 }
 function lbWeekPop(w) {   // w: { place, name, color, glyph, xp }
   const rw = lbWeekRw(w.place); if (!rw) return;
@@ -6171,21 +6199,24 @@ async function lbRewardsCheck() {
   if (!S.onboarded || lbRwBusy) return; lbRwBusy = 1;
   try { const r = await lbCall('lb_rewards', { gifts: true, sprint: true }); /* older builds never ask for gifts, so they can't confirm one they can't show */ if (!r.ok || !r.data) return; const list = r.data.rewards || []; if (!list.length) return;
     list.forEach(x => { const d = x.data || {};
-      if (x.kind === 'week') { if (!(S.lbWkPaid || {})[x.ref]) { S.lbWkPaid = Object.assign({}, S.lbWkPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; owe('gems'); if (!SRV_BOX) boxGive(d.box, d.n, 'label'); }
+      if (x.kind === 'week') { if (!(S.lbWkPaid || {})[x.ref]) { S.lbWkPaid = Object.assign({}, S.lbWkPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; if (!SRV_BOX) boxGive(d.box, d.n, 'label'); }
         LB_RWQ.push(() => lbRwPop(`${lbPlace(d.place)} place!`, [['box:' + d.box + ':' + d.n, d.n], ['gems', d.gems]], `<b>${esc(d.name)}</b> · ${lbXpShort(d.xp)} XP last week`,
           `<div class="lbrw-badge">${lbBadge({ color: d.color, glyph: d.glyph }, 54)}${d.place <= 3 ? `<span class="lbrw-medal m${d.place}">${d.place}</span>` : ''}</div>`)); }
       if (x.kind === 'gift') {   // Build 272: a personal gift sent from the server (gems paid here, boxes already added on the server)
-        if (!(S.giftPaid || {})[x.ref]) { S.giftPaid = Object.assign({}, S.giftPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; if (d.gems) owe('gems'); if (!SRV_BOX) (d.boxes || []).forEach(([k, n]) => boxGive(k, n, 'label')); }
+        if (!(S.giftPaid || {})[x.ref]) { S.giftPaid = Object.assign({}, S.giftPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; if (!SRV_BOX) (d.boxes || []).forEach(([k, n]) => boxGive(k, n, 'label')); }
         const items = [...(d.gems ? [['gems', d.gems]] : []), ...(d.boxes || []).map(([k, n]) => ['box:' + k + ':' + n, n])];
         LB_RWQ.push(() => lbRwPop(esc(d.title || 'Thank you!'), items, esc(d.note || 'Thanks for playing!'))); }
       if (x.kind === 'sprint') {   // Build 283: Studio Sprint prize (gems paid here, once per race)
-        if (!(S.sprintPaid || {})[x.ref]) { S.sprintPaid = Object.assign({}, S.sprintPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; owe('gems'); }
+        if (!(S.sprintPaid || {})[x.ref]) { S.sprintPaid = Object.assign({}, S.sprintPaid, { [x.ref]: 1 }); S.gems += d.gems || 0; }
         LB_RWQ.push(() => lbRwPop(`${lbPlace(d.place)} place!`, [['gems', d.gems]], `Studio Sprint · ${(d.stars || 0).toLocaleString('en-US')} stars`, `<div class="lbrw-badge">${sprintEmblem(54)}</div>`)); }
       if (x.kind === 'season') { const lv = d.levels || []; lv.forEach(l => lbPay(x.ref, l));
         const mo = new Date(x.ref + '-15T12:00:00Z').toLocaleString('en-US', { month: 'long', timeZone: 'UTC' }); LB_RWQ.push(() => lbSeasonPop({ name: mo, levels: lv })); } });
     if (SRV_BOX && r.data.inv && sboxState().synced) sboxState().inv = Object.assign({ small: 0, big: 0, event: 0, label: 0 }, r.data.inv);
     save(); render(); await lbCall('lb_rewards_ack', { ids: list.map(x => x.id) }); lbRwNext();
   } finally { lbRwBusy = 0; } }
+let lbRwAt = 0;
+setInterval(() => { if (!document.hidden && S && S.onboarded && Date.now() - lbRwAt > 9 * 60000) { lbRwAt = Date.now(); lbRewardsCheck(); } }, 60000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden && S && S.onboarded && Date.now() - lbRwAt > 60000) { lbRwAt = Date.now(); lbRewardsCheck(); } });
 function lbRwNext() { if (!LB_RWQ.length || tutActive() || !$('boxPop').hidden || !$('scrim').hidden) return; const f = LB_RWQ.shift(); f(); }
 const LB_XP_SOURCES = [['Drop an album', '+100 XP'], ['Finish a set of daily tasks', '+30 XP'], ['Play the long event', 'up to +600 XP'], ['Send a labelmate Hype', '+10 XP']];
 // Build 261 prototype: duplicates give Style Tokens; tokens are donated to your label at 1 token = 1 Label XP (no daily limit).
@@ -6246,6 +6277,7 @@ async function lbLoad(quiet) {
   const hin = r.data.hype_in || [];
   if (hin.length) { hin.forEach(() => lbAddHype(10)); const who = [...new Set(hin)];
     toast(`${who.slice(0, 2).map(cleanName).join(' and ')}${who.length > 2 ? ' and others' : ''} sent you Hype: +${hin.length * 10} min`); sfx('hype'); }
+  if (L) await qcLoad();
   if (!L) { const [l, iv] = await Promise.all([lbCall('lb_list'), lbCall('lb_invites')]); if (l.ok) LB.list = l.data || []; if (iv.ok) LB.invites = iv.data || []; }
   save(); return true;
 }
@@ -6294,7 +6326,7 @@ const lbMultPill = L => `<span class="lb-mult" title="Label All Profit">x${lbMul
 
 const LB_IC = {
   members: '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><circle cx="12" cy="7.5" r="3.6"/><circle cx="5.2" cy="9.2" r="2.6"/><circle cx="18.8" cy="9.2" r="2.6"/><path d="M5.5 20.5v-2.6A6.5 6.5 0 0 1 12 12a6.5 6.5 0 0 1 6.5 5.9v2.6zM.8 19.8v-1.6A4.4 4.4 0 0 1 5.2 13.5c.6 0 1.2.1 1.7.3a8 8 0 0 0-2.4 5.6v.4zM23.2 19.8h-3.7v-.4a8 8 0 0 0-2.4-5.6c.5-.2 1.1-.3 1.7-.3a4.4 4.4 0 0 1 4.4 4.7z"/></svg>',
-  feed: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',
+  feed: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5" stroke-linecap="round"/></svg>',
   charts: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 14v7M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
   bolt: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
   check: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>',
@@ -6332,7 +6364,7 @@ function lbHead() {
     </div></div>`;
 }
 function lbIconTabs() {
-  return `<div class="lb-ftabs" role="tablist">${[['home', 'Members'], ['feed', 'Activity'], ['charts', 'Charts']].map(([k, l]) => `<button class="lb-ft ${LB.tab === k ? 'on' : ''}" role="tab" aria-selected="${LB.tab === k}" data-lbtab="${k}" aria-label="${l}">${LB_IC[k === 'home' ? 'members' : k]}</button>`).join('')}</div>`;
+  return `<div class="lb-ftabs" role="tablist">${[['home', 'Members'], ['feed', 'Chat'], ['charts', 'Charts']].map(([k, l]) => `<button class="lb-ft ${LB.tab === k ? 'on' : ''}" role="tab" aria-selected="${LB.tab === k}" data-lbtab="${k}" aria-label="${l}">${LB_IC[k === 'home' ? 'members' : k]}${k === 'feed' && qcDot() && LB.tab !== 'feed' ? '<i class="qc-dot"></i>' : ''}</button>`).join('')}</div>`;
 }
 const lbIsMe = m => m.uid === lbMeRow().uid;
 const lbNm = m => lbIsMe(m) ? cleanName(S.name) + ' (you)' : cleanName(m.name);
@@ -6345,16 +6377,63 @@ function lbMembers() {
       const solo = ms.length < 2;   // Build 265: the Hype tile is always there; alone it waits for labelmates
       tiles.push(`<button class="lb-act hype ${left && !solo ? '' : 'spent'}" data-lbhypehint><span class="lb-act-ic">${LB_IC.bolt}</span><span><b>Send Hype</b>${solo ? 'No labelmates yet' : left ? `${left}/${LB_HYPES} left today` : `Back in ${lbHypeLeft()}`}</span></button>`);
       return tiles.length ? `<div class="lb-acts">${tiles.join('')}</div>` : ''; })()}
+    ${(() => { const C = LB.chat, me = (lbMeRow() || {}).uid, last = [...C.msgs].reverse().find(m => m.uid !== me) || C.msgs[C.msgs.length - 1];   // Build 320: latest chat message, tap to open Chat
+      if (!last || C.muted) return '';
+      return `<button class="qc-peek" data-lbtab="feed"><span class="qc-av" style="--c:${qcCol(last.uid)}">${esc(cleanName(last.name || '?')[0] || '?')}</span><span class="t"><b>${last.uid === me ? 'You' : esc(cleanName(last.name))}</b> ${QC_PHRASES[last.phrase] || ''}</span>${C.unread ? `<span class="n">${C.unread > 99 ? '99+' : C.unread}</span>` : ''}</button>`; })()}
     <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
       return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>${rankEmblem(me ? S.albums || 0 : m.albums, me ? S.maxLoc : (m.loc != null ? m.loc : m.profile && m.profile.loc) || 0)}
         <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i>${st === 'sent' && !me ? `<span class="lb-hyped" title="You sent Hype today">${LB_IC.bolt}</span>` : ''}</b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
         <span class="lb-mx">${fmtN(m.xp)} XP</span></div>`; }).join('')}
 </div>`;
 }
+// ===== Build 320: Quick Chat. Label members only; 8 preset phrases and 6 emoji reactions (shown in the phone's own emoji font).
+// The server stores ids, never text; it enforces a 10 s per-player cooldown, keeps a week of messages, and tracks read/mute per player.
+const QC_PHRASES = ['GG!', 'Thanks for the Hype! ⚡', 'Let’s push this week! 🔥', 'Welcome! 👋', 'Nice album! 💿', 'Great work, team! 🙌', 'Almost there!', 'Good morning ☀️'];
+const QC_EMOJI = ['🔥', '👏', '💪', '🙌', '😂', '❤️'];
+const QC_COLS = ['#FF6FAE', '#6CBCF8', '#3FD98A', '#FFA53D', '#B18CFF', '#FFD93D', '#2FB5A5', '#E24B4B'];
+LB.chat = { msgs: [], unread: 0, muted: false, last_read: 0, waitUntil: 0, newFrom: 0, menu: null };
+const qcCol = uid => QC_COLS[[...String(uid)].reduce((a, c) => a + c.charCodeAt(0), 0) % QC_COLS.length];
+const qcTake = d => { if (!d) return; const C = LB.chat; C.msgs = d.msgs || []; C.unread = d.unread || 0; C.muted = !!d.muted; C.last_read = d.last_read || 0; if (d.wait) C.waitUntil = Math.max(C.waitUntil, Date.now() + d.wait * 1000); };
+async function qcLoad() { if (!lbL()) return; const r = await lbCall('lbchat_list'); if (r.ok) qcTake(r.data); }
+function qcMarkRead() { const C = LB.chat, top = C.msgs.length ? C.msgs[C.msgs.length - 1].id : 0; if (!top || C.last_read >= top) return; C.last_read = top; C.unread = 0; lbCall('lbchat_read', { last: top }); }
+const qcDot = () => LB.chat.unread > 0 && !LB.chat.muted;
 function lbFeed() {
-  const ev = LB.st.events || [];
-  return `<div class="lb-lhead"><b>Activity</b></div><div class="lb-feed">${ev.length ? ev.map(e => `<div class="lb-f ${esc(e.kind)}"><span class="rt"><b>${esc(e.title)}</b>${e.sub ? `<span>${esc(e.sub)}</span>` : ''}</span><small>${lbAgo(e.at)}</small></div>`).join('') : '<p class="cnote">Nothing yet. Drop an album to get things going.</p>'}</div>`;
+  const C = LB.chat, me = (lbMeRow() || {}).uid, ev = (LB.st.events || []).map(e => ({ t: Date.parse(e.at), h: `<div class="qc-act"><span>${esc(e.title)}${e.sub ? ` <em>${esc(e.sub)}</em>` : ''}</span><small>${lbAgo(e.at)}</small></div>` }));
+  let divided = false;
+  const ms = C.msgs.map(m => { const mine = m.uid === me, rx = Object.entries(m.reacts || {}).filter(([, n]) => n > 0);
+    const div = !divided && C.newFrom && m.id > C.newFrom && !mine ? (divided = true, `<div class="qc-new"><span>New</span></div>`) : '';
+    return { t: Date.parse(m.at), h: div + `<div class="qc-m ${mine ? 'me' : ''}${C.menu === m.id ? ' sel' : ''}" data-qcmsg="${m.id}" role="button" tabindex="0" aria-label="React to this message">${mine ? '' : `<span class="qc-av" style="--c:${qcCol(m.uid)}">${esc(cleanName(m.name || '?')[0] || '?')}</span>`}
+      <div class="qc-b"><small>${mine ? 'You' : esc(cleanName(m.name))} · ${lbAgo(m.at)}</small><p>${QC_PHRASES[m.phrase] || ''}</p>${rx.length ? `<span class="qc-r">${rx.map(([e, n]) => `${QC_EMOJI[e]} ${n}`).join(' · ')}</span>` : ''}</div></div>` }; });
+  const all = [...ev, ...ms].sort((a, b) => a.t - b.t).slice(-160);
+  const bell = C.muted ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 16V11a6 6 0 0 1 9-5.2M18 11v5l2 2H5"/><path d="M10 20a2 2 0 0 0 4 0M3 3l18 18"/></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>';
+  return `<div class="lb-lhead"><b>Chat</b><button class="qc-mute ${C.muted ? 'on' : ''}" data-qcmute aria-pressed="${C.muted}">${bell}${C.muted ? 'Muted' : 'Mute'}</button></div>
+    ${C.muted ? '<p class="qc-mnote">Muted: no red dot or preview. New messages still count as unread until you open Chat.</p>' : ''}
+    <div class="qc-feed">${all.length ? all.map(x => x.h).join('') : '<p class="cnote">Say hi to your label with a quick message below.</p>'}</div>${C.menu ? qcMenu() : ''}`;
 }
+function qcMenu() { const m = LB.chat.msgs.find(x => x.id === LB.chat.menu); if (!m) return '';
+  return `<div class="qc-dim" data-qcclose></div><div class="qc-menu" role="dialog" aria-label="React"><div class="qc-mr">${QC_EMOJI.map((e, i) => `<button class="${m.mine === i ? 'on' : ''}" data-qcreact="${i}" aria-label="React ${e}">${e}</button>`).join('')}</div></div>`; }
+function qcBar() { const w = Math.max(0, Math.ceil((LB.chat.waitUntil - Date.now()) / 1000));
+  return `<div class="qc-bar ${w ? 'cool' : ''}"><div class="qc-cw"><div class="qc-chips">${QC_PHRASES.map((c, i) => `<button data-qcsend="${i}" ${w ? 'disabled' : ''}>${c}</button>`).join('')}</div><span class="qc-more" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></div>
+    <p class="qc-note" id="qcNote">${w ? `<b>Sent!</b> Next message in ${w}s` : 'Swipe for more · tap to send · tap a message to react'}</p></div>`; }
+let qcTick = null;
+function qcCooldown() { clearInterval(qcTick); qcTick = setInterval(() => { const n = $('qcNote'), w = Math.ceil((LB.chat.waitUntil - Date.now()) / 1000);
+  if (!n) { clearInterval(qcTick); return; } if (w > 0) n.innerHTML = `<b>Sent!</b> Next message in ${w}s`; else { clearInterval(qcTick); lbRefresh(); } }, 250); }
+function qcScrollEnd() { const pn = $('sheet').querySelector('.lb-pane[data-tab="feed"]'); if (pn) pn.scrollTop = pn.scrollHeight; }
+document.addEventListener('click', async e => { if (sheetKey !== 'labels') return;
+  const sd = e.target.closest('[data-qcsend]'), mu = e.target.closest('[data-qcmute]'), mg = e.target.closest('[data-qcmsg]'), rc = e.target.closest('[data-qcreact]'), cl = e.target.closest('[data-qcclose]');
+  if (sd && !sd.disabled) { const ph = +sd.dataset.qcsend; LB.chat.waitUntil = Date.now() + 10000; sfx('tap');
+    const r = await lbCall('lbchat_send', { phrase: ph });
+    if (r.ok) { qcTake(r.data); LB.chat.last_read = Math.max(LB.chat.last_read, ...LB.chat.msgs.map(m => m.id)); }
+    else { const hint = r.data && (r.data.hint || ''); if (/cooldown/.test((r.data && r.data.message) || '')) LB.chat.waitUntil = Date.now() + (+hint || 10) * 1000; else { LB.chat.waitUntil = 0; toast('Couldn’t send. Check your connection'); } }
+    lbRefresh(); setTimeout(qcScrollEnd, 30); qcCooldown(); return; }
+  if (mu) { const on = !LB.chat.muted; LB.chat.muted = on; sfx('tap'); lbRefresh(); lbCall('lbchat_mute', { on_: on }); return; }
+  if (rc && LB.chat.menu) { const id = LB.chat.menu, em = +rc.dataset.qcreact; LB.chat.menu = null; sfx('tap'); lbRefresh();
+    const r = await lbCall('lbchat_react', { msg: id, emoji: em }); if (r.ok) { qcTake(r.data); lbRefresh(); } return; }
+  if (cl) { LB.chat.menu = null; lbRefresh(); return; }
+  if (mg) { LB.chat.menu = +mg.dataset.qcmsg; sfx('tap'); lbRefresh(); return; }
+});
+// while Chat is open it refreshes every 30 s
+setInterval(() => { if (sheetKey === 'labels' && LB.tab === 'feed' && !document.hidden && !LB.chat.menu) qcLoad().then(() => { qcMarkRead(); lbRefresh(); }); }, 30000);
 function lbModal() {
   const M = lbL(); if (!M) return '';
   if (LB.modal === 'info') {
@@ -6466,8 +6545,8 @@ function lbOpen(tab) {
     const old = $('sheet').querySelector('.lb-pane'), keep = sheetKey === 'labels' && old && old.dataset.tab === (lbL() ? LB.tab : 'find') ? old.scrollTop : 0;
     const plain = (title, inner, sub = '') => `<div class="lb-fix lb-fix-s"><div class="lb-ftitle"><b>${title}</b></div>${sub ? `<p class="lb-fsub">${sub}</p>` : ''}</div><div class="lb-pane" data-tab="find">${inner}</div>`;
     if (!LB.st) body = plain('Labels', LB.status === 'error' ? `<div class="welcome"><p>Couldn't reach Labels: ${esc(LB.err)}.</p></div><button class="cta" data-lbretry>Try again</button>` : '<p class="cnote">Loading your label…</p>');
-    else body = lbL() ? `<div class="lb-fix">${lbHead()}${lbIconTabs()}</div><div class="lb-pane" data-tab="${LB.tab}">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>` + lbModal() : plain('Labels', lbDiscover(), 'Team up with up to 10 artists. Everything you do levels up your label, and every level pays every member.');
-    openSheet(body); const pn = $('sheet').querySelector('.lb-pane'); if (pn && keep) pn.scrollTop = keep; return;
+    else body = lbL() ? `<div class="lb-fix">${lbHead()}${lbIconTabs()}</div><div class="lb-pane" data-tab="${LB.tab}">${LB.tab === 'feed' ? lbFeed() : LB.tab === 'charts' ? lbCharts() : lbMembers()}</div>${LB.tab === 'feed' ? qcBar() : ''}` + lbModal() : plain('Labels', lbDiscover(), 'Team up with up to 10 artists. Everything you do levels up your label, and every level pays every member.');
+    openSheet(body); const pn = $('sheet').querySelector('.lb-pane'); if (pn && keep) pn.scrollTop = keep; if (LB.tab === 'feed' && LB.chat.waitUntil > Date.now()) qcCooldown(); return;
   }
   if (tab === 'label-view') return lbPage();
   if (tab === 'label-create') {
@@ -6521,7 +6600,7 @@ document.addEventListener('click', async e => {
   const nm = $('lbName'); if (nm) LB.create.name = nm.value.trim().slice(0, 18);
   const cd = $('lbCode'); if (cd) LB.find.code = cd.value.trim().toUpperCase().slice(0, 6);
   if (D.lbretry !== undefined) { LB.status = 'loading'; openTab('labels'); await lbLoad(); return lbRefresh(); }
-  if (D.lbtab) { LB.tab = D.lbtab; openTab('labels'); if (LB.tab === 'charts') { await lbLoadChart(); lbRefresh(); } return; }
+  if (D.lbtab) { LB.tab = D.lbtab; LB.chat.menu = null; if (LB.tab === 'feed') { LB.chat.newFrom = LB.chat.unread ? LB.chat.last_read : 0; qcMarkRead(); } openTab('labels'); if (LB.tab === 'feed') { setTimeout(qcScrollEnd, 30); qcLoad().then(() => { qcMarkRead(); lbRefresh(); setTimeout(qcScrollEnd, 30); }); } if (LB.tab === 'charts') { await lbLoadChart(); lbRefresh(); } return; }
   if (D.lbmodalx !== undefined) { LB.modal = null; return openTab('labels'); }
   if (D.lbdoninfo !== undefined) { sfx('tap'); LB.donInfo = !LB.donInfo; return openTab('labels'); }
   if (D.lbdongo) { const n = +D.lbdongo; if (!n || !SRV_BOX) return;
@@ -8588,7 +8667,7 @@ function openTab(tab) {
       let body = '';
       if (sel.e === 'wed') { const sp = live && sprintState();   // Build 283: Studio Sprint replaces the single Wednesday goal
         body = `<div class="evobj"><b>Level up stations to earn stars <button class="hinfo" data-hinfo="sprintev" aria-label="How Studio Sprint works" aria-expanded="${!!hinfoOpen.sprintev}">i</button></b><span class="evprog">Top 5 win gems</span><div class="hinfo-txt" ${hinfoOpen.sprintev ? '' : 'hidden'}><p>Stars come from station milestones (Lv 25, 50, 75 and 100). You race 9 other artists: the top 5 win ${SPRINT_PRIZE.join(' / ')} gems. Reach ${SPRINT_PASS_AT} stars for +${PASS_STARS.wed} Pass stars.</p></div>${sp ? `<span class="evprog"><b>Your stars: ${sp.n.toLocaleString('en-US')}</b>${sp.pass ? ' · Pass stars earned' : ''}</span>` : ''}</div>
-          ${sp ? '<button class="cta" data-sprint>Leaderboard</button>' : ''}<div class="evtags"><span>Career maps</span><span>All day Wednesday</span></div>`; }
+          <div class="evtags"><span>Career maps</span><span>All day Wednesday</span></div>${sp ? '<button class="cta" data-sprint>Leaderboard</button>' : ''}`; }
       else { body = `<div class="evtags">${EV_TAGS[sel.e].map(t => `<span>${t}</span>`).join('')}</div><p class="evauto">${live ? 'Active now · nothing to turn on' : 'Starts automatically'}</p>`;
         if (live && sel.e === 'hype') { const fl = freeHypeLeft(), room = hypeLeftToFill(), mins = x => Math.round(x / 60000);
           body += !freeHypeReady() ? '<p class="evauto">Free Hype boost used this weekend.</p>'
@@ -9341,7 +9420,10 @@ function boxPop() {
       <button class="cta" data-boxopen="${top}:1">Open 1</button></div></div>`;
   $('boxPop').hidden = false;
 }
-function boxPopClose() { $('boxPop').hidden = true; $('boxPop').innerHTML = ''; if (LB_RWQ.length) setTimeout(lbRwNext, 300); }
+function boxPopClose() {
+  const fly = $('boxPop').dataset.fly, gi = fly && [...$('boxPop').querySelectorAll('.rw-it')].find(e => e.querySelector('img[src*="gem"]'));   // Build 320: prize gems fly to the top bar on Collect
+  if (fly) { $('boxPop').dataset.fly = ''; const r = (gi || $('boxPop').querySelector('.rw-art') || $('boxPop')).getBoundingClientRect(); flurry('gems', r.left + r.width / 2, r.top + r.height / 2, 10); sfx('gems'); render(); }
+  $('boxPop').hidden = true; $('boxPop').innerHTML = ''; if (LB_RWQ.length) setTimeout(lbRwNext, 300); }
 function boxReceived(res, kind) {
   $('boxPop').innerHTML = `<div class="bp-card recv" role="dialog" aria-label="Received items">
     <div class="bp-head"><span></span><h3>Received Items</h3><button class="bp-x" data-boxpop-back aria-label="Close">${XSVG}</button></div>
