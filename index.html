@@ -2542,6 +2542,11 @@ html .shop-float > .shopflt > .sheet-head h2 { padding-right: 0 !important; marg
 .lb-act b { font: 800 13.5px var(--body); color: #14122A; }
 .lb-act-ic { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #E3F2FF; color: #2D6FA8; } .lb-act-ic svg { width: 17px; height: 17px; }
 .lb-act.hype.spent { opacity: .75; } .lb-act.hype.spent .lb-act-ic { background: #ECE9F5; color: #7C7799; }
+/* Build 327: a usable tile glows in its colour with a bold count; a used one goes grey */
+.lb-act.on { box-shadow: inset 0 0 0 2px var(--ac), 0 4px 0 rgba(30,60,100,.16); } .lb-act em { font-style: normal; font-weight: 800; color: var(--ac); }
+.lb-act.hype { --ac: #2D8FE0; } .lb-act.don { --ac: #7A4FE0; }
+.lb-act.hype.on .lb-act-ic { background: #4DB6F7; color: #fff; }
+.lb-act.don.spent { opacity: .75; background: #ECE9F5; box-shadow: none; } .lb-act.don.spent svg { filter: grayscale(1); opacity: .6; } .lb-act.hype.spent { background: #ECE9F5; box-shadow: none; }
 .lb-donline { display: flex; align-items: center; gap: 10px; width: 100%; margin: 0 0 10px; padding: 10px 12px; border: 0; border-radius: 14px; background: #fff; box-shadow: 0 4px 0 rgba(30,60,100,.16); text-align: left; color: #14122A; }
 .lb-donline > span { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; font: 600 12px var(--body); color: #6E6A88; } .lb-donline b { font: 800 13.5px var(--body); color: #14122A; }
 .lb-donline.spent { opacity: .7; } .lb-donchev { font-style: normal; font: 800 22px var(--body); color: #8C86A6; }
@@ -4298,7 +4303,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 326, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 327, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -6425,13 +6430,13 @@ function lbMembers() {
   return `<div class="lb-lhead"><b>Members ${ms.length}/10</b><span>Season XP</span></div>
     ${(() => {   // Build 263: Donate and Hype sit side by side in one row above the list (either one alone takes the full row)
       const tiles = [];
-      if (SRV_BOX) { const tk = sboxState().tokens; tiles.push(`<button class="lb-act don" data-lbmodal="donate">${TK_IC(30)}<span><b>Donate</b>${fmtN(tk)} token${tk === 1 ? '' : 's'}</span></button>`); }
+      if (SRV_BOX) { const tk = sboxState().tokens; tiles.push(`<button class="lb-act don ${tk ? 'on' : 'spent'}" data-lbmodal="donate">${TK_IC(30)}<span><b>Donate</b><span>${tk ? `<em>${fmtN(tk)}</em> token${tk === 1 ? '' : 's'} ready` : '0 tokens'}</span></span></button>`); }
       const solo = ms.length < 2;   // Build 265: the Hype tile is always there; alone it waits for labelmates
-      tiles.push(`<button class="lb-act hype ${left && !solo ? '' : 'spent'}" data-lbhypehint><span class="lb-act-ic">${LB_IC.bolt}</span><span><b>Send Hype</b>${solo ? 'No labelmates yet' : left ? `${left}/${LB_HYPES} left today` : `Back in ${lbHypeLeft()}`}</span></button>`);
+      tiles.push(`<button class="lb-act hype ${left && !solo ? 'on' : 'spent'}" data-lbhypehint><span class="lb-act-ic">${LB_IC.bolt}</span><span><b>Send Hype</b><span>${solo ? 'No labelmates yet' : left ? `<em>${left}/${LB_HYPES}</em> left today` : `Back in ${lbHypeLeft()}`}</span></span></button>`);
       return tiles.length ? `<div class="lb-acts">${tiles.join('')}</div>` : ''; })()}
     <div class="lb-mlist">${ms.map((m, i) => { const me = lbIsMe(m), st = sent.includes(m.uid) ? 'sent' : left ? 'ready' : 'used';
       return `<div class="lb-m ${me ? 'me' : ''}" data-lbmember="${esc(m.uid)}" role="button" tabindex="0"><span class="lb-mr">${i + 1}</span>${rankEmblem(me ? S.albums || 0 : m.albums, me ? S.maxLoc : (m.loc != null ? m.loc : m.profile && m.profile.loc) || 0)}
-        <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i>${st === 'sent' && !me ? `<span class="lb-hyped" title="You sent Hype today">${LB_IC.bolt}</span>` : ''}</b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
+        <span class="rt"><b><span class="nm">${esc(lbNm(m))}</span><i class="ondot ${me || isOnline(m) ? 'on' : ''}"></i></b><span>${m.role === 'owner' ? '<em>Owner</em> · ' : ''}${me ? S.albums || 0 : m.albums} albums</span></span>
         <span class="lb-mx">${fmtN(m.xp)} XP</span></div>`; }).join('')}
 </div>`;
 }
@@ -6731,10 +6736,10 @@ function lbProfCard(me, r) {
   if (!o) return row(null, 'Loading…', fr + `<button class="lb-pbtn green" disabled>Invite</button>`);
   if (o.err) return row(null, "Couldn't load their label", fr + `<button class="lb-pbtn green" disabled>Invite</button>`);
   const mine = lbL(), room = mine && (LB.st.members || []).length < 10;
-  const short = mine && (r.albums || 0) < mine.min_albums, ownerOnly = mine && !mine.open && !lbIsOwner();
-  const inv = fr + (mine && room && o.none && !ownerOnly ? `<button class="lb-pbtn green" data-lbinv="${esc(code)}" ${o.invited || short ? 'disabled' : ''}>${o.invited ? 'Invited' : short ? lbNeed(mine.min_albums) : 'Invite'}</button>` : '');
+  const need = mine ? Math.max(1, mine.min_albums) : 0, short = mine && (r.albums || 0) < need, ownerOnly = mine && !mine.open && !lbIsOwner();
+  const inv = fr + (mine && room && o.none && !ownerOnly ? `<button class="lb-pbtn green" data-lbinv="${esc(code)}" ${o.invited || short ? 'disabled' : ''}>${o.invited ? 'Invited' : short ? `${lbRk(need)}+` : 'Invite'}</button>` : '');
   const half = b => b.includes('data-lbinv') ? b : b + `<button class="lb-pbtn green" disabled>Invite</button>`;
-  if (o.none) return row(null, mine ? (!room ? 'Your label is full' : ownerOnly ? 'Only the owner can invite to a private label' : short ? `Your label needs ${lbRk(mine.min_albums)}+` : `Invite them to ${esc(mine.name)}`) : 'They haven\'t joined one yet', half(inv));
+  if (o.none) return row(null, mine ? (!room ? 'Your label is full' : ownerOnly ? 'Only the owner can invite to a private label' : short ? (mine.min_albums > 1 ? `${esc(mine.name)} needs ${lbRk(need)}+` : 'Labels unlock at their first album') : `Invite them to ${esc(mine.name)}`) : 'They haven\'t joined one yet', half(inv));
   return row(o, `Level ${o.level} · ${o.members}/10 · ${o.role === 'owner' ? 'Owner' : 'Member'}`, fr + `<button class="lb-pbtn purple" data-lbview="${esc(o.id)}">View Label</button>`);
 }
 async function lbOpenPage(id, from) { LB.from = from || 'labels'; LB.page = { id, d: null }; openTab('label-view');
