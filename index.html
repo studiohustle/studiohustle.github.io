@@ -4319,7 +4319,7 @@ const ITEMS = (() => { const list = [
     if (it.gems) { it.oldGems = it.gems; it.gems = Math.round(GEAR_PRICE_TOP[pw] * GEAR_SLOT_W[it.slot] / 10) * 10; } });
   return list; })();
 const itemById = id => ITEMS.find(i => i.id === id);
-const BUILD = 331, CONTACT = 'playstudiohustle@gmail.com';
+const BUILD = 332, CONTACT = 'playstudiohustle@gmail.com';
 const tabTile = t => { const b = document.querySelector(`[data-tab="${t}"]`); return b && (b.querySelector('.ticon') || b); };
 // ---------- tutorial: the core loop first, one highlighted action at a time ----------
 // Each step works on whatever map you're on (so Settings > Replay works anywhere) and compares against the numbers when the run
@@ -5501,6 +5501,9 @@ wrap.addEventListener('pointerdown', e => { if (e.target.closest('.pop')) return
 wrap.addEventListener('pointermove', e => {
   if (!panDrag || e.pointerId !== panDrag.id) return;
   const dy = e.clientY - panDrag.y;
+  // Build 332: a firm press often rests a moment before moving, which used to start a station hold and freeze the map.
+  // If the finger then clearly travels, it's a swipe: drop the hold and scroll from where the finger is now (no jump).
+  if (!panMoved && pressLock && Math.abs(dy) > 24) { pressLock = false; holdSt = null; boostPress = null; boostSt = null; clearBoost(); panDrag.y = e.clientY; panDrag.start = panY; panSamples = [[performance.now(), panY]]; panMoved = true; closePop(); try { wrap.setPointerCapture(e.pointerId); } catch (err) {} return; }
   if (!panMoved && (pressLock || Math.abs(dy) < PAN().dead)) return;   // a hold that has started owns the finger until it lifts
   if (!panMoved) { panMoved = true; holdSt = null; clearBoost(); closePop(); try { wrap.setPointerCapture(e.pointerId); } catch (err) {}
     }
